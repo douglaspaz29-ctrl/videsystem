@@ -1,0 +1,133 @@
+/**
+ * =====================================================================
+ * MAGIC BENTO CSS (ReactBits Spec Adapted for VIDE Dashboard)
+ * 4 Columns // Spotlight Radius 300 // Border Glow // Click Effect
+ * Radius: 12px (Rounded Tech Rectangles — ZERO Pill Shape)
+ * =====================================================================
+ */
+
+.magic-bento-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    width: 100%;
+    position: relative;
+}
+
+.magic-bento-card {
+    position: relative;
+    background: rgba(14, 18, 28, 0.75);
+    backdrop-filter: blur(14px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px !important;
+    overflow: hidden;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 200px;
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease, box-shadow 0.3s ease;
+    cursor: default;
+    user-select: none;
+}
+
+/* Mouse Spotlight Border Glow */
+.magic-bento-card::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: 13px !important;
+    padding: 1px;
+    background: radial-gradient(
+        320px circle at var(--mouse-x, -999px) var(--mouse-y, -999px),
+        rgba(0, 229, 255, 0.55),
+        rgba(42, 140, 255, 0.25) 40%,
+        transparent 80%
+    );
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.35s ease;
+    z-index: 2;
+}
+
+/* Mouse Surface Spotlight */
+.magic-bento-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 12px !important;
+    background: radial-gradient(
+        300px circle at var(--mouse-x, -999px) var(--mouse-y, -999px),
+        rgba(0, 229, 255, 0.09),
+        transparent 70%
+    );
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.35s ease;
+    z-index: 1;
+}
+
+.magic-bento-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), 0 0 20px rgba(0, 229, 255, 0.12);
+}
+
+.magic-bento-card:hover::before,
+.magic-bento-card:hover::after {
+    opacity: 1;
+}
+
+/* Click Shockwave Effect */
+.magic-bento-card.click-burst-active {
+    animation: bentoClickPulse 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes bentoClickPulse {
+    0% { transform: scale(1); }
+    30% { transform: scale(0.985); }
+    100% { transform: scale(1); }
+}
+
+/* Grid Span Modifiers for Bento Hierarchy */
+.magic-bento-card.span-col-2 {
+    grid-column: span 2;
+}
+.magic-bento-card.span-col-3 {
+    grid-column: span 3;
+}
+.magic-bento-card.span-col-4 {
+    grid-column: span 4;
+}
+.magic-bento-card.span-row-2 {
+    grid-row: span 2;
+    min-height: 420px;
+}
+
+@media (max-width: 1200px) {
+    .magic-bento-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .magic-bento-card.span-col-3,
+    .magic-bento-card.span-col-4 {
+        grid-column: span 2;
+    }
+}
+
+@media (max-width: 768px) {
+    .magic-bento-container {
+        grid-template-columns: 1fr;
+    }
+    .magic-bento-card.span-col-2,
+    .magic-bento-card.span-col-3,
+    .magic-bento-card.span-col-4 {
+        grid-column: span 1;
+    }
+    .magic-bento-card.span-row-2 {
+        grid-row: span 1;
+        min-height: auto;
+    }
+}

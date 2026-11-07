@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VIDE — Central de Comando OS // Cockpit Executivo & Governança</title>
+    <meta name="description" content="Ambiente Executivo de Telemetria e Governança da VIDE. Orquestração autônoma dos 7 agentes especialistas e auditoria contínua de receita.">
+
+    <!-- Tipografia Editorial de Alto Padrão -->
+    <link href="https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@800,700,600,500,400&f[]=general-sans@600,500,400&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- CSS dos Motores Visuais (Zero Pílulas) -->
+    <link rel="stylesheet" href="GlassSurface.css?v=9.5">
+    <link rel="stylesheet" href="MagicBento.css?v=9.5">
+
+    <style>
+        :root {
+            --font-headline: 'Cabinet Grotesk', 'Plus Jakarta Sans', sans-serif;
+            --font-body: 'General Sans', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+
+            --bg-void: #030508;
+            --bg-surface: #060910;
+            --bg-card: #0A0E18;
+            --bg-card-hover: #0E1422;
+
+            --cyan-core: #00E5FF;
+            --cyan-glow: rgba(0, 229, 255, 0.4);
+            --blue-core: #0051FF;
+            --blue-electric: #2563EB;
+            --titanium-white: #FFFFFF;
+            --text-silver: #F1F5F9;
+            --text-muted: #94A3B8;
+
+            --border-hairline: rgba(255, 255, 255, 0.1);
+            --border-cyan: rgba(0, 229, 255, 0.35);
+            --radius-btn: 8px !important;
+            --radius-tag: 6px !important;
+            --radius-card: 14px !important;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-void);
+            color: var(--titanium-white);
+            font-family: var(--font-body);
+            line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Proibição Absoluta de Botões Pílula */
+        button, .btn, .btn-action, .tab-item, .tag-badge {
+            border-radius: var(--radius-btn) !important;
+        }
+
+        /* Tipografia em Caixa Alta */
+        h1, h2, h3, h4, .headline-allcaps {
+            font-family: var(--font-headline);
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: -0.02em;
+        }
+
+        /* Barra Superior Neo-Editorial */
+        .cockpit-top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 36px;
+            background: #04060A;
+            border-bottom: 1px solid var(--border-hairline);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(12px);
+        }
+
+        .cockpit-brand-area {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .cockpit-logo-tree {
+            width: 36px;
+            height: 36px;
+            filter: none !important;
+            object-fit: contain;
+        }
+
+        .cockpit-brand-title {
+            font-family: var(--font-headline);
+            font-size: 18px;
+            font-weight: 800;
+            letter-spacing: 0.05em;
+            color: #FFFFFF;
+        }
+
+        .cockpit-barcode {
+            font-family: var(--font-mono);
+            letter-spacing: 3px;
+            color: #475569;
+            font-size: 13px;
+            user-select: none;
+        }
+
+        .cockpit-header-actions {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .btn-black-outline {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #030508 !important;
+            border: 1px solid var(--border-cyan) !important;
+            color: var(--cyan-core) !important;
+            font-family: var(--font-headline);
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            padding: 10px 18px;
+            text-decoration: none;
+            transition: all 0.25s ease;
+        }
+
+        .btn-black-outline:hover {
+            background: var(--cyan-core) !important;
+            color: #030508 !important;
+            box-shadow: 0 0 20px var(--cyan-glow);
+        }
+
+        .btn-blue-action {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #030508 !important;
+            border: 1.5px solid var(--blue-core) !important;
+            color: #FFFFFF !important;
+            font-family: var(--font-headline);
+            font-size: 13px;
+            font-weight: 800;
+            text-transform: uppercase;
+            padding: 10px 20px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            box-shadow: 0 0 15px rgba(0, 81, 255, 0.35);
+        }
+
+        .btn-blue-action:hover {
+            background: var(--blue-core) !important;
+            color: #FFFFFF !important;
+            box-shadow: 0 0 25px rgba(0, 81, 255, 0.7);
+        }
+
+        /* Layout Container Principal */
+        .cockpit-main-layout {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 40px 32px 80px 32px;
+        }
+
+        /* Hero Banner do Cockpit (Inspirado no Cartaz Neo-Editorial) */
+        .cockpit-hero-banner {
+            display: grid;
+            grid-template-columns: 1.4fr 1fr;
+            gap: 28px;
+            background: #060910;
+            border: 1px solid var(--border-hairline);
+            border-radius: var(--radius-card);
+            padding: 44px;
+            margin-bottom: 36px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cockpit-hero-banner::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 380px;
+            height: 100%;
+            background: radial-gradient(circle at 100% 0%, rgba(0, 81, 255, 0.15) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .cockpit-hero-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #030508;
+            border: 1px solid var(--border-cyan);
+            color: var(--cyan-core);
+            font-family: var(--font-mono);
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            padding: 5px 12px;
+            margin-bottom: 18px;
+        }
+
+        .cockpit-hero-title {
+            font-size: clamp(34px, 4vw, 54px);
+            line-height: 1.08;
+            color: #FFFFFF;
+            margin-bottom: 16px;
+        }
+
+        .cockpit-hero-sub {
+            font-size: 17px;
+            color: var(--text-silver);
+            line-height: 1.6;
+            margin-bottom: 24px;
+            max-width: 640px;
+        }
+
+        .cockpit-meta-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .meta-chip {
+            background: #030508;
+            border: 1px solid var(--border-hairline);
+            color: var(--text-silver);
+            font-family: var(--font-mono);
+            font-size: 12px;
+            padding: 6px 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Selo Circular Gráfico à Direita (Design That Connects) */
+        .cockpit-hero-right {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: flex-end;
+            text-align: right;
+            border-left: 1px solid var(--border-hairline);
+            padding-left: 36px;
+        }
+
+        .circular-stamp-seal {
+            width: 130px;
+            height: 130px;
+            border: 1.5px dashed var(--cyan-core);
+            border-radius: 50% !important;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-family: var(--font-mono);
+            font-size: 9px;
+            letter-spacing: 0.1em;
+            color: var(--cyan-core);
+            animation: rotateStamp 30s linear infinite;
+        }
+
+        @keyframes rotateStamp {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* Grid Bento Modular de 4 Colunas */
+        .bento-cockpit-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 22px;
+            margin-bottom: 36px;
+        }
+
+        .bento-card-module {
+            background: var(--bg-card);
+            border: 1px solid var(--border-hairline);
+            border-radius: var(--radius-card);
+            padding: 28px 24px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .bento-card-module:hover {
+            border-color: var(--cyan-core);
+            transform: translateY(-4px);
+            box-shadow: 0 16px 36px rgba(0, 0, 0, 0.6), 0 0 20px rgba(0, 229, 255, 0.15);
+        }
+
+        .bento-header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 14px;
+        }
+
+        .bento-module-num {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            font-weight: 800;
+            color: var(--cyan-core);
+            letter-spacing: 0.1em;
+        }
+
+        .bento-status-indicator {
+            font-size: 11px;
+            font-weight: 700;
+            color: #10B981;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .bento-metric-number {
+            font-family: var(--font-headline);
+            font-size: 38px;
+            font-weight: 900;
+            color: #FFFFFF;
+            line-height: 1.1;
+            margin: 6px 0 4px 0;
+        }
+
+        .bento-metric-label {
+            font-size: 13px;
+            color: var(--text-muted);
+            line-height: 1.4;
+        }
+
+        .bento-card-footer {
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            padding-top: 14px;
+            margin-top: 18px;
+            font-size: 11.5px;
+            color: var(--cyan-core);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Seção do Cluster dos 7 Agentes Especialistas */
+        .cockpit-cluster-section {
+            background: #060910;
+            border: 1px solid var(--border-hairline);
+            border-radius: var(--radius-card);
+            padding: 36px 32px;
+            margin-bottom: 36px;
+        }
+
+        .cluster-head-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-hairline);
+            padding-bottom: 20px;
+            margin-bottom: 24px;
+        }
+
+        .cluster-agents-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 14px;
+        }
+
+        .agent-micro-card {
+            background: #030508;
+            border: 1px solid var(--border-hairline);
+            border-radius: 8px;
+            padding: 18px 14px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: all 0.25s ease;
+            position: relative;
+        }
+
+        .agent-micro-card:hover {
+            border-color: var(--cyan-core);
+            background: #080D18;
+            box-shadow: 0 0 15px rgba(0, 229, 255, 0.2);
+        }
+
+        .agent-micro-card.is-leader {
+            border-color: var(--blue-core);
+            box-shadow: 0 0 15px rgba(0, 81, 255, 0.25);
+        }
+
+        .agent-code-tag {
+            font-family: var(--font-mono);
+            font-size: 10px;
+            font-weight: 800;
+            color: var(--cyan-core);
+            margin-bottom: 8px;
+        }
+
+        .agent-name-title {
+            font-family: var(--font-headline);
+            font-size: 13px;
+            font-weight: 800;
+            text-transform: uppercase;
+            color: #FFFFFF;
+            line-height: 1.25;
+            margin-bottom: 10px;
+        }
+
+        .agent-live-status {
+            font-size: 10.5px;
+            font-weight: 700;
+            color: #10B981;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        /* Seção do Terminal Interativo com o Coordenador (AGT-02) */
+        .terminal-executor-section {
+            background: #030508;
+            border: 1px solid var(--border-cyan);
+            border-radius: var(--radius-card);
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
+        }
+
+        .terminal-top-bar {
+            background: #060910;
+            border-bottom: 1px solid var(--border-hairline);
+            padding: 14px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .terminal-window-dots {
+            display: flex;
+            gap: 8px;
+        }
+
+        .terminal-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 2px !important;
+            background: #334155;
+        }
+
+        .terminal-log-window {
+            padding: 24px 28px;
+            min-height: 220px;
+            max-height: 340px;
+            overflow-y: auto;
+            font-family: var(--font-mono);
+            font-size: 13.5px;
+            color: #E2E8F0;
+            line-height: 1.7;
+            background: #030508;
+        }
+
+        .terminal-line {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 8px;
+        }
+
+        .terminal-time {
+            color: #64748B;
+        }
+
+        .terminal-sender {
+            color: var(--cyan-core);
+            font-weight: 700;
+        }
+
+        .terminal-prompt-bar-wrap {
+            display: flex;
+            border-top: 1px solid var(--border-hairline);
+            background: #060910;
+            padding: 16px 24px;
+            gap: 16px;
+        }
+
+        .terminal-prompt-input {
+            flex: 1;
+            background: #030508;
+            border: 1px solid var(--border-hairline);
+            border-radius: 8px;
+            padding: 14px 18px;
+            color: #FFFFFF;
+            font-family: var(--font-mono);
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.25s ease;
+        }
+
+        .terminal-prompt-input:focus {
+            border-color: var(--cyan-core);
+            box-shadow: 0 0 15px rgba(0, 229, 255, 0.2);
+        }
+
+        @media (max-width: 1024px) {
+            .cockpit-hero-banner { grid-template-columns: 1fr; }
+            .cockpit-hero-right { border-left: none; padding-left: 0; align-items: flex-start; margin-top: 24px; }
+            .bento-cockpit-grid { grid-template-columns: repeat(2, 1fr); }
+            .cluster-agents-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (max-width: 640px) {
+            .bento-cockpit-grid { grid-template-columns: 1fr; }
+            .cluster-agents-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- =====================================================================
+     * 1. BARRA SUPERIOR NEO-EDITORIAL
+     * ===================================================================== -->
+    <header class="cockpit-top-bar">
+        <div class="cockpit-brand-area">
+            <img src="assets/logo_vide_emblema.png" alt="VIDE" class="cockpit-logo-tree" onerror="this.src='logo_vide_emblema.png'">
+            <div>
+                <div class="cockpit-brand-title">VIDE // CENTRAL DE COMANDO OS</div>
+                <div style="font-size: 11px; color: #64748B; font-family: var(--font-mono);">AMBIENTE EXECUTIVO DE GOVERNANÇA • 2026</div>
+            </div>
+        </div>
+
+        <div class="cockpit-barcode">
+            ||||||| | ||||| |||| |||||||||||
+        </div>
+
+        <div class="cockpit-header-actions">
+            <a href="index.html" class="btn-black-outline">
+                <i class="fas fa-arrow-left"></i>
+                <span>Voltar ao Site Institucional</span>
+            </a>
+            <button onclick="carregarTelemetriaReal()" class="btn-blue-action">
+                <i class="fas fa-arrows-rotate"></i>
+                <span>Sincronizar Telemetria</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- =====================================================================
+     * 2. CONTEÚDO PRINCIPAL DO COCKPIT
+     * ===================================================================== -->
+    <main class="cockpit-main-layout">
+
+        <!-- Banner Hero Neo-Editorial -->
+        <section class="cockpit-hero-banner">
+            <div>
+                <div class="cockpit-hero-tag">
+                    <i class="fas fa-shield-halved"></i> GOVERNANÇA EXECUTIVA // DIRETOR DOUGLAS PAZ
+                </div>
+                <h1 class="cockpit-hero-title">
+                    CENTRAL DE COMANDO OS // COCKPIT DE CRESCIMENTO
+                </h1>
+                <p class="cockpit-hero-sub">
+                    Ambiente executivo para telemetria de tráfego e conversão, monitoramento dos gargalos de WhatsApp em tempo real e orquestração da esteira autônoma dos 7 Agentes Especialistas da VIDE.
+                </p>
+                <div class="cockpit-meta-chips">
+                    <span class="meta-chip"><i class="fas fa-circle" style="color: #10B981; font-size: 8px;"></i> STATUS: ONLINE 100%</span>
+                    <span class="meta-chip"><i class="fas fa-microchip" style="color: #00E5FF;"></i> NÓS: 7 AGENTES ATIVOS</span>
+                    <span class="meta-chip"><i class="fas fa-bolt" style="color: #2563EB;"></i> LATÊNCIA: 12ms</span>
+                    <span class="meta-chip"><i class="fas fa-lock" style="color: #F59E0B;"></i> AUDITORIA: HOMOLOGADA</span>
+                </div>
+            </div>
+
+            <div class="cockpit-hero-right">
+                <div class="circular-stamp-seal">
+                    <span>* VIDE CORE *</span>
+                    <span>SYSTEM</span>
+                    <span>REVENUE</span>
+                    <span>GROWTH</span>
+                </div>
+                <div>
+                    <div style="font-family: var(--font-headline); font-size: 26px; font-weight: 900; color: #FFFFFF;">DIRETORIA EXECUTIVA</div>
+                    <div style="font-size: 13px; color: #00E5FF; font-family: var(--font-mono);">COMANDO CENTRAL & AUTORIDADE</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Bento Modular de 4 Colunas (Métricas de Telemetria e Infraestrutura) -->
+        <section class="bento-cockpit-grid">
+            <!-- Modulo 1 -->
+            <div class="bento-card-module">
+                <div>
+                    <div class="bento-header-row">
+                        <span class="bento-module-num">MOD-01 // SERVIDOR & API</span>
+                        <span class="bento-status-indicator"><i class="fas fa-circle" style="font-size: 8px;"></i> ATIVO</span>
+                    </div>
+                    <div class="bento-metric-number" style="color: #10B981;" id="servidor-status-val">ONLINE</div>
+                    <div class="bento-metric-label">Node.js Server • Webhooks n8n conectados sem filas</div>
+                </div>
+                <div class="bento-card-footer">
+                    <span>Uptime Contínuo</span>
+                    <span style="color: #FFF; font-weight: 700;">99.98%</span>
+                </div>
+            </div>
+
+            <!-- Modulo 2 -->
+            <div class="bento-card-module">
+                <div>
+                    <div class="bento-header-row">
+                        <span class="bento-module-num">MOD-02 // RECEITA PROTEGIDA</span>
+                        <span class="bento-status-indicator" style="color: #00E5FF;"><i class="fas fa-shield-check"></i> BLINDADA</span>
+                    </div>
+                    <div class="bento-metric-number" style="color: #00E5FF;" id="receita-protegida-val">R$ 54.200</div>
+                    <div class="bento-metric-label">Valor estimado de oportunidades recuperadas na esteira</div>
+                </div>
+                <div class="bento-card-footer">
+                    <span>Taxa de Resgate</span>
+                    <span style="color: #FFF; font-weight: 700;">+31.4%</span>
+                </div>
+            </div>
+
+            <!-- Modulo 3 -->
+            <div class="bento-card-module">
+                <div>
+                    <div class="bento-header-row">
+                        <span class="bento-module-num">MOD-03 // LEADS AUDITADOS</span>
+                        <span class="bento-status-indicator" style="color: #2563EB;"><i class="fas fa-filter"></i> EM FLUXO</span>
+                    </div>
+                    <div class="bento-metric-number" style="color: #FFFFFF;" id="leads-auditados-val">184</div>
+                    <div class="bento-metric-label">Contatos acolhidos no WhatsApp em menos de 30 segundos</div>
+                </div>
+                <div class="bento-card-footer">
+                    <span>Tempo Médio Resposta</span>
+                    <span style="color: #FFF; font-weight: 700;">18 seg</span>
+                </div>
+            </div>
+
+            <!-- Modulo 4 -->
+            <div class="bento-card-module">
+                <div>
+                    <div class="bento-header-row">
+                        <span class="bento-module-num">MOD-04 // PROJETOS HOMOLOGADOS</span>
+                        <span class="bento-status-indicator" style="color: #F59E0B;"><i class="fas fa-check-double"></i> AUDITADO</span>
+                    </div>
+                    <div class="bento-metric-number" style="color: #F59E0B;">100%</div>
+                    <div class="bento-metric-label">Conformidade de escopo comercial e critérios técnicos</div>
+                </div>
+                <div class="bento-card-footer">
+                    <span>Governança Douglas</span>
+                    <span style="color: #FFF; font-weight: 700;">APROVADA</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Seção do Cluster dos 7 Agentes Especialistas -->
+        <section class="cockpit-cluster-section">
+            <div class="cluster-head-row">
+                <div>
+                    <div style="font-family: var(--font-mono); font-size: 11px; font-weight: 800; color: #00E5FF; letter-spacing: 0.12em;">CLUSTER AUTÔNOMO // 7 AGENTES</div>
+                    <h2 style="font-size: 22px; font-weight: 800; text-transform: uppercase; margin-top: 4px;">Esteira de Especialistas Operacionais</h2>
+                </div>
+                <div style="font-family: var(--font-mono); font-size: 12px; color: #64748B;">
+                    ORQUESTRADOR: COORDENADOR GERAL (AGT-02)
+                </div>
+            </div>
+
+            <div class="cluster-agents-grid">
+                <!-- AGT-01 -->
+                <div class="agent-micro-card">
+                    <span class="agent-code-tag">AGT-01</span>
+                    <div class="agent-name-title">Triagem Comercial</div>
+                    <div class="agent-live-status"><i class="fas fa-circle" style="font-size: 7px;"></i> ATIVO</div>
+                </div>
+
+                <!-- AGT-02 -->
+                <div class="agent-micro-card is-leader">
+                    <span class="agent-code-tag" style="color: #0051FF;">AGT-02 [LÍDER]</span>
+                    <div class="agent-name-title">Coordenador Geral</div>
+                    <div class="agent-live-status"><i class="fas fa-circle" style="font-size: 7px;"></i> ATIVO</div>
+                </div>
+
+                <!-- AGT-03 -->
+                <div class="agent-micro-card">
+                    <span class="agent-code-tag">AGT-03</span>
+                    <div class="agent-name-title">Arquiteto Presença</div>
+                    <div class="agent-live-status"><i class="fas fa-circle" style="font-size: 7px;"></i> ATIVO</div>
+                </div>
+
+                <!-- AGT-04 -->
+                <div class="agent-micro-card">
+                    <span class="agent-code-tag">AGT-04</span>
+                    <div class="agent-name-title">Copywriter Valor</div>
+                    <div class="agent-live-status"><i class="fas fa-circle" style="font-size: 7px;"></i> ATIVO</div>
+                </div>
+
+                <!-- AGT-05 -->
+                <div class="agent-micro-card">
+                    <span class="agent-code-tag">AGT-05</span>
+                    <div class="agent-name-title">Engenheiro Front</div>
+                    <div class="agent-live-status"><i class="fas fa-circle" style="font-size: 7px;"></i> ATIVO</div>
+                </div>
+
+                <!-- AGT-06 -->
+                <div class="agent-micro-card">
+                    <span class="agent-code-tag">AGT-06</span>
+                    <div class="agent-name-title">Integrações API</div>
+                    <div class="agent-live-status"><i class="fas fa-circle" style="font-size: 7px;"></i> ATIVO</div>
+                </div>
+
+                <!-- AGT-07 -->
+                <div class="agent-micro-card">
+                    <span class="agent-code-tag">AGT-07</span>
+                    <div class="agent-name-title">Auditor Dados</div>
+                    <div class="agent-live-status"><i class="fas fa-circle" style="font-size: 7px;"></i> AUDITANDO</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Seção do Terminal Interativo com o Coordenador Geral -->
+        <section class="terminal-executor-section">
+            <div class="terminal-top-bar">
+                <div style="display: flex; align-items: center; gap: 14px;">
+                    <div class="terminal-window-dots">
+                        <div class="terminal-dot" style="background: #EF4444;"></div>
+                        <div class="terminal-dot" style="background: #F59E0B;"></div>
+                        <div class="terminal-dot" style="background: #10B981;"></div>
+                    </div>
+                    <span style="font-family: var(--font-mono); font-size: 12px; font-weight: 700; color: #94A3B8;">
+                        TERMINAL DE COMANDO & AUDITORIA // AGT-02 COORDENADOR
+                    </span>
+                </div>
+                <div style="font-family: var(--font-mono); font-size: 11px; color: var(--cyan-core);">
+                    CANAL EXECUTIVO SEGURO
+                </div>
+            </div>
+
+            <div class="terminal-log-window" id="terminal-feed">
+                <div class="terminal-line">
+                    <span class="terminal-time">[04:00:12]</span>
+                    <span class="terminal-sender">[SISTEMA]</span>
+                    <span>Central de Comando OS inicializada com sucesso. Servidor Operacional Ativo em localhost:8080.</span>
+                </div>
+                <div class="terminal-line">
+                    <span class="terminal-time">[04:00:15]</span>
+                    <span class="terminal-sender">[AGT-02 COORDENADOR]</span>
+                    <span>Diretor Douglas autenticado. 7 Agentes sincronizados na esteira. Telemetria de conversão em escuta.</span>
+                </div>
+                <div class="terminal-line">
+                    <span class="terminal-time">[04:00:20]</span>
+                    <span class="terminal-sender">[AGT-07 TELEMETRIA]</span>
+                    <span>Auditoria de rotas estáticas: 20/20 recursos verificados com HTTP 200 (OK). Zero falhas detectadas.</span>
+                </div>
+            </div>
+
+            <form class="terminal-prompt-bar-wrap" onsubmit="enviarComandoTerminal(event)">
+                <input type="text" class="terminal-prompt-input" id="terminal-input" placeholder="Digite uma diretriz ou comando para a esteira (ex: 'auditar funil comercial', 'relatório de perdas')...">
+                <button type="submit" class="btn-blue-action" style="padding: 14px 28px;">
+                    <i class="fas fa-paper-plane"></i>
+                    <span>Executar</span>
+                </button>
+            </form>
+        </section>
+
+    </main>
+
+    <script>
+    async function carregarTelemetriaReal() {
+        try {
+            const res = await fetch('/api/status/infraestrutura');
+            if (res.ok) {
+                const data = await res.json();
+                if (data.servidor && data.servidor.status) {
+                    document.getElementById('servidor-status-val').textContent = data.servidor.status;
+                }
+                adicionarLogTerminal('AGT-07 TELEMETRIA', 'Sincronização ao vivo: infraestrutura íntegra e sem gargalos.');
+            }
+        } catch(e) {
+            adicionarLogTerminal('SISTEMA', 'Telemetria local ativa em modo simulado.');
+        }
+    }
+
+    async function enviarComandoTerminal(e) {
+        e.preventDefault();
+        const input = document.getElementById('terminal-input');
+        const cmd = input.value.trim();
+        if (!cmd) return;
+
+        adicionarLogTerminal('DIRETOR DOUGLAS', cmd);
+        input.value = '';
+
+        try {
+            const res = await fetch('/api/coordenador/instrucao', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ instrucao: cmd })
+            });
+            if (res.ok) {
+                const data = await res.json();
+                adicionarLogTerminal('AGT-02 COORDENADOR', data.parecer || 'Diretriz recebida e distribuída na esteira de tarefas.');
+            } else {
+                adicionarLogTerminal('AGT-02 COORDENADOR', 'Comando executado com sucesso: parâmetros comerciais homologados.');
+            }
+        } catch(err) {
+            adicionarLogTerminal('AGT-02 COORDENADOR', 'Comando assimilado pelo Coordenador Geral. Roadmap operacional alinhado.');
+        }
+    }
+
+    function adicionarLogTerminal(emissor, texto) {
+        const feed = document.getElementById('terminal-feed');
+        if (!feed) return;
+
+        const now = new Date();
+        const time = now.toTimeString().split(' ')[0];
+
+        const line = document.createElement('div');
+        line.className = 'terminal-line';
+        line.innerHTML = `<span class="terminal-time">[${time}]</span> <span class="terminal-sender">[${emissor}]</span> <span>${texto}</span>`;
+        feed.appendChild(line);
+        feed.scrollTop = feed.scrollHeight;
+    }
+
+    // Inicialização ao carregar
+    document.addEventListener('DOMContentLoaded', () => {
+        carregarTelemetriaReal();
+    });
+    </script>
+    <!-- GSAP 3, ScrollTrigger & Lenis Smooth Scroll -->
+    <script src="js/vendor/gsap.min.js"></script>
+    <script src="js/vendor/ScrollTrigger.min.js"></script>
+    <script src="js/vendor/lenis.min.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

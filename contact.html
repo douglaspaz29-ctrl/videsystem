@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VIDE — Contact & Iniciação Operacional (Lift-Off)</title>
+  <meta name="description" content="Inicie a transformação comercial da sua empresa. Ative o Sistema de Crescimento em Loop da VIDE com resposta em menos de 20 segundos.">
+  
+  <link rel="icon" type="image/png" href="assets/logo_vide_emblema.png">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Top Cyan Reading Scroll Progress Bar -->
+  <div id="scroll-progress-bar"></div>
+
+  <!-- Theater Page Transition Curtain -->
+  <div id="page-curtain"></div>
+  <canvas id="grain-canvas"></canvas>
+  <div id="custom-cursor" class="custom-cursor"></div>
+
+  <!-- Header -->
+  <header class="site-header" role="banner">
+    <a href="index.html" class="brand-wrapper" data-cursor="HOME">
+      <img src="assets/logo_vide_emblema.png" alt="VIDE — Emblema Oficial" class="brand-logo-img">
+      <span class="brand-title">VIDE<span class="brand-dot">.</span></span>
+    </a>
+
+    <nav>
+      <ul class="nav-links">
+        <li><a href="work.html" data-cursor="WORK">Work</a></li>
+        <li><a href="studio.html" data-cursor="STUDIO">Studio</a></li>
+        <li><a href="news.html" data-cursor="LER">News</a></li>
+        <li><a href="contact.html" class="active" data-cursor="CONTACT">Contact</a></li>
+        <li><a href="central_de_comando.html" data-cursor="CENTRAL OS" style="color: var(--cyan-primary); font-family: var(--font-mono); font-weight: 700; letter-spacing: 0.05em;"><span style="color: #10B981; font-size: 8px; margin-right: 6px; display: inline-block; vertical-align: middle;">●</span>Central OS</a></li>
+      </ul>
+    </nav>
+
+    <div class="header-cta">
+      <a href="central_de_comando.html" class="tech-badge" data-cursor="OS" style="text-decoration: none; cursor: pointer;" title="Acessar Central de Comando OS">
+        <span class="dot" style="background: #10B981; box-shadow: 0 0 8px #10B981;"></span>
+        <span>Central OS</span>
+      </a>
+      <a href="contact.html" class="btn-vide btn-outline" data-cursor="LIFT-OFF">
+        <span>Falar com Diretoria</span>
+        <span class="btn-arrow">↗</span>
+      </a>
+    </div>
+  </header>
+
+  <main style="padding-top: 180px; padding-bottom: 120px;">
+    
+    <!-- Title Section -->
+    <div style="padding-left: var(--gutter-desktop); padding-right: var(--gutter-desktop); margin-bottom: 80px;">
+      <div class="mono-tag" style="margin-bottom: 24px;">PRONTO PARA A ESCALA COMERCIAL</div>
+      <h1 class="section-headline" style="font-size: var(--text-h1); line-height: 0.92; letter-spacing: -0.04em; margin-bottom: 32px;">
+        Ready for <span class="serif-italic" style="color: var(--cyan-primary);">lift-off?</span>
+      </h1>
+      <p style="font-size: 22px; line-height: 1.5; color: var(--text-muted); max-width: 640px;">
+        Entre em contato direto pelo canal prioritário do WhatsApp ou envie as informações da sua empresa para ativarmos seu diagnóstico em menos de 20 segundos.
+      </p>
+    </div>
+
+    <!-- Infinite Multilingual Ticker -->
+    <div class="ticker-band" style="margin-bottom: 100px;">
+      <div class="ticker-track">
+        <span class="ticker-text">GET IN TOUCH · INICIAR OPERAÇÃO · PONERSE EN CONTACTO · NEEM CONTACT OP · 保持联系 · <span>↗</span></span>
+        <span class="ticker-text">GET IN TOUCH · INICIAR OPERAÇÃO · PONERSE EN CONTACTO · NEEM CONTACT OP · 保持联系 · <span>↗</span></span>
+      </div>
+    </div>
+
+    <!-- Contact Grid -->
+    <div style="padding-left: var(--gutter-desktop); padding-right: var(--gutter-desktop); display: grid; grid-template-columns: 1fr 1fr; gap: 80px;">
+      
+      <!-- Left: Coordinates -->
+      <div>
+        <div class="mono-tag" style="margin-bottom: 16px;">CANAL DIRETO COM DIRETORIA EXECUTIVA</div>
+        <h2 style="font-size: 36px; line-height: 1.1; margin-bottom: 24px; color: #FFFFFF;">
+          Douglas — Diretor Executivo da VIDE
+        </h2>
+        <p style="font-size: 16px; color: var(--text-muted); line-height: 1.6; margin-bottom: 40px; max-width: 480px;">
+          Cada implementação comercial é liderada diretamente por nossa diretoria de tecnologia e estratégia comercial, garantindo resposta imediata e conformidade técnica total.
+        </p>
+
+        <div style="display: flex; flex-direction: column; gap: 20px;">
+          <a href="https://wa.me/5500000000000" target="_blank" class="btn-vide btn-cyan" style="width: fit-content; padding: 20px 36px; font-size: 16px;" data-cursor="WHATSAPP">
+            <span>Conversar no WhatsApp em &lt; 20s</span>
+            <span class="btn-arrow">↗</span>
+          </a>
+
+          <a href="mailto:contato@vide.com.br" class="btn-vide btn-outline" style="width: fit-content;" data-cursor="EMAIL">
+            <span>contato@vide.com.br</span>
+            <span class="btn-arrow">↗</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Right: Diagnostic Form -->
+      <div style="padding: 48px; background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: var(--radius-md);" id="contact-card-box">
+        <div class="mono-tag" style="margin-bottom: 20px;">SOLICITAR AUDITORIA PRELIMINAR</div>
+        <form id="contact-form" onsubmit="enviarSolicitacaoContato(event);">
+          <div style="margin-bottom: 24px;">
+            <label style="display: block; font-family: var(--font-mono); font-size: 12px; color: var(--text-muted); margin-bottom: 8px;">SEU NOME / CARGO</label>
+            <input type="text" id="contact-nome" placeholder="Ex: Diretor Comercial" required style="width: 100%; padding: 16px; background: rgba(7,7,9,0.8); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); color: #FFFFFF; font-size: 15px; outline: none;">
+          </div>
+
+          <div style="margin-bottom: 24px;">
+            <label style="display: block; font-family: var(--font-mono); font-size: 12px; color: var(--text-muted); margin-bottom: 8px;">WHATSAPP CORPORATIVO</label>
+            <input type="tel" id="contact-whatsapp" placeholder="(11) 99999-9999" required style="width: 100%; padding: 16px; background: rgba(7,7,9,0.8); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); color: #FFFFFF; font-size: 15px; outline: none;">
+          </div>
+
+          <div style="margin-bottom: 32px;">
+            <label style="display: block; font-family: var(--font-mono); font-size: 12px; color: var(--text-muted); margin-bottom: 8px;">VOLUME APROXIMADO DE LEADS / MÊS</label>
+            <input type="text" id="contact-volume" placeholder="Ex: 50 a 500 leads/mês" style="width: 100%; padding: 16px; background: rgba(7,7,9,0.8); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); color: #FFFFFF; font-size: 15px; outline: none;">
+          </div>
+
+          <button type="submit" id="contact-btn-submit" class="btn-vide btn-cyan" style="width: 100%; padding: 18px;" data-cursor="ENVIAR">
+            <span id="contact-btn-text">Enviar Solicitação de Diagnóstico</span>
+            <span class="btn-arrow">↗</span>
+          </button>
+        </form>
+
+        <div id="contact-feedback" style="display: none; margin-top: 24px;"></div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer" role="contentinfo" data-theme="dark">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <div style="margin-bottom: 20px;">
+          <img src="assets/logo_vide_completa.png" alt="VIDE" style="height: 52px; width: auto; filter: none !important;">
+          <div class="brand-title" style="font-size: 24px; margin-top: 8px;">VIDE<span class="brand-dot">.</span></div>
+        </div>
+        <p style="font-size: 15px; color: var(--text-muted); line-height: 1.6;">
+          Engenharia de precisão para operações comerciais e escala digital.
+        </p>
+      </div>
+      <div class="footer-col">
+        <h4>Navegação</h4>
+        <ul>
+          <li><a href="work.html">Work</a></li>
+          <li><a href="studio.html">Studio</a></li>
+          <li><a href="news.html">News</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="central_de_comando.html" style="color: var(--cyan-primary); font-weight: 600;"><span style="color: #10B981; font-size: 8px; margin-right: 6px;">●</span>Central de Comando OS</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Diretoria</h4>
+        <ul>
+          <li><span style="color: #FFFFFF;">Douglas</span> — Diretor Executivo</li>
+          <li><a href="mailto:contato@vide.com.br">contato@vide.com.br</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Ação Imediata</h4>
+        <a href="https://wa.me/5500000000000" target="_blank" class="btn-vide btn-cyan" style="width: 100%;">WhatsApp Direto ↗</a>
+      </div>
+    </div>
+    <div class="footer-bottom-bar">
+      <span>© 2026 VIDE. Todos os direitos reservados.</span>
+      <span class="mono-tag">EXOAPE HIGH-FIDELITY BUILD</span>
+    </div>
+  </footer>
+
+  <!-- GSAP 3, ScrollTrigger & Lenis Smooth Scroll -->
+  <script src="js/vendor/gsap.min.js"></script>
+  <script src="js/vendor/ScrollTrigger.min.js"></script>
+  <script src="js/vendor/lenis.min.js"></script>
+  <script src="js/main.js"></script>
+
+  <script>
+    async function enviarSolicitacaoContato(e) {
+      e.preventDefault();
+      const btn = document.getElementById('contact-btn-submit');
+      const btnText = document.getElementById('contact-btn-text');
+      const feedback = document.getElementById('contact-feedback');
+
+      const nome = document.getElementById('contact-nome').value.trim();
+      const whatsapp = document.getElementById('contact-whatsapp').value.trim();
+      const volume = document.getElementById('contact-volume').value.trim();
+
+      btn.disabled = true;
+      btn.style.opacity = '0.6';
+      btnText.textContent = 'Processando acolhimento em < 20s...';
+      feedback.style.display = 'none';
+
+      try {
+        const res = await fetch('/api/contact', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ nome, whatsapp, volume_leads: volume })
+        });
+        const data = await res.json();
+
+        if (res.ok && data.sucesso) {
+          document.getElementById('contact-form').style.display = 'none';
+          feedback.style.display = 'block';
+          feedback.innerHTML = `
+            <div style="background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.35); border-radius: 8px; padding: 24px;">
+              <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px;">
+                <span style="display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: #10B981; box-shadow: 0 0 10px #10B981;"></span>
+                <span style="font-family: var(--font-mono); font-size: 11px; font-weight: 800; color: #10B981; letter-spacing: 0.08em;">SOLICITAÇÃO ACOLHIDA COM SUCESSO</span>
+              </div>
+              <h3 style="font-size: 20px; font-weight: 800; color: #FFFFFF; margin-bottom: 8px;">Protocolo: ${data.protocolo}</h3>
+              <p style="font-size: 14px; color: var(--text-muted); line-height: 1.6; margin-bottom: 20px;">
+                ${data.mensagem_retorno}
+              </p>
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 24px; font-family: var(--font-mono); font-size: 11px;">
+                <div style="background: rgba(0,0,0,0.4); padding: 10px 14px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.06);">
+                  <div style="color: #64748B;">SLA DE RESPOSTA</div>
+                  <div style="color: #10B981; font-weight: 800; font-size: 13px;">&lt; 20 SEGUNDOS</div>
+                </div>
+                <div style="background: rgba(0,0,0,0.4); padding: 10px 14px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.06);">
+                  <div style="color: #64748B;">QUALIFICAÇÃO</div>
+                  <div style="color: var(--cyan-primary); font-weight: 800; font-size: 13px;">${data.lead.score_qualificacao}</div>
+                </div>
+              </div>
+              <a href="${data.whatsapp_canal_prioritario}" target="_blank" class="btn-vide btn-cyan" style="width: 100%; display: flex; justify-content: center;" data-cursor="WHATSAPP">
+                <span>Abrir WhatsApp com Douglas Agora ↗</span>
+              </a>
+            </div>
+          `;
+        } else {
+          feedback.style.display = 'block';
+          feedback.innerHTML = `<div style="color: #EF4444; font-size: 14px; padding: 12px; background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 6px;">${data.erro || 'Erro ao enviar. Tente novamente.'}</div>`;
+          btn.disabled = false;
+          btn.style.opacity = '1';
+          btnText.textContent = 'Enviar Solicitação de Diagnóstico';
+        }
+      } catch (err) {
+        feedback.style.display = 'block';
+        feedback.innerHTML = `<div style="color: #EF4444; font-size: 14px; padding: 12px; background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 6px;">Erro de conexão com o servidor. Verifique sua rede ou contate a diretoria diretamente pelo WhatsApp.</div>`;
+        btn.disabled = false;
+        btn.style.opacity = '1';
+        btnText.textContent = 'Enviar Solicitação de Diagnóstico';
+      }
+    }
+  </script>
+</body>
+</html>

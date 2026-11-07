@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VIDE — News, Insights & Inteligência Comercial</title>
+  <meta name="description" content="Artigos, telemetria de mercado e insights sobre o Sistema de Crescimento em Loop, inteligência artificial aplicada a vendas e presença digital imersiva.">
+  
+  <link rel="icon" type="image/png" href="assets/logo_vide_emblema.png">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Top Cyan Reading Scroll Progress Bar -->
+  <div id="scroll-progress-bar"></div>
+
+  <!-- Theater Page Transition Curtain -->
+  <div id="page-curtain"></div>
+  <canvas id="grain-canvas"></canvas>
+  <div id="custom-cursor" class="custom-cursor"></div>
+
+  <!-- Header -->
+  <header class="site-header" role="banner">
+    <a href="index.html" class="brand-wrapper" data-cursor="HOME">
+      <img src="assets/logo_vide_emblema.png" alt="VIDE — Emblema Oficial" class="brand-logo-img">
+      <span class="brand-title">VIDE<span class="brand-dot">.</span></span>
+    </a>
+
+    <nav>
+      <ul class="nav-links">
+        <li><a href="work.html" data-cursor="VER">Work</a></li>
+        <li><a href="studio.html" data-cursor="SOBRE">Studio</a></li>
+        <li><a href="news.html" class="active" data-cursor="LER">News</a></li>
+        <li><a href="contact.html" data-cursor="FALAR">Contact</a></li>
+        <li><a href="central_de_comando.html" data-cursor="CENTRAL OS" style="color: var(--cyan-primary); font-family: var(--font-mono); font-weight: 700; letter-spacing: 0.05em;"><span style="color: #10B981; font-size: 8px; margin-right: 6px; display: inline-block; vertical-align: middle;">●</span>Central OS</a></li>
+      </ul>
+    </nav>
+
+    <div class="header-cta">
+      <a href="central_de_comando.html" class="tech-badge" data-cursor="OS" style="text-decoration: none; cursor: pointer;" title="Acessar Central de Comando OS">
+        <span class="dot" style="background: #10B981; box-shadow: 0 0 8px #10B981;"></span>
+        <span>Central OS</span>
+      </a>
+      <a href="contact.html" class="btn-vide btn-cyan" data-cursor="INICIAR">
+        <span>Iniciar Loop</span>
+        <span class="btn-arrow">↗</span>
+      </a>
+    </div>
+
+    <button class="menu-toggle" aria-label="Abrir Menu">
+      <span></span>
+      <span></span>
+    </button>
+  </header>
+
+  <!-- Main Content -->
+  <main style="padding-top: var(--section-pad-desktop); padding-bottom: 140px; padding-left: var(--gutter-desktop); padding-right: var(--gutter-desktop);">
+    
+    <div style="margin-bottom: 80px; padding-bottom: 40px; border-bottom: 1px solid var(--border-subtle);">
+      <div class="mono-tag" style="margin-bottom: 16px;">INSIGHTS, TELEMETRIA & PESQUISA COMERCIAL</div>
+      <h1 class="section-headline" style="font-size: var(--text-h1); line-height: 0.92; letter-spacing: -0.04em;">
+        News & <span class="serif-italic" style="color: var(--cyan-primary);">Inteligência.</span>
+      </h1>
+    </div>
+
+    <!-- 6 Editorial Articles (Exoape News Rhythm) -->
+    <div style="display: flex; flex-direction: column; gap: 20px;">
+      
+      <!-- Article 01 -->
+      <article style="display: grid; grid-template-columns: 2fr 3fr 1fr; gap: 40px; padding: 48px 0; border-bottom: 1px solid var(--border-subtle); align-items: center;" data-cursor="LER ARTIGO">
+        <div>
+          <div class="mono-tag" style="margin-bottom: 8px; color: var(--cyan-primary);">CASO DE ESTUDO & METODOLOGIA</div>
+          <span style="font-family: var(--font-mono); font-size: 13px; color: var(--text-dim);">Novembro 2026</span>
+        </div>
+        <div>
+          <h2 style="font-size: 30px; font-weight: 500; line-height: 1.15; color: #FFFFFF; margin-bottom: 12px;">
+            O Custo Silencioso das Oportunidades Esquecidas no WhatsApp
+          </h2>
+          <p style="font-size: 16px; color: var(--text-muted); line-height: 1.5;">
+            Como empresas com alto volume de tráfego perdem até 40% do faturamento por atrasos superiores a 5 minutos no primeiro atendimento e falta de cadência de resgate.
+          </p>
+        </div>
+        <div style="text-align: right;">
+          <span class="card-action-arrow">↗</span>
+        </div>
+      </article>
+
+      <!-- Article 02 -->
+      <article style="display: grid; grid-template-columns: 2fr 3fr 1fr; gap: 40px; padding: 48px 0; border-bottom: 1px solid var(--border-subtle); align-items: center;" data-cursor="LER ARTIGO">
+        <div>
+          <div class="mono-tag" style="margin-bottom: 8px; color: var(--cyan-primary);">ENGENHARIA DIGITAL</div>
+          <span style="font-family: var(--font-mono); font-size: 13px; color: var(--text-dim);">Outubro 2026</span>
+        </div>
+        <div>
+          <h2 style="font-size: 30px; font-weight: 500; line-height: 1.15; color: #FFFFFF; margin-bottom: 12px;">
+            Presença Imersiva: Por que Templates Genéricos Destroem a Margem de Lucro
+          </h2>
+          <p style="font-size: 16px; color: var(--text-muted); line-height: 1.5;">
+            A psicologia visual por trás de sites com padrão internacional e como a fluidez espacial ancora posicionamento premium para produtos e serviços de alto ticket.
+          </p>
+        </div>
+        <div style="text-align: right;">
+          <span class="card-action-arrow">↗</span>
+        </div>
+      </article>
+
+      <!-- Article 03 -->
+      <article style="display: grid; grid-template-columns: 2fr 3fr 1fr; gap: 40px; padding: 48px 0; border-bottom: 1px solid var(--border-subtle); align-items: center;" data-cursor="LER ARTIGO">
+        <div>
+          <div class="mono-tag" style="margin-bottom: 8px; color: var(--cyan-primary);">AUTOMAÇÃO & IA</div>
+          <span style="font-family: var(--font-mono); font-size: 13px; color: var(--text-dim);">Setembro 2026</span>
+        </div>
+        <div>
+          <h2 style="font-size: 30px; font-weight: 500; line-height: 1.15; color: #FFFFFF; margin-bottom: 12px;">
+            Anatomia do Cluster dos 7 Agentes: Orquestração Autônoma em Tempo Real
+          </h2>
+          <p style="font-size: 16px; color: var(--text-muted); line-height: 1.5;">
+            Os bastidores da integração técnica entre inteligência de linguagem, bancos relacionais (Supabase) e motores n8n operando com resposta em menos de 20 segundos.
+          </p>
+        </div>
+        <div style="text-align: right;">
+          <span class="card-action-arrow">↗</span>
+        </div>
+      </article>
+
+      <!-- Article 04 -->
+      <article style="display: grid; grid-template-columns: 2fr 3fr 1fr; gap: 40px; padding: 48px 0; border-bottom: 1px solid var(--border-subtle); align-items: center;" data-cursor="LER ARTIGO">
+        <div>
+          <div class="mono-tag" style="margin-bottom: 8px; color: var(--cyan-primary);">PADRÃO LUMINA / JK</div>
+          <span style="font-family: var(--font-mono); font-size: 13px; color: var(--text-dim);">Agosto 2026</span>
+        </div>
+        <div>
+          <h2 style="font-size: 30px; font-weight: 500; line-height: 1.15; color: #FFFFFF; margin-bottom: 12px;">
+            A Experiência de Conversão Viva: Simulador de Procedimentos ao Vivo
+          </h2>
+          <p style="font-size: 16px; color: var(--text-muted); line-height: 1.5;">
+            Como a substituição de formulários estáticos tradicionais por um simulador de WhatsApp em tempo real multiplicou o engajamento de pacientes particulares.
+          </p>
+        </div>
+        <div style="text-align: right;">
+          <span class="card-action-arrow">↗</span>
+        </div>
+      </article>
+
+      <!-- Article 05 -->
+      <article style="display: grid; grid-template-columns: 2fr 3fr 1fr; gap: 40px; padding: 48px 0; border-bottom: 1px solid var(--border-subtle); align-items: center;" data-cursor="LER ARTIGO">
+        <div>
+          <div class="mono-tag" style="margin-bottom: 8px; color: var(--cyan-primary);">TELEMETRIA & DADOS</div>
+          <span style="font-family: var(--font-mono); font-size: 13px; color: var(--text-dim);">Julho 2026</span>
+        </div>
+        <div>
+          <h2 style="font-size: 30px; font-weight: 500; line-height: 1.15; color: #FFFFFF; margin-bottom: 12px;">
+            Telemetria Comercial vs 'Achismo': O que os Dados Revelam sobre os Fechamentos
+          </h2>
+          <p style="font-size: 16px; color: var(--text-muted); line-height: 1.5;">
+            Identificando os 3 maiores gargalos que fazem uma clínica ou empresa de serviços de alto ticket perder vendas sem que a diretoria perceba.
+          </p>
+        </div>
+        <div style="text-align: right;">
+          <span class="card-action-arrow">↗</span>
+        </div>
+      </article>
+
+      <!-- Article 06 -->
+      <article style="display: grid; grid-template-columns: 2fr 3fr 1fr; gap: 40px; padding: 48px 0; border-bottom: 1px solid var(--border-subtle); align-items: center;" data-cursor="LER ARTIGO">
+        <div>
+          <div class="mono-tag" style="margin-bottom: 8px; color: var(--cyan-primary);">BENCHMARK INTERNACIONAL</div>
+          <span style="font-family: var(--font-mono); font-size: 13px; color: var(--text-dim);">Junho 2026</span>
+        </div>
+        <div>
+          <h2 style="font-size: 30px; font-weight: 500; line-height: 1.15; color: #FFFFFF; margin-bottom: 12px;">
+            Por que a VIDE Adotou o EXOAPE como Padrão de Engenharia Digital
+          </h2>
+          <p style="font-size: 16px; color: var(--text-muted); line-height: 1.5;">
+            O estudo meticuloso da tipografia em escala 250px, física inercial de scroll e composição espacial do estúdio global holandês adaptado ao mercado corporativo brasileiro.
+          </p>
+        </div>
+        <div style="text-align: right;">
+          <span class="card-action-arrow">↗</span>
+        </div>
+      </article>
+
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer" role="contentinfo" data-theme="dark">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <div style="margin-bottom: 20px;">
+          <img src="assets/logo_vide_completa.png" alt="VIDE" style="height: 52px; width: auto; filter: none !important;">
+          <div class="brand-title" style="font-size: 24px; margin-top: 8px;">VIDE<span class="brand-dot">.</span></div>
+        </div>
+        <p style="font-size: 15px; color: var(--text-muted); line-height: 1.6;">
+          Engenharia de precisão para operações comerciais e escala digital.
+        </p>
+      </div>
+      <div class="footer-col">
+        <h4>Navegação</h4>
+        <ul>
+          <li><a href="work.html">Work</a></li>
+          <li><a href="studio.html">Studio</a></li>
+          <li><a href="news.html">News</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="central_de_comando.html" style="color: var(--cyan-primary); font-weight: 600;"><span style="color: #10B981; font-size: 8px; margin-right: 6px;">●</span>Central de Comando OS</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Diretoria</h4>
+        <ul>
+          <li><span style="color: #FFFFFF;">Douglas</span> — Diretor Executivo</li>
+          <li><a href="mailto:contato@vide.com.br">contato@vide.com.br</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Ação Imediata</h4>
+        <a href="contact.html" class="btn-vide btn-cyan" style="width: 100%;">Falar Agora ↗</a>
+      </div>
+    </div>
+    <div class="footer-bottom-bar">
+      <span>© 2026 VIDE. Todos os direitos reservados.</span>
+      <span class="mono-tag">EXOAPE HIGH-FIDELITY BUILD</span>
+    </div>
+  </footer>
+
+  <!-- GSAP 3, ScrollTrigger & Lenis Smooth Scroll -->
+  <script src="js/vendor/gsap.min.js"></script>
+  <script src="js/vendor/ScrollTrigger.min.js"></script>
+  <script src="js/vendor/lenis.min.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

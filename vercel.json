@@ -1,0 +1,10 @@
+{
+  "cleanUrls": true,
+  "rewrites": [
+    { "source": "/central_de_comando", "destination": "/central_de_comando.html" },
+    { "source": "/work", "destination": "/work.html" },
+    { "source": "/studio", "destination": "/studio.html" },
+    { "source": "/news", "destination": "/news.html" },
+    { "source": "/contact", "destination": "/contact.html" }
+  ]
+}

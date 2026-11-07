@@ -1,0 +1,19 @@
+{
+  "name": "vide-exoape-experience",
+  "version": "1.0.0",
+  "description": "VIDE — Sistemas Integrados de Crescimento Comercial & Central de Comando OS",
+  "main": "serve.js",
+  "scripts": {
+    "start": "node serve.js",
+    "dev": "node serve.js"
+  },
+  "keywords": [
+    "vide",
+    "exoape",
+    "cockpit",
+    "gsap",
+    "lenis"
+  ],
+  "author": "Douglas Paz — Diretor Executivo VIDE",
+  "license": "UNLICENSED"
+}

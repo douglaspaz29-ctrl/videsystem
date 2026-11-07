@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VIDE — Sistemas Integrados de Crescimento Comercial & Engenharia Digital</title>
+  <meta name="description" content="Antes de buscar mais clientes, descubra quantas oportunidades você já está perdendo. Sistema de Crescimento em Loop, presença digital imersiva e resposta em menos de 20s.">
+  
+  <link rel="icon" type="image/png" href="assets/logo_vide_emblema.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/DotGrid.css">
+  <link rel="stylesheet" href="css/DepthCarousel.css">
+  <link rel="stylesheet" href="css/secoes_especificas.css">
+</head>
+<body>
+
+  <!-- Top Cyan Reading Scroll Progress Bar -->
+  <div id="scroll-progress-bar"></div>
+
+  <!-- Theater Page Transition Curtain -->
+  <div id="page-curtain"></div>
+
+  <!-- Film Grain Texture Canvas Overlay -->
+  <canvas id="grain-canvas"></canvas>
+
+  <!-- Interactive Magnetic Spring Cursor -->
+  <div id="custom-cursor" class="custom-cursor"></div>
+
+  <!-- =========================================================================
+       SITE HEADER (Com Logo Oficial da VIDE)
+       ========================================================================= -->
+  <header class="site-header" role="banner">
+    <a href="index.html" class="brand-wrapper" data-cursor="VIDE">
+      <!-- Logo Oficial com Árvore e Flecha VIDE -->
+      <img src="assets/logo_vide_emblema.png" alt="VIDE — Emblema Oficial" class="brand-logo-img">
+      <span class="brand-title">VIDE<span class="brand-dot">.</span></span>
+    </a>
+
+    <nav>
+      <ul class="nav-links">
+        <li><a href="work.html" data-cursor="VER">Work</a></li>
+        <li><a href="studio.html" data-cursor="SOBRE">Studio</a></li>
+        <li><a href="news.html" data-cursor="LER">News</a></li>
+        <li><a href="contact.html" data-cursor="FALAR">Contact</a></li>
+        <li><a href="central_de_comando.html" data-cursor="CENTRAL OS" style="color: var(--cyan-primary); font-family: var(--font-mono); font-weight: 700; letter-spacing: 0.05em;"><span style="color: #10B981; font-size: 8px; margin-right: 6px; display: inline-block; vertical-align: middle;">●</span>Central OS</a></li>
+      </ul>
+    </nav>
+
+    <div class="header-cta">
+      <a href="central_de_comando.html" class="tech-badge" data-cursor="OS" style="text-decoration: none; cursor: pointer;" title="Acessar Central de Comando OS">
+        <span class="dot" style="background: #10B981; box-shadow: 0 0 8px #10B981;"></span>
+        <span>Central OS</span>
+      </a>
+      <a href="contact.html" class="btn-vide btn-outline" data-cursor="LIFT-OFF">
+        <span>Falar com Diretoria</span>
+        <span class="btn-arrow">↗</span>
+      </a>
+      <button class="menu-toggle" aria-label="Abrir Menu">
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- =========================================================================
+       HERO STAGE (Com Halo Luminoso, Logo Monumental e Reveal com Máscara de Corte)
+       ========================================================================= -->
+  <section class="hero-stage">
+    <!-- Ambient Kinetic Halo -->
+    <div class="hero-cyan-halo"></div>
+    <!-- Full Ambient Living Video Background (Exoape Cinema Experience) -->
+    <div class="hero-ambient-video-wrap">
+      <video autoplay loop muted playsinline poster="assets/vide_busto_cosmico.jpg" class="hero-ambient-video" id="hero-bg-video">
+        <source src="assets/vide_bust_neon_rot.mp4" type="video/mp4">
+      </video>
+      <div class="hero-ambient-overlay"></div>
+    </div>
+
+    <div class="hero-meta-top">
+      <div class="hero-telemetry-badge">
+        <span>SISTEMA DE CRESCIMENTO EM LOOP</span>
+        <span style="color: var(--border-subtle);">/</span>
+        <span style="color: var(--text-bone);">ENG. COMERCIAL & DIGITAL</span>
+      </div>
+      <span class="mono-tag">[ TELEMETRIA 01.04 ]</span>
+    </div>
+
+    <!-- Logo Monumental Nobre da VIDE -->
+    <div class="hero-brand-hallmark">
+      <img src="assets/logo_vide_completa.png" alt="VIDE – Sistemas de Crescimento Comercial" class="hero-brand-official-img" style="filter: none !important;">
+    </div>
+
+    <!-- Monumental Display Title (Exoape 250px Scale com Masked Reveal) -->
+    <div class="hero-title-container">
+      <h1 class="hero-monumental-title">
+        <span class="row">ENGENHARIA</span>
+        <span class="row">DE PRECISÃO</span>
+        <span class="row"><span class="serif-italic" style="color: var(--cyan-primary);">& ESCALA DIGITAL.</span></span>
+      </h1>
+    </div>
+
+    <!-- Editorial Subtitle Block (Exact Exoape 530px Width Column) -->
+    <div class="hero-editorial-col">
+      <p class="hero-editorial-text">
+        Antes de buscar mais clientes, descubra quantas oportunidades você já está perdendo. Projetamos o ecossistema que une presença digital de autoridade máxima, atendimento ágil no WhatsApp em menos de 20 segundos e telemetria contínua para blindar oportunidades e maximizar faturamento.
+      </p>
+      <div class="hero-editorial-lead">
+        VIDE — SISTEMAS INTEGRADOS DE CRESCIMENTO COMERCIAL
+      </div>
+    </div>
+
+    <div class="hero-bottom-bar">
+      <div class="scroll-indicator">
+        <div class="scroll-line"></div>
+        <span>Role para explorar a experiência</span>
+      </div>
+      <div class="mono-tag" style="color: rgba(255,255,255,0.4);">
+        EXOAPE ARCHITECTURE × VIDE IDENTITY
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       FEATURED PROJECTS SECTION (Staggered 2-Column Grid + True Optical Parallax)
+       ========================================================================= -->
+  <section class="section-featured light-section" data-theme="light">
+    <div class="section-head">
+      <div>
+        <div class="section-number">01 / PILARES INTEGRADOS</div>
+        <h2 class="section-headline">Soluções em Ação.</h2>
+      </div>
+      <a href="work.html" class="btn-vide btn-outline" data-cursor="TODOS">
+        <span>Ver Todas as Soluções</span>
+        <span class="btn-arrow">↗</span>
+      </a>
+    </div>
+
+    <!-- 2-Column Staggered Grid (Com Parallax e Tilt 3D) -->
+    <div class="staggered-grid">
+      
+      <!-- Card 1 (Elevated) -->
+      <article class="project-card" data-cursor="EXPLORAR">
+        <div class="card-image-box">
+          <div class="card-floating-badge">
+            <div class="tech-badge">
+              <span class="dot"></span>
+              <span>Pilar 01</span>
+            </div>
+          </div>
+          <video autoplay loop muted playsinline poster="assets/vide_busto_cosmico.jpg">
+            <source src="assets/vide_bust_neon_rot.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="card-meta-info">
+          <div>
+            <div class="card-category">Presença Digital & Autoridade</div>
+            <h3 class="card-title">Infraestrutura Visual & Supremacia de Marca</h3>
+            <p class="card-desc">
+              Desenvolvimento de sites de altíssimo padrão com estética cinematográfica, transições espaciais e ancoragem de autoridade inquestionável.
+            </p>
+          </div>
+          <div class="card-action-arrow">↗</div>
+        </div>
+      </article>
+
+      <!-- Card 2 (Lowered - Staggered Offset) -->
+      <article class="project-card" data-cursor="EXPLORAR">
+        <div class="card-image-box">
+          <div class="card-floating-badge">
+            <div class="tech-badge">
+              <span class="dot"></span>
+              <span>Pilar 02</span>
+            </div>
+          </div>
+          <video autoplay loop muted playsinline poster="assets/vide_esfera_dourada.jpg">
+            <source src="assets/vide_orb_luxury_rot.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="card-meta-info">
+          <div>
+            <div class="card-category">Automação Comercial</div>
+            <h3 class="card-title">Atendimento Ágil & Blindagem no WhatsApp</h3>
+            <p class="card-desc">
+              Acolhimento de leads em menos de 20 segundos, triagem com critérios cirúrgicos de compra e transição quente para fechamento humano.
+            </p>
+          </div>
+          <div class="card-action-arrow">↗</div>
+        </div>
+      </article>
+
+      <!-- Card 3 (Elevated) -->
+      <article class="project-card" data-cursor="EXPLORAR">
+        <div class="card-image-box">
+          <div class="card-floating-badge">
+            <div class="tech-badge">
+              <span class="dot"></span>
+              <span>Pilar 03</span>
+            </div>
+          </div>
+          <video autoplay loop muted playsinline poster="assets/vide_circuito_revelacao.jpg">
+            <source src="assets/vide_circuits_pulse.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="card-meta-info">
+          <div>
+            <div class="card-category">Engenharia de Dados</div>
+            <h3 class="card-title">Telemetria de Vendas & Recuperação em Loop</h3>
+            <p class="card-desc">
+              Auditoria em tempo real de oportunidades perdidas, follow-up automatizado de orçamentos e inteligência comercial para tomada de decisão.
+            </p>
+          </div>
+          <div class="card-action-arrow">↗</div>
+        </div>
+      </article>
+
+      <!-- Card 4 (Lowered) -->
+      <article class="project-card" data-cursor="EXPLORAR">
+        <div class="card-image-box">
+          <div class="card-floating-badge">
+            <div class="tech-badge">
+              <span class="dot"></span>
+              <span>Pilar 04</span>
+            </div>
+          </div>
+          <video autoplay loop muted playsinline poster="assets/vide_porcelana_fluida.png">
+            <source src="assets/vide_site_reel.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="card-meta-info">
+          <div>
+            <div class="card-category">Conteúdo & Captação</div>
+            <h3 class="card-title">Estratégia de Conteúdo & Conversão Imersiva</h3>
+            <p class="card-desc">
+              Comunicação orientada a vendas e construção de posicionamento institucional incontestável no mercado de atuação.
+            </p>
+          </div>
+          <div class="card-action-arrow">↗</div>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       02 // JORNADA COMERCIAL PONTO A PONTO — ONDE O DINHEIRO DO SEU NEGÓCIO ESCORRE
+       (Seção de Alta Fidelidade com Barras e Contadores Interativos)
+       ========================================================================= -->
+  <section class="secao-funil-interativo" id="funil-perdas">
+    <div style="text-align: center; max-width: 900px; margin: 0 auto;">
+      <span class="marcador-etapa-cinematico">
+        <i class="fas fa-diagram-project"></i> 02 // JORNADA COMERCIAL PONTO A PONTO
+      </span>
+      <h2 style="font-family: var(--font-headline); font-size: clamp(30px, 4vw, 48px); font-weight: 800; letter-spacing: -0.02em; margin: 16px 0; color: #FFFFFF; text-transform: uppercase;">
+        ONDE O DINHEIRO DO SEU NEGÓCIO ESCORRE
+      </h2>
+      <p style="font-size: 17px; color: var(--text-muted); line-height: 1.6; max-width: 780px; margin: 0 auto;">
+        Veja o contraste entre a operação comercial vulnerável e o sistema protegido pela engenharia integrada da VIDE:
+      </p>
+    </div>
+
+    <div class="funil-pipeline-container">
+      <!-- Etapa 1 -->
+      <div class="funil-etapa-row" data-target-width="100%">
+        <div class="funil-nome-etapa">
+          <span class="funil-num-badge">01</span>
+          <span class="funil-titulo-etapa">DESCOBERTA</span>
+        </div>
+        <div class="funil-barra-grafica">
+          <div class="funil-barra-progresso" style="--target-width: 100%;"></div>
+          <span class="funil-pct-badge">100%</span>
+        </div>
+        <div class="funil-onde-perde">
+          <i class="fas fa-circle-xmark"></i> Anúncios caros sem posicionamento
+        </div>
+        <div class="funil-solucao-vide">
+          <i class="fas fa-shield-check"></i> Posicionamento de Valor Nobre
+        </div>
+      </div>
+
+      <!-- Etapa 2 -->
+      <div class="funil-etapa-row" data-target-width="75%">
+        <div class="funil-nome-etapa">
+          <span class="funil-num-badge">02</span>
+          <span class="funil-titulo-etapa">INTERESSE</span>
+        </div>
+        <div class="funil-barra-grafica">
+          <div class="funil-barra-progresso" style="--target-width: 75%;"></div>
+          <span class="funil-pct-badge">75%</span>
+        </div>
+        <div class="funil-onde-perde">
+          <i class="fas fa-circle-xmark"></i> Sites lentos e templates genéricos
+        </div>
+        <div class="funil-solucao-vide">
+          <i class="fas fa-shield-check"></i> Páginas Autorais de Alta Velocidade
+        </div>
+      </div>
+
+      <!-- Etapa 3 -->
+      <div class="funil-etapa-row" data-target-width="50%">
+        <div class="funil-nome-etapa">
+          <span class="funil-num-badge">03</span>
+          <span class="funil-titulo-etapa">PRIMEIRO CONTATO</span>
+        </div>
+        <div class="funil-barra-grafica">
+          <div class="funil-barra-progresso" style="--target-width: 50%;"></div>
+          <span class="funil-pct-badge">50%</span>
+        </div>
+        <div class="funil-onde-perde">
+          <i class="fas fa-circle-xmark"></i> Demora de horas para acolher no chat
+        </div>
+        <div class="funil-solucao-vide">
+          <i class="fas fa-shield-check"></i> Resposta Instantânea &lt; 30 seg
+        </div>
+      </div>
+
+      <!-- Etapa 4 -->
+      <div class="funil-etapa-row" data-target-width="32%">
+        <div class="funil-nome-etapa">
+          <span class="funil-num-badge">04</span>
+          <span class="funil-titulo-etapa">ATENDIMENTO</span>
+        </div>
+        <div class="funil-barra-grafica">
+          <div class="funil-barra-progresso" style="--target-width: 32%;"></div>
+          <span class="funil-pct-badge">32%</span>
+        </div>
+        <div class="funil-onde-perde">
+          <i class="fas fa-circle-xmark"></i> Vendedor sem contexto e sem histórico
+        </div>
+        <div class="funil-solucao-vide">
+          <i class="fas fa-shield-check"></i> Transição Humana com Ficha Pronta
+        </div>
+      </div>
+
+      <!-- Etapa 5 -->
+      <div class="funil-etapa-row" data-target-width="18%">
+        <div class="funil-nome-etapa">
+          <span class="funil-num-badge">05</span>
+          <span class="funil-titulo-etapa">PROPOSTA</span>
+        </div>
+        <div class="funil-barra-grafica">
+          <div class="funil-barra-progresso" style="--target-width: 18%;"></div>
+          <span class="funil-pct-badge">18%</span>
+        </div>
+        <div class="funil-onde-perde">
+          <i class="fas fa-circle-xmark"></i> Contato esfria sem follow-up ativo
+        </div>
+        <div class="funil-solucao-vide">
+          <i class="fas fa-shield-check"></i> Régua Ativa de Reativação
+        </div>
+      </div>
+
+      <!-- Etapa 6 -->
+      <div class="funil-etapa-row" data-target-width="12%">
+        <div class="funil-nome-etapa">
+          <span class="funil-num-badge">06</span>
+          <span class="funil-titulo-etapa">FECHAMENTO</span>
+        </div>
+        <div class="funil-barra-grafica">
+          <div class="funil-barra-progresso" style="--target-width: 12%;"></div>
+          <span class="funil-pct-badge">12%</span>
+        </div>
+        <div class="funil-onde-perde">
+          <i class="fas fa-circle-xmark"></i> Sem telemetria para aprender o porquê
+        </div>
+        <div class="funil-solucao-vide">
+          <i class="fas fa-shield-check"></i> Dashboard Executivo em Tempo Real
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       A SUÍTE INTEGRADA: TRÊS SOLUÇÕES. UMA ÚNICA OPERAÇÃO.
+       (Com Fundo DotGrid Cyber e Efeito 3D Perspective Tilt)
+       ========================================================================= -->
+  <section class="secao-accordion-solucoes" id="solucoes">
+    <!-- Fundo Interativo DotGrid Exclusivo da Seção das Soluções -->
+    <div id="dotgrid-solucoes" class="secao-dotgrid-background" aria-hidden="true"></div>
+
+    <div style="text-align: center; position: relative; z-index: 2;">
+      <div class="marcador-etapa-cinematico">
+        <i class="fas fa-cubes"></i> A SUÍTE INTEGRADA
+      </div>
+      <h2 style="font-family: var(--font-headline); font-size: clamp(32px, 4.5vw, 50px); font-weight: 800; letter-spacing: -0.02em; text-transform: uppercase; color: #FFFFFF; margin: 12px 0;">
+        TRÊS SOLUÇÕES. UMA ÚNICA OPERAÇÃO.
+      </h2>
+      <p style="font-size: 17px; color: var(--text-muted); line-height: 1.6; max-width: 820px; margin: 12px auto 0 auto;">
+        O ecossistema completo que unifica inteligência de mensagem, presença digital autoral, atendimento ágil e auditoria de vendas.
+      </p>
+    </div>
+
+    <div class="accordion-gallery-wrapper">
+      
+      <!-- Painel 1: Estratégia de Conteúdo -->
+      <div class="accordion-panel active" id="acc-panel-1">
+        <div class="accordion-bg-glow"></div>
+        <div class="caixa-watermark-fundo" aria-hidden="true">
+          <img src="assets/logo_vide_emblema.png" alt="" class="caixa-watermark-img">
+        </div>
+        <div class="accordion-caixa-topo">
+          <div class="caixa-vide-badge">
+            <img src="assets/logo_vide_emblema.png" alt="VIDE" class="caixa-logo-icon">
+            <span class="caixa-marca-texto">VIDE</span>
+          </div>
+          <span class="caixa-solucao-tag">SOLUÇÃO 01</span>
+        </div>
+        <div class="accordion-caixa-visual">
+          <div class="caixa-logo-halo"></div>
+          <img src="assets/logo_vide_emblema.png" alt="Logo Oficial VIDE" class="caixa-logo-central">
+        </div>
+        <div class="accordion-conteudo-visivel">
+          <span class="accordion-numero-mono">[ SOLUÇÃO 01 // ESTRATÉGIA E VALOR ]</span>
+          <h3 class="accordion-titulo">Estratégia de Conteúdo & Posicionamento</h3>
+          <div class="accordion-descricao-revelada">
+            Estruturação da mensagem de autoridade, pilares editoriais com intenção comercial e jornadas de atração. Posicionamos a sua marca para justificar tickets mais altos e atrair compradores preparados para fechar.
+          </div>
+          <div class="accordion-tags-metricas">
+            <span class="tag-solucao-pill"><i class="fas fa-bullseye"></i> Posicionamento de Autoridade</span>
+            <span class="tag-solucao-pill"><i class="fas fa-newspaper"></i> Pilares Editoriais Comerciais</span>
+            <span class="tag-solucao-pill"><i class="fas fa-arrow-trend-up"></i> Jornadas de Atração de Valor</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Painel 2: Sites e Páginas de Alta Performance -->
+      <div class="accordion-panel" id="acc-panel-2">
+        <div class="accordion-bg-glow"></div>
+        <div class="caixa-watermark-fundo" aria-hidden="true">
+          <img src="assets/logo_vide_emblema.png" alt="" class="caixa-watermark-img">
+        </div>
+        <div class="accordion-caixa-topo">
+          <div class="caixa-vide-badge">
+            <img src="assets/logo_vide_emblema.png" alt="VIDE" class="caixa-logo-icon">
+            <span class="caixa-marca-texto">VIDE</span>
+          </div>
+          <span class="caixa-solucao-tag">SOLUÇÃO 02</span>
+        </div>
+        <div class="accordion-caixa-visual">
+          <div class="caixa-logo-halo"></div>
+          <img src="assets/logo_vide_emblema.png" alt="Logo Oficial VIDE" class="caixa-logo-central">
+        </div>
+        <div class="accordion-conteudo-visivel">
+          <span class="accordion-numero-mono">[ SOLUÇÃO 02 // PRESENÇA DIGITAL DE ALTO PADRÃO ]</span>
+          <h3 class="accordion-titulo">Sites e Páginas de Alta Performance</h3>
+          <div class="accordion-descricao-revelada">
+            Páginas autorais desenvolvidas para abrir instantaneamente no celular do cliente (&lt; 1.5s). Sem lentidão de templates pesados. Design de prestígio que posiciona a sua empresa com autoridade e prepara o terreno para fechar contratos com tickets mais altos.
+          </div>
+          <div class="accordion-tags-metricas">
+            <span class="tag-solucao-pill"><i class="fas fa-bolt"></i> Abertura Instantânea no Celular</span>
+            <span class="tag-solucao-pill"><i class="fas fa-gem"></i> Design Autoral de Prestígio</span>
+            <span class="tag-solucao-pill"><i class="fas fa-file-contract"></i> Foco em Fechamento Comercial</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Painel 3: Automação Comercial & Atendimento Ágil -->
+      <div class="accordion-panel" id="acc-panel-3">
+        <div class="accordion-bg-glow"></div>
+        <div class="caixa-watermark-fundo" aria-hidden="true">
+          <img src="assets/logo_vide_emblema.png" alt="" class="caixa-watermark-img">
+        </div>
+        <div class="accordion-caixa-topo">
+          <div class="caixa-vide-badge">
+            <img src="assets/logo_vide_emblema.png" alt="VIDE" class="caixa-logo-icon">
+            <span class="caixa-marca-texto">VIDE</span>
+          </div>
+          <span class="caixa-solucao-tag">SOLUÇÃO 03</span>
+        </div>
+        <div class="accordion-caixa-visual">
+          <div class="caixa-logo-halo"></div>
+          <img src="assets/logo_vide_emblema.png" alt="Logo Oficial VIDE" class="caixa-logo-central">
+        </div>
+        <div class="accordion-conteudo-visivel">
+          <span class="accordion-numero-mono">[ SOLUÇÃO 03 // ATENDIMENTO NO WHATSAPP ]</span>
+          <h3 class="accordion-titulo">Automação Comercial & Atendimento Ágil</h3>
+          <div class="accordion-descricao-revelada">
+            Atendimento no canal onde o seu cliente decide a compra. O sistema acolhe o contato em poucos segundos, entende o que ele precisa e entrega a conversa pronta para a sua equipe no momento exato do interesse com calor humano imediato.
+          </div>
+          <div class="accordion-tags-metricas">
+            <span class="tag-solucao-pill"><i class="fab fa-whatsapp"></i> Resposta em Poucos Segundos</span>
+            <span class="tag-solucao-pill"><i class="fas fa-filter"></i> Triagem Inteligente de Demanda</span>
+            <span class="tag-solucao-pill"><i class="fas fa-user-check"></i> Transição Humana Imediata</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Painel 4: Dashboard & Inteligência Comercial -->
+      <div class="accordion-panel" id="acc-panel-4">
+        <div class="accordion-bg-glow"></div>
+        <div class="caixa-watermark-fundo" aria-hidden="true">
+          <img src="assets/logo_vide_emblema.png" alt="" class="caixa-watermark-img">
+        </div>
+        <div class="accordion-caixa-topo">
+          <div class="caixa-vide-badge">
+            <img src="assets/logo_vide_emblema.png" alt="VIDE" class="caixa-logo-icon">
+            <span class="caixa-marca-texto">VIDE</span>
+          </div>
+          <span class="caixa-solucao-tag">SOLUÇÃO 04</span>
+        </div>
+        <div class="accordion-caixa-visual">
+          <div class="caixa-logo-halo"></div>
+          <img src="assets/logo_vide_emblema.png" alt="Logo Oficial VIDE" class="caixa-logo-central">
+        </div>
+        <div class="accordion-conteudo-visivel">
+          <span class="accordion-numero-mono">[ SOLUÇÃO 04 // AUDITORIA E DADOS ]</span>
+          <h3 class="accordion-titulo">Dashboard & Inteligência Comercial</h3>
+          <div class="accordion-descricao-revelada">
+            Identificamos em quais etapas seus clientes desistem, quais oportunidades ficaram sem acompanhamento e onde o seu negócio está perdendo vendas. Transformamos conversas reais em melhorias contínuas para a sua equipe fechar mais negócios.
+          </div>
+          <div class="accordion-tags-metricas">
+            <span class="tag-solucao-pill"><i class="fas fa-magnifying-glass-chart"></i> Mapeamento de Oportunidades</span>
+            <span class="tag-solucao-pill"><i class="fas fa-hand-holding-dollar"></i> Recuperação Ativa de Vendas</span>
+            <span class="tag-solucao-pill"><i class="fas fa-chart-line"></i> Decisões com Dados Reais</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       WORK IN MOTION — O CLUSTER DOS 7 AGENTES (Interactive Showcase)
+       ========================================================================= -->
+  <section class="section-motion dark-section" data-theme="dark">
+    <div class="motion-showcase-container">
+      
+      <!-- Visual Display com Dynamic Switch -->
+      <div class="motion-visual-wrapper">
+        <video id="motion-featured-video" autoplay loop muted playsinline poster="assets/vide_busto_cosmico.jpg">
+          <source src="assets/vide_bust_neon_rot.mp4" type="video/mp4">
+        </video>
+        <div class="motion-visual-overlay"></div>
+      </div>
+
+      <!-- Content & Interactive Cluster List -->
+      <div class="motion-content">
+        <div class="mono-tag" style="margin-bottom: 16px;">O NÚCLEO DE INTELIGÊNCIA DA VIDE</div>
+        <h2 class="motion-headline" id="motion-agent-title">Cluster dos 7 Agentes Especialistas</h2>
+        <p class="motion-copy" id="motion-agent-desc">
+          Uma equipe de agentes autônomos e integrados operando 24 horas por dia, 7 dias por semana. Cada agente domina uma etapa crítica do seu funil comercial, desde o primeiro toque até a recuperação de vendas esquecidas.
+        </p>
+
+        <!-- Interactive Switcher -->
+        <div class="agents-cluster-list">
+          <div class="agent-item active" 
+               data-name="Agente 01 — Triagem & Recepção Relâmpago" 
+               data-role="Recepção" 
+               data-desc="Responde aos leads em menos de 20 segundos no WhatsApp, qualifica a intenção e encaminha sem ruídos."
+               data-img="assets/vide_busto_cosmico.jpg">
+            <div class="agent-info">
+              <span class="agent-index">01</span>
+              <span class="agent-name">Triagem & Recepção Relâmpago</span>
+            </div>
+            <span class="agent-status">Ativo 24/7</span>
+          </div>
+
+          <div class="agent-item" 
+               data-name="Agente 02 — Qualificador de Oportunidades" 
+               data-role="Qualificação" 
+               data-desc="Filtra orçamento, urgência e perfil de compra para entregar apenas leads prontos para fechar aos executivos."
+               data-img="assets/vide_perfil_duplo.png">
+            <div class="agent-info">
+              <span class="agent-index">02</span>
+              <span class="agent-name">Qualificador de Oportunidades</span>
+            </div>
+            <span class="agent-status">Ativo 24/7</span>
+          </div>
+
+          <div class="agent-item" 
+               data-name="Agente 03 — Blindagem de Follow-up" 
+               data-role="Recuperação" 
+               data-desc="Monitora contatos sem resposta e executa cadências personalizadas que recuperam até 62% das perdas."
+               data-img="assets/vide_androide_telemetria.jpg">
+            <div class="agent-info">
+              <span class="agent-index">03</span>
+              <span class="agent-name">Blindagem de Follow-up</span>
+            </div>
+            <span class="agent-status">Ativo 24/7</span>
+          </div>
+
+          <div class="agent-item" 
+               data-name="Agente 04 — Telemetria de Conversão" 
+               data-role="Dados" 
+               data-desc="Audita o funil continuamente, identifica gargalos de atendimento e prevê tendências de receita."
+               data-img="assets/vide_porcelana_fluida.png">
+            <div class="agent-info">
+              <span class="agent-index">04</span>
+              <span class="agent-name">Telemetria de Conversão</span>
+            </div>
+            <span class="agent-status">Ativo 24/7</span>
+          </div>
+        </div>
+
+        <div>
+          <a href="contact.html" class="btn-vide btn-cyan" data-cursor="LIFT-OFF">
+            <span>Ativar o Cluster na Sua Operação</span>
+            <span class="btn-arrow">↗</span>
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       SWISS BRUTALIST TELEMETRIA & METRICS
+       ========================================================================= -->
+  <section class="section-telemetry light-section" data-theme="light">
+    <div class="section-head">
+      <div>
+        <div class="section-number">02 / INDICADORES DE IMPACTO</div>
+        <h2 class="section-headline">Métricas de Precisão.</h2>
+      </div>
+      <div class="mono-tag">[ TELEMETRIA EM TEMPO REAL ]</div>
+    </div>
+
+    <div class="telemetry-grid">
+      <div class="telemetry-card" data-cursor="METRICA">
+        <div>
+          <div class="metric-label">Velocidade de Resposta</div>
+          <div class="metric-val cyan">&lt; 20s</div>
+        </div>
+        <p class="metric-sub">
+          Atendimento humanizado instantâneo via WhatsApp para eliminar a evasão de leads e capturar o comprador no calor da intenção.
+        </p>
+      </div>
+
+      <div class="telemetry-card" data-cursor="METRICA">
+        <div>
+          <div class="metric-label">Recuperação de Negócios</div>
+          <div class="metric-val lime">+62%</div>
+        </div>
+        <p class="metric-sub">
+          Oportunidades esquecidas em orçamentos sem resposta resgatadas pelo sistema de cadência automatizada em loop.
+        </p>
+      </div>
+
+      <div class="telemetry-card" data-cursor="METRICA">
+        <div>
+          <div class="metric-label">Cobertura da Operação</div>
+          <div class="metric-val">24/7</div>
+        </div>
+        <p class="metric-sub">
+          Sem pausas, finais de semana ou feriados. Seu ecossistema comercial opera gerando receita e agendamentos ininterruptamente.
+        </p>
+      </div>
+
+      <div class="telemetry-card" data-cursor="METRICA">
+        <div>
+          <div class="metric-label">Rastreabilidade Total</div>
+          <div class="metric-val cyan">100%</div>
+        </div>
+        <p class="metric-sub">
+          Visão raio-X de cada centavo investido em tráfego e do retorno gerado em cada atendimento até o fechamento.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       TELEMETRIA E DADOS VIVOS — O NÚCLEO DE INTELIGÊNCIA DA VIDE
+       (Esfera 3D de Plasma Interativa & Live Telemetry HUD Conectado ao Backend)
+       ========================================================================= -->
+  <section class="secao-crystalized-showcase" id="inteligencia">
+    <div>
+      <span class="marcador-etapa-cinematico">
+        <i class="fas fa-atom"></i> TELEMETRIA E DADOS VIVOS
+      </span>
+      <h2 style="font-family: var(--font-headline); font-size: clamp(32px, 4.5vw, 50px); font-weight: 800; letter-spacing: -0.02em; text-transform: uppercase; color: #FFFFFF; margin: 14px 0;">
+        O NÚCLEO DE INTELIGÊNCIA DA VIDE
+      </h2>
+      <p style="font-size: 17px; color: var(--text-muted); line-height: 1.6; max-width: 760px; margin: 12px auto 30px auto;">
+        Representação viva da rede de dados: correlação em tempo real entre leads recebidos, velocidade de qualificação e receita protegida. Arraste com o cursor para rotacionar no espaço 3D.
+      </p>
+
+      <div class="crystalized-ball-container">
+        <canvas id="canvas-crystalized-ball" class="canvas-crystalized-ball"></canvas>
+        <div class="crystalized-overlay-meta">
+          <i class="fas fa-atom"></i> TELEMETRIA EM TEMPO REAL // MONITORAMENTO DE OPORTUNIDADES // FLUXO CONTÍNUO
+        </div>
+      </div>
+
+      <!-- HUD de Telemetria ao Vivo Dinâmica (Conectado ao Backend) -->
+      <div class="telemetry-hud-container" id="telemetry-hud-container">
+        <div class="telemetry-hud-status">
+          <span class="telemetry-hud-pulse"></span>
+          <span>ESTEIRA AUTÔNOMA OPERANDO EM TEMPO REAL</span>
+        </div>
+        <div class="telemetry-hud-log" id="telemetry-hud-log-text">
+          LEAD QUALIFICADO NO WHATSAPP :: TICKET &gt; R$ 8.000 :: TEMPO RESPOSTA 14s
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       08 // ESTRUTURA OPERACIONAL EM 3D — O CLUSTER DOS 7 AGENTES ESPECIALISTAS
+       (Split Stage: Inspetor Glassmorphic à Esquerda + DepthCarousel 3D à Direita)
+       ========================================================================= -->
+  <section class="secao-web-threads" id="agentes-depth">
+    <!-- Fundo Animado DotGrid (Bolinhas Cyber) -->
+    <div id="dotgrid-agentes" class="secao-dotgrid-background" aria-hidden="true"></div>
+
+    <div style="text-align: center; max-width: 900px; margin: 0 auto 20px auto; position: relative; z-index: 2;">
+      <span class="marcador-etapa-cinematico">
+        <i class="fas fa-cubes"></i> 08 // ESTRUTURA OPERACIONAL EM 3D
+      </span>
+      <h2 style="font-family: var(--font-headline); font-size: clamp(30px, 4vw, 48px); font-weight: 800; text-transform: uppercase; margin: 12px 0; color: #FFFFFF;">
+        O CLUSTER DOS 7 AGENTES ESPECIALISTAS
+      </h2>
+      <p style="font-size: 17px; color: var(--text-muted); line-height: 1.6;">
+        Inspecione os especialistas da esteira autônoma da VIDE. Clique nos cards à direita para ver a especificação operacional completa à esquerda:
+      </p>
+    </div>
+
+    <!-- Split Stage: Inspetor Quase Transparente à Esquerda + DepthCarousel 3D à Direita -->
+    <div class="agentes-split-showcase">
+      <!-- Coluna da Esquerda: Card Glassmorphic Inspetor -->
+      <div class="agent-inspector-glass-card" id="agent-inspector-card">
+        <div>
+          <!-- Header do Inspetor com Avatar Cibernético Oficial -->
+          <div style="display: flex; gap: 20px; align-items: center; margin-bottom: 20px; padding-bottom: 16px; border-bottom: 1px solid rgba(255,255,255,0.08);">
+            <div class="agent-inspector-avatar-box">
+              <img src="arte_rosto_cibernetico.png" alt="VIDE Agente Neural" class="agent-inspector-avatar-img">
+            </div>
+            <div style="flex: 1; min-width: 0;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                <span id="insp-badge" style="font-family: var(--font-mono); font-size: 11px; font-weight: 800; color: #00E5FF; background: rgba(0,229,255,0.12); border: 1px solid rgba(0,229,255,0.3); padding: 4px 10px; border-radius: 6px !important;">AGT-01 // OPERAÇÃO & ENTRADA</span>
+                <span id="insp-status" style="font-size: 11px; color: #10B981; font-weight: 700; font-family: var(--font-mono);"><i class="fas fa-circle" style="font-size: 7px;"></i> ATIVO EM TEMPO REAL</span>
+              </div>
+              <h3 id="insp-title" style="font-family: var(--font-headline); font-size: 26px; font-weight: 800; text-transform: uppercase; color: #FFF; margin: 0 0 4px 0; line-height: 1.15;">TRIAGEM COMERCIAL</h3>
+              <div id="insp-role" style="font-size: 13.5px; color: #00E5FF; font-weight: 700;">Acolhimento e Qualificação Instantânea no WhatsApp</div>
+            </div>
+          </div>
+
+          <p id="insp-desc" style="font-size: 15px; color: #F1F5F9; line-height: 1.7; margin-bottom: 24px;">
+            Recebe e acolhe contatos que chegam pelos canais oficiais da empresa em menos de 20 segundos. Identifica com precisão cirúrgica a intenção de compra, filtra curiosos e classifica o nível de prioridade comercial antes de acionar a equipe humana.
+          </p>
+        </div>
+
+        <div style="border-top: 1px solid rgba(255,255,255,0.08); padding-top: 20px;">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+            <div style="background: rgba(0,0,0,0.45); border: 1px solid rgba(255,255,255,0.06); padding: 12px 16px; border-radius: 6px !important;">
+              <div style="font-size: 10px; color: #64748B; font-weight: 800; font-family: var(--font-mono); text-transform: uppercase;">SLA DE RESPOSTA</div>
+              <div id="insp-sla" style="font-family: var(--font-headline); font-size: 16px; font-weight: 800; color: #10B981; margin-top: 2px;">&lt; 20 SEGUNDOS</div>
+            </div>
+            <div style="background: rgba(0,0,0,0.45); border: 1px solid rgba(255,255,255,0.06); padding: 12px 16px; border-radius: 6px !important;">
+              <div style="font-size: 10px; color: #64748B; font-weight: 800; font-family: var(--font-mono); text-transform: uppercase;">CONECTIVIDADE</div>
+              <div id="insp-stack" style="font-family: var(--font-headline); font-size: 16px; font-weight: 800; color: #00E5FF; margin-top: 2px;">CLOUD API & N8N</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Coluna da Direita: Os 7 Cards do DepthCarousel 3D -->
+      <div style="position: relative; z-index: 2;">
+        <div class="depth-carousel-wrapper" data-depth-carousel data-depth="220" data-spread="95" data-tilt="22">
+          <div class="depth-carousel-stage">
+            <!-- Card 1 -->
+            <div class="depth-card-item is-active">
+              <div>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                  <span style="font-size: 11px; font-weight: 800; color: #00E5FF; background: rgba(0,229,255,0.1); padding: 4px 10px; border-radius: 6px;">AGT-01</span>
+                  <span style="font-size: 11px; color: #10B981; font-weight: 700;">● ATIVO</span>
+                </div>
+                <h3 style="font-size: 20px; font-weight: 800; color: #FFF; margin-bottom: 8px;">TRIAGEM COMERCIAL</h3>
+                <p style="font-size: 13.5px; color: #CBD5E1; line-height: 1.55;">Recebe demandas comerciais no WhatsApp em segundos, analisa a complexidade do projeto e qualifica parâmetros de compra.</p>
+              </div>
+              <div style="border-top: 1px solid rgba(255,255,255,0.08); padding-top: 14px; font-size: 11px; color: #64748B;">
+                Orquestração Instantânea • 0 Latência
+              </div>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="depth-card-item">
+              <div>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                  <span style="font-size: 11px; font-weight: 800; color: #00E5FF; background: rgba(0,229,255,0.1); padding: 4px 10px; border-radius: 6px;">AGT-02</span>
+                  <span style="font-size: 11px; color: #10B981; font-weight: 700;">● LÍDER</span>
+                </div>
+                <h3 style="font-size: 20px; font-weight: 800; color: #FFF; margin-bottom: 8px;">COORDENADOR GERAL</h3>
+                <p style="font-size: 13.5px; color: #CBD5E1; line-height: 1.55;">Planeja o roadmap de execução, distribui as tarefas na esteira e audita a entrega final com rigor de conformidade.</p>
+              </div>
+              <div style="border-top: 1px solid rgba(255,255,255,0.08); padding-top: 14px; font-size: 11px; color: #64748B;">
+                Governança Técnica • Diretoria Executiva
+              </div>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="depth-card-item">
+              <div>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                  <span style="font-size: 11px; font-weight: 800; color: #00E5FF; background: rgba(0,229,255,0.1); padding: 4px 10px; border-radius: 6px;">AGT-03</span>
+                  <span style="font-size: 11px; color: #10B981; font-weight: 700;">● ATIVO</span>
+                </div>
+                <h3 style="font-size: 20px; font-weight: 800; color: #FFF; margin-bottom: 8px;">ARQUITETO DE PRESENÇA</h3>
+                <p style="font-size: 13.5px; color: #CBD5E1; line-height: 1.55;">Estrutura a hierarquia da informação, jornada do usuário e layout de conversão para interfaces de alto prestígio.</p>
+              </div>
+              <div style="border-top: 1px solid rgba(255,255,255,0.08); padding-top: 14px; font-size: 11px; color: #64748B;">
+                UI/UX Autoral • Zero Templates
+              </div>
+            </div>
+
+            <!-- Card 4 -->
+            <div class="depth-card-item">
+              <div>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                  <span style="font-size: 11px; font-weight: 800; color: #00E5FF; background: rgba(0,229,255,0.1); padding: 4px 10px; border-radius: 6px;">AGT-04</span>
+                  <span style="font-size: 11px; color: #10B981; font-weight: 700;">● ATIVO</span>
+                </div>
+                <h3 style="font-size: 20px; font-weight: 800; color: #FFF; margin-bottom: 8px;">COPYWRITER DE VALOR</h3>
+                <p style="font-size: 13.5px; color: #CBD5E1; line-height: 1.55;">Redige mensagens persuasivas sem clichês, elevando o valor percebido e posicionando a marca com autoridade.</p>
+              </div>
+              <div style="border-top: 1px solid rgba(255,255,255,0.08); padding-top: 14px; font-size: 11px; color: #64748B;">
+                Storytelling Nobre • Decisão de Compra
+              </div>
+            </div>
+
+            <!-- Card 5 -->
+            <div class="depth-card-item">
+              <div>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                  <span style="font-size: 11px; font-weight: 800; color: #00E5FF; background: rgba(0,229,255,0.1); padding: 4px 10px; border-radius: 6px;">AGT-05</span>
+                  <span style="font-size: 11px; color: #10B981; font-weight: 700;">● ATIVO</span>
+                </div>
+                <h3 style="font-size: 20px; font-weight: 800; color: #FFF; margin-bottom: 8px;">ENGENHEIRO FRONT-END</h3>
+                <p style="font-size: 13.5px; color: #CBD5E1; line-height: 1.55;">Desenvolve código limpo, animações responsivas e carregamento instantâneo no celular (&lt; 1.5s).</p>
+              </div>
+              <div style="border-top: 1px solid rgba(255,255,255,0.08); padding-top: 14px; font-size: 11px; color: #64748B;">
+                Performance Pura • 60 FPS
+              </div>
+            </div>
+
+            <!-- Card 6 -->
+            <div class="depth-card-item">
+              <div>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                  <span style="font-size: 11px; font-weight: 800; color: #00E5FF; background: rgba(0,229,255,0.1); padding: 4px 10px; border-radius: 6px;">AGT-06</span>
+                  <span style="font-size: 11px; color: #10B981; font-weight: 700;">● ATIVO</span>
+                </div>
+                <h3 style="font-size: 20px; font-weight: 800; color: #FFF; margin-bottom: 8px;">ENGENHEIRO INTEGRAÇÕES</h3>
+                <p style="font-size: 13.5px; color: #CBD5E1; line-height: 1.55;">Conecta APIs, WhatsApp Business, Webhooks n8n e bancos de dados para fluxo contínuo de informação.</p>
+              </div>
+              <div style="border-top: 1px solid rgba(255,255,255,0.08); padding-top: 14px; font-size: 11px; color: #64748B;">
+                Webhook Seguro • API Resiliente
+              </div>
+            </div>
+
+            <!-- Card 7 -->
+            <div class="depth-card-item">
+              <div>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                  <span style="font-size: 11px; font-weight: 800; color: #00E5FF; background: rgba(0,229,255,0.1); padding: 4px 10px; border-radius: 6px;">AGT-07</span>
+                  <span style="font-size: 11px; color: #10B981; font-weight: 700;">● AUDITOR</span>
+                </div>
+                <h3 style="font-size: 20px; font-weight: 800; color: #FFF; margin-bottom: 8px;">AUDITOR DE TELEMETRIA</h3>
+                <p style="font-size: 13.5px; color: #CBD5E1; line-height: 1.55;">Mede cada evento de conversão, monitora a saúde das integrações e gera relatórios em tempo real para a diretoria.</p>
+              </div>
+              <div style="border-top: 1px solid rgba(255,255,255,0.08); padding-top: 14px; font-size: 11px; color: #64748B;">
+                Telemetria Viva • Auditoria Contínua
+              </div>
+            </div>
+          </div>
+
+          <!-- Controles do DepthCarousel -->
+          <div class="depth-nav-controls">
+            <button class="depth-btn-arrow" data-depth-prev aria-label="Anterior" style="border-radius: 8px !important;">
+              <i class="fas fa-arrow-left"></i>
+            </button>
+            <div class="depth-dots-container"></div>
+            <button class="depth-btn-arrow" data-depth-next aria-label="Próximo" style="border-radius: 8px !important;">
+              <i class="fas fa-arrow-right"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       VELOCITY-AWARE ACCELERATING TICKER (Acelera Conforme o Scroll)
+       ========================================================================= -->
+  <div class="ticker-band">
+    <div class="ticker-track">
+      <span class="ticker-text">VIDE · SISTEMA DE CRESCIMENTO EM LOOP <span>↗</span></span>
+      <span class="ticker-text">BLINDAGEM COMERCIAL CONTÍNUA <span>↗</span></span>
+      <span class="ticker-text">RESPOSTA EM MENOS DE 20 SEGUNDOS <span>↗</span></span>
+      <span class="ticker-text">PRESENÇA DIGITAL DE ALTA AUTORIDADE <span>↗</span></span>
+      <span class="ticker-text">VIDE · SISTEMA DE CRESCIMENTO EM LOOP <span>↗</span></span>
+      <span class="ticker-text">BLINDAGEM COMERCIAL CONTÍNUA <span>↗</span></span>
+      <span class="ticker-text">RESPOSTA EM MENOS DE 20 SEGUNDOS <span>↗</span></span>
+      <span class="ticker-text">PRESENÇA DIGITAL DE ALTA AUTORIDADE <span>↗</span></span>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       FOOTER CARBON (Com Logo Oficial VIDE)
+       ========================================================================= -->
+  <footer class="site-footer" role="contentinfo" data-theme="dark">
+    <div class="footer-top-cta">
+      <div class="footer-lead">PRONTO PARA TRANSFORMAR SUA OPERAÇÃO?</div>
+      <div class="footer-colossal-title">
+        <a href="contact.html" data-cursor="LIFT-OFF">
+          Descubra quanto você está perdendo. <span style="color: var(--cyan-primary);">Vamos conversar ↗</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="footer-grid">
+      <div class="footer-col">
+        <div style="margin-bottom: 20px;">
+          <!-- Logo Oficial da VIDE no Rodapé -->
+          <img src="assets/logo_vide_completa.png" alt="VIDE" style="height: 52px; width: auto; filter: none !important;">
+          <div class="brand-title" style="font-size: 24px; margin-top: 8px;">VIDE<span class="brand-dot">.</span></div>
+        </div>
+        <p style="font-size: 15px; color: var(--text-muted); max-width: 320px; line-height: 1.6;">
+          Engenharia de precisão para operações comerciais e escala digital. O sistema integrado que une autoridade, automação e inteligência em loop.
+        </p>
+      </div>
+
+      <div class="footer-col">
+        <h4>Navegação</h4>
+        <ul>
+          <li><a href="work.html">Work</a></li>
+          <li><a href="studio.html">Studio</a></li>
+          <li><a href="news.html">News</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="central_de_comando.html" style="color: var(--cyan-primary); font-weight: 600;"><span style="color: #10B981; font-size: 8px; margin-right: 6px;">●</span>Central de Comando OS</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Soluções</h4>
+        <ul>
+          <li><a href="work.html">Presença Digital</a></li>
+          <li><a href="work.html">Automação Comercial</a></li>
+          <li><a href="work.html">Cluster dos 7 Agentes</a></li>
+          <li><a href="work.html">Telemetria de Vendas</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Diretoria Executiva</h4>
+        <ul>
+          <li><span style="color: #FFFFFF; font-weight: 600;">Douglas</span> — Diretor Executivo</li>
+          <li><a href="mailto:contato@vide.com.br">contato@vide.com.br</a></li>
+          <li><a href="https://wa.me/5500000000000" target="_blank" style="color: var(--cyan-primary);">Canal Prioritário WhatsApp ↗</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom-bar">
+      <span>© 2026 VIDE. Todos os direitos reservados.</span>
+      <span class="mono-tag" style="color: var(--text-dim);">EXOAPE KINETIC REBUILD FOR VIDE</span>
+    </div>
+  </footer>
+
+  <!-- GSAP 3, ScrollTrigger & Lenis Smooth Scroll -->
+  <script src="js/vendor/gsap.min.js"></script>
+  <script src="js/vendor/ScrollTrigger.min.js"></script>
+  <script src="js/vendor/lenis.min.js"></script>
+  <script src="js/main.js"></script>
+
+  <!-- Motores Interativos 3D & Seções Específicas VIDE -->
+  <script src="js/dot-grid-vanilla.js"></script>
+  <script src="js/depth-carousel-vanilla.js"></script>
+  <script src="js/secoes_especificas.js"></script>
+</body>
+</html>
