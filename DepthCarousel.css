@@ -1,0 +1,105 @@
+/**
+ * =====================================================================
+ * DEPTH CAROUSEL CSS (ReactBits Spec Adapted for VIDE)
+ * Perspective: 1400px // Depth: 220px // Tilt: 22deg // Spread: 90px
+ * =====================================================================
+ */
+
+.depth-carousel-wrapper {
+    position: relative;
+    width: 100%;
+    height: 480px;
+    perspective: 1400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    user-select: none;
+    margin: 30px 0;
+}
+
+.depth-carousel-stage {
+    position: relative;
+    width: 320px;
+    height: 420px;
+    transform-style: preserve-3d;
+}
+
+.depth-card-item {
+    position: absolute;
+    width: 320px;
+    height: 420px;
+    border-radius: 14px !important;
+    background: #0B0F17;
+    border: 1px solid rgba(0, 229, 255, 0.2);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7);
+    padding: 28px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.6s ease, filter 0.6s ease;
+    cursor: pointer;
+    overflow: hidden;
+}
+
+.depth-card-item::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 40%, rgba(5, 6, 10, 0.95));
+    pointer-events: none;
+}
+
+.depth-card-item.is-active {
+    border-color: #00E5FF;
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.8), 0 0 25px rgba(0, 229, 255, 0.25);
+    z-index: 10;
+}
+
+.depth-nav-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 20px;
+}
+
+.depth-btn-arrow {
+    width: 42px;
+    height: 42px;
+    border-radius: 8px !important;
+    background: rgba(14, 18, 28, 0.85);
+    border: 1px solid rgba(0, 229, 255, 0.3);
+    color: #00E5FF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.depth-btn-arrow:hover {
+    background: #00E5FF;
+    color: #050608;
+    box-shadow: 0 0 15px rgba(0, 229, 255, 0.4);
+}
+
+.depth-dots-container {
+    display: flex;
+    gap: 8px;
+}
+
+.depth-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 2px !important;
+    background: rgba(255, 255, 255, 0.2);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.depth-dot.is-active {
+    width: 22px;
+    background: #00E5FF;
+    box-shadow: 0 0 8px #00E5FF;
+}

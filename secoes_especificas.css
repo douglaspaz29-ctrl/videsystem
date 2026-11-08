@@ -1,0 +1,637 @@
+/**
+ * =========================================================================
+ * VIDE — SEÇÕES ESPECÍFICAS (INTEGRAÇÃO DE ALTA FIDELIDADE)
+ * 1. 02 // JORNADA COMERCIAL PONTO A PONTO (Funil de Perdas)
+ * 2. A SUÍTE INTEGRADA (Três Soluções. Uma Única Operação)
+ * 3. TELEMETRIA E DADOS VIVOS (Núcleo 3D & Live Telemetry HUD)
+ * 4. 08 // ESTRUTURA OPERACIONAL EM 3D (Cluster 7 Agentes + Inspetor Split)
+ * Zero Pill Policy: 8px Buttons, 6px Badges, 14px Cards
+ * =========================================================================
+ */
+
+/* Marcador de Etapa Cinemático */
+.marcador-etapa-cinematico {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border-radius: 6px !important;
+  color: #00E5FF;
+  background: rgba(0, 229, 255, 0.08);
+  border: 1px solid rgba(0, 229, 255, 0.25);
+  margin-bottom: 16px;
+}
+
+/* =========================================================================
+ * 1. SEÇÃO FUNIL INTERATIVO (ONDE O DINHEIRO DO SEU NEGÓCIO ESCORRE)
+ * ========================================================================= */
+.secao-funil-interativo {
+  padding: 130px 24px;
+  background: #030508;
+  position: relative;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  z-index: 2;
+}
+
+.funil-pipeline-container {
+  max-width: 1180px;
+  margin: 55px auto 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.funil-etapa-row {
+  display: grid;
+  grid-template-columns: 210px 1.4fr 1.15fr 1.15fr;
+  align-items: center;
+  gap: 24px;
+  background: #070A12;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px !important;
+  padding: 18px 26px;
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.funil-etapa-row:hover {
+  border-color: rgba(0, 229, 255, 0.35);
+  background: #0B101D;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.7), 0 0 20px rgba(0, 229, 255, 0.08);
+  transform: translateY(-2px);
+}
+
+.funil-nome-etapa {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.funil-num-badge {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 800;
+  color: #00E5FF;
+  background: rgba(0, 229, 255, 0.12);
+  border: 1px solid rgba(0, 229, 255, 0.3);
+  padding: 3px 8px;
+  border-radius: 4px !important;
+}
+
+.funil-titulo-etapa {
+  font-family: var(--font-headline);
+  font-size: 13.5px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  color: #FFFFFF;
+  text-transform: uppercase;
+}
+
+.funil-barra-grafica {
+  position: relative;
+  width: 100%;
+  height: 12px;
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 6px !important;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+}
+
+.funil-barra-progresso {
+  height: 100%;
+  background: linear-gradient(90deg, #0051FF 0%, #00E5FF 100%);
+  border-radius: 6px !important;
+  width: 0%;
+  transition: width 1.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.funil-pct-badge {
+  position: absolute;
+  right: 8px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 800;
+  color: #FFFFFF;
+}
+
+.funil-onde-perde {
+  font-size: 13.5px;
+  color: #EF4444;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  line-height: 1.4;
+}
+
+.funil-onde-perde i {
+  font-size: 13px;
+  flex-shrink: 0;
+}
+
+.funil-solucao-vide {
+  font-size: 13.5px;
+  color: #00E5FF;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  line-height: 1.4;
+}
+
+.funil-solucao-vide i {
+  font-size: 13px;
+  color: #10B981;
+  flex-shrink: 0;
+}
+
+@media (max-width: 992px) {
+  .funil-etapa-row {
+    grid-template-columns: 1fr;
+    gap: 14px;
+    padding: 18px 20px;
+  }
+}
+
+/* =========================================================================
+ * 2. SEÇÃO A SUÍTE INTEGRADA (TRÊS SOLUÇÕES. UMA ÚNICA OPERAÇÃO)
+ * ========================================================================= */
+.secao-accordion-solucoes {
+  position: relative;
+  padding: 140px 24px;
+  background: #020408;
+  overflow: hidden;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  z-index: 2;
+}
+
+.accordion-gallery-wrapper {
+  display: flex;
+  gap: 18px;
+  height: 540px;
+  max-width: 1340px;
+  margin: 50px auto 0 auto;
+  transition: all 400ms cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  z-index: 2;
+}
+
+.accordion-panel {
+  flex: 1;
+  position: relative;
+  background: #070B14;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px !important;
+  overflow: hidden;
+  cursor: pointer;
+  transition: flex 550ms cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 300ms ease,
+              box-shadow 300ms ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 30px;
+  transform-style: preserve-3d;
+}
+
+.accordion-panel:hover {
+  border-color: rgba(255, 255, 255, 0.22);
+}
+
+.accordion-panel.active {
+  flex: 3.0;
+  border-color: rgba(0, 229, 255, 0.45);
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.75), 0 0 35px rgba(0, 229, 255, 0.16);
+  background: #090E1A;
+}
+
+.accordion-bg-glow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(180deg, rgba(16, 111, 128, 0.1) 0%, rgba(5, 7, 12, 0.95) 75%);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.caixa-watermark-fundo {
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 220px;
+  height: 220px;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.04;
+  transition: opacity 450ms ease, transform 450ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.accordion-panel:hover .caixa-watermark-fundo {
+  opacity: 0.08;
+  transform: translate(-50%, -50%) scale(1.06);
+}
+
+.accordion-panel.active .caixa-watermark-fundo {
+  opacity: 0.12;
+  transform: translate(-50%, -50%) scale(1.15);
+}
+
+.caixa-watermark-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: none !important;
+}
+
+.accordion-caixa-topo {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 8px;
+}
+
+.caixa-vide-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  border-radius: 6px !important;
+  background: rgba(14, 17, 26, 0.88);
+  border: 1px solid rgba(0, 229, 255, 0.25);
+  backdrop-filter: blur(8px);
+}
+
+.caixa-logo-icon {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+  filter: none !important;
+}
+
+.caixa-marca-texto {
+  font-family: var(--font-headline);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  color: #FFFFFF;
+}
+
+.caixa-solucao-tag {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  padding: 4px 10px;
+  border-radius: 4px !important;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  white-space: nowrap;
+}
+
+.accordion-panel.active .caixa-solucao-tag {
+  color: #00E5FF;
+  border-color: rgba(0, 229, 255, 0.35);
+  background: rgba(0, 229, 255, 0.08);
+}
+
+.accordion-caixa-visual {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 130px;
+  margin: 10px 0;
+  transform-style: preserve-3d;
+}
+
+.caixa-logo-halo {
+  position: absolute;
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0, 229, 255, 0.22) 0%, rgba(0, 81, 255, 0.08) 60%, transparent 80%);
+  pointer-events: none;
+  filter: blur(14px);
+  transition: all 450ms ease;
+}
+
+.accordion-panel.active .caixa-logo-halo {
+  width: 160px;
+  height: 160px;
+  background: radial-gradient(circle, rgba(0, 229, 255, 0.35) 0%, rgba(0, 81, 255, 0.15) 60%, transparent 80%);
+  filter: blur(18px);
+}
+
+.caixa-logo-central {
+  height: 75px;
+  width: auto;
+  max-width: 110px;
+  object-fit: contain;
+  transition: transform 450ms cubic-bezier(0.16, 1, 0.3, 1), opacity 450ms ease, height 450ms ease;
+  opacity: 0.75;
+  transform: translateZ(15px);
+  filter: none !important;
+}
+
+.accordion-panel:hover .caixa-logo-central {
+  opacity: 0.95;
+  transform: translateZ(22px) scale(1.05);
+}
+
+.accordion-panel.active .caixa-logo-central {
+  height: 96px;
+  max-width: 140px;
+  opacity: 1;
+  transform: translateZ(28px) scale(1.08);
+}
+
+.accordion-conteudo-visivel {
+  position: relative;
+  z-index: 2;
+}
+
+.accordion-numero-mono {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: #00E5FF;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  margin-bottom: 6px;
+  display: block;
+}
+
+.accordion-titulo {
+  font-family: var(--font-headline);
+  font-size: 22px;
+  font-weight: 800;
+  color: #FFFFFF;
+  line-height: 1.25;
+  margin-bottom: 8px;
+}
+
+.accordion-descricao-revelada {
+  font-size: 14.5px;
+  color: #CBD5E1;
+  line-height: 1.65;
+  max-width: 540px;
+  opacity: 0;
+  max-height: 0;
+  overflow: hidden;
+  transition: opacity 400ms ease 150ms, max-height 400ms ease;
+}
+
+.accordion-panel.active .accordion-descricao-revelada {
+  opacity: 1;
+  max-height: 220px;
+  margin-top: 12px;
+}
+
+.accordion-tags-metricas {
+  display: flex;
+  gap: 10px;
+  margin-top: 16px;
+  flex-wrap: wrap;
+  opacity: 0;
+  transition: opacity 300ms ease 200ms;
+}
+
+.accordion-panel.active .accordion-tags-metricas {
+  opacity: 1;
+}
+
+.tag-solucao-pill {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  color: #00E5FF;
+  background: rgba(0, 229, 255, 0.08);
+  border: 1px solid rgba(0, 229, 255, 0.25);
+  border-radius: 6px !important;
+  padding: 6px 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+@media (max-width: 992px) {
+  .accordion-gallery-wrapper {
+    flex-direction: column;
+    height: auto;
+  }
+  .accordion-panel {
+    flex: none !important;
+    width: 100%;
+    min-height: auto;
+  }
+  .accordion-descricao-revelada {
+    opacity: 1 !important;
+    max-height: none !important;
+    margin-top: 12px;
+  }
+  .accordion-tags-metricas {
+    opacity: 1 !important;
+  }
+}
+
+/* =========================================================================
+ * 3. SEÇÃO TELEMETRIA E DADOS VIVOS (NÚCLEO 3D & HUD)
+ * ========================================================================= */
+.secao-crystalized-showcase {
+  padding: 130px 24px;
+  position: relative;
+  background: #030508;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  text-align: center;
+  z-index: 2;
+}
+
+.crystalized-ball-container {
+  position: relative;
+  width: 100%;
+  max-width: 620px;
+  height: 520px;
+  margin: 30px auto 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.canvas-crystalized-ball {
+  width: 100%;
+  height: 100%;
+  display: block;
+  cursor: grab;
+}
+
+.canvas-crystalized-ball:active {
+  cursor: grabbing;
+}
+
+.crystalized-overlay-meta {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(6, 9, 16, 0.88);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(0, 229, 255, 0.35);
+  border-radius: 6px !important;
+  padding: 8px 18px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  color: #00E5FF;
+  pointer-events: none;
+  white-space: nowrap;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+}
+
+.telemetry-hud-container {
+  max-width: 880px;
+  margin: 36px auto 0 auto;
+  background: rgba(6, 9, 15, 0.90);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(0, 229, 255, 0.3);
+  border-radius: 8px !important;
+  padding: 14px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.7), 0 0 25px rgba(0, 229, 255, 0.1);
+  font-family: var(--font-mono);
+  position: relative;
+  z-index: 5;
+}
+
+.telemetry-hud-status {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 11.5px;
+  color: #10B981;
+  font-weight: 700;
+  white-space: nowrap;
+  letter-spacing: 0.05em;
+}
+
+.telemetry-hud-pulse {
+  width: 8px;
+  height: 8px;
+  background: #10B981;
+  border-radius: 50%;
+  box-shadow: 0 0 10px #10B981;
+  animation: pulseHud 1.6s infinite ease-in-out;
+}
+
+@keyframes pulseHud {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.4); opacity: 0.5; }
+}
+
+.telemetry-hud-log {
+  font-size: 12px;
+  color: #00E5FF;
+  font-weight: 600;
+  text-align: right;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  letter-spacing: 0.03em;
+}
+
+@media (max-width: 768px) {
+  .telemetry-hud-container {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  .telemetry-hud-log {
+    text-align: left;
+    white-space: normal;
+  }
+}
+
+/* =========================================================================
+ * 4. SEÇÃO 08 // ESTRUTURA OPERACIONAL EM 3D (O CLUSTER DOS 7 AGENTES)
+ * ========================================================================= */
+.secao-web-threads {
+  position: relative;
+  padding: 140px 24px;
+  background: #030508;
+  overflow: hidden;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  z-index: 2;
+}
+
+.agentes-split-showcase {
+  display: grid !important;
+  grid-template-columns: 1fr 1.25fr !important;
+  gap: 36px !important;
+  max-width: 1340px !important;
+  margin: 45px auto 0 auto !important;
+  align-items: center !important;
+  position: relative !important;
+  z-index: 2 !important;
+}
+
+.agent-inspector-glass-card {
+  background: rgba(8, 12, 22, 0.75) !important;
+  backdrop-filter: blur(24px) !important;
+  -webkit-backdrop-filter: blur(24px) !important;
+  border: 1px solid rgba(0, 229, 255, 0.35) !important;
+  border-radius: 14px !important;
+  padding: 34px !important;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 35px rgba(0, 229, 255, 0.12) !important;
+  min-height: 480px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+  transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1), transform 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  text-align: left !important;
+}
+
+.agent-inspector-avatar-box {
+  position: relative;
+  flex-shrink: 0;
+  width: 86px;
+  height: 100px;
+  border-radius: 8px !important;
+  overflow: hidden;
+  background: radial-gradient(circle, rgba(0, 229, 255, 0.2) 0%, rgba(4, 6, 10, 0.9) 100%);
+  border: 1px solid rgba(0, 229, 255, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 20px rgba(0, 229, 255, 0.25);
+}
+
+.agent-inspector-avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: none !important;
+  box-shadow: none !important;
+}
+
+@media (max-width: 992px) {
+  .agentes-split-showcase {
+    grid-template-columns: 1fr !important;
+    gap: 40px !important;
+  }
+}

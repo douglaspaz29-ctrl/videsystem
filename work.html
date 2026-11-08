@@ -8,6 +8,7 @@
   
   <link rel="icon" type="image/png" href="assets/logo_vide_emblema.png">
   <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
@@ -376,9 +377,20 @@
   </footer>
 
   <!-- GSAP 3, ScrollTrigger & Lenis Smooth Scroll -->
-  <script src="js/vendor/gsap.min.js"></script>
-  <script src="js/vendor/ScrollTrigger.min.js"></script>
-  <script src="js/vendor/lenis.min.js"></script>
-  <script src="js/main.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
+  <script>
+    (function() {
+      var s = document.createElement("script");
+      s.src = "js/main.js";
+      s.onerror = function() {
+        var f = document.createElement("script");
+        f.src = "main.js";
+        document.body.appendChild(f);
+      };
+      document.body.appendChild(s);
+    })();
+  </script>
 </body>
 </html>
