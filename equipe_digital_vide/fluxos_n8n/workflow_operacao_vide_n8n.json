@@ -1,0 +1,135 @@
+{
+  "name": "VIDE — Operação Digital Automatizada (Triagem ➔ Coordenador ➔ Painel)",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "entrada-cliente-vide",
+        "options": {}
+      },
+      "name": "1. Webhook Entrada Lead (WhatsApp ou Site)",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [200, 300],
+      "id": "a1b2c3d4-0001-4000-8000-000000000001"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Normaliza os dados recebidos pelo Webhook\nconst item = $input.first().json.body || $input.first().json;\nreturn [{\n  json: {\n    solicitacaoOriginal: item.mensagem || item.texto || item.solicitacao || 'Solicitação comercial não especificada',\n    cliente: item.cliente || item.remetente || 'Lead WhatsApp / Instagram',\n    canalOrigem: item.canal || 'WhatsApp',\n    prazoUrgencia: item.prazo || item.urgencia || null,\n    recebido_em: new Date().toISOString()\n  }\n}];"
+      },
+      "name": "2. Formatar Dados do Lead",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [440, 300],
+      "id": "a1b2c3d4-0002-4000-8000-000000000002"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://localhost:3000/api/webhook/triagem",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"solicitacaoOriginal\": \"{{ $json.solicitacaoOriginal }}\",\n  \"identificadorCenario\": \"{{ $json.cliente }} ({{ $json.canalOrigem }})\",\n  \"prazoUrgenciaInformado\": {{ $json.prazoUrgencia ? '\"' + $json.prazoUrgencia + '\"' : 'null' }}\n}",
+        "options": {}
+      },
+      "name": "3. Executar Agente 01 e 02 (Triagem e Coordenador)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [680, 300],
+      "id": "a1b2c3d4-0003-4000-8000-000000000003"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json.resultado.etapa_02_coordenador.situacao_projeto }}",
+              "value2": "EM_EXECUCAO"
+            }
+          ]
+        }
+      },
+      "name": "4. Validar Autorizacao Comercial",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [920, 300],
+      "id": "a1b2c3d4-0004-4000-8000-000000000004"
+    },
+    {
+      "parameters": {
+        "jsCode": "const dados = $input.first().json;\nreturn [{\n  json: {\n    status: 'PROJETO AUTORIZADO EM EXECUÇÃO',\n    id_projeto: dados.resultado.etapa_02_coordenador.id_projeto,\n    id_demanda: dados.resultado.etapa_01_triagem.idDemanda,\n    cliente: dados.resultado.etapa_02_coordenador.cliente,\n    tarefas_ativas: dados.resultado.etapa_02_coordenador.grafo_tarefas.length,\n    mensagem: `O Coordenador Geral ativou o grafo operacional com ${dados.resultado.etapa_02_coordenador.grafo_tarefas.length} tarefas.`\n  }\n}];"
+      },
+      "name": "5. Notificar Execucao Liberada (Painel)",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1160, 200],
+      "id": "a1b2c3d4-0005-4000-8000-000000000005"
+    },
+    {
+      "parameters": {
+        "jsCode": "const dados = $input.first().json;\nreturn [{\n  json: {\n    status: 'DEMANDA BLOQUEADA: AGUARDANDO PROPOSTA COMERCIAL',\n    id_projeto: dados.resultado.etapa_02_coordenador.id_projeto,\n    id_demanda: dados.resultado.etapa_01_triagem.idDemanda,\n    cliente: dados.resultado.etapa_02_coordenador.cliente,\n    solicitacao: dados.resultado.etapa_01_triagem.solicitacaoOriginal,\n    alerta: 'Nenhum especialista foi acionado. Demanda aguarda envio de proposta comercial pela Diretoria da VIDE.'\n  }\n}];"
+      },
+      "name": "6. Notificar Proposta Pendente (Diretoria)",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1160, 420],
+      "id": "a1b2c3d4-0006-4000-8000-000000000006"
+    }
+  ],
+  "connections": {
+    "1. Webhook Entrada Lead (WhatsApp ou Site)": {
+      "main": [
+        [
+          {
+            "node": "2. Formatar Dados do Lead",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "2. Formatar Dados do Lead": {
+      "main": [
+        [
+          {
+            "node": "3. Executar Agente 01 e 02 (Triagem e Coordenador)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "3. Executar Agente 01 e 02 (Triagem e Coordenador)": {
+      "main": [
+        [
+          {
+            "node": "4. Validar Autorizacao Comercial",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "4. Validar Autorizacao Comercial": {
+      "main": [
+        [
+          {
+            "node": "5. Notificar Execucao Liberada (Painel)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "6. Notificar Proposta Pendente (Diretoria)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  }
+}
