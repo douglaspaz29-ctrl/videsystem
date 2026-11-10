@@ -16,67 +16,67 @@
   // =========================================================================
   const agentesData = [
     {
-      codigo: 'AGT-01 // OPERAÇÃO & ENTRADA',
-      status: 'ATIVO EM TEMPO REAL',
-      titulo: 'TRIAGEM COMERCIAL',
-      role: 'Acolhimento e Qualificação Instantânea no WhatsApp',
-      desc: 'Recebe e acolhe contatos que chegam pelos canais oficiais da empresa em menos de 20 segundos. Identifica com precisão cirúrgica a intenção de compra, filtra curiosos e classifica o nível de prioridade comercial antes de acionar a equipe humana.',
-      sla: '< 20 SEGUNDOS',
-      stack: 'CLOUD API & N8N'
+      codigo: 'FRENTE 01 // ENTRADA & CONTATO',
+      status: 'DISCIPLINA ATIVA',
+      titulo: 'ATENDIMENTO & TRIAGEM',
+      role: 'Acolhimento e Organização Inicial de Demandas no WhatsApp',
+      desc: 'Estrutura o primeiro contato para acolher mensagens rapidamente, identificar a intenção do cliente, reunir as informações essenciais e encaminhar a conversa pronta para a equipe humana dar continuidade ao atendimento.',
+      sla: 'ACOLHIMENTO ÁGIL',
+      stack: 'WHATSAPP & FLUXOS DIGITAIS'
     },
     {
-      codigo: 'AGT-02 // LIDERANÇA & GOVERNANÇA',
-      status: 'LÍDER DA ESTEIRA',
-      titulo: 'COORDENADOR GERAL',
-      role: 'Orquestração do Roadmap e Auditoria de Entregas',
-      desc: 'Recebe diretrizes da Diretoria Executiva (Douglas Paz), decompõe metas comerciais em tarefas técnicas acionáveis, distribui na esteira e audita o resultado de cada entrega antes de ir para homologação final.',
-      sla: 'TEMPO REAL',
-      stack: 'ORQUESTRADOR NATIVO'
+      codigo: 'FRENTE 02 // ESTRATÉGIA & GESTÃO',
+      status: 'DISCIPLINA ATIVA',
+      titulo: 'COORDENAÇÃO GERAL',
+      role: 'Orquestração de Projetos e Acompanhamento de Entregas',
+      desc: 'Traduz os objetivos comerciais da empresa em planos de ação práticos, organizando prioridades, prazos e garantindo que cada solução entregue cumpra com rigor o escopo combinado.',
+      sla: 'GESTÃO ÁGIL',
+      stack: 'PLANEJAMENTO OPERACIONAL'
     },
     {
-      codigo: 'AGT-03 // DESIGN & AUTORIDADE',
-      status: 'ATIVO',
-      titulo: 'ARQUITETO DE PRESENÇA',
-      role: 'Design de Interfaces Autorais & Hierarquia de Conversão',
-      desc: 'Projeta a arquitetura de informação, jornada visual do usuário e wireframes de alto padrão. Elimina o aspecto genérico de templates de IA para posicionar a marca do cliente como líder indiscutível do seu segmento.',
-      sla: 'SPRINT ÁGIL',
+      codigo: 'FRENTE 03 // DESIGN & EXPERIÊNCIA',
+      status: 'DISCIPLINA ATIVA',
+      titulo: 'ARQUITETURA VISUAL',
+      role: 'Design de Interfaces e Experiência de Navegação',
+      desc: 'Desenvolve a arquitetura visual de páginas institucionais e comerciais, organizando as informações de forma intuitiva para transmitir credibilidade e valorizar a marca.',
+      sla: 'FOCO EM USABILIDADE',
       stack: 'FIGMA & UI/UX'
     },
     {
-      codigo: 'AGT-04 // PERSUASÃO & BRANDING',
-      status: 'ATIVO',
-      titulo: 'COPYWRITER DE PRESTÍGIO',
-      role: 'Mensagem de Valor, Storytelling e Copywriting Comercial',
-      desc: 'Desenvolve argumentos de vendas fundamentados em psicologia de decisão e princípios AIDA. Escreve títulos impactantes, abordagens de WhatsApp sem atrito e propostas comerciais que convertem com tickets mais altos.',
-      sla: 'SPRINT ÁGIL',
-      stack: 'COPYWRITING & STORYTELLING'
+      codigo: 'FRENTE 04 // MENSAGEM & CONTEÚDO',
+      status: 'DISCIPLINA ATIVA',
+      titulo: 'COMUNICAÇÃO COMERCIAL',
+      role: 'Mensagem de Valor e Argumentação Estratégica',
+      desc: 'Elabora argumentos claros e objetivos que comunicam os diferenciais do negócio, facilitando o entendimento do cliente em páginas, mensagens e apresentações comerciais.',
+      sla: 'CLAREZA COMERCIAL',
+      stack: 'COPYWRITING ESTRATÉGICO'
     },
     {
-      codigo: 'AGT-05 // CÓDIGO & PERFORMANCE',
-      status: 'ATIVO',
-      titulo: 'ENGENHEIRO FRONT-END',
-      role: 'Desenvolvimento Web Ultra-Rápido & Motion Design',
-      desc: 'Codifica interfaces modernas em HTML5, CSS3 avançado e Vanilla JavaScript puro a 60 FPS. Garante carregamento instantâneo no celular do comprador (< 1.5s) e interações fluidas sem bibliotecas pesadas.',
-      sla: '< 1.5s NO CELULAR',
-      stack: 'HTML5 / CSS3 / VANILLA JS'
+      codigo: 'FRENTE 05 // DESENVOLVIMENTO WEB',
+      status: 'DISCIPLINA ATIVA',
+      titulo: 'ENGENHARIA FRONT-END',
+      role: 'Construção de Páginas Rápidas e Responsivas',
+      desc: 'Desenvolve páginas leves em código moderno com foco em rapidez no celular, acessibilidade e fluidez de navegação, sem excesso de ferramentas pesadas.',
+      sla: 'ALTA PERFORMANCE',
+      stack: 'HTML5 / CSS / JAVASCRIPT'
     },
     {
-      codigo: 'AGT-06 // INFRAESTRUTURA & APIS',
-      status: 'ATIVO',
-      titulo: 'ENGENHEIRO DE INTEGRAÇÕES',
-      role: 'Conexão de Webhooks, APIs Oficiais e Automação n8n',
-      desc: 'Integra a API oficial do WhatsApp Business, Webhooks seguros com assinatura criptográfica HMAC SHA-256 e fluxos n8n para fluxo de dados ininterrupto entre o site, o CRM e o celular da equipe comercial.',
-      sla: 'RESILIENTE 24/7',
-      stack: 'REST API & DOCKER'
+      codigo: 'FRENTE 06 // PROCESSOS & APIS',
+      status: 'DISCIPLINA ATIVA',
+      titulo: 'INTEGRAÇÃO DE SISTEMAS',
+      role: 'Conexão entre Canais de Atendimento, Formulários e CRM',
+      desc: 'Conecta ferramentas digitais, webhooks e automações para que os dados comerciais circulem sem perdas entre o site, o WhatsApp e as rotinas da equipe.',
+      sla: 'FLUXO CONTÍNUO',
+      stack: 'APIS, WEBHOOKS & N8N'
     },
     {
-      codigo: 'AGT-07 // TELEMETRIA & AUDITORIA',
-      status: 'MONITORANDO',
-      titulo: 'AUDITOR DE TELEMETRIA',
-      role: 'Inteligência de Dados e Monitoramento de Gargalos',
-      desc: 'Mede cada evento comercial ao vivo: tempo de resposta da equipe, taxa de desistência por etapa e faturamento recuperado. Alimenta o Cockpit Executivo com dados reais para orientar decisões da diretoria.',
-      sla: 'CONTÍNUO',
-      stack: 'DASHBOARD & TELEMETRIA'
+      codigo: 'FRENTE 07 // DADOS & INDICADORES',
+      status: 'DISCIPLINA ATIVA',
+      titulo: 'INTELIGÊNCIA DE DADOS',
+      role: 'Organização de Indicadores e Relatórios Comerciais',
+      desc: 'Estrutura painéis simples que mostram os números reais da operação: volume de contatos recebidos, etapas com maior desistência e fontes de oportunidades, embasando decisões com segurança.',
+      sla: 'VISÃO PRÁTICA',
+      stack: 'PAINÉIS DE INDICADORES'
     }
   ];
 
@@ -163,10 +163,23 @@
           }
         });
       },
-      { threshold: 0.25 }
+      { threshold: 0.05, rootMargin: "50px" }
     );
 
     observer.observe(container);
+    // Fallback de ativação do funil
+    setTimeout(() => {
+      if (!executado) {
+        executado = true;
+        rows.forEach((row) => {
+          const targetWidth = row.getAttribute('data-target-width') || '50%';
+          const bar = row.querySelector('.funil-barra-progresso');
+          const badge = row.querySelector('.funil-pct-badge');
+          if (bar) bar.style.width = targetWidth;
+          if (badge) badge.textContent = targetWidth;
+        });
+      }
+    }, 1500);
   }
 
   // =========================================================================
@@ -398,47 +411,113 @@
   // 6. FUNDO ANIMADO DOTGRID (BOLINHAS CYBER)
   // =========================================================================
   function inicializarDotGrids() {
-    if (!window.criarDotGrid) return;
-    const c1 = document.getElementById('dotgrid-solucoes');
-    if (c1) {
-      window.criarDotGrid(c1, {
-        baseColor: '#3a3446',
-        activeColor: '#106f80',
-        shape: 'circle',
-        dotSize: 5,
-        gap: 18,
-        proximity: 140,
-        strength: 1,
-        bounce: 0.6,
-        tension: 0.4,
-        returnDuration: 0.8
-      });
+    let attempts = 0;
+    function tryInit() {
+      if (typeof window.criarDotGrid === 'function') {
+        const c1 = document.getElementById('dotgrid-solucoes');
+        if (c1 && !c1.querySelector('canvas')) {
+          window.criarDotGrid(c1, {
+            baseColor: '#2C3A58',
+            activeColor: '#00E5FF',
+            shape: 'circle',
+            dotSize: 5.5,
+            gap: 18,
+            proximity: 160,
+            strength: 1.3,
+            bounce: 0.6,
+            tension: 0.4,
+            returnDuration: 0.8,
+            shockRadius: 360,
+            shockStrength: 5,
+            swell: 0.9,
+            stretch: 0.5,
+            glow: 0.75,
+            fade: 0,
+            intro: true
+          });
+        }
+        const c2 = document.getElementById('dotgrid-agentes');
+        if (c2 && !c2.querySelector('canvas')) {
+          window.criarDotGrid(c2, {
+            baseColor: '#2C3A58',
+            activeColor: '#00E5FF',
+            shape: 'circle',
+            dotSize: 5.5,
+            gap: 18,
+            proximity: 160,
+            strength: 1.3,
+            bounce: 0.6,
+            tension: 0.4,
+            returnDuration: 0.8
+          });
+        }
+      } else if (attempts++ < 60) {
+        setTimeout(tryInit, 50);
+      }
     }
-    const c2 = document.getElementById('dotgrid-agentes');
-    if (c2) {
-      window.criarDotGrid(c2, {
-        baseColor: '#1e293b',
-        activeColor: '#00E5FF',
-        shape: 'circle',
-        dotSize: 5,
-        gap: 18,
-        proximity: 160,
-        strength: 1.2,
-        bounce: 0.6,
-        tension: 0.4,
-        returnDuration: 0.8
-      });
-    }
+    tryInit();
   }
 
   // =========================================================================
-  // 7. INICIALIZAÇÃO GERAL
+  // 7. FAQ ACORDEÃO INTERATIVO (PRINCIPAIS DÚVIDAS)
+  // =========================================================================
+  let lastFaqToggleTime = 0;
+  let lastFaqToggledItem = null;
+
+  function executarToggleFaq(item) {
+    if (!item) return;
+    const now = Date.now();
+    if (lastFaqToggledItem === item && (now - lastFaqToggleTime) < 220) {
+      return;
+    }
+    lastFaqToggleTime = now;
+    lastFaqToggledItem = item;
+
+    const isAtivo = item.classList.contains('ativo');
+    const all = document.querySelectorAll('.faq-item');
+    all.forEach(i => {
+      if (i !== item) i.classList.remove('ativo');
+    });
+
+    if (isAtivo) {
+      item.classList.remove('ativo');
+    } else {
+      item.classList.add('ativo');
+    }
+
+    if (typeof ScrollTrigger !== 'undefined') {
+      setTimeout(() => ScrollTrigger.refresh(), 350);
+    }
+  }
+
+  // Fallback global acessível via window
+  window.toggleFaqItem = function(target) {
+    const item = target ? target.closest('.faq-item') : null;
+    executarToggleFaq(item);
+  };
+
+  function inicializarFaqAcordeao() {
+    // Escuta delegada unificada que intercepta cliques em qualquer parte do botão
+    document.addEventListener('click', (e) => {
+      const btn = e.target.closest('.faq-pergunta');
+      if (btn) {
+        e.preventDefault();
+        e.stopPropagation();
+        const item = btn.closest('.faq-item');
+        executarToggleFaq(item);
+      }
+    });
+  }
+
+  // =========================================================================
+  // 8. INICIALIZAÇÃO GERAL
   // =========================================================================
   function initSecoesEspecificas() {
     inicializarFunilScrollInterativo();
     inicializarAccordionGallery();
     inicializarCrystalizedBall();
     inicializarLiveTelemetryHUD();
+    inicializarFaqAcordeao();
     try { inicializarDotGrids(); } catch(e) {}
   }
 

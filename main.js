@@ -158,7 +158,7 @@
         delay: 0.28
       });
 
-      gsap.from('.hero-editorial-text, .hero-editorial-lead, .cockpit-hero-sub, .cockpit-meta-chips', {
+      gsap.from('.hero-editorial-text, .hero-editorial-lead, .hero-editorial-subtitle, .cockpit-hero-sub, .cockpit-meta-chips', {
         y: 20,
         opacity: 0,
         duration: 1.0,
@@ -238,6 +238,15 @@
   //     - Imagem de fundo em escala e translação lenta com viewport pinning
   //     - Sincronização e congelamento instantâneo via GSAP scrub
   // =========================================================================
+  // 2.1 EXOAPE HERO SCROLL CHOREOGRAPHY (Coreografia entre Camadas Desacopladas)
+  //     Referência Direta: https://www.exoape.com/ & Gravação IMG_4230.mov
+  //     Sequência Cinemática:
+  //     1. O título começa ocupando a área principal do Hero.
+  //     2. Conforme você rola, as letras se deslocam verticalmente e perdem opacidade.
+  //     3. O fundo permanece visualmente presente com movimento muito mais discreto.
+  //     4. O título sai da composição antes de o fundo desaparecer (aos 48% da rolagem).
+  //     5. Ao retornar a rolagem, o título recupera sua posição perfeitamente.
+  // =========================================================================
   function initHeroExoapeScrollKinematics() {
     if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
 
@@ -247,204 +256,214 @@
     const prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (prefersReducedMotion) return;
 
-    const titleRows = document.querySelectorAll('.hero-monumental-title .row');
-
     const mm = gsap.matchMedia();
 
-    // DESKTOP: Experiência Cinematográfica Completa (992px+)
+    // DESKTOP & NOTEBOOK (992px+)
     mm.add('(min-width: 992px)', () => {
+      // 1. PINNING DO FUNDO: Mantém o cenário cósmico ancorado no viewport durante toda a altura da seção hero (180vh)
+      ScrollTrigger.create({
+        trigger: '.hero-stage',
+        start: 'top top',
+        end: 'bottom bottom',
+        pin: '.hero-ambient-video-wrap',
+        pinSpacing: false
+      });
+
+      // 2. TIMELINE MASTER DE COREOGRAFIA ENTRE CAMADAS VINCULADA AO SCROLL
       const heroTl = gsap.timeline({
         scrollTrigger: {
           trigger: '.hero-stage',
           start: 'top top',
-          end: '+=90%', // Pinned scroll runway para controle total pelo mousewheel
-          pin: true,
+          end: 'bottom bottom',
           scrub: true,
-          anticipatePin: 1,
           invalidateOnRefresh: true,
         }
       });
 
-      // 1. CAMADA DE FUNDO (Cenário Vivo & Vídeo Cósmico):
-      //    Deslocamento lento contínuo (+18%) e variação sutil de escala (1.0 -> 1.25)
-      heroTl.to('.hero-ambient-video-wrap', {
+      // CAMADA A: FUNDO (Movimento contínuo, lento e discreto ao longo de toda a esteira 0 -> 1.0)
+      heroTl.to('#hero-bg-media, #hero-bg-video, .hero-ambient-photo, .hero-ambient-video', {
         yPercent: 18,
-        ease: 'none'
+        scale: 1.20,
+        opacity: 0.16,
+        ease: 'none',
+        duration: 1.0
       }, 0);
 
-      heroTl.to('#hero-bg-video', {
-        scale: 1.25,
-        opacity: 0.12,
-        ease: 'none'
-      }, 0);
-
-      // 2. HALO CIANO ATMOSFÉRICO:
-      //    Deriva lenta e profunda no horizonte
       heroTl.to('.hero-cyan-halo', {
-        yPercent: 30,
-        xPercent: 12,
-        scale: 1.30,
-        opacity: 0.04,
-        ease: 'none'
+        yPercent: 25,
+        scale: 1.22,
+        opacity: 0.05,
+        ease: 'none',
+        duration: 1.0
       }, 0);
 
-      // 3. ANIMAÇÃO TIPOGRÁFICA VINCULADA AO SCROLL (SCROLL-DRIVEN TYPOGRAPHY):
-      //    As linhas do título monumental funcionam como camadas com VELOCIDADES DIFERENTES,
-      //    deslocando-se em trajetórias divergentes e desacopladas no espaço 3D.
-      if (titleRows.length >= 3) {
-        // Linha 1 ("ENGENHARIA"): Ascensão veloz (-135%), deriva para a esquerda (-8%) e leve rotação (-2.5°)
-        heroTl.to(titleRows[0], {
-          yPercent: -135,
-          xPercent: -8,
-          rotation: -2.5,
-          ease: 'none'
-        }, 0);
-        heroTl.to(titleRows[0], {
-          opacity: 0,
-          ease: 'power1.in',
-          duration: 0.65
-        }, 0);
-
-        // Linha 2 ("DE PRECISÃO"): Ascensão intermediária (-100%), deriva para a direita (+8%) e rotação contrária (+2.0°)
-        heroTl.to(titleRows[1], {
-          yPercent: -100,
-          xPercent: 8,
-          rotation: 2.0,
-          ease: 'none'
-        }, 0);
-        heroTl.to(titleRows[1], {
-          opacity: 0,
-          ease: 'power1.in',
-          duration: 0.78
-        }, 0);
-
-        // Linha 3 ("& ESCALA DIGITAL."): Ascensão em ritmo cadenciado (-70%) com expansão sutil de tracking
-        heroTl.to(titleRows[2], {
-          yPercent: -70,
-          xPercent: -3,
-          letterSpacing: '0.04em',
-          ease: 'none'
-        }, 0);
-        heroTl.to(titleRows[2], {
-          opacity: 0,
-          ease: 'power1.in',
-          duration: 0.88
-        }, 0);
-      } else {
-        // Fallback para container único
-        heroTl.to('.hero-title-container', {
-          yPercent: -100,
-          scale: 0.94,
-          opacity: 0,
-          ease: 'none'
-        }, 0);
-      }
-
-      // 4. BLOCO EDITORIAL (530px):
-      //    Ascensão suave em velocidade independente (-140%) com dissolução aos 40% da rolagem
-      heroTl.to('.hero-editorial-col', {
-        yPercent: -140,
-        ease: 'none'
+      // CAMADA B: TÍTULO MONUMENTAL (Deslocamento vertical acelerado + Perda progressiva de opacidade)
+      // O título sai da composição antes do fundo desaparecer:
+      // Seu movimento vertical sobe de forma contínua e sua opacidade vai a 0 aos 48% da rolagem!
+      heroTl.to('.hero-title-container', {
+        yPercent: -45,
+        ease: 'none',
+        duration: 0.75
       }, 0);
-      heroTl.to('.hero-editorial-col', {
+
+      heroTl.to('.hero-title-container', {
         opacity: 0,
-        ease: 'power1.out',
-        duration: 0.40
+        ease: 'power1.in',
+        duration: 0.70 // O título permanece nítido e dissolve suavemente perto de 70%
       }, 0);
 
-      // 5. HALLMARK DA MARCA & METADADOS SUPERIORES:
-      //    Dissolução aos 30% da rolagem
+      // CAMADA C: BLOCO EDITORIAL & SUBTÍTULO
+      // Permanece legível e presente, dissolvendo suavemente apenas ao final do Hero (75%)
+      heroTl.to('.hero-editorial-col, .hero-editorial-subtitle', {
+        yPercent: -35,
+        opacity: 0,
+        ease: 'power1.in',
+        duration: 0.75
+      }, 0);
+
+      // CAMADA D: MARCA HALLMARK VIDE & METADADOS SUPERIORES
+      // Dissolvem suavemente aos 25% da rolagem
       heroTl.to('.hero-brand-hallmark, .hero-meta-top', {
-        yPercent: -80,
+        yPercent: -35,
         opacity: 0,
         ease: 'none',
-        duration: 0.30
+        duration: 0.25
       }, 0);
 
-      // 6. BARRA INFERIOR E INDICADOR DE ROLAGEM:
-      //    Desaparece no primeiro toque de rolagem (15%)
+      // CAMADA E: INDICADOR DE ROLAGEM
+      // Dissolve imediatamente no primeiro toque da rolagem (12%)
       heroTl.to('.hero-bottom-bar', {
-        yPercent: -50,
         opacity: 0,
         ease: 'none',
-        duration: 0.15
+        duration: 0.12
       }, 0);
     });
 
-    // TABLET: Calibração Equilibrada (769px a 991px)
+    // TABLET (769px a 991px)
     mm.add('(min-width: 769px) and (max-width: 991px)', () => {
+      ScrollTrigger.create({
+        trigger: '.hero-stage',
+        start: 'top top',
+        end: 'bottom bottom',
+        pin: '.hero-ambient-video-wrap',
+        pinSpacing: false
+      });
+
       const heroTl = gsap.timeline({
         scrollTrigger: {
           trigger: '.hero-stage',
           start: 'top top',
-          end: '+=70%',
-          pin: true,
+          end: 'bottom bottom',
           scrub: true,
-          anticipatePin: 1,
           invalidateOnRefresh: true,
         }
       });
 
-      heroTl.to('.hero-ambient-video-wrap', { yPercent: 15, ease: 'none' }, 0);
-      heroTl.to('#hero-bg-video', { scale: 1.18, opacity: 0.15, ease: 'none' }, 0);
-      heroTl.to('.hero-cyan-halo', { yPercent: 22, scale: 1.20, opacity: 0.05, ease: 'none' }, 0);
+      heroTl.to('#hero-bg-media, #hero-bg-video, .hero-ambient-photo, .hero-ambient-video', {
+        yPercent: 15,
+        scale: 1.16,
+        opacity: 0.18,
+        ease: 'none',
+        duration: 1.0
+      }, 0);
 
-      if (titleRows.length >= 3) {
-        heroTl.to(titleRows[0], { yPercent: -100, xPercent: -5, ease: 'none' }, 0);
-        heroTl.to(titleRows[0], { opacity: 0, ease: 'power1.in', duration: 0.65 }, 0);
+      heroTl.to('.hero-cyan-halo', {
+        yPercent: 20,
+        scale: 1.18,
+        opacity: 0.06,
+        ease: 'none',
+        duration: 1.0
+      }, 0);
 
-        heroTl.to(titleRows[1], { yPercent: -75, xPercent: 5, ease: 'none' }, 0);
-        heroTl.to(titleRows[1], { opacity: 0, ease: 'power1.in', duration: 0.78 }, 0);
+      heroTl.to('.hero-title-container', {
+        yPercent: -55,
+        ease: 'none',
+        duration: 0.55
+      }, 0);
 
-        heroTl.to(titleRows[2], { yPercent: -50, xPercent: -2, ease: 'none' }, 0);
-        heroTl.to(titleRows[2], { opacity: 0, ease: 'power1.in', duration: 0.88 }, 0);
-      } else {
-        heroTl.to('.hero-title-container', { yPercent: -80, opacity: 0, ease: 'none' }, 0);
-      }
+      heroTl.to('.hero-title-container', {
+        opacity: 0,
+        ease: 'power1.in',
+        duration: 0.48
+      }, 0);
 
-      heroTl.to('.hero-editorial-col', { yPercent: -100, opacity: 0, ease: 'none', duration: 0.45 }, 0);
-      heroTl.to('.hero-brand-hallmark, .hero-meta-top', { yPercent: -60, opacity: 0, ease: 'none', duration: 0.35 }, 0);
-      heroTl.to('.hero-bottom-bar', { yPercent: -35, opacity: 0, ease: 'none', duration: 0.20 }, 0);
+      heroTl.to('.hero-editorial-col, .hero-editorial-subtitle', {
+        yPercent: -30,
+        opacity: 0,
+        ease: 'power1.in',
+        duration: 0.75
+      }, 0);
+
+      heroTl.to('.hero-brand-hallmark, .hero-meta-top', {
+        yPercent: -25,
+        opacity: 0,
+        ease: 'none',
+        duration: 0.25
+      }, 0);
+
+      heroTl.to('.hero-bottom-bar', {
+        opacity: 0,
+        ease: 'none',
+        duration: 0.12
+      }, 0);
     });
 
-    // SMARTPHONE: Calibração Compacta com Pinning Curto (<= 768px)
+    // SMARTPHONE (<= 768px)
     mm.add('(max-width: 768px)', () => {
+      ScrollTrigger.create({
+        trigger: '.hero-stage',
+        start: 'top top',
+        end: 'bottom bottom',
+        pin: '.hero-ambient-video-wrap',
+        pinSpacing: false
+      });
+
       const heroTl = gsap.timeline({
         scrollTrigger: {
           trigger: '.hero-stage',
           start: 'top top',
-          end: '+=50%',
-          pin: true,
+          end: 'bottom bottom',
           scrub: true,
-          anticipatePin: 1,
           invalidateOnRefresh: true,
         }
       });
 
-      heroTl.to('.hero-ambient-video-wrap', { yPercent: 10, ease: 'none' }, 0);
-      heroTl.to('#hero-bg-video', { scale: 1.12, opacity: 0.18, ease: 'none' }, 0);
+      heroTl.to('#hero-bg-media, #hero-bg-video, .hero-ambient-photo, .hero-ambient-video', {
+        yPercent: 10,
+        scale: 1.12,
+        opacity: 0.20,
+        ease: 'none',
+        duration: 1.0
+      }, 0);
 
-      if (titleRows.length >= 3) {
-        heroTl.to(titleRows[0], { yPercent: -70, xPercent: -3, ease: 'none' }, 0);
-        heroTl.to(titleRows[0], { opacity: 0, ease: 'power1.in', duration: 0.65 }, 0);
+      heroTl.to('.hero-title-container', {
+        yPercent: -40,
+        opacity: 0,
+        ease: 'power1.in',
+        duration: 0.45
+      }, 0);
 
-        heroTl.to(titleRows[1], { yPercent: -50, xPercent: 3, ease: 'none' }, 0);
-        heroTl.to(titleRows[1], { opacity: 0, ease: 'power1.in', duration: 0.78 }, 0);
+      heroTl.to('.hero-editorial-col, .hero-editorial-subtitle', {
+        yPercent: -25,
+        opacity: 0,
+        ease: 'power1.in',
+        duration: 0.75
+      }, 0);
 
-        heroTl.to(titleRows[2], { yPercent: -35, ease: 'none' }, 0);
-        heroTl.to(titleRows[2], { opacity: 0, ease: 'power1.in', duration: 0.88 }, 0);
-      } else {
-        heroTl.to('.hero-title-container', { yPercent: -50, opacity: 0, ease: 'none' }, 0);
-      }
+      heroTl.to('.hero-brand-hallmark, .hero-meta-top', {
+        opacity: 0,
+        ease: 'none',
+        duration: 0.25
+      }, 0);
 
-      heroTl.to('.hero-editorial-col', { yPercent: -60, opacity: 0, ease: 'none', duration: 0.50 }, 0);
-      heroTl.to('.hero-brand-hallmark, .hero-meta-top', { opacity: 0, ease: 'none', duration: 0.35 }, 0);
-      heroTl.to('.hero-bottom-bar', { opacity: 0, ease: 'none', duration: 0.15 }, 0);
+      heroTl.to('.hero-bottom-bar', {
+        opacity: 0,
+        ease: 'none',
+        duration: 0.12
+      }, 0);
     });
   }
 
-  // =========================================================================
-  // 3. SCROLL-TRIGGERED SECTION HEADLINES (Efeito Reveal Universal em Todas as Seções)
   // =========================================================================
   function initScrollMaskHeadlines() {
     if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
@@ -558,18 +577,45 @@
       const media = card.querySelector('.card-image-box img, .card-image-box video');
       const meta = card.querySelector('.card-meta-info');
 
-      // Revelação suave do card ao entrar na tela
-      gsap.from(card, {
-        y: 60,
-        opacity: 0,
-        duration: 0.95,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: card,
-          start: 'top 86%',
-          once: true
-        }
-      });
+      // Diretriz Douglas (VIDE): Seção Soluções em Ação (.section-featured) com escala 1/4 (0.25)
+      // sincronizada com o mouse scroll até expandir para o tamanho total (1.0)
+      const isFeatured = card.closest('.section-featured');
+
+      if (isFeatured) {
+        gsap.fromTo(
+          card,
+          {
+            scale: 0.25,
+            opacity: 0.75,
+            transformOrigin: 'center center'
+          },
+          {
+            scale: 1.0,
+            opacity: 1.0,
+            ease: 'power1.out',
+            scrollTrigger: {
+              trigger: card,
+              start: 'top 95%',
+              end: 'top 25%',
+              scrub: 0.8,
+              invalidateOnRefresh: true
+            }
+          }
+        );
+      } else {
+        // Revelação suave padrão para demais páginas (ex: work.html)
+        gsap.from(card, {
+          y: 60,
+          opacity: 0,
+          duration: 0.95,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: card,
+            start: 'top 86%',
+            once: true
+          }
+        });
+      }
 
       // 1. Parallax na Mídia de Fundo: desliza de -15% a +15% com escala ampliada
       if (media) {
@@ -621,118 +667,205 @@
   // 5. INTERAÇÕES DE SCROLL NAS 4 SEÇÕES ESPECÍFICAS
   // =========================================================================
   function initCustomSectionsScroll() {
-    if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
+    if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') {
+      ensureAllCardsVisible();
+      return;
+    }
 
-    // 1. SEÇÃO 02 // FUNIL DE PERDAS: Entrada em Cascata das Linhas
+    // 1. SEÇÃO 02 // FUNIL DE PERDAS: Entrada suave com clearProps (nunca oculta os cards)
     const funilContainer = document.querySelector('.funil-pipeline-container');
     if (funilContainer) {
-      gsap.from('.funil-etapa-row', {
-        y: 45,
-        opacity: 0,
-        duration: 0.8,
-        stagger: 0.1,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: funilContainer,
-          start: 'top 82%',
-          once: true
+      gsap.fromTo('.funil-etapa-row', 
+        { y: 30, opacity: 0.3 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 0.6,
+          stagger: 0.06,
+          ease: 'power2.out',
+          clearProps: 'all',
+          scrollTrigger: {
+            trigger: funilContainer,
+            start: 'top 95%',
+            once: true
+          }
         }
-      });
+      );
     }
 
-    // 2. A SUÍTE INTEGRADA: Elevação 3D dos Painéis Accordion
+    // 2. A SUÍTE INTEGRADA: Painéis Accordion
     const accordionGallery = document.querySelector('.accordion-gallery-wrapper');
     if (accordionGallery) {
-      gsap.from('.accordion-panel', {
-        y: 65,
-        opacity: 0,
-        scale: 0.94,
-        duration: 0.95,
-        stagger: 0.12,
-        ease: 'power4.out',
-        scrollTrigger: {
-          trigger: accordionGallery,
-          start: 'top 80%',
-          once: true
+      gsap.fromTo('.accordion-panel', 
+        { y: 35, opacity: 0.4 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 0.7,
+          stagger: 0.08,
+          ease: 'power2.out',
+          clearProps: 'all',
+          scrollTrigger: {
+            trigger: accordionGallery,
+            start: 'top 95%',
+            once: true
+          }
         }
-      });
+      );
     }
 
-    // 3. WORK IN MOTION / CLUSTER LIST
+    // 3. WORK IN MOTION / CLUSTER LIST (Nunca deixa os 7 agentes ocultos)
     const motionSection = document.querySelector('.section-motion');
     if (motionSection) {
-      gsap.from('.motion-visual-wrapper', {
-        scale: 0.9,
-        opacity: 0.3,
-        duration: 1.1,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: motionSection,
-          start: 'top 75%',
-          once: true
+      gsap.fromTo('.motion-visual-wrapper', 
+        { scale: 0.96, opacity: 0.6 },
+        {
+          scale: 1,
+          opacity: 1,
+          duration: 0.75,
+          ease: 'power2.out',
+          clearProps: 'all',
+          scrollTrigger: {
+            trigger: motionSection,
+            start: 'top 92%',
+            once: true
+          }
         }
-      });
+      );
 
-      gsap.from('.agent-item', {
-        x: 35,
-        opacity: 0,
-        duration: 0.75,
-        stagger: 0.08,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: '.agents-cluster-list',
-          start: 'top 82%',
-          once: true
+      gsap.fromTo('.agent-item', 
+        { x: 20, opacity: 0.4 },
+        {
+          x: 0,
+          opacity: 1,
+          duration: 0.55,
+          stagger: 0.05,
+          ease: 'power2.out',
+          clearProps: 'all',
+          scrollTrigger: {
+            trigger: motionSection,
+            start: 'top 92%',
+            once: true
+          }
         }
-      });
+      );
     }
 
-    // 4. TELEMETRIA SWISS (Métricas Grid)
-    const telemetryGrid = document.querySelector('.telemetry-grid');
-    if (telemetryGrid) {
-      gsap.from('.telemetry-card', {
-        y: 50,
-        opacity: 0,
-        duration: 0.85,
-        stagger: 0.12,
-        ease: 'power3.out',
+    // 4. TELEMETRIA SWISS // CHOREOGRAFIA INTERATIVA SINCRONIZADA AO SCROLL (DOUGLAS DIRECTIVE)
+    function inicializarTelemetriaScrollSync() {
+      const section = document.querySelector('.section-telemetry');
+      const cards = document.querySelectorAll('.section-telemetry .telemetry-card');
+      if (!section || cards.length < 4) return;
+
+      if (window.innerWidth < 992) {
+        gsap.set(cards, { clearProps: 'transform' });
+        return;
+      }
+
+      function getDeltas() {
+        const r0 = cards[0].getBoundingClientRect();
+        const r1 = cards[1].getBoundingClientRect();
+        const r2 = cards[2].getBoundingClientRect();
+        const r3 = cards[3].getBoundingClientRect();
+
+        const distX1 = r1.left - r0.left;
+        const distX2 = r3.left - r2.left;
+        const yOffset = Math.min(window.innerHeight * 0.22, 175);
+
+        return { distX1, distX2, yOffset };
+      }
+
+      let d = getDeltas();
+
+      const tl = gsap.timeline({
         scrollTrigger: {
-          trigger: telemetryGrid,
-          start: 'top 82%',
-          once: true
+          trigger: section,
+          start: 'top top',
+          end: '+=140%',
+          pin: true,
+          scrub: 0.8,
+          anticipatePin: 1,
+          invalidateOnRefresh: true,
+          onRefresh: () => {
+            d = getDeltas();
+          }
         }
       });
+
+      // Posição inicial (2x2 nos 4 cantos):
+      // Card 0 (Ágil): Superior Esquerdo (x: 0, y: -yOffset)
+      // Card 1 (Contínua): Inferior Esquerdo (x: -distX1, y: yOffset) -> alinhado verticalmente abaixo de Ágil
+      // Card 2 (Organizado): Superior Direito (x: distX2, y: -yOffset) -> alinhado verticalmente acima de Claros
+      // Card 3 (Claros): Inferior Direito (x: 0, y: yOffset)
+      //
+      // Movimento síncrono com o scroll:
+      // Todos convergem suavemente e se organizam um ao lado do outro (1x4)
+      tl.fromTo(cards[0], 
+        { x: 0, y: -d.yOffset, scale: 0.97 },
+        { x: 0, y: 0, scale: 1, ease: 'power1.out', duration: 1 },
+        0
+      );
+
+      tl.fromTo(cards[1], 
+        { x: -d.distX1, y: d.yOffset, scale: 0.97 },
+        { x: 0, y: 0, scale: 1, ease: 'power1.out', duration: 1 },
+        0
+      );
+
+      tl.fromTo(cards[2], 
+        { x: d.distX2, y: -d.yOffset, scale: 0.97 },
+        { x: 0, y: 0, scale: 1, ease: 'power1.out', duration: 1 },
+        0
+      );
+
+      tl.fromTo(cards[3], 
+        { x: 0, y: d.yOffset, scale: 0.97 },
+        { x: 0, y: 0, scale: 1, ease: 'power1.out', duration: 1 },
+        0
+      );
+    }
+
+    try {
+      inicializarTelemetriaScrollSync();
+    } catch (e) {
+      console.warn('Telemetria ScrollSync aviso:', e);
     }
 
     // 5. TELEMETRIA E DADOS VIVOS (Esfera 3D & HUD)
     const inteligenciaSection = document.getElementById('inteligencia');
     if (inteligenciaSection) {
-      // Entrada da Esfera e do HUD
-      gsap.from('#canvas-crystalized-ball', {
-        scale: 0.75,
-        opacity: 0,
-        duration: 1.2,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: '.crystalized-ball-container',
-          start: 'top 80%',
-          once: true
+      gsap.fromTo('#canvas-crystalized-ball', 
+        { scale: 0.88, opacity: 0.5 },
+        {
+          scale: 1,
+          opacity: 1,
+          duration: 0.8,
+          ease: 'power2.out',
+          clearProps: 'all',
+          scrollTrigger: {
+            trigger: '.crystalized-ball-container',
+            start: 'top 95%',
+            once: true
+          }
         }
-      });
+      );
 
-      gsap.from('.telemetry-hud-container', {
-        y: 35,
-        opacity: 0,
-        duration: 0.9,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: '.telemetry-hud-container',
-          start: 'top 90%',
-          once: true
+      gsap.fromTo('.telemetry-hud-container', 
+        { y: 20, opacity: 0.5 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 0.6,
+          ease: 'power2.out',
+          clearProps: 'all',
+          scrollTrigger: {
+            trigger: '.telemetry-hud-container',
+            start: 'top 95%',
+            once: true
+          }
         }
-      });
+      );
 
-      // GIRO 3D DA ESFERA ACOPLADO DIRETAMENTE AO SCROLL DO USUÁRIO
       ScrollTrigger.create({
         trigger: inteligenciaSection,
         start: 'top bottom',
@@ -748,30 +881,42 @@
     // 6. 08 // ESTRUTURA OPERACIONAL EM 3D (Split Stage dos 7 Agentes)
     const splitShowcase = document.querySelector('.agentes-split-showcase');
     if (splitShowcase) {
-      gsap.from('.agent-inspector-glass-card', {
-        x: -60,
-        opacity: 0,
-        duration: 1.1,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: splitShowcase,
-          start: 'top 80%',
-          once: true
+      gsap.fromTo('.agent-inspector-glass-card', 
+        { x: -25, opacity: 0.5 },
+        {
+          x: 0,
+          opacity: 1,
+          duration: 0.7,
+          ease: 'power2.out',
+          clearProps: 'all',
+          scrollTrigger: {
+            trigger: splitShowcase,
+            start: 'top 95%',
+            once: true
+          }
         }
-      });
+      );
 
-      gsap.from('.depth-carousel-wrapper', {
-        x: 60,
-        opacity: 0,
-        duration: 1.1,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: splitShowcase,
-          start: 'top 80%',
-          once: true
+      gsap.fromTo('.depth-carousel-wrapper', 
+        { x: 25, opacity: 0.5 },
+        {
+          x: 0,
+          opacity: 1,
+          duration: 0.7,
+          ease: 'power2.out',
+          clearProps: 'all',
+          scrollTrigger: {
+            trigger: splitShowcase,
+            start: 'top 95%',
+            once: true
+          }
         }
-      });
+      );
     }
+
+    // Garantia final de visibilidade
+    setTimeout(ensureAllCardsVisible, 350);
+    setTimeout(ensureAllCardsVisible, 1200);
   }
 
   // =========================================================================
@@ -1013,11 +1158,295 @@
   // =========================================================================
   // 11. INICIALIZAÇÃO MASTER
   // =========================================================================
+    // =========================================================================
+  // 10.5 SELETOR DE CENÁRIOS DO HERO (CROSSFADE DINÂMICO)
+  // =========================================================================
+  function initHeroPhotoSwitcher() {
+    const buttons = document.querySelectorAll('.photo-switch-btn');
+    const heroMedia = document.getElementById('hero-bg-media');
+    if (!buttons.length || !heroMedia) return;
+
+    buttons.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        buttons.forEach((b) => b.classList.remove('active'));
+        btn.classList.add('active');
+        const imgName = btn.getAttribute('data-img');
+        if (!imgName) return;
+
+        if (typeof gsap !== 'undefined') {
+          gsap.to(heroMedia, {
+            opacity: 0.05,
+            scale: 0.95,
+            duration: 0.22,
+            ease: 'power2.in',
+            onComplete: () => {
+              heroMedia.src = 'assets/' + imgName;
+              heroMedia.onerror = function () {
+                this.src = imgName;
+              };
+              gsap.to(heroMedia, {
+                opacity: 0.85,
+                scale: 1,
+                duration: 0.45,
+                ease: 'power2.out'
+              });
+            }
+          });
+        } else {
+          heroMedia.src = 'assets/' + imgName;
+        }
+      });
+    });
+  }
+
+  
+  // =========================================================================
+  // 10.6 CLUSTER DOS 7 AGENTES ESPECIALISTAS (SHOWCASE INTERATIVO & HUD MOTION)
+  // =========================================================================
+  function initCluster7AgentesInterativo() {
+    const clusterItems = document.querySelectorAll('#cluster-agents-list .agent-item, .agents-cluster-list .agent-item');
+    const hudOverlay = document.getElementById('motion-hud-overlay');
+    const hudBadge = document.getElementById('motion-hud-badge');
+    const hudTitle = document.getElementById('motion-hud-title');
+    const hudRole = document.getElementById('motion-hud-role');
+    const hudFaz = document.getElementById('motion-hud-faz');
+    const hudAge = document.getElementById('motion-hud-age');
+    const hudSim = document.getElementById('motion-hud-sim');
+    const scanline = document.getElementById('motion-scanline');
+    const visualStage = document.getElementById('motion-visual-stage') || document.querySelector('.motion-visual-wrapper');
+    const motionTitle = document.getElementById('motion-agent-title');
+    const motionDesc = document.getElementById('motion-agent-desc');
+
+    if (!clusterItems.length || !hudTitle) return;
+
+    const clusterAgentesData = [
+      {
+        index: "01",
+        code: "ETAPA 01 // ACOLHIMENTO IMEDIATO",
+        title: "Triagem & Recepção Relâmpago",
+        role: "Primeiro contato ágil e estruturado via WhatsApp",
+        faz: "Acolhe contatos recebidos em canais digitais instantaneamente, evitando que o potencial cliente esfrie ou procure concorrentes por falta de resposta.",
+        age: "Conversa com cordialidade em linguagem natural, identifica o nome, a necessidade e a urgência, organizando os dados para o consultor humano dar prosseguimento.",
+        sim: "> Lead entra no WhatsApp :: Mensagem acolhida em tempo real :: Dados essenciais registrados :: Equipe notificada com histórico",
+        resumoGeral: "A primeira impressão da sua empresa acontece aqui. Uma recepção imediata e organizada retém a atenção do cliente e eleva a taxa de continuidade do atendimento."
+      },
+      {
+        index: "02",
+        code: "ETAPA 02 // FILTRO DE PERFIL",
+        title: "Qualificador de Oportunidades",
+        role: "Análise prévia de orçamento, ramo e momento de compra",
+        faz: "Separa contatos casuais de compradores reais antes de sobrecarregar a agenda dos consultores ou da diretoria executiva.",
+        age: "Aplica critérios objetivos de qualificação em poucas perguntas cordiais, atribuindo score e prioridade imediata aos contatos mais maduros.",
+        sim: "> Informações de demanda coletadas :: Perfil classificado como ALTO VALOR :: Encaminhado com dossiê ao vendedor",
+        resumoGeral: "Direciona a energia da sua equipe para as conversas que têm real potencial de fechamento, aumentando a produtividade de cada vendedor."
+      },
+      {
+        index: "03",
+        code: "ETAPA 03 // AGENDA & PRESENÇA",
+        title: "Agendamento & Confirmação Ativa",
+        role: "Gestão inteligente de consultas, reuniões e comparecimento",
+        faz: "Coordena a agenda comercial e protege a produtividade da equipe, minimizando faltas e cancelamentos de última hora.",
+        age: "Oferece horários livres em tempo real, envia confirmações ativas com opções de remarcação e orientações prévias antes do encontro.",
+        sim: "> Horário sincronizado na agenda do Google/CRM :: Confirmação disparada 24h e 2h antes :: Presença confirmada pelo cliente",
+        resumoGeral: "Elimina a perda de tempo com agendamentos manuais e protege a rotina dos consultores contra faltas inesperadas."
+      },
+      {
+        index: "04",
+        code: "ETAPA 04 // RESGATE DE PROPOSTAS",
+        title: "Blindagem de Follow-up",
+        role: "Recuperação de orçamentos e conversas sem resposta",
+        faz: "Evita que propostas comerciais enviadas se percam no silêncio e no esquecimento da correria diária dos clientes.",
+        age: "Dispara cadências planejadas de acompanhamento em intervalos adequados, reabrindo conversas com abordagens elegantes e contextuais.",
+        sim: "> Proposta enviada há 48h sem resposta :: Mensagem personalizada de resgate disparada :: Cliente responde e reativa negociação",
+        resumoGeral: "Resgata oportunidades que normalmente seriam dadas como perdidas, aumentando o faturamento sem necessidade de novos investimentos em tráfego."
+      },
+      {
+        index: "05",
+        code: "ETAPA 05 // AUDITORIA & ROI",
+        title: "Inteligência de Dados & Telemetria",
+        role: "Visão panorâmica em tempo real dos gargalos do funil",
+        faz: "Substitui o 'achismo' por indicadores visíveis de onde cada cliente veio e por quais motivos compras deixaram de acontecer.",
+        age: "Registra cada etapa do atendimento em painéis de gestão, identificando canais mais lucrativos e horários de maior conversão.",
+        sim: "> Origem de tráfego auditada :: Tempo de atendimento tabulado :: Motivos de perda consolidados para ajuste da diretoria",
+        resumoGeral: "Oferece ao empresário dados sólidos para saber exatamente onde cortar custos e onde investir para acelerar o crescimento."
+      },
+      {
+        index: "06",
+        code: "ETAPA 06 // RELACIONAMENTO & SATISFAÇÃO",
+        title: "Retenção & Pós-Venda",
+        role: "Acompanhamento da satisfação e fidelização da carteira",
+        faz: "Garante que o cliente atendido continue satisfeito e permaneça leal à sua empresa por muito mais tempo.",
+        age: "Coleta feedback de atendimento após a compra, orienta sobre os próximos passos e identifica oportunidades de novos serviços.",
+        sim: "> Pesquisa de satisfação pós-venda realizada :: Avaliação positiva registrada :: Indicação de serviço complementar apresentada",
+        resumoGeral: "Um cliente satisfeito volta a comprar e recomenda seu negócio. Essa etapa constrói a base de reputação e recorrência da marca."
+      },
+      {
+        index: "07",
+        code: "ETAPA 07 // MONETIZAÇÃO DA BASE",
+        title: "Reativação de Base Inativa",
+        role: "Geração de novas receitas com clientes que já compraram",
+        faz: "Cria um canal previsível de faturamento a partir do patrimônio mais valioso da empresa: sua própria carteira de clientes.",
+        age: "Mapeia momentos oportunos (revisões, ciclos de recompra, datas sazonais) e envia convites exclusivos para clientes inativos.",
+        sim: "> Clientes inativos há mais de 90 dias segmentados :: Condição especial disparada :: 14 novos atendimentos reabertos",
+        resumoGeral: "Vender para quem já confia na sua empresa custa uma fração do valor de adquirir um novo cliente. Essa etapa monetiza a sua base."
+      }
+    ];
+
+    let currentIndex = 0;
+    let autoRotateTimer = null;
+
+    function ativarAgente(idx, isUserClick) {
+      if (idx < 0 || idx >= clusterAgentesData.length) return;
+      currentIndex = idx;
+      const data = clusterAgentesData[idx];
+
+      clusterItems.forEach((btn, i) => {
+        if (i === idx) {
+          btn.classList.add('active');
+          btn.setAttribute('aria-selected', 'true');
+        } else {
+          btn.classList.remove('active');
+          btn.setAttribute('aria-selected', 'false');
+        }
+      });
+
+      if (typeof gsap !== 'undefined') {
+        if (scanline) {
+          gsap.fromTo(scanline, 
+            { top: '0%', opacity: 1 }, 
+            { top: '100%', opacity: 0, duration: 0.65, ease: 'power2.out' }
+          );
+        }
+
+        if (visualStage) {
+          gsap.fromTo(visualStage, 
+            { scale: 0.988, borderColor: '#00E5FF' }, 
+            { scale: 1, borderColor: 'rgba(0, 229, 255, 0.35)', duration: 0.45, ease: 'power2.out' }
+          );
+        }
+
+        gsap.to(hudOverlay, {
+          opacity: 0.15,
+          y: -8,
+          duration: 0.15,
+          ease: 'power2.in',
+          onComplete: () => {
+            if (hudBadge) hudBadge.textContent = data.code;
+            if (hudTitle) hudTitle.textContent = data.title;
+            if (hudRole) hudRole.textContent = data.role;
+            if (hudFaz) hudFaz.textContent = data.faz;
+            if (hudAge) hudAge.textContent = data.age;
+            if (hudSim) hudSim.textContent = data.sim;
+
+            if (motionDesc && data.resumoGeral) {
+              motionDesc.textContent = data.resumoGeral;
+            }
+
+            gsap.to(hudOverlay, {
+              opacity: 1,
+              y: 0,
+              duration: 0.32,
+              ease: 'power2.out'
+            });
+          }
+        });
+      } else {
+        if (hudBadge) hudBadge.textContent = data.code;
+        if (hudTitle) hudTitle.textContent = data.title;
+        if (hudRole) hudRole.textContent = data.role;
+        if (hudFaz) hudFaz.textContent = data.faz;
+        if (hudAge) hudAge.textContent = data.age;
+        if (hudSim) hudSim.textContent = data.sim;
+        if (motionDesc && data.resumoGeral) motionDesc.textContent = data.resumoGeral;
+      }
+
+      if (isUserClick) {
+        clearInterval(autoRotateTimer);
+      }
+    }
+
+    clusterItems.forEach((item, index) => {
+      item.addEventListener('click', () => {
+        ativarAgente(index, true);
+      });
+      item.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          ativarAgente(index, true);
+        }
+      });
+    });
+
+    autoRotateTimer = setInterval(() => {
+      const next = (currentIndex + 1) % clusterAgentesData.length;
+      ativarAgente(next, false);
+    }, 7000);
+
+    const sec = document.getElementById('cluster-7-agentes') || document.querySelector('.section-motion');
+    if (sec) {
+      sec.addEventListener('mouseenter', () => clearInterval(autoRotateTimer));
+    }
+  }
+
+  
+  // =========================================================================
+  // ATIVAÇÃO DINÂMICA DA TEXTURA DE TIRAS EXCLUSIVAMENTE A PARTIR DE SOLUÇÕES EM AÇÃO
+  // Na página 1 (Hero), a textura permanece 100% invisível (fundo preto puro)
+  // =========================================================================
+  function initTirasTextureTrigger() {
+    const featuredSec = document.querySelector('.section-featured');
+    if (!featuredSec) {
+      document.body.classList.add('tiras-active');
+      return;
+    }
+
+    const checkTirasScroll = () => {
+      const rect = featuredSec.getBoundingClientRect();
+      if (rect.top <= window.innerHeight * 0.90) {
+        document.body.classList.add('tiras-active');
+      } else {
+        document.body.classList.remove('tiras-active');
+      }
+    };
+
+    checkTirasScroll();
+    window.addEventListener('scroll', checkTirasScroll, { passive: true });
+
+    if (typeof ScrollTrigger !== 'undefined') {
+      ScrollTrigger.create({
+        trigger: featuredSec,
+        start: 'top 90%',
+        onEnter: () => document.body.classList.add('tiras-active'),
+        onLeaveBack: () => document.body.classList.remove('tiras-active'),
+        onEnterBack: () => document.body.classList.add('tiras-active')
+      });
+    }
+  }
+
+  // =========================================================================
+  // GUARDA DE SEGURANÇA: GARANTE VISIBILIDADE DE TODOS OS CARDS E CAIXAS
+  // =========================================================================
+  function ensureAllCardsVisible() {
+    const criticalElements = document.querySelectorAll(
+      '.funil-etapa-row, .agent-item, .accordion-panel, .telemetry-card, .depth-card-item, .agent-inspector-glass-card'
+    );
+    criticalElements.forEach((el) => {
+      el.style.opacity = '1';
+      el.style.visibility = 'visible';
+    });
+    if (typeof ScrollTrigger !== 'undefined') {
+      ScrollTrigger.refresh();
+    }
+  }
+
   function initEngine() {
     setupAssetResilience();
     initLenisSmoothScroll();
     initHeroMaskReveal();
     initHeroExoapeScrollKinematics();
+    initHeroPhotoSwitcher();
+    initTirasTextureTrigger();
+    initCluster7AgentesInterativo();
     initScrollMaskHeadlines();
     initPortfolioFluidParallax();
     initCustomSectionsScroll();
@@ -1026,6 +1455,8 @@
     initAcceleratingTicker();
     initCustomCursor();
     setupScrollCalibration();
+    ensureAllCardsVisible();
+    window.addEventListener("load", ensureAllCardsVisible);
   }
 
   if (document.readyState === 'loading') {

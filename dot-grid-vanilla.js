@@ -607,3 +607,59 @@ function criarDotGrid(container, options = {}) {
 }
 
 window.criarDotGrid = criarDotGrid;
+
+// =========================================================================
+// AUTO-INICIALIZAÇÃO GARANTIDA DE FUNDOS DOTGRID VIDE (RESILIÊNCIA TOTAL)
+// =========================================================================
+(function() {
+  function autoInitVideDotGrids() {
+    try {
+      const c1 = document.getElementById('dotgrid-solucoes');
+      if (c1 && !c1.querySelector('canvas')) {
+        criarDotGrid(c1, {
+          baseColor: '#2C3A58',
+          activeColor: '#00E5FF',
+          shape: 'circle',
+          dotSize: 5.5,
+          gap: 18,
+          proximity: 160,
+          strength: 1.3,
+          bounce: 0.6,
+          tension: 0.4,
+          returnDuration: 0.8,
+          shockRadius: 360,
+          shockStrength: 5,
+          swell: 0.9,
+          stretch: 0.5,
+          glow: 0.75,
+          fade: 0,
+          intro: true
+        });
+      }
+      const c2 = document.getElementById('dotgrid-agentes');
+      if (c2 && !c2.querySelector('canvas')) {
+        criarDotGrid(c2, {
+          baseColor: '#2C3A58',
+          activeColor: '#00E5FF',
+          shape: 'circle',
+          dotSize: 5.5,
+          gap: 18,
+          proximity: 160,
+          strength: 1.3,
+          bounce: 0.6,
+          tension: 0.4,
+          returnDuration: 0.8
+        });
+      }
+    } catch (e) {
+      console.warn('DotGrid autoInit aviso:', e);
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', autoInitVideDotGrids);
+  } else {
+    autoInitVideDotGrids();
+  }
+  window.addEventListener('load', autoInitVideDotGrids);
+})();

@@ -8,7 +8,7 @@
 .depth-carousel-wrapper {
     position: relative;
     width: 100%;
-    height: 480px;
+    height: 570px;
     perspective: 1400px;
     display: flex;
     align-items: center;
@@ -20,20 +20,20 @@
 
 .depth-carousel-stage {
     position: relative;
-    width: 320px;
-    height: 420px;
+    width: 400px;
+    height: 500px;
     transform-style: preserve-3d;
 }
 
 .depth-card-item {
     position: absolute;
-    width: 320px;
-    height: 420px;
+    width: 400px;
+    height: 500px;
     border-radius: 14px !important;
     background: #0B0F17;
     border: 1px solid rgba(0, 229, 255, 0.2);
     box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7);
-    padding: 28px;
+    padding: 36px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
