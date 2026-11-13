@@ -220,8 +220,36 @@ class BancoDadosRelacionalVIDE {
                 });
             }
 
+            // 7. Arquivos de Armazenamento (Storage Durável)
+            const rArqs = await this.pgPool.query('SELECT * FROM arquivos_armazenamento');
+            for (const row of rArqs.rows) {
+                this.tabelas.arquivos_armazenamento.set(row.id, {
+                    id: row.id,
+                    projeto_id: row.projeto_id,
+                    especialista: row.especialista,
+                    nome_arquivo: row.nome_arquivo,
+                    caminho_relativo: row.caminho_relativo,
+                    mimetype: row.mimetype,
+                    conteudo: row.conteudo,
+                    tamanho_bytes: row.tamanho_bytes,
+                    criado_em: row.criado_em ? new Date(row.criado_em).toISOString() : new Date().toISOString(),
+                    atualizado_em: row.atualizado_em ? new Date(row.atualizado_em).toISOString() : new Date().toISOString()
+                });
+
+                // Auto-reconstituição do arquivo no cache do disco após novo deploy
+                try {
+                    const pastaFisica = path.join(__dirname, 'entregas_clientes', row.projeto_id, row.especialista);
+                    const arqFisico = path.join(pastaFisica, row.nome_arquivo);
+                    const pastaDestino = path.dirname(arqFisico);
+                    if (!fs.existsSync(pastaDestino)) fs.mkdirSync(pastaDestino, { recursive: true });
+                    if (!fs.existsSync(arqFisico) && row.conteudo) {
+                        fs.writeFileSync(arqFisico, row.conteudo, 'utf-8');
+                    }
+                } catch (_) {}
+            }
+
             this.persistir();
-            console.log(`[VIDE_DB] Hidratação PostgreSQL concluída: ${rProj.rowCount} projetos, ${rTar.rowCount} tarefas, ${rCli.rowCount} clientes, ${rLeads.rowCount} leads sincronizados.`);
+            console.log(`[VIDE_DB] Hidratação PostgreSQL concluída: ${rProj.rowCount} projetos, ${rTar.rowCount} tarefas, ${rCli.rowCount} clientes, ${rLeads.rowCount} leads, ${rArqs.rowCount} arquivos sincronizados.`);
         } catch (e) {
             console.warn('[VIDE_DB] Aviso ao hidratar dados do PostgreSQL:', e.message);
         }
@@ -812,14 +840,15 @@ class BancoDadosRelacionalVIDE {
     // OPERAÇÕES: ARMAZENAMENTO DURÁVEL DE ARQUIVOS (STORAGE POSTGRESQL)
     // =========================================================================
     async salvarArquivoStorage({ idProjeto, especialista, nomeArquivo, caminhoRelativo, conteudo, mimetype }) {
-        const id = `${idProjeto}/${especialista}/${nomeArquivo}`;
+        const id = `${idProjeto}/${especialista}/${nomeArquivo}`.replace(/\\/g, '/');
+        const caminhoRel = (caminhoRelativo || id).replace(/\\/g, '/');
         const tamanhoBytes = Buffer.byteLength(conteudo || '', 'utf-8');
         const registro = {
             id,
             projeto_id: idProjeto,
             especialista,
             nome_arquivo: nomeArquivo,
-            caminho_relativo: caminhoRelativo,
+            caminho_relativo: caminhoRel,
             mimetype: mimetype || 'text/plain',
             conteudo,
             tamanho_bytes: tamanhoBytes,
@@ -838,7 +867,7 @@ class BancoDadosRelacionalVIDE {
                         tamanho_bytes = EXCLUDED.tamanho_bytes,
                         mimetype = EXCLUDED.mimetype,
                         atualizado_em = CURRENT_TIMESTAMP
-                `, [id, idProjeto, especialista, nomeArquivo, caminhoRelativo, mimetype || 'text/plain', conteudo, tamanhoBytes]);
+                `, [id, idProjeto, especialista, nomeArquivo, caminhoRel, mimetype || 'text/plain', conteudo, tamanhoBytes]);
                 return { sucesso: true, id, persistencia: 'POSTGRESQL' };
             } catch (e) {
                 console.warn('[VIDE_DB_PG] Falha ao salvar arquivo no PostgreSQL:', e.message);
@@ -849,7 +878,7 @@ class BancoDadosRelacionalVIDE {
     }
 
     async obterArquivoStorage(idProjeto, especialista, nomeArquivo) {
-        const id = `${idProjeto}/${especialista}/${nomeArquivo}`;
+        const id = `${idProjeto}/${especialista}/${nomeArquivo}`.replace(/\\/g, '/');
         if (this.tabelas.arquivos_armazenamento.has(id)) {
             return this.tabelas.arquivos_armazenamento.get(id);
         }

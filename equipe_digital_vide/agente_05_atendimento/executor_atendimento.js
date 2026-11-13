@@ -11,6 +11,7 @@ const path = require('path');
 const { obterProjetoPorId, salvarProjeto } = require('../agente_02_coordenador/repositorio_projetos_tarefas');
 const { conferirEntrega } = require('../agente_02_coordenador/executor_coordenador');
 const { iaService } = require('../ia_service');
+const { storageService } = require('../storage_service');
 
 // Diretório base para entregas físicas dos especialistas
 const DIRETORIO_ENTREGAS = path.join(__dirname, '..', 'entregas_clientes');
@@ -709,14 +710,14 @@ Transfira o atendimento imediatamente quando:
 </body>
 </html>`;
 
-    // Grava os 7 arquivos físicos no disco
-    fs.writeFileSync(path.join(pastaAtendimento, 'fluxo_jornada_atendimento.json'), JSON.stringify(fluxoJornada, null, 2), 'utf-8');
-    fs.writeFileSync(path.join(pastaAtendimento, 'roteiro_conversas_qualificacao.md'), roteiroMarkdown, 'utf-8');
-    fs.writeFileSync(path.join(pastaAtendimento, 'matriz_objecoes_e_respostas.json'), JSON.stringify(matrizObjecoes, null, 2), 'utf-8');
-    fs.writeFileSync(path.join(pastaAtendimento, 'regras_follow_up_e_recuperacao.json'), JSON.stringify(regrasFollowUp, null, 2), 'utf-8');
-    fs.writeFileSync(path.join(pastaAtendimento, 'especificacao_tecnica_para_automacao.json'), JSON.stringify(especificacaoAutomacao, null, 2), 'utf-8');
-    fs.writeFileSync(path.join(pastaAtendimento, 'manifesto_entrega.json'), JSON.stringify(manifestoEntrega, null, 2), 'utf-8');
-    fs.writeFileSync(path.join(pastaAtendimento, 'simulador_chat_atendimento.html'), simuladorHtml, 'utf-8');
+    // Grava os 7 arquivos físicos e persiste no storage PostgreSQL
+    storageService.salvarArquivo(idProjeto, 'atendimento', 'fluxo_jornada_atendimento.json', JSON.stringify(fluxoJornada, null, 2));
+    storageService.salvarArquivo(idProjeto, 'atendimento', 'roteiro_conversas_qualificacao.md', roteiroMarkdown);
+    storageService.salvarArquivo(idProjeto, 'atendimento', 'matriz_objecoes_e_respostas.json', JSON.stringify(matrizObjecoes, null, 2));
+    storageService.salvarArquivo(idProjeto, 'atendimento', 'regras_follow_up_e_recuperacao.json', JSON.stringify(regrasFollowUp, null, 2));
+    storageService.salvarArquivo(idProjeto, 'atendimento', 'especificacao_tecnica_para_automacao.json', JSON.stringify(especificacaoAutomacao, null, 2));
+    storageService.salvarArquivo(idProjeto, 'atendimento', 'manifesto_entrega.json', JSON.stringify(manifestoEntrega, null, 2));
+    storageService.salvarArquivo(idProjeto, 'atendimento', 'simulador_chat_atendimento.html', simuladorHtml);
 
     return {
         idProjeto,

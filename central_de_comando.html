@@ -651,7 +651,7 @@
                         <span class="bento-module-num">MOD-04 // PROJETOS HOMOLOGADOS</span>
                         <span class="bento-status-indicator" style="color: #F59E0B;"><i class="fas fa-check-double"></i> AUDITADO</span>
                     </div>
-                    <div class="bento-metric-number" style="color: #F59E0B;">100%</div>
+                    <div class="bento-metric-number" style="color: #F59E0B;" id="projetos-auditados-val">100%</div>
                     <div class="bento-metric-label">Conformidade de escopo comercial e critérios técnicos</div>
                 </div>
                 <div class="bento-card-footer">
@@ -745,24 +745,24 @@
 
             <div class="terminal-log-window" id="terminal-feed">
                 <div class="terminal-line">
-                    <span class="terminal-time">[04:00:12]</span>
+                    <span class="terminal-time">[00:00:00]</span>
                     <span class="terminal-sender">[SISTEMA]</span>
-                    <span>Central de Comando operacional inicializada. Servidor ativo em localhost:8080.</span>
+                    <span id="terminal-host-init">Central de Comando operacional inicializada. Conectando telemetria...</span>
                 </div>
                 <div class="terminal-line">
-                    <span class="terminal-time">[04:00:15]</span>
+                    <span class="terminal-time">[00:00:01]</span>
                     <span class="terminal-sender">[AGT-02 COORDENADOR]</span>
-                    <span>Diretor Douglas autenticado. 7 disciplinas operacionais sincronizadas. Indicadores comerciais em escuta.</span>
+                    <span>Ambiente executivo seguro ativo. 7 disciplinas operacionais sincronizadas. Digite 'ajuda' para comandos.</span>
                 </div>
                 <div class="terminal-line">
-                    <span class="terminal-time">[04:00:20]</span>
+                    <span class="terminal-time">[00:00:02]</span>
                     <span class="terminal-sender">[AGT-07 TELEMETRIA]</span>
-                    <span>Verificação de rotas: todos os recursos ativos com status HTTP 200 (OK). Sistema operacional estável.</span>
+                    <span>Verificação de integridade: rotas ativas (HTTP 200). Banco de dados e armazenamento persistente monitorados.</span>
                 </div>
             </div>
 
             <form class="terminal-prompt-bar-wrap" onsubmit="enviarComandoTerminal(event)">
-                <input type="text" class="terminal-prompt-input" id="terminal-input" placeholder="Digite uma diretriz ou comando para a esteira (ex: 'auditar funil comercial', 'relatório de perdas')...">
+                <input type="text" class="terminal-prompt-input" id="terminal-input" placeholder="Digite um comando ('ajuda', 'status', 'projetos', 'login douglas <senha>', 'aprovar <id>')...">
                 <button type="submit" class="btn-blue-action" style="padding: 14px 28px;">
                     <i class="fas fa-paper-plane"></i>
                     <span>Executar</span>
@@ -779,13 +779,29 @@
             if (res.ok) {
                 const data = await res.json();
                 if (data.servidor && data.servidor.status) {
-                    document.getElementById('servidor-status-val').textContent = data.servidor.status;
+                    const elStatus = document.getElementById('servidor-status-val');
+                    if (elStatus) elStatus.textContent = data.servidor.status;
                 }
-                adicionarLogTerminal('AGT-07 TELEMETRIA', 'Sincronização ao vivo: infraestrutura íntegra e sem gargalos.');
+                const bco = (data.banco_de_dados && data.banco_de_dados.modo_operacao) || 'POSTGRESQL_REMOTO_ATIVO';
+                adicionarLogTerminal('AGT-07 TELEMETRIA', 'Telemetria ao vivo: ' + bco + ' operacional.');
             }
         } catch(e) {
             adicionarLogTerminal('SISTEMA', 'Telemetria local ativa em modo simulado.');
         }
+
+        try {
+            const token = sessionStorage.getItem('vide_jwt');
+            const headers = token ? { 'Authorization': 'Bearer ' + token } : {};
+            const resPrj = await fetch('/api/projetos', { headers });
+            if (resPrj.ok) {
+                const prjs = await resPrj.json();
+                const total = Array.isArray(prjs) ? prjs.length : (prjs.total || 0);
+                const elPrj = document.getElementById('projetos-auditados-val');
+                if (elPrj && total > 0) {
+                    elPrj.textContent = total + ' ATIVOS';
+                }
+            }
+        } catch(e) {}
     }
 
     async function enviarComandoTerminal(e) {
@@ -797,10 +813,123 @@
         adicionarLogTerminal('DIRETOR DOUGLAS', cmd);
         input.value = '';
 
+        const parts = cmd.split(' ');
+        const acao = parts[0].toLowerCase();
+
+        // 1. Comando AJUDA / HELP
+        if (acao === 'ajuda' || acao === 'help') {
+            adicionarLogTerminal('AGT-02 COORDENADOR', 'Comandos do Cockpit: [status], [projetos], [login <usr> <pwd>], [aprovar <id>], [limpar], ou diretriz livre para orquestração.');
+            return;
+        }
+
+        // 2. Comando LIMPAR / CLEAR
+        if (acao === 'limpar' || acao === 'clear') {
+            const feed = document.getElementById('terminal-feed');
+            if (feed) feed.innerHTML = '';
+            adicionarLogTerminal('SISTEMA', 'Console limpo. Cockpit pronto para novas diretrizes.');
+            return;
+        }
+
+        // 3. Comando LOGIN <usuario> <senha>
+        if (acao === 'login') {
+            const usuario = parts[1];
+            const senha = parts[2];
+            if (!usuario || !senha) {
+                adicionarLogTerminal('SEGURANÇA', 'Sintaxe: login <usuario> <senha>');
+                return;
+            }
+            try {
+                const res = await fetch('/api/auth/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ usuario, senha })
+                });
+                const data = await res.json();
+                if (res.ok && data.token) {
+                    sessionStorage.setItem('vide_jwt', data.token);
+                    adicionarLogTerminal('SEGURANÇA', 'Autenticação bem-sucedida. Sessão autorizada para [' + data.usuario + '] (Papel: ' + data.papel + '). Token armazenado.');
+                } else {
+                    adicionarLogTerminal('SEGURANÇA', 'Falha na autenticação: ' + (data.erro || 'Credenciais inválidas.'));
+                }
+            } catch(err) {
+                adicionarLogTerminal('SEGURANÇA', 'Erro de conexão ao autenticar: ' + err.message);
+            }
+            return;
+        }
+
+        // 4. Comando STATUS
+        if (acao === 'status') {
+            try {
+                const res = await fetch('/api/status/infraestrutura');
+                const data = await res.json();
+                adicionarLogTerminal('AGT-07 TELEMETRIA', 'Servidor: ' + data.servidor.status + ' | Ambiente: ' + data.ambiente + ' | Banco: ' + data.banco_de_dados.modo_operacao + ' | Storage: ' + data.armazenamento.tipo);
+            } catch(err) {
+                adicionarLogTerminal('AGT-07 TELEMETRIA', 'Erro ao consultar infraestrutura: ' + err.message);
+            }
+            return;
+        }
+
+        // 5. Comando PROJETOS
+        if (acao === 'projetos' || acao === 'listar') {
+            try {
+                const token = sessionStorage.getItem('vide_jwt');
+                const headers = token ? { 'Authorization': 'Bearer ' + token } : {};
+                const res = await fetch('/api/projetos', { headers });
+                const prjs = await res.json();
+                if (Array.isArray(prjs) && prjs.length > 0) {
+                    const resumo = prjs.slice(0, 5).map(p => (p.id || p.id_projeto) + ' (' + (p.status || p.fase || 'EM_ANDAMENTO') + ')').join(' | ');
+                    adicionarLogTerminal('AGT-02 COORDENADOR', 'Projetos registrados (' + prjs.length + '): ' + resumo);
+                } else {
+                    adicionarLogTerminal('AGT-02 COORDENADOR', 'Nenhum projeto em esteira no momento.');
+                }
+            } catch(err) {
+                adicionarLogTerminal('AGT-02 COORDENADOR', 'Erro ao listar projetos: ' + err.message);
+            }
+            return;
+        }
+
+        // 6. Comando APROVAR <id_projeto>
+        if (acao === 'aprovar') {
+            const id_projeto = parts[1];
+            if (!id_projeto) {
+                adicionarLogTerminal('AGT-02 COORDENADOR', 'Sintaxe: aprovar <ID_PROJETO>');
+                return;
+            }
+            const token = sessionStorage.getItem('vide_jwt');
+            if (!token) {
+                adicionarLogTerminal('SEGURANÇA', 'Erro 401: Ação restrita à Diretoria. Execute primeiro: login <usuario> <senha>');
+                return;
+            }
+            try {
+                const res = await fetch('/api/coordenador/aprovar-projeto', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + token
+                    },
+                    body: JSON.stringify({ id_projeto })
+                });
+                const data = await res.json();
+                if (res.ok) {
+                    adicionarLogTerminal('AGT-02 COORDENADOR', 'Projeto [' + id_projeto + '] homologado e aprovado com sucesso pela Diretoria! Especialistas acionados.');
+                } else {
+                    adicionarLogTerminal('AGT-02 COORDENADOR', 'Falha ao aprovar projeto: ' + (data.erro || 'Erro não especificado'));
+                }
+            } catch(err) {
+                adicionarLogTerminal('AGT-02 COORDENADOR', 'Erro na comunicação de aprovação: ' + err.message);
+            }
+            return;
+        }
+
+        // 7. Qualquer outra instrução vai para o endpoint de instrução
         try {
+            const token = sessionStorage.getItem('vide_jwt');
+            const headers = { 'Content-Type': 'application/json' };
+            if (token) headers['Authorization'] = 'Bearer ' + token;
+
             const res = await fetch('/api/coordenador/instrucao', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers,
                 body: JSON.stringify({ instrucao: cmd })
             });
             if (res.ok) {
@@ -823,13 +952,20 @@
 
         const line = document.createElement('div');
         line.className = 'terminal-line';
-        line.innerHTML = `<span class="terminal-time">[${time}]</span> <span class="terminal-sender">[${emissor}]</span> <span>${texto}</span>`;
+        line.innerHTML = '<span class="terminal-time">[' + time + ']</span> <span class="terminal-sender">[' + emissor + ']</span> <span>' + texto + '</span>';
         feed.appendChild(line);
         feed.scrollTop = feed.scrollHeight;
     }
 
     // Inicialização ao carregar
     document.addEventListener('DOMContentLoaded', () => {
+        const hostEl = document.getElementById('terminal-host-init');
+        if (hostEl) {
+            hostEl.textContent = 'Central de Comando operacional inicializada em ' + (window.location.host || 'vide-homologacao-backend.onrender.com') + '.';
+        }
+        if (sessionStorage.getItem('vide_jwt')) {
+            adicionarLogTerminal('SEGURANÇA', 'Sessão JWT ativa da Diretoria identificada no navegador.');
+        }
         carregarTelemetriaReal();
     });
     </script>

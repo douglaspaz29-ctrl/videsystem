@@ -176,7 +176,7 @@ const servidor = http.createServer(async (req, res) => {
     }
 
     // 2. GET /api/projetos/:id — Retorna detalhes de um projeto específico
-    if (urlLimpa.startsWith('/api/projetos/') && req.method === 'GET') {
+    if (urlLimpa.startsWith('/api/projetos/') && !urlLimpa.includes('/arquivos') && req.method === 'GET') {
         const idProjeto = decodeURIComponent(urlLimpa.replace('/api/projetos/', ''));
         const projeto = obterProjetoPorId(idProjeto);
         if (!projeto) {
@@ -185,6 +185,50 @@ const servidor = http.createServer(async (req, res) => {
         }
         res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
         return res.end(JSON.stringify({ sucesso: true, projeto }));
+    }
+
+    // 2.1 GET /api/projetos/:id/arquivos — Lista ou recupera arquivos persistidos do projeto no storage
+    if (urlLimpa.startsWith('/api/projetos/') && urlLimpa.includes('/arquivos') && req.method === 'GET') {
+        const partes = urlLimpa.replace('/api/projetos/', '').split('/arquivos');
+        const idProjeto = decodeURIComponent(partes[0]);
+        const resto = partes[1] ? decodeURIComponent(partes[1]).replace(/^\//, '') : '';
+
+        // Se for para recuperar o conteúdo de um arquivo específico: /api/projetos/:id/arquivos/:especialista/...
+        if (resto && resto.length > 0) {
+            const segmentos = resto.split('/');
+            const especialista = segmentos[0];
+            const nomeArquivo = segmentos.slice(1).join('/');
+
+            const conteudo = await storageService.obterConteudoArquivo(idProjeto, especialista, nomeArquivo);
+            if (conteudo === null) {
+                res.writeHead(404, { 'Content-Type': 'application/json; charset=utf-8' });
+                return res.end(JSON.stringify({ sucesso: false, erro: 'Arquivo não encontrado no storage.' }));
+            }
+
+            const ext = path.extname(nomeArquivo).toLowerCase();
+            const mime = TIPOS_MIME[ext] || 'text/plain; charset=utf-8';
+            res.writeHead(200, { 'Content-Type': mime });
+            return res.end(conteudo);
+        }
+
+        // Listagem de arquivos persistidos
+        const arquivosLocais = storageService.listarArquivosProjeto(idProjeto);
+        const arquivosPg = await db.listarArquivosStorage(idProjeto);
+        res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+        return res.end(JSON.stringify({ 
+            sucesso: true, 
+            id_projeto: idProjeto,
+            total_arquivos_postgresql: arquivosPg.length,
+            arquivos_em_disco: arquivosLocais,
+            arquivos_banco_postgresql: arquivosPg.map(a => ({
+                id: a.id,
+                especialista: a.especialista,
+                nome_arquivo: a.nome_arquivo,
+                mimetype: a.mimetype,
+                tamanho_bytes: a.tamanho_bytes,
+                atualizado_em: a.atualizado_em
+            }))
+        }));
     }
 
     // 3. POST /api/webhook/triagem — Ingestão de mensagens (WhatsApp / Instagram / n8n)

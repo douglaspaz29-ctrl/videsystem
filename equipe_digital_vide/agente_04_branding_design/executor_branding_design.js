@@ -21,6 +21,7 @@ const {
     conferirEntrega
 } = require('../agente_02_coordenador/executor_coordenador');
 const { iaService } = require('../ia_service');
+const { storageService } = require('../storage_service');
 
 // Diretório oficial de entregas físicas
 const DIRETORIO_ENTREGAS_BASE = path.join(__dirname, '..', 'entregas_clientes');
@@ -490,28 +491,20 @@ function construirArquivosFisicosBranding({ idProjeto, idTarefa, dadosBranding }
     });
 
     // 1. Grava Design Tokens em JSON
-    fs.writeFileSync(
-        path.join(pastaBranding, 'design_tokens.json'),
-        JSON.stringify(dadosBranding.designTokens, null, 2),
-        'utf-8'
-    );
+    storageService.salvarArquivo(idProjeto, 'branding', 'design_tokens.json', JSON.stringify(dadosBranding.designTokens, null, 2));
 
     // 2. Grava Variáveis CSS
-    fs.writeFileSync(
-        path.join(pastaBranding, 'tokens_design.css'),
-        dadosBranding.tokensCss,
-        'utf-8'
-    );
+    storageService.salvarArquivo(idProjeto, 'branding', 'tokens_design.css', dadosBranding.tokensCss);
 
     // 3. Grava Logotipo e Símbolo em SVG
-    fs.writeFileSync(path.join(pastaAssets, 'logo.svg'), dadosBranding.logoSvg, 'utf-8');
-    fs.writeFileSync(path.join(pastaAssets, 'simbolo.svg'), dadosBranding.simboloSvg, 'utf-8');
+    storageService.salvarArquivo(idProjeto, 'branding', 'assets/logo.svg', dadosBranding.logoSvg);
+    storageService.salvarArquivo(idProjeto, 'branding', 'assets/simbolo.svg', dadosBranding.simboloSvg);
 
     // 4. Grava Manual em Markdown
-    fs.writeFileSync(path.join(pastaBranding, 'brand_guidelines.md'), dadosBranding.brandGuidelines, 'utf-8');
+    storageService.salvarArquivo(idProjeto, 'branding', 'brand_guidelines.md', dadosBranding.brandGuidelines);
 
     // 5. Grava Guia Interativo HTML
-    fs.writeFileSync(path.join(pastaBranding, 'guia_marca_interativo.html'), dadosBranding.guiaInterativoHtml, 'utf-8');
+    storageService.salvarArquivo(idProjeto, 'branding', 'guia_marca_interativo.html', dadosBranding.guiaInterativoHtml);
 
     return {
         idProjeto,

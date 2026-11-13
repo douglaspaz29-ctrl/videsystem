@@ -21,6 +21,7 @@ const {
 const {
     conferirEntrega
 } = require('../agente_02_coordenador/executor_coordenador');
+const { storageService } = require('../storage_service');
 
 // Diretório oficial de entregas físicas no disco
 const DIRETORIO_ENTREGAS_BASE = path.join(__dirname, '..', 'entregas_clientes');
@@ -1162,11 +1163,11 @@ function construirArquivosFisicos({ idProjeto, idTarefa, briefing, customizacoes
     // Gera os códigos
     const codigos = gerarCodigoSolucao(briefing);
 
-    // Grava arquivos físicos
-    fs.writeFileSync(path.join(pastaSite, 'index.html'), codigos.html, 'utf-8');
-    fs.writeFileSync(path.join(pastaCss, 'estilos.css'), codigos.css, 'utf-8');
-    fs.writeFileSync(path.join(pastaJs, 'script.js'), codigos.js, 'utf-8');
-    fs.writeFileSync(path.join(pastaSite, 'README.md'), codigos.readme, 'utf-8');
+    // Grava arquivos físicos e persiste no storage PostgreSQL
+    storageService.salvarArquivo(idProjeto, 'site_oficial', 'index.html', codigos.html);
+    storageService.salvarArquivo(idProjeto, 'site_oficial', 'css/estilos.css', codigos.css);
+    storageService.salvarArquivo(idProjeto, 'site_oficial', 'js/script.js', codigos.js);
+    storageService.salvarArquivo(idProjeto, 'site_oficial', 'README.md', codigos.readme);
 
     return {
         idProjeto,

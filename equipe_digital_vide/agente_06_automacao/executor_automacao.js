@@ -12,6 +12,7 @@ const crypto = require('crypto');
 const { obterProjetoPorId, salvarProjeto } = require('../agente_02_coordenador/repositorio_projetos_tarefas');
 const { conferirEntrega } = require('../agente_02_coordenador/executor_coordenador');
 const { iaService } = require('../ia_service');
+const { storageService } = require('../storage_service');
 
 // Diretório base para entregas físicas dos especialistas
 const DIRETORIO_ENTREGAS = path.join(__dirname, '..', 'entregas_clientes');
@@ -701,13 +702,13 @@ O fluxo foi desenhado para ser executado no **n8n self-hosted** da VIDE (\`http:
         }
     };
 
-    // Grava os 6 arquivos físicos no disco
-    fs.writeFileSync(path.join(pastaAutomacao, 'workflow_n8n_atendimento_recuperacao.json'), JSON.stringify(workflowN8N, null, 2), 'utf-8');
-    fs.writeFileSync(path.join(pastaAutomacao, 'motor_execucao_automacao.js'), codigoMotorJs, 'utf-8');
-    fs.writeFileSync(path.join(pastaAutomacao, 'crm_estado_leads.json'), JSON.stringify(crmInicial, null, 2), 'utf-8');
-    fs.writeFileSync(path.join(pastaAutomacao, 'manual_integracao_e_deploy.md'), manualMarkdown, 'utf-8');
-    fs.writeFileSync(path.join(pastaAutomacao, 'painel_monitor_automacao.html'), painelHtml, 'utf-8');
-    fs.writeFileSync(path.join(pastaAutomacao, 'manifesto_entrega.json'), JSON.stringify(manifestoEntrega, null, 2), 'utf-8');
+    // Grava os 6 arquivos físicos e persiste no storage PostgreSQL
+    storageService.salvarArquivo(idProjeto, 'automacao', 'workflow_n8n_atendimento_recuperacao.json', JSON.stringify(workflowN8N, null, 2));
+    storageService.salvarArquivo(idProjeto, 'automacao', 'motor_execucao_automacao.js', codigoMotorJs);
+    storageService.salvarArquivo(idProjeto, 'automacao', 'crm_estado_leads.json', JSON.stringify(crmInicial, null, 2));
+    storageService.salvarArquivo(idProjeto, 'automacao', 'manual_integracao_e_deploy.md', manualMarkdown);
+    storageService.salvarArquivo(idProjeto, 'automacao', 'painel_monitor_automacao.html', painelHtml);
+    storageService.salvarArquivo(idProjeto, 'automacao', 'manifesto_entrega.json', JSON.stringify(manifestoEntrega, null, 2));
 
     return {
         idProjeto,

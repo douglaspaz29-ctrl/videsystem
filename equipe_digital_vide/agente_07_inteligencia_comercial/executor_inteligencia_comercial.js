@@ -11,6 +11,7 @@ const path = require('path');
 const { obterProjetoPorId, salvarProjeto } = require('../agente_02_coordenador/repositorio_projetos_tarefas');
 const { conferirEntrega } = require('../agente_02_coordenador/executor_coordenador');
 const { iaService } = require('../ia_service');
+const { storageService } = require('../storage_service');
 
 // Diretório base de entregas físicas
 const DIRETORIO_ENTREGAS = path.join(__dirname, '..', 'entregas_clientes');
@@ -621,12 +622,12 @@ function gerarEntregaveisInteligencia(briefing) {
         }
     };
 
-    // Gravação física dos 5 arquivos no disco
-    fs.writeFileSync(path.join(pastaInteligencia, 'diagnostico_funil_e_perdas.json'), JSON.stringify(diagnosticoFunil, null, 2), 'utf-8');
-    fs.writeFileSync(path.join(pastaInteligencia, 'relatorio_motor_objecoes.json'), JSON.stringify(relatorioObjecoes, null, 2), 'utf-8');
-    fs.writeFileSync(path.join(pastaInteligencia, 'plano_recomendacoes_retroalimentacao.json'), JSON.stringify(planoRecomendacoes, null, 2), 'utf-8');
-    fs.writeFileSync(path.join(pastaInteligencia, 'dashboard_executivo_inteligencia.html'), dashboardHtml, 'utf-8');
-    fs.writeFileSync(path.join(pastaInteligencia, 'manifesto_entrega.json'), JSON.stringify(manifestoEntrega, null, 2), 'utf-8');
+    // Gravação física dos 5 arquivos e persistência durável no PostgreSQL
+    storageService.salvarArquivo(idProjeto, 'inteligencia', 'diagnostico_funil_e_perdas.json', JSON.stringify(diagnosticoFunil, null, 2));
+    storageService.salvarArquivo(idProjeto, 'inteligencia', 'relatorio_motor_objecoes.json', JSON.stringify(relatorioObjecoes, null, 2));
+    storageService.salvarArquivo(idProjeto, 'inteligencia', 'plano_recomendacoes_retroalimentacao.json', JSON.stringify(planoRecomendacoes, null, 2));
+    storageService.salvarArquivo(idProjeto, 'inteligencia', 'dashboard_executivo_inteligencia.html', dashboardHtml);
+    storageService.salvarArquivo(idProjeto, 'inteligencia', 'manifesto_entrega.json', JSON.stringify(manifestoEntrega, null, 2));
 
     return {
         idProjeto,

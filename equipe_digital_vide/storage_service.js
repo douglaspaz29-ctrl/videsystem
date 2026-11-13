@@ -36,22 +36,24 @@ class ServicoArmazenamentoVIDE {
      * @returns {string} Caminho físico gravado
      */
     salvarArquivo(idProjeto, especialista, nomeArquivo, conteudo) {
-        const pastaDestino = path.join(this.diretorioBase, idProjeto, especialista);
+        const caminhoCompleto = path.join(this.diretorioBase, idProjeto, especialista, nomeArquivo);
+        const pastaDestino = path.dirname(caminhoCompleto);
         if (!fs.existsSync(pastaDestino)) {
             fs.mkdirSync(pastaDestino, { recursive: true });
         }
 
-        const caminhoCompleto = path.join(pastaDestino, nomeArquivo);
         fs.writeFileSync(caminhoCompleto, conteudo, 'utf-8');
 
         // Persistência durável em PostgreSQL (sobrevive a novos deploys e reinicializações de container)
-        const caminhoRel = `${idProjeto}/${especialista}/${nomeArquivo}`;
+        const caminhoRel = `${idProjeto}/${especialista}/${nomeArquivo}`.replace(/\\/g, '/');
         const ext = path.extname(nomeArquivo).toLowerCase();
         let mimetype = 'text/plain';
         if (ext === '.json') mimetype = 'application/json';
         else if (ext === '.html') mimetype = 'text/html';
         else if (ext === '.css') mimetype = 'text/css';
         else if (ext === '.md') mimetype = 'text/markdown';
+        else if (ext === '.svg') mimetype = 'image/svg+xml';
+        else if (ext === '.js') mimetype = 'application/javascript';
 
         db.salvarArquivoStorage({
             idProjeto,
@@ -78,7 +80,7 @@ class ServicoArmazenamentoVIDE {
         const arqPg = await db.obterArquivoStorage(idProjeto, especialista, nomeArquivo);
         if (arqPg && arqPg.conteudo) {
             try {
-                const pastaDestino = path.join(this.diretorioBase, idProjeto, especialista);
+                const pastaDestino = path.dirname(caminhoCompleto);
                 if (!fs.existsSync(pastaDestino)) fs.mkdirSync(pastaDestino, { recursive: true });
                 fs.writeFileSync(caminhoCompleto, arqPg.conteudo, 'utf-8');
             } catch (_) {}
