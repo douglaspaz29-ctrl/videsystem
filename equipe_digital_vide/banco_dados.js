@@ -85,6 +85,13 @@ class BancoDadosRelacionalVIDE {
                 await this.pgPool.query(sql);
                 console.log('[VIDE_DB] Schema relacional oficial aplicado com sucesso no PostgreSQL remoto.');
             }
+            await this.pgPool.query(`
+                ALTER TABLE IF EXISTS clientes DISABLE ROW LEVEL SECURITY;
+                ALTER TABLE IF EXISTS projetos DISABLE ROW LEVEL SECURITY;
+                ALTER TABLE IF EXISTS tarefas DISABLE ROW LEVEL SECURITY;
+                ALTER TABLE IF EXISTS entregas DISABLE ROW LEVEL SECURITY;
+                ALTER TABLE IF EXISTS crm_leads DISABLE ROW LEVEL SECURITY;
+            `).catch(() => {});
         } catch (e) {
             console.warn('[VIDE_DB] Aviso ao aplicar schema no PostgreSQL remoto:', e.message);
         }

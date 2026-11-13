@@ -163,13 +163,13 @@ CREATE INDEX IF NOT EXISTS idx_arquivos_projeto ON arquivos_armazenamento(projet
 CREATE INDEX IF NOT EXISTS idx_arquivos_especialista ON arquivos_armazenamento(especialista);
 
 -- =====================================================================
--- ROW-LEVEL SECURITY (RLS) PARA ISOLAMENTO MULTI-TENANT NO SUPABASE
+-- ROW-LEVEL SECURITY (RLS) DESATIVADO PARA OPERAÇÃO DO BACKEND DEDICADO
 -- =====================================================================
-ALTER TABLE clientes ENABLE ROW LEVEL SECURITY;
-ALTER TABLE projetos ENABLE ROW LEVEL SECURITY;
-ALTER TABLE tarefas ENABLE ROW LEVEL SECURITY;
-ALTER TABLE entregas ENABLE ROW LEVEL SECURITY;
-ALTER TABLE crm_leads ENABLE ROW LEVEL SECURITY;
+ALTER TABLE clientes DISABLE ROW LEVEL SECURITY;
+ALTER TABLE projetos DISABLE ROW LEVEL SECURITY;
+ALTER TABLE tarefas DISABLE ROW LEVEL SECURITY;
+ALTER TABLE entregas DISABLE ROW LEVEL SECURITY;
+ALTER TABLE crm_leads DISABLE ROW LEVEL SECURITY;
 
 -- Exemplo de política de isolamento por cliente:
 -- CREATE POLICY cliente_isolamento_projetos ON projetos

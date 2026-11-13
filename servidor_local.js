@@ -277,7 +277,11 @@ const servidor = http.createServer(async (req, res) => {
         if (projetosCompletos.length === 0 && db.pgPool) {
             try {
                 const resPg = await db.pgPool.query('SELECT id FROM projetos ORDER BY criado_em DESC');
-                projetosCompletos = resPg.rows.map(row => db.obterProjeto(row.id)).filter(Boolean);
+                projetosCompletos = [];
+                for (const row of resPg.rows) {
+                    const prj = await db.obterProjetoDoPostgres(row.id);
+                    if (prj) projetosCompletos.push(prj);
+                }
             } catch (_) {}
         }
 
