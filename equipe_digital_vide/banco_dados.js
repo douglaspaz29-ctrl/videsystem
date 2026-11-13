@@ -19,6 +19,20 @@ const CONFIG = require('./config_ambiente');
 const CAMINHO_DADOS_RELACIONAIS = path.join(__dirname, 'dados_persistencia', 'vide_relacional_db.json');
 const CAMINHO_LOG_TRANSACIONAIS = path.join(__dirname, 'dados_persistencia', 'vide_transacoes.log');
 
+
+function resolverAgenteId(especialista, agenteIdPadrao = null) {
+    if (agenteIdPadrao && agenteIdPadrao.startsWith('agente_0')) return agenteIdPadrao;
+    const espLower = (especialista || '').toLowerCase();
+    if (espLower.includes('triagem')) return 'agente_01_triagem';
+    if (espLower.includes('coordena')) return 'agente_02_coordenador';
+    if (espLower.includes('desenvolv') || espLower.includes('dev') || espLower.includes('site') || espLower.includes('web')) return 'agente_03_desenvolvedor';
+    if (espLower.includes('brand') || espLower.includes('design') || espLower.includes('marca')) return 'agente_04_branding_design';
+    if (espLower.includes('atend') || espLower.includes('venda')) return 'agente_05_atendimento';
+    if (espLower.includes('autom') || espLower.includes('integra') || espLower.includes('n8n')) return 'agente_06_automacao';
+    if (espLower.includes('intel') || espLower.includes('comercial') || espLower.includes('objec') || espLower.includes('funil')) return 'agente_07_inteligencia_comercial';
+    return 'agente_02_coordenador';
+}
+
 class BancoDadosRelacionalVIDE {
     constructor() {
         this.tabelas = {
@@ -137,6 +151,23 @@ class BancoDadosRelacionalVIDE {
                     fs.writeFileSync(arqProj, JSON.stringify(prjObj, null, 2), 'utf-8');
                 } catch (_) {}
             }
+
+            // Atualiza indice_projetos.json para compatibilidade imediata com listarProjetos()
+            try {
+                const pastaPersistencia = path.join(__dirname, 'dados_persistencia');
+                if (!fs.existsSync(pastaPersistencia)) fs.mkdirSync(pastaPersistencia, { recursive: true });
+                const arqIndice = path.join(pastaPersistencia, 'indice_projetos.json');
+                const listaIndice = Array.from(this.tabelas.projetos.values()).map(p => ({
+                    id_projeto: p.id,
+                    cliente_id: p.cliente_id,
+                    cliente: p.cliente_id,
+                    situacao_projeto: p.situacao_projeto,
+                    total_tarefas: 0,
+                    autorizado: p.autorizacao_status === 'AUTORIZADO',
+                    atualizado_em: p.cronograma ? p.cronograma.atualizado_em : new Date().toISOString()
+                }));
+                fs.writeFileSync(arqIndice, JSON.stringify({ projetos: listaIndice, atualizado_em: new Date().toISOString() }, null, 2), 'utf-8');
+            } catch (_) {}
 
             // 3. Tarefas
             const rTar = await this.pgPool.query('SELECT * FROM tarefas');
@@ -476,7 +507,7 @@ class BancoDadosRelacionalVIDE {
             queryCli.then(() => {
                 return this.pgPool.query(`
                     INSERT INTO projetos (id, cliente_id, id_demanda_origem, solicitacao_original, situacao_projeto, autorizacao_status, servicos_autorizados, data_autorizacao, observacao_autorizacao, prioridade, criado_em, atualizado_em)
-                    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)
+                    VALUES ($1, $2, $3, $4, $5, $6, $7::jsonb, $8, $9, $10, $11, $12)
                     ON CONFLICT (id) DO UPDATE SET
                         situacao_projeto = EXCLUDED.situacao_projeto,
                         autorizacao_status = EXCLUDED.autorizacao_status,
@@ -523,7 +554,7 @@ class BancoDadosRelacionalVIDE {
             const servicos = (projeto.autorizacao_comercial && projeto.autorizacao_comercial.servicos_autorizados) || projeto.servicos_autorizados || [];
             await this.pgPool.query(`
                 INSERT INTO projetos (id, cliente_id, id_demanda_origem, solicitacao_original, situacao_projeto, autorizacao_status, servicos_autorizados, data_autorizacao, observacao_autorizacao, prioridade, criado_em, atualizado_em)
-                VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+                VALUES ($1, $2, $3, $4, $5, $6, $7::jsonb, $8, $9, $10, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
                 ON CONFLICT (id) DO UPDATE SET
                     situacao_projeto = EXCLUDED.situacao_projeto,
                     autorizacao_status = EXCLUDED.autorizacao_status,
@@ -547,16 +578,20 @@ class BancoDadosRelacionalVIDE {
             // 3. Garante Tarefas se houver
             if (Array.isArray(projeto.grafo_tarefas)) {
                 for (const t of projeto.grafo_tarefas) {
+                    const idTarefa = t.id_tarefa || t.id;
+                    const agenteId = resolverAgenteId(t.especialista, t.agente_id);
                     await this.pgPool.query(`
-                        INSERT INTO tarefas (id, projeto_id, especialista, titulo, descricao, dependencias, criterios_aceite, estado, criado_em, atualizado_em)
-                        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+                        INSERT INTO tarefas (id, projeto_id, agente_id, especialista, titulo, descricao, dependencias, criterios_aceite, estado, criado_em, atualizado_em)
+                        VALUES ($1, $2, $3, $4, $5, $6, $7::jsonb, $8::jsonb, $9, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
                         ON CONFLICT (id) DO UPDATE SET
+                            agente_id = EXCLUDED.agente_id,
                             estado = EXCLUDED.estado,
                             atualizado_em = CURRENT_TIMESTAMP
                     `, [
-                        t.id_tarefa,
+                        idTarefa,
                         idProjeto,
-                        t.especialista,
+                        agenteId,
+                        t.especialista || 'Especialista VIDE',
                         t.titulo || 'Tarefa Especialista',
                         t.descricao || '',
                         JSON.stringify(t.dependencias || []),
@@ -576,9 +611,74 @@ class BancoDadosRelacionalVIDE {
         try {
             const rProj = await this.pgPool.query('SELECT * FROM projetos WHERE id = $1', [id]);
             if (rProj.rows.length === 0) return null;
-            await this.hidratarDoPostgres();
-            return this.obterProjeto(id);
+            const p = rProj.rows[0];
+
+            // Busca cliente
+            const rCli = await this.pgPool.query('SELECT * FROM clientes WHERE id = $1', [p.cliente_id]);
+            const clienteNome = rCli.rows.length > 0 ? rCli.rows[0].nome : p.cliente_id;
+
+            // Busca tarefas
+            const rTar = await this.pgPool.query('SELECT * FROM tarefas WHERE projeto_id = $1 ORDER BY criado_em ASC', [id]);
+            const tarefas = rTar.rows.map(t => ({
+                id_tarefa: t.id,
+                projeto_id: t.projeto_id,
+                agente_id: t.agente_id,
+                especialista: t.especialista,
+                titulo: t.titulo,
+                descricao: t.descricao,
+                dependencias: typeof t.dependencias === 'string' ? JSON.parse(t.dependencias) : (t.dependencias || []),
+                criterios_aceite: typeof t.criterios_aceite === 'string' ? JSON.parse(t.criterios_aceite) : (t.criterios_aceite || []),
+                estado: t.estado,
+                criado_em: t.criado_em ? new Date(t.criado_em).toISOString() : new Date().toISOString()
+            }));
+
+            let servicos = [];
+            try {
+                servicos = typeof p.servicos_autorizados === 'string' ? JSON.parse(p.servicos_autorizados) : (p.servicos_autorizados || []);
+            } catch (_) {}
+
+            const projetoCompleto = {
+                id: p.id,
+                id_projeto: p.id,
+                cliente_id: p.cliente_id,
+                cliente: clienteNome,
+                id_demanda_origem: p.id_demanda_origem,
+                solicitacao_original: p.solicitacao_original,
+                situacao_projeto: p.situacao_projeto,
+                autorizacao_comercial: {
+                    status: p.autorizacao_status,
+                    servicos_autorizados: servicos,
+                    data_autorizacao: p.data_autorizacao ? new Date(p.data_autorizacao).toISOString() : null,
+                    observacao: p.observacao_autorizacao
+                },
+                cronograma: {
+                    prioridade: p.prioridade || 'NORMAL',
+                    criado_em: p.criado_em ? new Date(p.criado_em).toISOString() : new Date().toISOString(),
+                    atualizado_em: p.atualizado_em ? new Date(p.atualizado_em).toISOString() : new Date().toISOString()
+                },
+                grafo_tarefas: tarefas,
+                registro_operacional: [
+                    {
+                        timestamp: p.criado_em ? new Date(p.criado_em).toISOString() : new Date().toISOString(),
+                        evento: `Projeto [${p.id}] recuperado do PostgreSQL durável.`,
+                        situacao: p.situacao_projeto
+                    }
+                ]
+            };
+
+            this.tabelas.projetos.set(p.id, projetoCompleto);
+            tarefas.forEach(t => this.tabelas.tarefas.set(t.id_tarefa, t));
+
+            // Salva no disco do container efêmero
+            try {
+                const pastaPersistencia = path.join(__dirname, 'dados_persistencia', 'projetos');
+                if (!fs.existsSync(pastaPersistencia)) fs.mkdirSync(pastaPersistencia, { recursive: true });
+                fs.writeFileSync(path.join(pastaPersistencia, `${p.id}.json`), JSON.stringify(projetoCompleto, null, 2), 'utf-8');
+            } catch (_) {}
+
+            return projetoCompleto;
         } catch(e) {
+            console.error('[VIDE_DB] Erro ao obter projeto do PostgreSQL:', e.message);
             return this.obterProjeto(id);
         }
     }
