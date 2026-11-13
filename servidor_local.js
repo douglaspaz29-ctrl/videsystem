@@ -293,8 +293,27 @@ const servidor = http.createServer(async (req, res) => {
     if (urlLimpa.startsWith('/api/projetos/') && !urlLimpa.includes('/arquivos') && req.method === 'GET') {
         const idProjeto = decodeURIComponent(urlLimpa.replace('/api/projetos/', ''));
         let projeto = obterProjetoPorId(idProjeto);
-        if (!projeto) {
+        if (!projeto && db.pgPool) {
             projeto = await db.obterProjetoDoPostgres(idProjeto);
+        }
+        if (!projeto && db.pgPool) {
+            try {
+                const rFiles = await db.pgPool.query('SELECT DISTINCT projeto_id FROM arquivos_armazenamento WHERE projeto_id = $1', [idProjeto]);
+                if (rFiles.rows.length > 0) {
+                    projeto = {
+                        id_projeto: idProjeto,
+                        id: idProjeto,
+                        cliente: 'Cliente Recuperado Storage',
+                        situacao_projeto: 'EM_EXECUCAO',
+                        autorizacao_comercial: { status: 'AUTORIZADO', servicos_autorizados: ['Escopo Homologado VIDE'] },
+                        cronograma: { prioridade: 'NORMAL', criado_em: new Date().toISOString(), atualizado_em: new Date().toISOString() },
+                        grafo_tarefas: [],
+                        registro_operacional: [{ timestamp: new Date().toISOString(), evento: 'Reidratado a partir do armazenamento durável PostgreSQL.', situacao: 'EM_EXECUCAO' }]
+                    };
+                    db.tabelas.projetos.set(idProjeto, projeto);
+                    salvarProjeto(projeto);
+                }
+            } catch (_) {}
         }
         if (!projeto) {
             res.writeHead(404, { 'Content-Type': 'application/json; charset=utf-8' });

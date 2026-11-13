@@ -79,21 +79,88 @@ class BancoDadosRelacionalVIDE {
     async aplicarSchemaSeNecessario() {
         if (!this.pgPool) return;
         try {
-            const caminhoSql = path.join(__dirname, 'schema_postgresql.sql');
-            if (fs.existsSync(caminhoSql)) {
-                const sql = fs.readFileSync(caminhoSql, 'utf-8');
-                await this.pgPool.query(sql);
-                console.log('[VIDE_DB] Schema relacional oficial aplicado com sucesso no PostgreSQL remoto.');
-            }
             await this.pgPool.query(`
+                CREATE TABLE IF NOT EXISTS clientes (
+                    id VARCHAR(64) PRIMARY KEY,
+                    nome VARCHAR(255) NOT NULL,
+                    documento VARCHAR(32),
+                    email VARCHAR(255),
+                    telefone VARCHAR(32),
+                    segmento VARCHAR(128),
+                    ticket_medio NUMERIC(12, 2) DEFAULT 0,
+                    criado_em TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+                    atualizado_em TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+                );
+
+                CREATE TABLE IF NOT EXISTS agentes (
+                    id VARCHAR(64) PRIMARY KEY,
+                    nome VARCHAR(128) NOT NULL,
+                    papel VARCHAR(128) NOT NULL,
+                    tipo_inteligencia VARCHAR(64) NOT NULL DEFAULT 'REGRAS_E_LLM',
+                    versao VARCHAR(32) NOT NULL DEFAULT '1.0',
+                    status VARCHAR(32) NOT NULL DEFAULT 'ATIVO'
+                );
+
+                CREATE TABLE IF NOT EXISTS projetos (
+                    id VARCHAR(64) PRIMARY KEY,
+                    cliente_id VARCHAR(64) NOT NULL,
+                    id_demanda_origem VARCHAR(64),
+                    solicitacao_original TEXT NOT NULL,
+                    situacao_projeto VARCHAR(64) NOT NULL DEFAULT 'AGUARDANDO_AUTORIZACAO_COMERCIAL',
+                    autorizacao_status VARCHAR(32) NOT NULL DEFAULT 'PENDENTE',
+                    servicos_autorizados JSONB DEFAULT '[]'::jsonb,
+                    data_autorizacao TIMESTAMP WITH TIME ZONE,
+                    observacao_autorizacao TEXT,
+                    prioridade VARCHAR(32) DEFAULT 'NORMAL',
+                    criado_em TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+                    atualizado_em TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+                );
+
+                CREATE TABLE IF NOT EXISTS tarefas (
+                    id VARCHAR(64) PRIMARY KEY,
+                    projeto_id VARCHAR(64) NOT NULL,
+                    agente_id VARCHAR(64),
+                    especialista VARCHAR(128) NOT NULL,
+                    titulo VARCHAR(255) NOT NULL,
+                    descricao TEXT,
+                    dependencias JSONB DEFAULT '[]'::jsonb,
+                    criterios_aceite JSONB DEFAULT '[]'::jsonb,
+                    estado VARCHAR(64) NOT NULL DEFAULT 'BLOQUEADA_POR_AUTORIZACAO',
+                    criado_em TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+                    atualizado_em TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+                );
+
+                CREATE TABLE IF NOT EXISTS arquivos_armazenamento (
+                    id VARCHAR(255) PRIMARY KEY,
+                    projeto_id VARCHAR(64) NOT NULL,
+                    especialista VARCHAR(128) NOT NULL,
+                    nome_arquivo VARCHAR(255) NOT NULL,
+                    caminho_relativo VARCHAR(512) NOT NULL,
+                    mimetype VARCHAR(128) DEFAULT 'text/plain',
+                    conteudo TEXT NOT NULL,
+                    tamanho_bytes INT NOT NULL DEFAULT 0,
+                    criado_em TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+                    atualizado_em TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+                );
+
+                INSERT INTO agentes (id, nome, papel, tipo_inteligencia, versao) VALUES
+                ('agente_01_triagem', 'Agente 01 — Triagem', 'Triagem, Diagnóstico e Classificação de Escopo', 'REGRAS_E_LLM', '1.1'),
+                ('agente_02_coordenador', 'Agente 02 — Coordenador Geral', 'Coordenação, Grafo de Tarefas e Auditoria', 'REGRAS_E_LLM', '1.1'),
+                ('agente_03_desenvolvedor', 'Agente 03 — Desenvolvedor Full-Stack', 'Programação, Landing Pages e Soluções Web', 'REGRAS_E_LLM', '1.0'),
+                ('agente_04_branding_design', 'Agente 04 — Branding e Design', 'Identidade Visual, Design Tokens e UI/UX', 'REGRAS_E_LLM', '1.0'),
+                ('agente_05_atendimento', 'Agente 05 — Atendimento e Vendas', 'Jornada, Roteiros Comerciais e Objeções', 'REGRAS_E_LLM', '1.0'),
+                ('agente_06_automacao', 'Agente 06 — Automação e Integrações', 'Workflows n8n, Webhooks e CRM Runtime', 'REGRAS_E_LLM', '1.0'),
+                ('agente_07_inteligencia_comercial', 'Agente 07 — Inteligência Comercial', 'Auditoria de Funil, Motor de Objeções e BI', 'REGRAS_E_LLM', '1.0')
+                ON CONFLICT (id) DO NOTHING;
+
                 ALTER TABLE IF EXISTS clientes DISABLE ROW LEVEL SECURITY;
                 ALTER TABLE IF EXISTS projetos DISABLE ROW LEVEL SECURITY;
                 ALTER TABLE IF EXISTS tarefas DISABLE ROW LEVEL SECURITY;
-                ALTER TABLE IF EXISTS entregas DISABLE ROW LEVEL SECURITY;
-                ALTER TABLE IF EXISTS crm_leads DISABLE ROW LEVEL SECURITY;
-            `).catch(() => {});
+                ALTER TABLE IF EXISTS arquivos_armazenamento DISABLE ROW LEVEL SECURITY;
+            `);
+            console.log('[VIDE_DB] DDL e agentes oficiais garantidos com sucesso no PostgreSQL remoto.');
         } catch (e) {
-            console.warn('[VIDE_DB] Aviso ao aplicar schema no PostgreSQL remoto:', e.message);
+            console.warn('[VIDE_DB] Aviso ao aplicar DDL no PostgreSQL remoto:', e.message);
         }
     }
 
@@ -321,11 +388,22 @@ class BancoDadosRelacionalVIDE {
         }
         try {
             const res = await this.pgPool.query('SELECT NOW() AS agora, version() AS versao');
+            const contagens = {};
+            const tabelas = ['agentes', 'clientes', 'projetos', 'tarefas', 'arquivos_armazenamento'];
+            for (const t of tabelas) {
+                try {
+                    const c = await this.pgPool.query(`SELECT count(*) FROM ${t}`);
+                    contagens[t] = parseInt(c.rows[0].count);
+                } catch(e) {
+                    contagens[t] = `ERRO: ${e.message}`;
+                }
+            }
             return {
                 sucesso: true,
                 modo: 'POSTGRESQL_REMOTO_ATIVO',
                 timestamp_servidor: res.rows[0].agora,
-                versao_postgresql: res.rows[0].versao
+                versao_postgresql: res.rows[0].versao,
+                contagem_tabelas: contagens
             };
         } catch (err) {
             return {
