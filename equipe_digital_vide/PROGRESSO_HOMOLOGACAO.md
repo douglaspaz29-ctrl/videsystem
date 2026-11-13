@@ -3,7 +3,7 @@
 **Diretor Responsável:** Douglas Paz  
 **Ambiente:** Homologação Staging (Render Oregon - Plano Free $0.00)  
 **Repositório:** `https://github.com/douglaspaz29-ctrl/videsystem`  
-**Branch de Homologação:** `staging`  
+**Branch de Homologação:** `staging` (Commit `3de1a53` — Deploy `dep-dbriuihsrm7s7396nbjg` LIVE)  
 **Branch de Produção:** `main` (Intacta no commit `19b26ba`)  
 
 ---
@@ -72,6 +72,7 @@ Todos os testes automatizados foram executados e aprovados:
 6. `testes_whatsapp_integration.js`: **8/8 APROVADOS (100%)**
 7. `testes_persistencia_ponta_a_ponta.js`: **8/8 APROVADOS (100%)**
 8. `testes_integracao_real_n8n.js`: **4/4 APROVADOS (100%)**
+9. `test_final_end_to_end_durability.js` *(Render Live)*: **10/10 APROVADOS (100%)** — Prova cabal de destruição de container e conferência de hash SHA256 bit a bit (`9e32cdecc88a597a5a897835e3c92e86a1648f0b641dce1619037cbe9c98e768`).
 
 ---
 
