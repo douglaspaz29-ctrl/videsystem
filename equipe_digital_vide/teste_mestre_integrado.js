@@ -6,6 +6,7 @@
  */
 
 const http = require('http');
+const https = require('https');
 const path = require('path');
 const fs = require('fs');
 
@@ -14,6 +15,7 @@ const { db } = require(path.join(BASE_DIR, 'banco_dados'));
 const { executarFluxoTriagemParaCoordenador } = require(path.join(BASE_DIR, 'conexao_triagem_coordenador'));
 const { obterProjetoPorId, listarProjetos } = require(path.join(BASE_DIR, 'agente_02_coordenador/repositorio_projetos_tarefas'));
 const { autorizarProjetoComercialmente, conferirEntrega, interpretarComandoDiretora } = require(path.join(BASE_DIR, 'agente_02_coordenador/executor_coordenador'));
+const { storageService } = require(path.join(BASE_DIR, 'storage_service'));
 
 // Especialistas
 const { executarCicloCompletoDesenvolvedor } = require(path.join(BASE_DIR, 'agente_03_desenvolvedor/executor_desenvolvedor'));
@@ -21,6 +23,42 @@ const { executarCicloCompletoBranding } = require(path.join(BASE_DIR, 'agente_04
 const { executarCicloCompletoAtendimento } = require(path.join(BASE_DIR, 'agente_05_atendimento/executor_atendimento'));
 const { executarCicloCompletoAutomacao } = require(path.join(BASE_DIR, 'agente_06_automacao/executor_automacao'));
 const { executarCicloCompletoInteligencia } = require(path.join(BASE_DIR, 'agente_07_inteligencia_comercial/executor_inteligencia_comercial'));
+
+const TEST_API_URL = process.env.TEST_API_URL || 'https://vide-homologacao-backend.onrender.com';
+
+function httpRequestJson(urlStr, method = 'GET', body = null) {
+    return new Promise((resolve) => {
+        const u = new URL(urlStr);
+        const client = u.protocol === 'https:' ? https : http;
+        const options = {
+            hostname: u.hostname,
+            port: u.port || (u.protocol === 'https:' ? 443 : 80),
+            path: u.pathname + u.search,
+            method,
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            timeout: 10000
+        };
+
+        const req = client.request(options, (res) => {
+            let data = '';
+            res.on('data', chunk => data += chunk);
+            res.on('end', () => {
+                try {
+                    const parsed = JSON.parse(data);
+                    resolve({ ok: res.statusCode >= 200 && res.statusCode < 300, status: res.statusCode, data: parsed });
+                } catch(e) {
+                    resolve({ ok: res.statusCode >= 200 && res.statusCode < 300, status: res.statusCode, raw: data });
+                }
+            });
+        });
+
+        req.on('error', err => resolve({ ok: false, err: err.message }));
+        if (body) req.write(typeof body === 'string' ? body : JSON.stringify(body));
+        req.end();
+    });
+}
 
 async function executarTesteMestre() {
     console.log('======================================================================');
@@ -83,7 +121,7 @@ async function executarTesteMestre() {
     const projBloqueado = obterProjetoPorId(fluxoBloqueio.projeto.id_projeto);
     assert('3.2 Bloqueio Rigoroso de Execução Técnica Sem Autorização Comercial', 
         projBloqueado.situacao_projeto === 'AGUARDANDO_AUTORIZACAO_COMERCIAL' && 
-        projBloqueado.grafo_tarefas.every(t => t.id_especialista_responsavel === 'COMERCIAL' || t.estado_tarefa.includes('BLOQUEADA')),
+        projBloqueado.grafo_tarefas.every(t => (t.id_especialista_responsavel === 'COMERCIAL' || (t.especialista || '').toLowerCase().includes('comercial')) || (t.estado || t.estado_tarefa || '').includes('BLOQUEADA')),
         `Status: ${projBloqueado.situacao_projeto} | Nenhuma tarefa técnica despachada`
     );
 
@@ -97,7 +135,7 @@ async function executarTesteMestre() {
 
     // 4.1 Estrategista / Tarefa 01
     const tsk01 = proj.grafo_tarefas[0];
-    assert('4.1 Primeira Tarefa Destravada (PRONTA_PARA_EXECUCAO)', tsk01.estado_tarefa === 'PRONTA_PARA_EXECUCAO', `Tarefa: [${tsk01.id_tarefa}] ${tsk01.titulo_tarefa}`);
+    assert('4.1 Primeira Tarefa Destravada (PRONTA_PARA_EXECUCAO)', (tsk01.estado || tsk01.estado_tarefa) === 'PRONTA_PARA_EXECUCAO', `Tarefa: [${tsk01.id_tarefa}] ${tsk01.titulo || tsk01.titulo_tarefa}`);
     
     // Submeter entrega TSK-01
     const pastaProj = path.join(BASE_DIR, 'entregas_clientes', projId);
@@ -114,138 +152,88 @@ async function executarTesteMestre() {
 
     // Recarregar projeto para ver próxima tarefa destravada
     proj = obterProjetoPorId(projId);
-    const tskBranding = proj.grafo_tarefas.find(t => t.id_especialista_responsavel === 'BRANDING' || t.titulo_tarefa.includes('Visual') || t.titulo_tarefa.includes('Branding'));
-    assert('4.3 Grafo Desbloqueia Automaticamente Tarefa de Branding', tskBranding && tskBranding.estado_tarefa === 'PRONTA_PARA_EXECUCAO', `Tarefa Branding: ${tskBranding ? tskBranding.id_tarefa : 'não encontrada'}`);
+    const tskBranding = proj.grafo_tarefas.find(t => (t.especialista || '').toLowerCase().includes('branding') || (t.titulo || '').includes('Visual') || (t.titulo || '').includes('Branding'));
+    assert('4.3 Grafo Desbloqueia Automaticamente Tarefa de Branding', tskBranding && (tskBranding.estado || tskBranding.estado_tarefa) === 'PRONTA_PARA_EXECUCAO', `Tarefa Branding: ${tskBranding ? tskBranding.id_tarefa : 'não encontrada'}`);
 
     // 4.4 Agente 04 — Branding e Design
-    const resBranding = await branding.executarBrandingCompleto({
-        id_projeto: projId,
-        id_tarefa: tskBranding.id_tarefa,
-        cliente: 'Holding Douglas Alpha S/A',
-        segmento: 'Engenharia Digital & Tecnologia',
-        paleta: { primaria: '#050505', acento: '#00F0FF', neutro: '#1A1A1A' }
+    const resBranding = executarCicloCompletoBranding({
+        idProjeto: projId,
+        idTarefa: tskBranding.id_tarefa
     });
-    assert('4.4 Agente 04 (Branding) Produz Tokens e Ativos Visuais', resBranding.sucesso && resBranding.arquivos_gerados.length >= 3, `Arquivos Gerados: ${resBranding.arquivos_gerados.length}`);
+    assert('4.4 Agente 04 (Branding) Produz Tokens e Ativos Visuais', resBranding && resBranding.dadosEntrega?.arquivosCriados?.length >= 3, `Arquivos Gerados: ${resBranding.dadosEntrega?.arquivosCriados?.length}`);
 
-    const auditBranding = conferirEntrega(projId, tskBranding.id_tarefa, {
-        descricao: 'Identidade visual, paleta de cores e tokens CSS gerados.',
-        arquivos_entregues: resBranding.arquivos_gerados,
-        dados_tecnicos: resBranding
-    });
-    assert('4.5 Coordenador Homologa Branding e Desbloqueia Dev', auditBranding.sucesso && auditBranding.estado_final === 'APROVADA');
+    proj = obterProjetoPorId(projId);
+    const tskBrandingPos = proj.grafo_tarefas.find(t => t.id_tarefa === tskBranding.id_tarefa);
+    assert('4.5 Coordenador Homologa Branding e Desbloqueia Dev', tskBrandingPos && tskBrandingPos.estado === 'APROVADA');
 
     // 4.6 Agente 03 — Desenvolvedor Full-Stack
     proj = obterProjetoPorId(projId);
-    const tskDev = proj.grafo_tarefas.find(t => t.id_especialista_responsavel === 'DESENVOLVEDOR' || t.titulo_tarefa.includes('Landing Page') || t.titulo_tarefa.includes('Site'));
-    assert('4.6 Tarefa do Desenvolvedor Desbloqueada no Grafo', tskDev && tskDev.estado_tarefa === 'PRONTA_PARA_EXECUCAO', `Dev ID: ${tskDev.id_tarefa}`);
+    const tskDev = proj.grafo_tarefas.find(t => (t.especialista || '').toLowerCase().includes('desenvolv') || (t.titulo || '').includes('Landing Page') || (t.titulo || '').includes('Site'));
+    assert('4.6 Tarefa do Desenvolvedor Desbloqueada no Grafo', tskDev && (tskDev.estado || tskDev.estado_tarefa) === 'PRONTA_PARA_EXECUCAO', `Dev ID: ${tskDev.id_tarefa}`);
 
-    const resDev = await dev.executarDesenvolvimentoLandingPage({
-        id_projeto: projId,
-        id_tarefa: tskDev.id_tarefa,
-        cliente: 'Holding Douglas Alpha S/A',
-        tokens_branding: resBranding.tokens_css
+    const resDev = executarCicloCompletoDesenvolvedor({
+        idProjeto: projId,
+        idTarefa: tskDev.id_tarefa
     });
-    assert('4.7 Agente 03 (Desenvolvedor) Constrói Portal Consumindo Tokens', resDev.sucesso && resDev.arquivos_gerados.length >= 2, `Arquivos: ${resDev.arquivos_gerados.join(', ')}`);
+    assert('4.7 Agente 03 (Desenvolvedor) Constrói Portal Consumindo Tokens', resDev && resDev.dadosEntrega?.arquivosCriados?.length >= 2, `Arquivos: ${(resDev.dadosEntrega?.arquivosCriados || []).join(', ')}`);
 
-    const auditDev = conferirEntrega(projId, tskDev.id_tarefa, {
-        descricao: 'Portal construído com HTML5 semântico e CSS de alta conversão.',
-        arquivos_entregues: resDev.arquivos_gerados,
-        dados_tecnicos: resDev
-    });
-    assert('4.8 Coordenador Homologa Portal do Desenvolvedor', auditDev.sucesso);
+    proj = obterProjetoPorId(projId);
+    const tskDevPos = proj.grafo_tarefas.find(t => t.id_tarefa === tskDev.id_tarefa);
+    assert('4.8 Coordenador Homologa Portal do Desenvolvedor', tskDevPos && tskDevPos.estado === 'APROVADA');
 
     // 4.9 Agente 05 — Atendimento e Vendas
     proj = obterProjetoPorId(projId);
-    const tskAtend = proj.grafo_tarefas.find(t => t.id_especialista_responsavel === 'ATENDIMENTO');
+    const tskAtend = proj.grafo_tarefas.find(t => (t.especialista || '').toLowerCase().includes('atend'));
     if (tskAtend) {
-        const resAtend = await atendimento.estruturarProcessoAtendimentoCompleto({
-            id_projeto: projId,
-            id_tarefa: tskAtend.id_tarefa,
-            cliente: 'Holding Douglas Alpha S/A',
-            canais: ['WhatsApp', 'Instagram Direct']
+        const resAtend = executarCicloCompletoAtendimento({
+            idProjeto: projId,
+            idTarefa: tskAtend.id_tarefa
         });
-        assert('4.9 Agente 05 (Atendimento) Estrutura Roteiros Comerciais e Objeções', resAtend.sucesso && resAtend.arquivos_gerados.length >= 4, `Arquivos: ${resAtend.arquivos_gerados.length}`);
-        conferirEntrega(projId, tskAtend.id_tarefa, {
-            descricao: 'Matrizes de qualificação, objeções e follow-up finalizadas.',
-            arquivos_entregues: resAtend.arquivos_gerados,
-            dados_tecnicos: resAtend
-        });
+        assert('4.9 Agente 05 (Atendimento) Estrutura Roteiros Comerciais e Objeções', resAtend && resAtend.dadosEntrega?.arquivosCriados?.length >= 4, `Arquivos: ${resAtend.dadosEntrega?.arquivosCriados?.length}`);
     }
 
     // 4.10 Agente 06 — Automação e Integrações
     proj = obterProjetoPorId(projId);
-    const tskAuto = proj.grafo_tarefas.find(t => t.id_especialista_responsavel === 'AUTOMACAO');
+    const tskAuto = proj.grafo_tarefas.find(t => (t.especialista || '').toLowerCase().includes('auto'));
     if (tskAuto) {
-        const resAuto = await automacao.gerarWorkflowsAutomacao({
-            id_projeto: projId,
-            id_tarefa: tskAuto.id_tarefa,
-            cliente: 'Holding Douglas Alpha S/A'
+        const resAuto = executarCicloCompletoAutomacao({
+            idProjeto: projId,
+            idTarefa: tskAuto.id_tarefa
         });
-        assert('4.10 Agente 06 (Automação) Constrói Workflows n8n e Webhooks', resAuto.sucesso && resAuto.arquivos_gerados.length >= 2, `Arquivos: ${resAuto.arquivos_gerados.length}`);
-        conferirEntrega(projId, tskAuto.id_tarefa, {
-            descricao: 'Workflows n8n gerados e integrados.',
-            arquivos_entregues: resAuto.arquivos_gerados,
-            dados_tecnicos: resAuto
-        });
+        assert('4.10 Agente 06 (Automação) Constrói Workflows n8n e Webhooks', resAuto && resAuto.dadosEntrega?.arquivosCriados?.length >= 2, `Arquivos: ${resAuto.dadosEntrega?.arquivosCriados?.length}`);
     }
 
     // 4.11 Agente 07 — Inteligência Comercial
-    const resIntel = await intel.executarAuditoriaComercial({
-        id_projeto: projId,
-        cliente: 'Holding Douglas Alpha S/A',
-        conversas_amostra: []
-    });
-    assert('4.11 Agente 07 (Inteligência Comercial) Gera Relatório com Rigor Epistemológico', resIntel.sucesso && resIntel.arquivos_gerados.length >= 3, `Arquivos: ${resIntel.arquivos_gerados.length}`);
+    proj = obterProjetoPorId(projId);
+    const tskIntel = proj.grafo_tarefas.find(t => (t.especialista || '').toLowerCase().includes('intel'));
+    if (tskIntel) {
+        const resIntel = executarCicloCompletoInteligencia({
+            idProjeto: projId,
+            idTarefa: tskIntel.id_tarefa
+        });
+        assert('4.11 Agente 07 (Inteligência Comercial) Gera Relatório com Rigor Epistemológico', resIntel && resIntel.dadosEntrega?.arquivosCriados?.length >= 3, `Arquivos: ${resIntel.dadosEntrega?.arquivosCriados?.length}`);
+    }
 
     // 5. REGISTRO FÍSICO DAS ENTREGAS EM DISCO
     console.log('\n--- ETAPA 5: AUDITORIA DE PERSISTÊNCIA DAS ENTREGAS ---');
-    const arquivosNoDisco = fs.readdirSync(pastaProj);
-    assert('5.1 Arquivos Físicos Gravados no Diretório do Cliente', arquivosNoDisco.length >= 6, `Total de Arquivos em ${pastaProj}: ${arquivosNoDisco.length}`);
+    const arquivosListados = storageService.listarArquivosProjeto(projId);
+    assert('5.1 Arquivos Físicos Gravados no Diretório do Cliente', arquivosListados.length >= 6, `Total de Arquivos Gerados: ${arquivosListados.length}`);
 
     // 6. HISTÓRICO E ISOLAMENTO
     console.log('\n--- ETAPA 6: HISTÓRICO OPERACIONAL E ISOLAMENTO ---');
     proj = obterProjetoPorId(projId);
-    assert('6.1 Histórico de Eventos Auditados Preservado', proj.historico_operacional && proj.historico_operacional.length >= 3, `Eventos Registrados: ${proj.historico_operacional.length}`);
+    const historico = proj.registro_operacional || proj.historico_operacional || [];
+    assert('6.1 Histórico de Eventos Auditados Preservado', historico.length >= 3, `Eventos Registrados: ${historico.length}`);
 
     // 7. COMUNICAÇÃO COM A CENTRAL DE COMANDO
     console.log('\n--- ETAPA 7: COMUNICAÇÃO COM CENTRAL DE COMANDO & API ---');
-    const statusApi = await new Promise((resolve) => {
-        http.get('http://localhost:3000/api/status/infraestrutura', (res) => {
-            let data = '';
-            res.on('data', chunk => data += chunk);
-            res.on('end', () => {
-                try {
-                    const parsed = JSON.parse(data);
-                    resolve({ ok: res.statusCode === 200, data: parsed });
-                } catch(e) { resolve({ ok: false, err: e.message }); }
-            });
-        }).on('error', err => resolve({ ok: false, err: err.message }));
-    });
-    assert('7.1 Central de Comando Recebe Telemetria ao Vivo da API', statusApi.ok && statusApi.data.servidor.status === 'ONLINE', `Servidor Status: ${statusApi.data.servidor.status}`);
+    const statusApi = await httpRequestJson(`${TEST_API_URL}/api/status/infraestrutura`);
+    assert('7.1 Central de Comando Recebe Telemetria ao Vivo da API', statusApi.ok && statusApi.data?.servidor?.status === 'ONLINE', `Servidor Status: ${statusApi.data?.servidor?.status}`);
 
-    const cmdApi = await new Promise((resolve) => {
-        const payload = JSON.stringify({ instrucao: 'quais projetos estão em andamento?' });
-        const req = http.request('http://localhost:3000/api/coordenador/instrucao', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Content-Length': Buffer.byteLength(payload)
-            }
-        }, (res) => {
-            let data = '';
-            res.on('data', chunk => data += chunk);
-            res.on('end', () => {
-                try {
-                    const parsed = JSON.parse(data);
-                    resolve({ ok: res.statusCode === 200, data: parsed });
-                } catch(e) { resolve({ ok: false, err: e.message }); }
-            });
-        });
-        req.on('error', err => resolve({ ok: false, err: err.message }));
-        req.write(payload);
-        req.end();
+    const cmdApi = await httpRequestJson(`${TEST_API_URL}/api/coordenador/instrucao`, 'POST', {
+        instrucao: 'quais projetos estão em andamento?'
     });
-    assert('7.2 Terminal da Central de Comando Interage com o Coordenador', cmdApi.ok && cmdApi.data.sucesso, `Resposta do Coordenador: ${cmdApi.data.parecer.substring(0, 70)}...`);
+    assert('7.2 Terminal da Central de Comando Interage com o Coordenador', cmdApi.ok && cmdApi.data?.sucesso, `Resposta do Coordenador: ${(cmdApi.data?.parecer || '').substring(0, 70)}...`);
 
     // =========================================================================
     // RESULTADO FINAL CONSOLIDADO

@@ -205,6 +205,7 @@ function atualizarEstadoTarefa({ idProjeto, idTarefa, novoEstado, notaAuditoria 
 
     const estadoAnterior = tarefa.estado;
     tarefa.estado = novoEstado;
+    tarefa.estado_tarefa = novoEstado;
 
     if (!tarefa.historico_auditoria) {
         tarefa.historico_auditoria = [];
@@ -226,12 +227,20 @@ function atualizarEstadoTarefa({ idProjeto, idTarefa, novoEstado, notaAuditoria 
     // Verifica se todas as tarefas do projeto foram concluídas
     verificarConclusaoProjeto(projeto);
 
-    registrarEvento(idProjeto, `Tarefa [${idTarefa}] transicionou de [${estadoAnterior}] para [${novoEstado}]`, {
-        id_tarefa: idTarefa,
-        estado_anterior: estadoAnterior,
-        novo_estado: novoEstado,
-        nota: notaAuditoria
+    if (!projeto.registro_operacional) {
+        projeto.registro_operacional = [];
+    }
+    projeto.registro_operacional.push({
+        timestamp: new Date().toISOString(),
+        evento: `Tarefa [${idTarefa}] transicionou de [${estadoAnterior}] para [${novoEstado}]`,
+        detalhes: {
+            id_tarefa: idTarefa,
+            estado_anterior: estadoAnterior,
+            novo_estado: novoEstado,
+            nota: notaAuditoria
+        }
     });
+    projeto.historico_operacional = projeto.registro_operacional;
 
     return salvarProjeto(projeto);
 }
@@ -253,6 +262,7 @@ function recalcularGrafoDependencias(projeto) {
 
             if (todasPredecessorasAprovadas) {
                 tarefa.estado = 'PRONTA_PARA_EXECUCAO';
+                tarefa.estado_tarefa = 'PRONTA_PARA_EXECUCAO';
                 tarefa.historico_auditoria.push({
                     timestamp: new Date().toISOString(),
                     autor: 'Sistema de Grafo (Coordenador)',

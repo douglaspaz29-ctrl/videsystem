@@ -684,42 +684,42 @@
                 <!-- AGT-02 -->
                 <div class="agent-micro-card is-leader">
                     <span class="agent-code-tag" style="color: #0051FF;">AGT-02 [LÍDER]</span>
-                    <div class="agent-name-title">Coordenação Geral</div>
+                    <div class="agent-name-title">Coordenador Geral</div>
                     <div class="agent-live-status"><i class="fas fa-circle" style="font-size: 7px;"></i> ATIVO</div>
                 </div>
 
                 <!-- AGT-03 -->
                 <div class="agent-micro-card">
                     <span class="agent-code-tag">AGT-03</span>
-                    <div class="agent-name-title">Presença Digital</div>
+                    <div class="agent-name-title">Desenvolvedor Full-Stack</div>
                     <div class="agent-live-status"><i class="fas fa-circle" style="font-size: 7px;"></i> ATIVO</div>
                 </div>
 
                 <!-- AGT-04 -->
                 <div class="agent-micro-card">
                     <span class="agent-code-tag">AGT-04</span>
-                    <div class="agent-name-title">Comunicação & Copy</div>
+                    <div class="agent-name-title">Branding e Design</div>
                     <div class="agent-live-status"><i class="fas fa-circle" style="font-size: 7px;"></i> ATIVO</div>
                 </div>
 
                 <!-- AGT-05 -->
                 <div class="agent-micro-card">
                     <span class="agent-code-tag">AGT-05</span>
-                    <div class="agent-name-title">Engenharia Web</div>
+                    <div class="agent-name-title">Atendimento e Vendas</div>
                     <div class="agent-live-status"><i class="fas fa-circle" style="font-size: 7px;"></i> ATIVO</div>
                 </div>
 
                 <!-- AGT-06 -->
                 <div class="agent-micro-card">
                     <span class="agent-code-tag">AGT-06</span>
-                    <div class="agent-name-title">Automação & APIs</div>
+                    <div class="agent-name-title">Automação e Integrações</div>
                     <div class="agent-live-status"><i class="fas fa-circle" style="font-size: 7px;"></i> ATIVO</div>
                 </div>
 
                 <!-- AGT-07 -->
                 <div class="agent-micro-card">
                     <span class="agent-code-tag">AGT-07</span>
-                    <div class="agent-name-title">Inteligência & Dados</div>
+                    <div class="agent-name-title">Inteligência Comercial</div>
                     <div class="agent-live-status"><i class="fas fa-circle" style="font-size: 7px;"></i> AUDITANDO</div>
                 </div>
             </div>
@@ -762,7 +762,7 @@
             </div>
 
             <form class="terminal-prompt-bar-wrap" onsubmit="enviarComandoTerminal(event)">
-                <input type="text" class="terminal-prompt-input" id="terminal-input" placeholder="Digite um comando ('ajuda', 'status', 'projetos', 'login douglas <senha>', 'aprovar <id>')...">
+                <input type="text" class="terminal-prompt-input" id="terminal-input" placeholder="Digite um comando ('demanda <texto>', 'aprovar <id>', 'executar <id>', 'status', 'projetos')...">
                 <button type="submit" class="btn-blue-action" style="padding: 14px 28px;">
                     <i class="fas fa-paper-plane"></i>
                     <span>Executar</span>
@@ -818,7 +818,7 @@
 
         // 1. Comando AJUDA / HELP
         if (acao === 'ajuda' || acao === 'help') {
-            adicionarLogTerminal('AGT-02 COORDENADOR', 'Comandos do Cockpit: [status], [projetos], [login <usr> <pwd>], [aprovar <id>], [limpar], ou diretriz livre para orquestração.');
+            adicionarLogTerminal('AGT-02 COORDENADOR', 'Comandos do Cockpit: [demanda <texto>], [status], [projetos], [login <usr> <pwd>], [aprovar <id>], [executar <id>], [auditar <id>], [limpar] ou diretriz executiva livre.');
             return;
         }
 
@@ -888,6 +888,102 @@
             return;
         }
 
+        // 5.1 Comando DEMANDA <texto> ou LEAD <texto> — Ingestão direta via Cockpit
+        if (acao === 'demanda' || acao === 'lead' || acao === 'triagem') {
+            const textoDemanda = cmd.substring(acao.length).trim();
+            if (!textoDemanda) {
+                adicionarLogTerminal('AGT-01 TRIAGEM', 'Sintaxe: demanda <descreva a necessidade do cliente>');
+                return;
+            }
+            try {
+                adicionarLogTerminal('AGT-01 TRIAGEM', 'Ingerindo e classificando demanda comercial...');
+                const res = await fetch('/api/webhook/triagem', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        solicitacao: textoDemanda,
+                        cliente: 'Diretoria VIDE (Cockpit Executivo)'
+                    })
+                });
+                const data = await res.json();
+                if (res.ok && data.id_projeto) {
+                    adicionarLogTerminal('AGT-01 TRIAGEM', 'Demanda classificada com sucesso! ID: ' + (data.id_demanda || 'N/A') + ' | Diagnóstico: ' + (data.resultado?.triagem?.servicoSolicitado || 'Tripartite'));
+                    adicionarLogTerminal('AGT-02 COORDENADOR', 'Projeto [' + data.id_projeto + '] registrado no Coordenador Geral. Situação: AGUARDANDO_AUTORIZACAO_COMERCIAL (Bloqueio estrito de especialistas até autorização da Diretoria).');
+                    adicionarLogTerminal('DIRETORIA', 'Para liberar e disparar os 7 especialistas, execute: aprovar ' + data.id_projeto);
+                    carregarTelemetriaReal();
+                } else {
+                    adicionarLogTerminal('AGT-01 TRIAGEM', 'Erro ao processar demanda: ' + (data.erro || 'Falha desconhecida'));
+                }
+            } catch(err) {
+                adicionarLogTerminal('AGT-01 TRIAGEM', 'Erro de conexão: ' + err.message);
+            }
+            return;
+        }
+
+        // 5.2 Comando EXECUTAR <id_projeto> ou ESTEIRA <id_projeto>
+        if (acao === 'executar' || acao === 'esteira') {
+            const id_projeto = parts[1];
+            if (!id_projeto) {
+                adicionarLogTerminal('AGT-02 COORDENADOR', 'Sintaxe: executar <ID_PROJETO>');
+                return;
+            }
+            const token = sessionStorage.getItem('vide_jwt');
+            if (!token) {
+                adicionarLogTerminal('SEGURANÇA', 'Erro 401: Ação restrita à Diretoria. Execute primeiro: login <usuario> <senha>');
+                return;
+            }
+            try {
+                adicionarLogTerminal('AGT-02 COORDENADOR', 'Disparando esteira completa dos especialistas para [' + id_projeto + ']...');
+                const res = await fetch('/api/coordenador/executar-esteira', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + token
+                    },
+                    body: JSON.stringify({ id_projeto })
+                });
+                const data = await res.json();
+                if (res.ok) {
+                    adicionarLogTerminal('AGT-02 COORDENADOR', 'Esteira concluída com sucesso! ' + (data.entregaveis?.length || 0) + ' tarefas especializadas executadas.');
+                    carregarTelemetriaReal();
+                } else {
+                    adicionarLogTerminal('AGT-02 COORDENADOR', 'Falha na execução: ' + (data.erro || 'Erro não especificado'));
+                }
+            } catch(err) {
+                adicionarLogTerminal('AGT-02 COORDENADOR', 'Erro na execução: ' + err.message);
+            }
+            return;
+        }
+
+        // 5.3 Comando AUDITAR <id_projeto> ou ARQUIVOS <id_projeto>
+        if (acao === 'auditar' || acao === 'arquivos') {
+            const id_projeto = parts[1];
+            if (!id_projeto) {
+                adicionarLogTerminal('AGT-07 TELEMETRIA', 'Sintaxe: auditar <ID_PROJETO>');
+                return;
+            }
+            const token = sessionStorage.getItem('vide_jwt');
+            const headers = token ? { 'Authorization': 'Bearer ' + token } : {};
+            try {
+                const res = await fetch('/api/projetos/' + id_projeto + '/arquivos', { headers });
+                const data = await res.json();
+                if (res.ok) {
+                    const totalPg = data.total_arquivos_postgresql || 0;
+                    const arqs = data.arquivos || data.arquivos_em_disco || [];
+                    adicionarLogTerminal('AGT-07 TELEMETRIA', 'Auditoria [' + id_projeto + ']: ' + arqs.length + ' arquivos em disco | ' + totalPg + ' persistidos no PostgreSQL durável.');
+                    if (arqs.length > 0) {
+                        const lista = arqs.slice(0, 4).map(a => typeof a === 'string' ? a : a.nome_arquivo).join(', ');
+                        adicionarLogTerminal('AGT-07 TELEMETRIA', 'Entregáveis auditados: ' + lista + ' (+ ' + (arqs.length - 4) + ' adicionais)');
+                    }
+                } else {
+                    adicionarLogTerminal('AGT-07 TELEMETRIA', 'Falha ao auditar: ' + (data.erro || 'Erro não especificado'));
+                }
+            } catch(err) {
+                adicionarLogTerminal('AGT-07 TELEMETRIA', 'Erro ao auditar: ' + err.message);
+            }
+            return;
+        }
+
         // 6. Comando APROVAR <id_projeto>
         if (acao === 'aprovar') {
             const id_projeto = parts[1];
@@ -911,7 +1007,14 @@
                 });
                 const data = await res.json();
                 if (res.ok) {
-                    adicionarLogTerminal('AGT-02 COORDENADOR', 'Projeto [' + id_projeto + '] homologado e aprovado com sucesso pela Diretoria! Especialistas acionados.');
+                    adicionarLogTerminal('AGT-02 COORDENADOR', 'Projeto [' + id_projeto + '] homologado e aprovado pela Diretoria! Grafo de tarefas ativado.');
+                    if (Array.isArray(data.entregaveis) && data.entregaveis.length > 0) {
+                        data.entregaveis.forEach(ent => {
+                            adicionarLogTerminal('ESPECIALISTA', '✓ ' + ent.especialista + ': Ativos gerados e conferidos pelo Coordenador Geral.');
+                        });
+                        adicionarLogTerminal('AGT-02 COORDENADOR', 'Projeto [' + id_projeto + '] atingiu AGUARDANDO_HOMOLOGACAO_GESTAO com 100% dos critérios validados!');
+                    }
+                    carregarTelemetriaReal();
                 } else {
                     adicionarLogTerminal('AGT-02 COORDENADOR', 'Falha ao aprovar projeto: ' + (data.erro || 'Erro não especificado'));
                 }

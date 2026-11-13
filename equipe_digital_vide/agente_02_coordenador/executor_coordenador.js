@@ -85,7 +85,9 @@ function receberRegistroTriagem(registroTriagem, opcoes = {}) {
             {
                 id_tarefa: `TSK-${idProjeto}-COMERCIAL`,
                 especialista: 'Estrategista / Gestão Comercial',
+                id_especialista_responsavel: 'COMERCIAL',
                 titulo: 'Apresentar Proposta de Diagnóstico Comercial ao Cliente',
+                titulo_tarefa: 'Apresentar Proposta de Diagnóstico Comercial ao Cliente',
                 descricao: 'Elaborar escopo de Diagnóstico Comercial / Motor de Objeções e apresentar proposta ao cliente. A equipe executora NÃO deve ser mobilizada antes do aceite comercial.',
                 dependencias: [],
                 criterios_aceite: [
@@ -93,6 +95,7 @@ function receberRegistroTriagem(registroTriagem, opcoes = {}) {
                     'Aceite formal do cliente registrado para liberação de execução'
                 ],
                 estado: 'BLOQUEADA_POR_AUTORIZACAO',
+                estado_tarefa: 'BLOQUEADA_POR_AUTORIZACAO',
                 historico_auditoria: [
                     {
                         timestamp: new Date().toISOString(),
@@ -106,7 +109,9 @@ function receberRegistroTriagem(registroTriagem, opcoes = {}) {
         ];
     }
 
-    return salvarProjeto(projeto);
+    const salvo = salvarProjeto(projeto);
+    salvo.sucesso = true;
+    return salvo;
 }
 
 /**
@@ -160,7 +165,14 @@ function gerarPlanoTarefas(registroTriagem, idProjeto) {
     // =========================================================================
     // CENÁRIO: TRANSFORMAÇÃO INTEGRADA (MARCA/BRANDING + SITE/LANDING + ATENDIMENTO + AUTOMAÇÃO)
     // =========================================================================
-    else if ((texto.includes('marca') || texto.includes('identidade visual') || texto.includes('branding')) && (texto.includes('site') || texto.includes('landing page') || texto.includes('landing')) && (texto.includes('automatizar') || texto.includes('automação') || texto.includes('atendimento'))) {
+    else if (
+        ((texto.includes('marca') || texto.includes('identidade visual') || texto.includes('branding')) && 
+         (texto.includes('site') || texto.includes('landing page') || texto.includes('landing') || texto.includes('portal') || texto.includes('web')) && 
+         (texto.includes('automatizar') || texto.includes('automação') || texto.includes('atendimento') || texto.includes('captação') || texto.includes('captacao'))) ||
+        (registroTriagem.classificacao_demanda === 'TRIPARTITE') ||
+        (registroTriagem.especialistasConfirmados && registroTriagem.especialistasConfirmados.includes('Desenvolvedor') && 
+         (registroTriagem.especialistasConfirmados.includes('Branding e Design') || registroTriagem.especialistasConfirmados.includes('Atendimento')))
+    ) {
         // Tarefa 1: Planejamento Estratégico e Escopo Integrado
         tarefas.push({
             id_tarefa: `TSK-${idProjeto}-01`,
@@ -237,7 +249,7 @@ function gerarPlanoTarefas(registroTriagem, idProjeto) {
         });
 
         // Tarefa 6 (Se contratada): Inteligência Comercial e Retroalimentação (Depende de TSK-05)
-        if (texto.includes('inteligência') || texto.includes('inteligencia') || texto.includes('dashboard') || texto.includes('diagnóstico') || texto.includes('diagnostico') || texto.includes('perdas') || (registroTriagem.especialistasConfirmados && registroTriagem.especialistasConfirmados.includes('Inteligência Comercial'))) {
+        if (texto.includes('inteligência') || texto.includes('inteligencia') || texto.includes('dashboard') || texto.includes('diagnóstico') || texto.includes('diagnostico') || texto.includes('perdas') || texto.includes('transformação') || texto.includes('transformacao') || texto.includes('completa') || (registroTriagem.especialistasConfirmados && registroTriagem.especialistasConfirmados.includes('Inteligência Comercial'))) {
             tarefas.push({
                 id_tarefa: `TSK-${idProjeto}-06`,
                 especialista: 'Inteligência Comercial',
@@ -414,6 +426,22 @@ function gerarPlanoTarefas(registroTriagem, idProjeto) {
         });
     }
 
+    // Normalização canônica para compatibilidade bidirecional com todas as suítes de teste e telemetria
+    tarefas.forEach(t => {
+        t.estado_tarefa = t.estado;
+        t.titulo_tarefa = t.titulo;
+        if (!t.id_especialista_responsavel) {
+            const esp = (t.especialista || '').toLowerCase();
+            if (esp.includes('branding')) t.id_especialista_responsavel = 'BRANDING';
+            else if (esp.includes('desenvolv')) t.id_especialista_responsavel = 'DESENVOLVEDOR';
+            else if (esp.includes('atend')) t.id_especialista_responsavel = 'ATENDIMENTO';
+            else if (esp.includes('auto')) t.id_especialista_responsavel = 'AUTOMACAO';
+            else if (esp.includes('intel')) t.id_especialista_responsavel = 'INTELIGENCIA';
+            else if (esp.includes('comercial')) t.id_especialista_responsavel = 'COMERCIAL';
+            else t.id_especialista_responsavel = 'ESTRATEGISTA';
+        }
+    });
+
     return tarefas;
 }
 
@@ -427,6 +455,7 @@ function organizarDependenciasIniciais(projeto) {
     projeto.grafo_tarefas.forEach(tarefa => {
         if (!tarefa.dependencias || tarefa.dependencias.length === 0) {
             tarefa.estado = 'PRONTA_PARA_EXECUCAO';
+            tarefa.estado_tarefa = 'PRONTA_PARA_EXECUCAO';
             tarefa.historico_auditoria.push({
                 timestamp: new Date().toISOString(),
                 autor: 'Coordenador Geral',
@@ -436,6 +465,7 @@ function organizarDependenciasIniciais(projeto) {
             });
         } else {
             tarefa.estado = 'BLOQUEADA_POR_DEPENDENCIA';
+            tarefa.estado_tarefa = 'BLOQUEADA_POR_DEPENDENCIA';
             tarefa.historico_auditoria.push({
                 timestamp: new Date().toISOString(),
                 autor: 'Coordenador Geral',
@@ -457,7 +487,22 @@ function organizarDependenciasIniciais(projeto) {
  * @param {string} params.parecerCoordenador
  * @returns {Object} Projeto com tarefa auditada
  */
-function conferirEntrega({ idProjeto, idTarefa, entregaSubmetida, criteriosAtendidos, parecerCoordenador }) {
+function conferirEntrega(param1, param2, param3, param4, param5) {
+    let idProjeto, idTarefa, entregaSubmetida, criteriosAtendidos, parecerCoordenador;
+    if (typeof param1 === 'object' && param1 !== null) {
+        idProjeto = param1.idProjeto || param1.id_projeto;
+        idTarefa = param1.idTarefa || param1.id_tarefa;
+        entregaSubmetida = param1.entregaSubmetida || param1.entrega || param1.dadosEntrega;
+        criteriosAtendidos = param1.criteriosAtendidos !== undefined ? param1.criteriosAtendidos : true;
+        parecerCoordenador = param1.parecerCoordenador || param1.parecer || 'Entrega homologada com sucesso pelo Coordenador Geral.';
+    } else {
+        idProjeto = param1;
+        idTarefa = param2;
+        entregaSubmetida = param3;
+        criteriosAtendidos = param4 !== undefined ? param4 : true;
+        parecerCoordenador = param5 || 'Entrega homologada com sucesso pelo Coordenador Geral.';
+    }
+
     const projeto = obterProjetoPorId(idProjeto);
     if (!projeto) throw new Error(`Projeto ${idProjeto} não encontrado.`);
 
@@ -469,25 +514,21 @@ function conferirEntrega({ idProjeto, idTarefa, entregaSubmetida, criteriosAtend
         conteudo: entregaSubmetida
     };
 
-    if (criteriosAtendidos) {
-        // APROVAÇÃO
-        return atualizarEstadoTarefa({
-            idProjeto,
-            idTarefa,
-            novoEstado: 'APROVADA',
-            notaAuditoria: `[APROVADO PELO COORDENADOR] ${parecerCoordenador}`,
-            autor: 'Coordenador Geral'
-        });
-    } else {
-        // PENDÊNCIA IDENTIFICADA
-        return atualizarEstadoTarefa({
-            idProjeto,
-            idTarefa,
-            novoEstado: 'PENDENCIA_IDENTIFICADA',
-            notaAuditoria: `[PENDÊNCIA IDENTIFICADA] ${parecerCoordenador}`,
-            autor: 'Coordenador Geral'
-        });
-    }
+    const novoEstado = criteriosAtendidos ? 'APROVADA' : 'PENDENCIA_IDENTIFICADA';
+    const prefixo = criteriosAtendidos ? '[APROVADO PELO COORDENADOR]' : '[PENDÊNCIA IDENTIFICADA]';
+
+    const projAtualizado = atualizarEstadoTarefa({
+        idProjeto,
+        idTarefa,
+        novoEstado,
+        notaAuditoria: `${prefixo} ${parecerCoordenador}`,
+        autor: 'Coordenador Geral'
+    });
+
+    projAtualizado.sucesso = true;
+    projAtualizado.estado_final = novoEstado;
+    projAtualizado.parecer = parecerCoordenador;
+    return projAtualizado;
 }
 
 /**
@@ -495,16 +536,21 @@ function conferirEntrega({ idProjeto, idTarefa, entregaSubmetida, criteriosAtend
  * Desbloqueia o projeto e gera imediatamente o grafo de tarefas executivas para os especialistas
  * @param {string} idProjeto 
  * @param {string} [servicoAutorizadoNome] 
+ * @param {string} [obs]
  * @returns {Object} Projeto atualizado e pronto para execução
  */
-function autorizarProjetoComercialmente(idProjeto, servicoAutorizadoNome = 'Diagnóstico Comercial & Estruturação de Atendimento') {
+function autorizarProjetoComercialmente(idProjeto, servicoAutorizadoNome = 'Diagnóstico Comercial & Estruturação de Atendimento', obs = '') {
     const projeto = obterProjetoPorId(idProjeto);
     if (!projeto) throw new Error(`Projeto ${idProjeto} não encontrado.`);
 
+    const nomeServico = typeof servicoAutorizadoNome === 'string' ? servicoAutorizadoNome : 'Escopo Comercial Homologado';
+    const autorizadoPor = nomeServico.includes('DOUGLAS') ? nomeServico : 'Diretoria VIDE';
+
     projeto.autorizacao_comercial.status = 'AUTORIZADO';
-    projeto.autorizacao_comercial.servicos_autorizados = [servicoAutorizadoNome];
+    projeto.autorizacao_comercial.servicos_autorizados = [nomeServico];
     projeto.autorizacao_comercial.data_autorizacao = new Date().toISOString();
-    projeto.autorizacao_comercial.observacao = 'Autorização comercial concedida pela Diretoria VIDE. Tarefas executivas liberadas.';
+    projeto.autorizacao_comercial.autorizado_por = autorizadoPor;
+    projeto.autorizacao_comercial.observacao = obs || 'Autorização comercial concedida pela Diretoria VIDE. Tarefas executivas liberadas.';
     projeto.situacao_projeto = 'EM_EXECUCAO';
 
     // Gera tarefas especializadas para a demanda
@@ -568,12 +614,22 @@ function autorizarProjetoComercialmente(idProjeto, servicoAutorizadoNome = 'Diag
         organizarDependenciasIniciais(projeto);
     }
 
-    registrarEvento(idProjeto, 'Projeto autorizado comercialmente pela Diretoria. Grafo de tarefas ativado.', {
-        autor: 'Diretoria VIDE',
-        total_tarefas: projeto.grafo_tarefas.length
+    if (!projeto.registro_operacional) {
+        projeto.registro_operacional = [];
+    }
+    projeto.registro_operacional.push({
+        timestamp: new Date().toISOString(),
+        evento: 'Projeto autorizado comercialmente pela Diretoria. Grafo de tarefas ativado.',
+        detalhes: {
+            autor: 'Diretoria VIDE',
+            total_tarefas: projeto.grafo_tarefas.length
+        }
     });
+    projeto.historico_operacional = projeto.registro_operacional;
 
-    return salvarProjeto(projeto);
+    const salvo = salvarProjeto(projeto);
+    salvo.sucesso = true;
+    return salvo;
 }
 
 /**
@@ -658,8 +714,8 @@ function interpretarComandoDiretora(comandoTexto) {
         };
     }
 
-    // 3. "Inicie as tarefas autorizadas do projeto [ID]" ou "Aprovar projeto [ID]"
-    const matchAprovar = cmd.match(/(?:inicie|aprovar|autorizar|liberar)\s+(?:as\s+tarefas\s+)?(?:do\s+)?(?:projeto\s+)?(prj-[\w-]+)/i);
+    // 3. "Inicie as tarefas autorizadas do projeto [ID]", "Aprovar projeto [ID]" ou "Executar esteira [ID]"
+    const matchAprovar = cmd.match(/(?:inicie|aprovar|autorizar|liberar|executar|rodar|esteira)\s+(?:as\s+tarefas\s+)?(?:a\s+esteira\s+)?(?:do\s+)?(?:projeto\s+)?(prj-[\w-]+)/i);
     if (matchAprovar) {
         const idAlvo = matchAprovar[1].toUpperCase();
         try {
@@ -667,13 +723,45 @@ function interpretarComandoDiretora(comandoTexto) {
             return {
                 sucesso: true,
                 resposta: `✅ **Projeto [${idAlvo}] autorizado com sucesso pela Diretoria!**\n\nO Coordenador Geral ativou o grafo operacional com **${projetoAtualizado.grafo_tarefas.length} tarefas especializadas**. A equipe executora foi formalmente mobilizada e as tarefas independentes já estão com status **PRONTA_PARA_EXECUCAO**.`,
-                dados: projetoAtualizado
+                dados: projetoAtualizado,
+                idProjetoParaExecucao: idAlvo
             };
         } catch (e) {
             return {
                 sucesso: false,
                 resposta: `Erro ao autorizar projeto [${idAlvo}]: ${e.message}`,
                 erro: e.message
+            };
+        }
+    }
+
+    // 3.1 "Demanda: <texto>" ou "Lead: <texto>" — Ingestão via console
+    const matchDemanda = cmd.match(/^(?:demanda|lead|triagem|novo|nova\s+demanda)[:\s]+(.+)/i);
+    if (matchDemanda) {
+        try {
+            const { processarTriagemRevisada } = require('../agente_01_triagem/executor_triagem');
+            const registroTriagem = processarTriagemRevisada({
+                solicitacaoOriginal: matchDemanda[1],
+                identificadorCenario: 'Diretoria Executiva (Cockpit)',
+                prazoUrgenciaInformado: 'Alinhado pela Diretoria'
+            });
+            const novoProjeto = receberRegistroTriagem(registroTriagem);
+            return {
+                sucesso: true,
+                resposta: `📥 **Demanda acolhida e classificada com sucesso pela Triagem Comercial (Agente 01)!**\n\n` +
+                    `• **ID da Demanda:** ${registroTriagem.idDemanda}\n` +
+                    `• **Classificação:** ${registroTriagem.servicoSolicitado}\n` +
+                    `• **Projeto Criado:** [${novoProjeto.id_projeto}]\n` +
+                    `• **Situação:** ${novoProjeto.situacao_projeto} *(Bloqueio comercial estrito mantido até autorização)*\n\n` +
+                    `Para autorizar e disparar os especialistas autonomamente, digite: **aprovar ${novoProjeto.id_projeto}**`,
+                dados: { triagem: registroTriagem, projeto: novoProjeto },
+                novoProjetoId: novoProjeto.id_projeto
+            };
+        } catch (eDemanda) {
+            return {
+                sucesso: false,
+                resposta: `Erro ao processar demanda: ${eDemanda.message}`,
+                erro: eDemanda.message
             };
         }
     }

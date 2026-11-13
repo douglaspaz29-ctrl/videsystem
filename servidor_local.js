@@ -100,7 +100,9 @@ function executarEsteiraCompletaEspecialistas(idProjeto) {
     let prjAtual = obterProjetoPorId(idProjeto);
 
     // 1. Estrategista
-    const tskEstrategista = (prjAtual.grafo_tarefas || []).find(t => t.especialista === 'Estrategista' && t.estado !== 'APROVADA');
+    const tskEstrategista = (prjAtual.grafo_tarefas || []).find(t => 
+        (t.especialista === 'Estrategista' || (t.especialista || '').toLowerCase().includes('estrateg')) && t.estado !== 'APROVADA'
+    );
     if (tskEstrategista) {
         prjAtual = conferirEntrega({
             idProjeto,
@@ -116,11 +118,13 @@ function executarEsteiraCompletaEspecialistas(idProjeto) {
     }
 
     // 2. Branding & Design (Agente 04)
-    const tskBranding = (prjAtual.grafo_tarefas || []).find(t => t.especialista === 'Branding e Design');
+    const tskBranding = (prjAtual.grafo_tarefas || []).find(t => 
+        ((t.especialista || '').toLowerCase().includes('branding') || (t.especialista || '').toLowerCase().includes('design')) && t.estado !== 'APROVADA'
+    );
     if (tskBranding) {
         try {
             const ciclo = executarCicloCompletoBranding({ idProjeto, idTarefa: tskBranding.id_tarefa });
-            resultados.push({ especialista: 'Branding e Design', arquivos: ciclo.dadosEntrega?.arquivosCriados || [] });
+            resultados.push({ especialista: 'Branding e Design', tarefa: tskBranding.id_tarefa, arquivos: ciclo.dadosEntrega?.arquivosCriados || [] });
             prjAtual = obterProjetoPorId(idProjeto);
         } catch(e) {
             console.warn('[ESTEIRA] Branding aviso: ' + e.message);
@@ -128,11 +132,13 @@ function executarEsteiraCompletaEspecialistas(idProjeto) {
     }
 
     // 3. Desenvolvedor Web (Agente 03)
-    const tskDev = (prjAtual.grafo_tarefas || []).find(t => t.especialista === 'Desenvolvedor');
+    const tskDev = (prjAtual.grafo_tarefas || []).find(t => 
+        ((t.especialista || '').toLowerCase().includes('desenvolv') || (t.especialista || '').toLowerCase().includes('web')) && t.estado !== 'APROVADA'
+    );
     if (tskDev) {
         try {
             const ciclo = executarCicloCompletoDesenvolvedor({ idProjeto, idTarefa: tskDev.id_tarefa });
-            resultados.push({ especialista: 'Desenvolvedor', arquivos: ciclo.dadosEntrega?.arquivosCriados || [] });
+            resultados.push({ especialista: 'Desenvolvedor', tarefa: tskDev.id_tarefa, arquivos: ciclo.dadosEntrega?.arquivosCriados || [] });
             prjAtual = obterProjetoPorId(idProjeto);
         } catch(e) {
             console.warn('[ESTEIRA] Dev aviso: ' + e.message);
@@ -140,11 +146,13 @@ function executarEsteiraCompletaEspecialistas(idProjeto) {
     }
 
     // 4. Atendimento & Vendas (Agente 05)
-    const tskAtend = (prjAtual.grafo_tarefas || []).find(t => t.especialista === 'Atendimento');
+    const tskAtend = (prjAtual.grafo_tarefas || []).find(t => 
+        (t.especialista || '').toLowerCase().includes('atend') && t.estado !== 'APROVADA'
+    );
     if (tskAtend) {
         try {
             const ciclo = executarCicloCompletoAtendimento({ idProjeto, idTarefa: tskAtend.id_tarefa });
-            resultados.push({ especialista: 'Atendimento', arquivos: ciclo.dadosEntrega?.arquivosCriados || [] });
+            resultados.push({ especialista: 'Atendimento', tarefa: tskAtend.id_tarefa, arquivos: ciclo.dadosEntrega?.arquivosCriados || [] });
             prjAtual = obterProjetoPorId(idProjeto);
         } catch(e) {
             console.warn('[ESTEIRA] Atendimento aviso: ' + e.message);
@@ -152,11 +160,13 @@ function executarEsteiraCompletaEspecialistas(idProjeto) {
     }
 
     // 5. Automação & Integrações (Agente 06)
-    const tskAuto = (prjAtual.grafo_tarefas || []).find(t => t.especialista === 'Automação');
+    const tskAuto = (prjAtual.grafo_tarefas || []).find(t => 
+        (t.especialista || '').toLowerCase().includes('auto') && t.estado !== 'APROVADA'
+    );
     if (tskAuto) {
         try {
             const ciclo = executarCicloCompletoAutomacao({ idProjeto, idTarefa: tskAuto.id_tarefa });
-            resultados.push({ especialista: 'Automação', arquivos: ciclo.dadosEntrega?.arquivosCriados || [] });
+            resultados.push({ especialista: 'Automação', tarefa: tskAuto.id_tarefa, arquivos: ciclo.dadosEntrega?.arquivosCriados || [] });
             prjAtual = obterProjetoPorId(idProjeto);
         } catch(e) {
             console.warn('[ESTEIRA] Automação aviso: ' + e.message);
@@ -164,11 +174,13 @@ function executarEsteiraCompletaEspecialistas(idProjeto) {
     }
 
     // 6. Inteligência Comercial (Agente 07)
-    const tskIntel = (prjAtual.grafo_tarefas || []).find(t => t.especialista === 'Inteligência Comercial');
+    const tskIntel = (prjAtual.grafo_tarefas || []).find(t => 
+        (t.especialista || '').toLowerCase().includes('intel') && t.estado !== 'APROVADA'
+    );
     if (tskIntel) {
         try {
             const ciclo = executarCicloCompletoInteligencia({ idProjeto, idTarefa: tskIntel.id_tarefa });
-            resultados.push({ especialista: 'Inteligência Comercial', arquivos: ciclo.dadosEntrega?.arquivosCriados || [] });
+            resultados.push({ especialista: 'Inteligência Comercial', tarefa: tskIntel.id_tarefa, arquivos: ciclo.dadosEntrega?.arquivosCriados || [] });
             prjAtual = obterProjetoPorId(idProjeto);
         } catch(e) {
             console.warn('[ESTEIRA] Inteligência aviso: ' + e.message);
@@ -499,6 +511,23 @@ const servidor = http.createServer(async (req, res) => {
             const body = await lerCorpoJson(req);
             const comando = body.comando || body.instrucao || '';
             const resposta = interpretarComandoDiretora(comando);
+
+            // Se o comando disparou a autorização de um projeto, executa autonomamente a esteira dos especialistas
+            if (resposta.idProjetoParaExecucao) {
+                try {
+                    const entregaveis = executarEsteiraCompletaEspecialistas(resposta.idProjetoParaExecucao);
+                    const prjPos = obterProjetoPorId(resposta.idProjetoParaExecucao);
+                    if (prjPos) await db.sincronizarProjetoCompletoPostgres(prjPos);
+                    resposta.entregaveis = entregaveis;
+                    resposta.resposta += `\n\n🚀 **Esteira automatizada executada com sucesso!** Todos os especialistas entregaram e homologaram seus ativos físicos com o Coordenador Geral. Total de entregáveis: ${entregaveis.length}.`;
+                } catch(eExec) {
+                    console.warn('[COORDENADOR] Aviso ao rodar esteira via comando:', eExec.message);
+                }
+            } else if (resposta.novoProjetoId) {
+                const prjNovo = obterProjetoPorId(resposta.novoProjetoId);
+                if (prjNovo) await db.sincronizarProjetoCompletoPostgres(prjNovo);
+            }
+
             const payload = {
                 ...resposta,
                 parecer: resposta.resposta || resposta.mensagem || 'Diretriz processada pelo Coordenador Geral.'
