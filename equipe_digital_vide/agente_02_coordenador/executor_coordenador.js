@@ -837,11 +837,38 @@ function interpretarComandoDiretora(comandoTexto) {
     };
 }
 
+/**
+ * Interpretador com IA Generativa de Diretrizes da Diretoria
+ */
+async function interpretarComandoDiretoraComIA(comandoTexto) {
+    const basico = interpretarComandoDiretora(comandoTexto);
+    // Se o básico já identificou um comando especial estruturado, retorna imediatamente
+    if (basico.idProjetoParaExecucao || basico.novoProjetoId || basico.resposta.includes('projetos em andamento') || basico.resposta.includes('Relatório Executivo') || basico.resposta.includes('pendente')) {
+        return basico;
+    }
+
+    // Se for diretriz aberta, consulta a IA com a persona do Coordenador Geral
+    try {
+        const prompt = `Como Coordenador Geral da VIDE, analise e responda à seguinte instrução da Diretoria Executiva (Douglas): "${comandoTexto}".
+Forneça um parecer executivo, alinhamento técnico e informe como a equipe dos 7 especialistas atuará.`;
+        const resIa = await iaService.gerarTextoIA(prompt, 'Você é o Agente 02 (Coordenador Geral) da VIDE — Sistemas de Crescimento Comercial.', 'COORDENADOR');
+        return {
+            sucesso: true,
+            resposta: resIa.texto,
+            parecer: resIa.texto,
+            origem_inteligencia: resIa.metadados
+        };
+    } catch (_) {
+        return basico;
+    }
+}
+
 module.exports = {
     receberRegistroTriagem,
     gerarPlanoTarefas,
     organizarDependenciasIniciais,
     conferirEntrega,
     autorizarProjetoComercialmente,
-    interpretarComandoDiretora
+    interpretarComandoDiretora,
+    interpretarComandoDiretoraComIA
 };

@@ -29,6 +29,7 @@ const { executarCicloCompletoInteligencia } = require(`${moduloAgentesDir}/agent
 const {
     autorizarProjetoComercialmente,
     interpretarComandoDiretora,
+    interpretarComandoDiretoraComIA,
     conferirEntrega
 } = require(`${moduloAgentesDir}/agente_02_coordenador/executor_coordenador`);
 const { seguranca } = require(`${moduloAgentesDir}/seguranca`);
@@ -593,7 +594,7 @@ const servidor = http.createServer(async (req, res) => {
                 return res.end(JSON.stringify({ sucesso: true, resposta, parecer: resposta, dados: resDisparo }));
             }
 
-            const resposta = interpretarComandoDiretora(comando);
+            const resposta = await interpretarComandoDiretoraComIA(comando);
 
             // Se o comando disparou a autorização de um projeto, executa autonomamente a esteira dos especialistas
             if (resposta.idProjetoParaExecucao) {

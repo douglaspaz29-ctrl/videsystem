@@ -61,19 +61,49 @@ class ServicoInteligenciaArtificialVIDE {
     }
 
     /**
-     * Chamada oficial à API do Gemini
+     * Chamada oficial à API do Gemini com fallback entre versões do modelo
      */
-    chamarGeminiApi(prompt, systemInstruction, chave) {
+    async chamarGeminiApi(prompt, systemInstruction, chave) {
+        const modelos = ['gemini-2.5-flash', 'gemini-1.5-flash'];
+        let ultimoErro = null;
+
+        for (const modelo of modelos) {
+            try {
+                const texto = await this.executarRequisicaoGemini(modelo, prompt, systemInstruction, chave);
+                return { texto, modelo };
+            } catch (err) {
+                ultimoErro = err;
+                if (err.message && (err.message.includes('not found') || err.message.includes('404'))) {
+                    continue;
+                }
+                throw err;
+            }
+        }
+        throw ultimoErro;
+    }
+
+    executarRequisicaoGemini(modelo, prompt, systemInstruction, chave) {
         return new Promise((resolve, reject) => {
-            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${chave}`;
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/${modelo}:generateContent?key=${chave}`;
             const payload = JSON.stringify({
-                contents: [{ parts: [{ text: `${systemInstruction}\n\n${prompt}` }] }],
-                generationConfig: { temperature: 0.3, maxOutputTokens: 2048 }
+                system_instruction: {
+                    parts: [{ text: systemInstruction }]
+                },
+                contents: [
+                    {
+                        role: "user",
+                        parts: [{ text: prompt }]
+                    }
+                ],
+                generationConfig: {
+                    temperature: 0.3,
+                    maxOutputTokens: 2048
+                }
             });
 
             const req = https.request(url, {
                 method: 'POST',
-                timeout: 8000,
+                timeout: 10000,
                 headers: {
                     'Content-Type': 'application/json',
                     'Content-Length': Buffer.byteLength(payload)
@@ -84,6 +114,9 @@ class ServicoInteligenciaArtificialVIDE {
                 res.on('end', () => {
                     try {
                         const json = JSON.parse(data);
+                        if (res.statusCode >= 400) {
+                            return reject(new Error(json.error?.message || `HTTP ${res.statusCode} na API Gemini`));
+                        }
                         if (json.candidates && json.candidates[0]?.content?.parts[0]?.text) {
                             resolve(json.candidates[0].content.parts[0].text.trim());
                         } else {
@@ -97,7 +130,7 @@ class ServicoInteligenciaArtificialVIDE {
 
             req.on('timeout', () => {
                 req.destroy();
-                reject(new Error('Timeout de 8s na requisição à API Gemini'));
+                reject(new Error(`Timeout de 10s na requisição à API Gemini (${modelo})`));
             });
             req.on('error', reject);
             req.write(payload);
@@ -169,12 +202,12 @@ class ServicoInteligenciaArtificialVIDE {
         // 1. Tentar Gemini se chave configurada
         if (geminiKey) {
             try {
-                const texto = await this.chamarGeminiApi(prompt, systemInstruction, geminiKey);
+                const resGemini = await this.chamarGeminiApi(prompt, systemInstruction, geminiKey);
                 return {
-                    texto,
+                    texto: resGemini.texto,
                     metadados: {
                         provedor: 'GOOGLE_GEMINI',
-                        modelo: 'gemini-2.5-flash',
+                        modelo: resGemini.modelo,
                         ia_generativa_ativa: true,
                         agente: agenteNome,
                         tempo_resposta_ms: Date.now() - inicioMs,
