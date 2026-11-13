@@ -32,11 +32,11 @@ class ServicoInteligenciaArtificialVIDE {
         if (geminiKey) {
             return {
                 provedor: 'GOOGLE_GEMINI',
-                modelo: 'gemini-2.5-flash',
+                modelo: 'gemini-3.5-flash-lite',
                 ia_generativa_ativa: true,
                 chave_configurada: true,
                 status: 'CONECTADO_E_PRONTO',
-                detalhes: 'Modelo generativo Google Gemini 2.5 Flash conectado e pronto para processar os 7 agentes.'
+                detalhes: 'Modelo generativo Google Gemini (gemini-3.5-flash-lite) conectado e pronto para processar os 7 agentes.'
             };
         }
         if (openaiKey) {
@@ -64,7 +64,7 @@ class ServicoInteligenciaArtificialVIDE {
      * Chamada oficial à API do Gemini com fallback entre versões do modelo
      */
     async chamarGeminiApi(prompt, systemInstruction, chave) {
-        const modelos = ['gemini-2.5-flash', 'gemini-1.5-flash'];
+        const modelos = ['gemini-3.5-flash-lite', 'gemini-3.5-flash', 'gemini-3.8-flash', 'gemini-2.5-flash-lite'];
         let ultimoErro = null;
 
         for (const modelo of modelos) {
@@ -73,7 +73,8 @@ class ServicoInteligenciaArtificialVIDE {
                 return { texto, modelo };
             } catch (err) {
                 ultimoErro = err;
-                if (err.message && (err.message.includes('not found') || err.message.includes('404'))) {
+                const msg = (err.message || '').toLowerCase();
+                if (msg.includes('not found') || msg.includes('404') || msg.includes('no longer available') || msg.includes('503') || msg.includes('demand') || msg.includes('deprecated')) {
                     continue;
                 }
                 throw err;
