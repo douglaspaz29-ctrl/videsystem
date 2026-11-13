@@ -39,6 +39,9 @@ const { storageService } = require(`${moduloAgentesDir}/storage_service`);
 const { iaService } = require(`${moduloAgentesDir}/ia_service`);
 const { servicoWebhooksSaida } = require(`${moduloAgentesDir}/servico_webhooks_saida`);
 
+// Timestamp de cooldown para proteção de custos da API de IA
+let ultimaAuditoriaIaTimestamp = 0;
+
 const TIPOS_MIME = {
     '.html': 'text/html; charset=utf-8',
     '.css': 'text/css; charset=utf-8',
@@ -551,8 +554,37 @@ const servidor = http.createServer(async (req, res) => {
         return res.end(JSON.stringify({ sucesso: true, total: historico.length, historico }));
     }
 
-    // 3.6 GET/POST /api/ia/auditar-7-agentes — Auditoria Completa dos 7 Agentes com IA Generativa
+    // 3.6 GET/POST /api/ia/auditar-7-agentes — Auditoria Completa dos 7 Agentes com IA Generativa (PROTEGIDO)
     if (urlLimpa === '/api/ia/auditar-7-agentes' && (req.method === 'GET' || req.method === 'POST')) {
+        // 1. Verificação de Autenticação e Autorização (RBAC de Diretoria)
+        const adminAuth = verificarAutenticacaoAdmin(req);
+        if (!adminAuth) {
+            res.writeHead(401, { 'Content-Type': 'application/json; charset=utf-8' });
+            return res.end(JSON.stringify({ 
+                sucesso: false, 
+                erro: 'Acesso não autorizado: Auditoria de IA restrita à Diretoria Executiva. Token Bearer JWT de Diretoria obrigatório.' 
+            }));
+        }
+
+        // 2. Proteção contra Abuso e Excesso de Requisições (Rate Limiter por IP)
+        const ipOrigem = req.headers['x-forwarded-for']?.split(',')[0].trim() || req.socket.remoteAddress || '127.0.0.1';
+        if (!seguranca.verificarRateLimit(ipOrigem)) {
+            res.writeHead(429, { 'Content-Type': 'application/json; charset=utf-8' });
+            return res.end(JSON.stringify({ sucesso: false, erro: 'Taxa limite de requisições excedida.' }));
+        }
+
+        // 3. Proteção Financeira e de Cota (Cooldown de 30s entre auditorias completas de 7 agentes)
+        const agora = Date.now();
+        if (ultimaAuditoriaIaTimestamp && (agora - ultimaAuditoriaIaTimestamp < 30000)) {
+            const restante = Math.ceil((30000 - (agora - ultimaAuditoriaIaTimestamp)) / 1000);
+            res.writeHead(429, { 'Content-Type': 'application/json; charset=utf-8' });
+            return res.end(JSON.stringify({ 
+                sucesso: false, 
+                erro: `Cooldown ativo: Uma auditoria completa consome recursos da IA Gemini. Aguarde ${restante}s para uma nova execução.` 
+            }));
+        }
+        ultimaAuditoriaIaTimestamp = agora;
+
         try {
             const { executarAuditoriaIA7Agentes } = require('./equipe_digital_vide/testes_geracao_ia_7_agentes');
             const relatorio = await executarAuditoriaIA7Agentes();
@@ -566,6 +598,12 @@ const servidor = http.createServer(async (req, res) => {
 
     // 4. POST /api/coordenador/comando ou /api/coordenador/instrucao — Chat e comandos executivos da Diretoria
     if ((urlLimpa === '/api/coordenador/comando' || urlLimpa === '/api/coordenador/instrucao') && req.method === 'POST') {
+        const ipOrigem = req.headers['x-forwarded-for']?.split(',')[0].trim() || req.socket.remoteAddress || '127.0.0.1';
+        if (!seguranca.verificarRateLimit(ipOrigem)) {
+            res.writeHead(429, { 'Content-Type': 'application/json; charset=utf-8' });
+            return res.end(JSON.stringify({ sucesso: false, erro: 'Taxa limite de requisições excedida.' }));
+        }
+
         try {
             const body = await lerCorpoJson(req);
             const comando = (body.comando || body.instrucao || '').trim();
@@ -584,8 +622,24 @@ const servidor = http.createServer(async (req, res) => {
                 return res.end(JSON.stringify({ sucesso: true, resposta, parecer: resposta, dados: statusIa }));
             }
 
-            // Comando especial: Auditoria Completa dos 7 Agentes
+            // Comando especial: Auditoria Completa dos 7 Agentes (Requer autenticação de Diretoria e Cooldown)
             if (comando.toLowerCase() === 'ia auditar' || comando.toLowerCase() === 'auditar ia') {
+                const adminAuth = verificarAutenticacaoAdmin(req);
+                if (!adminAuth) {
+                    const resposta = '🔒 **ACESSO NEGADO:** O disparo da auditoria completa da equipe de IA requer autenticação de Diretoria. Autentique-se com `login douglas VideDouglas#2026` antes de executar este comando.';
+                    res.writeHead(401, { 'Content-Type': 'application/json; charset=utf-8' });
+                    return res.end(JSON.stringify({ sucesso: false, resposta, parecer: resposta }));
+                }
+
+                const agora = Date.now();
+                if (ultimaAuditoriaIaTimestamp && (agora - ultimaAuditoriaIaTimestamp < 30000)) {
+                    const restante = Math.ceil((30000 - (agora - ultimaAuditoriaIaTimestamp)) / 1000);
+                    const resposta = `⏳ **COOLDOWN ATIVO:** Uma auditoria completa da equipe já foi executada recentemente. Aguarde ${restante}s para nova execução.`;
+                    res.writeHead(429, { 'Content-Type': 'application/json; charset=utf-8' });
+                    return res.end(JSON.stringify({ sucesso: false, resposta, parecer: resposta }));
+                }
+                ultimaAuditoriaIaTimestamp = agora;
+
                 const { executarAuditoriaIA7Agentes } = require('./equipe_digital_vide/testes_geracao_ia_7_agentes');
                 const relatorio = await executarAuditoriaIA7Agentes();
                 let txt = `🧪 **AUDITORIA DOS 7 AGENTES DE IA VIDE**\n\n` +

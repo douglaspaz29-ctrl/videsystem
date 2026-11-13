@@ -29,12 +29,11 @@ const ESPECIALISTAS = {
  * @param {string} [params.prazoUrgenciaInformado] - Prazo ou urgência informada pelo cliente (se houver)
  * @returns {Object} Registro estruturado de triagem
  */
-function processarTriagemRevisada({
-    solicitacaoOriginal,
-    identificadorCenario = 'Cenário Simulado (Não Declarado)',
-    prazoUrgenciaInformado = null
-}) {
-    const texto = solicitacaoOriginal.toLowerCase();
+function processarTriagemRevisada(params = {}) {
+    const solicitacaoOriginal = params.solicitacaoOriginal || params.solicitacao || params.texto || '';
+    const identificadorCenario = params.identificadorCenario || params.cenario || params.cliente || 'Cenário Simulado (Não Declarado)';
+    const prazoUrgenciaInformado = params.prazoUrgenciaInformado || params.prazo || null;
+    const texto = (solicitacaoOriginal || '').toLowerCase();
     const idDemanda = `DEM-${new Date().getFullYear()}-${crypto.randomBytes(3).toString('hex').toUpperCase()}`;
 
     let fatosRelatados = '';
