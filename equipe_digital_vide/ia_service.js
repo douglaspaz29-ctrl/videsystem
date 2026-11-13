@@ -74,7 +74,7 @@ class ServicoInteligenciaArtificialVIDE {
             } catch (err) {
                 ultimoErro = err;
                 const msg = (err.message || '').toLowerCase();
-                if (msg.includes('not found') || msg.includes('404') || msg.includes('no longer available') || msg.includes('503') || msg.includes('demand') || msg.includes('deprecated')) {
+                if (msg.includes('not found') || msg.includes('404') || msg.includes('no longer available') || msg.includes('503') || msg.includes('demand') || msg.includes('deprecated') || msg.includes('timeout')) {
                     continue;
                 }
                 throw err;
@@ -104,7 +104,7 @@ class ServicoInteligenciaArtificialVIDE {
 
             const req = https.request(url, {
                 method: 'POST',
-                timeout: 10000,
+                timeout: 25000,
                 headers: {
                     'Content-Type': 'application/json',
                     'Content-Length': Buffer.byteLength(payload)
@@ -131,7 +131,7 @@ class ServicoInteligenciaArtificialVIDE {
 
             req.on('timeout', () => {
                 req.destroy();
-                reject(new Error(`Timeout de 10s na requisição à API Gemini (${modelo})`));
+                reject(new Error(`Timeout de 25s na requisição à API Gemini (${modelo})`));
             });
             req.on('error', reject);
             req.write(payload);
@@ -199,6 +199,7 @@ class ServicoInteligenciaArtificialVIDE {
     async gerarTextoIA(prompt, systemInstruction = 'Você é um agente especialista de alto nível da Equipe Digital VIDE.', agenteNome = 'GERAL') {
         const { geminiKey, openaiKey } = this.obterCredenciaisAtivas();
         const inicioMs = Date.now();
+        let erroGeminiMsg = null;
 
         // 1. Tentar Gemini se chave configurada
         if (geminiKey) {
@@ -216,6 +217,7 @@ class ServicoInteligenciaArtificialVIDE {
                     }
                 };
             } catch (errGemini) {
+                erroGeminiMsg = errGemini.message;
                 console.warn(`[AVISO_IA] Falha no provedor Gemini (${errGemini.message}). Acionando alternativa.`);
             }
         }
@@ -248,7 +250,7 @@ class ServicoInteligenciaArtificialVIDE {
                 provedor: 'MOTOR_COGNITIVO_LOCAL_VIDE',
                 modelo: 'vide-semantic-core-v2',
                 ia_generativa_ativa: false,
-                motivo_fallback: geminiKey || openaiKey ? 'Falha temporária de conexão com provedor generativo externo' : 'Nenhuma chave externa configurada no ambiente',
+                motivo_fallback: geminiKey || openaiKey ? (erroGeminiMsg ? `Falha na API Gemini: ${erroGeminiMsg}` : 'Falha temporária de conexão com provedor generativo externo') : 'Nenhuma chave externa configurada no ambiente',
                 agente: agenteNome,
                 tempo_resposta_ms: Date.now() - inicioMs,
                 timestamp: new Date().toISOString()
