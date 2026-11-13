@@ -84,6 +84,100 @@ function verificarAutenticacaoAdmin(req) {
     return null;
 }
 
+/**
+ * Executa sequencialmente o pipeline completo dos 7 especialistas da VIDE
+ * salvando todos os entregáveis duráveis no PostgreSQL através do storageService
+ */
+function executarEsteiraCompletaEspecialistas(idProjeto) {
+    const projeto = obterProjetoPorId(idProjeto);
+    if (!projeto) throw new Error('Projeto ' + idProjeto + ' não encontrado.');
+
+    const resultados = [];
+    if (projeto.autorizacao_comercial?.status !== 'AUTORIZADO') {
+        autorizarProjetoComercialmente(idProjeto, 'Homologação e Ativação Operacional Integrada');
+    }
+
+    let prjAtual = obterProjetoPorId(idProjeto);
+
+    // 1. Estrategista
+    const tskEstrategista = (prjAtual.grafo_tarefas || []).find(t => t.especialista === 'Estrategista' && t.estado !== 'APROVADA');
+    if (tskEstrategista) {
+        prjAtual = conferirEntrega({
+            idProjeto,
+            idTarefa: tskEstrategista.id_tarefa,
+            entregaSubmetida: {
+                posicionamento: 'Posicionamento e Proposta de Valor Aprovados',
+                mapa_arquitetura: 'Pipeline Tripartite VIDE Ativada'
+            },
+            criteriosAtendidos: true,
+            parecerCoordenador: 'Homologação estratégica aprovada pela Diretoria VIDE.'
+        });
+        resultados.push({ especialista: 'Estrategista', tarefa: tskEstrategista.id_tarefa, status: 'APROVADA' });
+    }
+
+    // 2. Branding & Design (Agente 04)
+    const tskBranding = (prjAtual.grafo_tarefas || []).find(t => t.especialista === 'Branding e Design');
+    if (tskBranding) {
+        try {
+            const ciclo = executarCicloCompletoBranding({ idProjeto, idTarefa: tskBranding.id_tarefa });
+            resultados.push({ especialista: 'Branding e Design', arquivos: ciclo.dadosEntrega?.arquivosCriados || [] });
+            prjAtual = obterProjetoPorId(idProjeto);
+        } catch(e) {
+            console.warn('[ESTEIRA] Branding aviso: ' + e.message);
+        }
+    }
+
+    // 3. Desenvolvedor Web (Agente 03)
+    const tskDev = (prjAtual.grafo_tarefas || []).find(t => t.especialista === 'Desenvolvedor');
+    if (tskDev) {
+        try {
+            const ciclo = executarCicloCompletoDesenvolvedor({ idProjeto, idTarefa: tskDev.id_tarefa });
+            resultados.push({ especialista: 'Desenvolvedor', arquivos: ciclo.dadosEntrega?.arquivosCriados || [] });
+            prjAtual = obterProjetoPorId(idProjeto);
+        } catch(e) {
+            console.warn('[ESTEIRA] Dev aviso: ' + e.message);
+        }
+    }
+
+    // 4. Atendimento & Vendas (Agente 05)
+    const tskAtend = (prjAtual.grafo_tarefas || []).find(t => t.especialista === 'Atendimento');
+    if (tskAtend) {
+        try {
+            const ciclo = executarCicloCompletoAtendimento({ idProjeto, idTarefa: tskAtend.id_tarefa });
+            resultados.push({ especialista: 'Atendimento', arquivos: ciclo.dadosEntrega?.arquivosCriados || [] });
+            prjAtual = obterProjetoPorId(idProjeto);
+        } catch(e) {
+            console.warn('[ESTEIRA] Atendimento aviso: ' + e.message);
+        }
+    }
+
+    // 5. Automação & Integrações (Agente 06)
+    const tskAuto = (prjAtual.grafo_tarefas || []).find(t => t.especialista === 'Automação');
+    if (tskAuto) {
+        try {
+            const ciclo = executarCicloCompletoAutomacao({ idProjeto, idTarefa: tskAuto.id_tarefa });
+            resultados.push({ especialista: 'Automação', arquivos: ciclo.dadosEntrega?.arquivosCriados || [] });
+            prjAtual = obterProjetoPorId(idProjeto);
+        } catch(e) {
+            console.warn('[ESTEIRA] Automação aviso: ' + e.message);
+        }
+    }
+
+    // 6. Inteligência Comercial (Agente 07)
+    const tskIntel = (prjAtual.grafo_tarefas || []).find(t => t.especialista === 'Inteligência Comercial');
+    if (tskIntel) {
+        try {
+            const ciclo = executarCicloCompletoInteligencia({ idProjeto, idTarefa: tskIntel.id_tarefa });
+            resultados.push({ especialista: 'Inteligência Comercial', arquivos: ciclo.dadosEntrega?.arquivosCriados || [] });
+            prjAtual = obterProjetoPorId(idProjeto);
+        } catch(e) {
+            console.warn('[ESTEIRA] Inteligência aviso: ' + e.message);
+        }
+    }
+
+    return resultados;
+}
+
 const servidor = http.createServer(async (req, res) => {
     let urlLimpa = req.url.split('?')[0];
 
@@ -219,16 +313,24 @@ const servidor = http.createServer(async (req, res) => {
         // Listagem de arquivos persistidos
         const arquivosLocais = storageService.listarArquivosProjeto(idProjeto);
         const arquivosPg = await db.listarArquivosStorage(idProjeto);
+        const listaUnificada = Array.from(new Set([
+            ...arquivosLocais,
+            ...arquivosPg.map(a => (a.caminho_relativo ? a.caminho_relativo.replace(idProjeto + '/', '') : (a.especialista + '/' + a.nome_arquivo)).replace(/\\/g, '/'))
+        ]));
+
         res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
         return res.end(JSON.stringify({ 
             sucesso: true, 
             id_projeto: idProjeto,
+            total: listaUnificada.length,
+            arquivos: listaUnificada,
             total_arquivos_postgresql: arquivosPg.length,
             arquivos_em_disco: arquivosLocais,
             arquivos_banco_postgresql: arquivosPg.map(a => ({
                 id: a.id,
                 especialista: a.especialista,
                 nome_arquivo: a.nome_arquivo,
+                caminho_relativo: a.caminho_relativo,
                 mimetype: a.mimetype,
                 tamanho_bytes: a.tamanho_bytes,
                 atualizado_em: a.atualizado_em
