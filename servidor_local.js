@@ -551,6 +551,19 @@ const servidor = http.createServer(async (req, res) => {
         return res.end(JSON.stringify({ sucesso: true, total: historico.length, historico }));
     }
 
+    // 3.6 GET/POST /api/ia/auditar-7-agentes — Auditoria Completa dos 7 Agentes com IA Generativa
+    if (urlLimpa === '/api/ia/auditar-7-agentes' && (req.method === 'GET' || req.method === 'POST')) {
+        try {
+            const { executarAuditoriaIA7Agentes } = require('./equipe_digital_vide/testes_geracao_ia_7_agentes');
+            const relatorio = await executarAuditoriaIA7Agentes();
+            res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+            return res.end(JSON.stringify({ sucesso: true, relatorio }));
+        } catch (e) {
+            res.writeHead(500, { 'Content-Type': 'application/json; charset=utf-8' });
+            return res.end(JSON.stringify({ sucesso: false, erro: e.message }));
+        }
+    }
+
     // 4. POST /api/coordenador/comando ou /api/coordenador/instrucao — Chat e comandos executivos da Diretoria
     if ((urlLimpa === '/api/coordenador/comando' || urlLimpa === '/api/coordenador/instrucao') && req.method === 'POST') {
         try {
@@ -569,6 +582,23 @@ const servidor = http.createServer(async (req, res) => {
                     (statusIa.motivo_fallback ? `• **Motivo do Fallback:** ${statusIa.motivo_fallback}\n` : '');
                 res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
                 return res.end(JSON.stringify({ sucesso: true, resposta, parecer: resposta, dados: statusIa }));
+            }
+
+            // Comando especial: Auditoria Completa dos 7 Agentes
+            if (comando.toLowerCase() === 'ia auditar' || comando.toLowerCase() === 'auditar ia') {
+                const { executarAuditoriaIA7Agentes } = require('./equipe_digital_vide/testes_geracao_ia_7_agentes');
+                const relatorio = await executarAuditoriaIA7Agentes();
+                let txt = `🧪 **AUDITORIA DOS 7 AGENTES DE IA VIDE**\n\n` +
+                    `• **Provedor:** ${relatorio.statusGeral.provedor}\n` +
+                    `• **Modelo:** ${relatorio.statusGeral.modelo}\n` +
+                    `• **IA Generativa Ativa:** ${relatorio.statusGeral.ia_generativa_ativa ? 'SIM (Google Gemini)' : 'NÃO (Fallback)'}\n` +
+                    `• **Testes Aprovados:** ${relatorio.aprovados}/${relatorio.total} (${Math.round((relatorio.aprovados/relatorio.total)*100)}%)\n\n` +
+                    `**Detalhes por Agente:**\n`;
+                for (const r of (relatorio.resultados || [])) {
+                    txt += `• [Agente 0${r.numero} — ${r.agente}]: ${r.resultado} | ${r.provedor} (${r.modelo}) | IA: ${r.ia_generativa_ativa}\n`;
+                }
+                res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+                return res.end(JSON.stringify({ sucesso: true, resposta: txt, parecer: txt, dados: relatorio }));
             }
 
             // Comando especial: Testar disparo de Webhook para n8n

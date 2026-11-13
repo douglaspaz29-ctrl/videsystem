@@ -27,16 +27,30 @@ async function executarAuditoriaIA7Agentes() {
 
     let total = 0;
     let aprovados = 0;
+    const resultados = [];
 
     function validarResultadoAgente(numero, nomeAgente, res, campoConteudo) {
         total++;
         const meta = res?.origem_inteligencia;
-        const temConteudo = !!(res && (res[campoConteudo] || typeof res === 'string'));
+        const conteudo = res && (res[campoConteudo] || (typeof res === 'string' ? res : ''));
+        const temConteudo = !!conteudo;
         const temProvedor = !!(meta && meta.provedor);
         const temModelo = !!(meta && meta.modelo);
         const temFlagIa = meta && typeof meta.ia_generativa_ativa === 'boolean';
 
         const passou = temConteudo && temProvedor && temModelo && temFlagIa;
+        const item = {
+            numero,
+            agente: nomeAgente,
+            provedor: meta?.provedor || 'INDEFINIDO',
+            modelo: meta?.modelo || 'INDEFINIDO',
+            ia_generativa_ativa: !!meta?.ia_generativa_ativa,
+            tempo_resposta_ms: meta?.tempo_resposta_ms || 0,
+            resultado: passou ? 'APROVADO' : 'REPROVADO',
+            amostra: typeof conteudo === 'string' ? conteudo.slice(0, 180) + (conteudo.length > 180 ? '...' : '') : JSON.stringify(conteudo).slice(0, 180)
+        };
+        resultados.push(item);
+
         if (passou) {
             aprovados++;
             console.log(`✓ [APROVADO] Agente 0${numero}: ${nomeAgente}`);
@@ -130,7 +144,7 @@ async function executarAuditoriaIA7Agentes() {
     console.log(`IA Generativa Ativa: ${statusGeral.ia_generativa_ativa}`);
     console.log('======================================================================\n');
 
-    return { total, aprovados, sucesso: total === aprovados, statusGeral };
+    return { total, aprovados, sucesso: total === aprovados, statusGeral, resultados };
 }
 
 if (require.main === module) {
