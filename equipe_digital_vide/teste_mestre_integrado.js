@@ -9,7 +9,7 @@ const http = require('http');
 const path = require('path');
 const fs = require('fs');
 
-const BASE_DIR = 'C:/Users/Natalia/Downloads/VIDE/.agent/VIDE-MOTOR-INTELIGENCIA/equipe_digital_vide';
+const BASE_DIR = __dirname;
 const { db } = require(path.join(BASE_DIR, 'banco_dados'));
 const { executarFluxoTriagemParaCoordenador } = require(path.join(BASE_DIR, 'conexao_triagem_coordenador'));
 const { obterProjetoPorId, listarProjetos } = require(path.join(BASE_DIR, 'agente_02_coordenador/repositorio_projetos_tarefas'));

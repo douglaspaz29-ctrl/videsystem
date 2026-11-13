@@ -135,6 +135,20 @@ CREATE TABLE IF NOT EXISTS usuarios_sistema (
     criado_em TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
 
+-- 10. TABELA: ARQUIVOS_ARMAZENAMENTO (Storage Durável de Entregáveis e Documentos)
+CREATE TABLE IF NOT EXISTS arquivos_armazenamento (
+    id VARCHAR(255) PRIMARY KEY,
+    projeto_id VARCHAR(64) NOT NULL,
+    especialista VARCHAR(128) NOT NULL,
+    nome_arquivo VARCHAR(255) NOT NULL,
+    caminho_relativo VARCHAR(512) NOT NULL,
+    mimetype VARCHAR(128) DEFAULT 'text/plain',
+    conteudo TEXT NOT NULL,
+    tamanho_bytes INT NOT NULL DEFAULT 0,
+    criado_em TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    atualizado_em TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
 -- =====================================================================
 -- ÍNDICES DE PERFORMANCE E INTEGRIDADE
 -- =====================================================================
@@ -145,6 +159,8 @@ CREATE INDEX IF NOT EXISTS idx_tarefas_estado ON tarefas(estado);
 CREATE INDEX IF NOT EXISTS idx_crm_leads_cliente ON crm_leads(cliente_id);
 CREATE INDEX IF NOT EXISTS idx_crm_leads_telefone ON crm_leads(telefone);
 CREATE INDEX IF NOT EXISTS idx_eventos_projeto ON eventos_historico(projeto_id);
+CREATE INDEX IF NOT EXISTS idx_arquivos_projeto ON arquivos_armazenamento(projeto_id);
+CREATE INDEX IF NOT EXISTS idx_arquivos_especialista ON arquivos_armazenamento(especialista);
 
 -- =====================================================================
 -- ROW-LEVEL SECURITY (RLS) PARA ISOLAMENTO MULTI-TENANT NO SUPABASE

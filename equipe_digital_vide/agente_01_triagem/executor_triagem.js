@@ -193,7 +193,7 @@ function processarTriagemRevisada({
     // =========================================================================
     // CASO 3: Demanda Integrada (Marca/Branding + Site/Landing Page + Atendimento + Automação)
     // =========================================================================
-    else if ((texto.includes('marca') || texto.includes('identidade visual') || texto.includes('branding')) && (texto.includes('site') || texto.includes('landing page') || texto.includes('landing')) && (texto.includes('automatizar') || texto.includes('automação') || texto.includes('atendimento'))) {
+    else if ((texto.includes('marca') || texto.includes('identidade visual') || texto.includes('branding')) && (texto.includes('site') || texto.includes('landing page') || texto.includes('landing') || texto.includes('portal') || texto.includes('web')) && (texto.includes('automatizar') || texto.includes('automação') || texto.includes('atendimento'))) {
         fatosRelatados = 'O cliente declarou três necessidades simultâneas: melhorar sua marca, criar um site e automatizar o atendimento.';
         hipotesesPreliminares = 'Hipótese a verificar: a empresa busca uma reformulação de autoridade visual acompanhada de eficiência no fluxo de novos contatos.';
         necessidadesNaoDiagnosticadas = 'Não foi diagnosticado se a melhoria da marca é um ajuste de aplicação ou um rebranding completo; não foram mapeados os canais técnicos a serem automatizados.';

@@ -1,0 +1,67 @@
+version: '3.8'
+
+services:
+  vide-server:
+    build: .
+    container_name: vide-server
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - HOST=0.0.0.0
+      - DATABASE_URL=postgresql://postgres:vide_secret_2026@vide-postgres:5432/vide_db
+      - N8N_URL=http://vide-n8n:5678
+    depends_on:
+      - vide-postgres
+    volumes:
+      - vide_entregas:/app/equipe_digital_vide/entregas_clientes
+
+  vide-postgres:
+    image: postgres:16-alpine
+    container_name: vide-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: vide_secret_2026
+      POSTGRES_DB: vide_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - vide_db_data:/var/lib/postgresql/data
+
+  vide-n8n:
+    image: n8nio/n8n:latest
+    container_name: vide-n8n
+    restart: unless-stopped
+    ports:
+      - "5678:5678"
+    environment:
+      - N8N_HOST=localhost
+      - N8N_PORT=5678
+      - N8N_PROTOCOL=http
+      - WEBHOOK_URL=http://localhost:5678/
+    volumes:
+      - vide_n8n_data:/home/node/.n8n
+
+  vide-caddy:
+    image: caddy:2-alpine
+    container_name: vide-caddy
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - vide_caddy_data:/data
+      - vide_caddy_config:/config
+    depends_on:
+      - vide-server
+
+volumes:
+  vide_entregas:
+  vide_db_data:
+  vide_n8n_data:
+  vide_caddy_data:
+  vide_caddy_config:

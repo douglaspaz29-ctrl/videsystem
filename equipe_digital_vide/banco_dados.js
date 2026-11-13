@@ -30,7 +30,8 @@ class BancoDadosRelacionalVIDE {
             eventos_historico: [],
             crm_leads: new Map(),
             auditoria_admin: [],
-            usuarios_sistema: new Map()
+            usuarios_sistema: new Map(),
+            arquivos_armazenamento: new Map()
         };
         this.transacaoAtiva = false;
         this.snapshotTransacao = null;
@@ -45,7 +46,11 @@ class BancoDadosRelacionalVIDE {
                     ssl: CONFIG.DATABASE_URL.includes('localhost') ? false : { rejectUnauthorized: false }
                 });
                 this.modoRemoto = true;
-                this.aplicarSchemaSeNecessario();
+                this.aplicarSchemaSeNecessario().then(() => {
+                    this.hidratarDoPostgres();
+                }).catch(err => {
+                    console.warn('[VIDE_DB] Aviso ao sincronizar inicialização do PostgreSQL:', err.message);
+                });
             } catch (e) {
                 console.warn('[VIDE_DB] Falha ao instanciar Pool PostgreSQL remoto. Usando fallback local:', e.message);
             }
@@ -68,6 +73,157 @@ class BancoDadosRelacionalVIDE {
             }
         } catch (e) {
             console.warn('[VIDE_DB] Aviso ao aplicar schema no PostgreSQL remoto:', e.message);
+        }
+    }
+
+    /**
+     * Reidrata o estado das tabelas em memória e cache local a partir do PostgreSQL
+     * Garante que containers efêmeros recuperem todo o histórico e projetos pós-restart
+     */
+    async hidratarDoPostgres() {
+        if (!this.pgPool) return;
+        try {
+            // 1. Clientes
+            const rCli = await this.pgPool.query('SELECT * FROM clientes');
+            for (const row of rCli.rows) {
+                this.tabelas.clientes.set(row.id, {
+                    id: row.id,
+                    nome: row.nome,
+                    documento: row.documento,
+                    email: row.email,
+                    telefone: row.telefone,
+                    segmento: row.segmento || 'Geral',
+                    ticket_medio: parseFloat(row.ticket_medio) || 0,
+                    criado_em: row.criado_em ? new Date(row.criado_em).toISOString() : new Date().toISOString(),
+                    atualizado_em: row.atualizado_em ? new Date(row.atualizado_em).toISOString() : new Date().toISOString()
+                });
+            }
+
+            // 2. Projetos
+            const rProj = await this.pgPool.query('SELECT * FROM projetos');
+            for (const row of rProj.rows) {
+                let servicos = [];
+                try {
+                    servicos = typeof row.servicos_autorizados === 'string' ? JSON.parse(row.servicos_autorizados) : (row.servicos_autorizados || []);
+                } catch (_) {}
+
+                this.tabelas.projetos.set(row.id, {
+                    id: row.id,
+                    cliente_id: row.cliente_id,
+                    id_demanda_origem: row.id_demanda_origem,
+                    solicitacao_original: row.solicitacao_original,
+                    situacao_projeto: row.situacao_projeto,
+                    autorizacao_status: row.autorizacao_status,
+                    servicos_autorizados: servicos,
+                    data_autorizacao: row.data_autorizacao ? new Date(row.data_autorizacao).toISOString() : null,
+                    observacao_autorizacao: row.observacao_autorizacao,
+                    prioridade: row.prioridade || 'NORMAL',
+                    criado_em: row.criado_em ? new Date(row.criado_em).toISOString() : new Date().toISOString(),
+                    atualizado_em: row.atualizado_em ? new Date(row.atualizado_em).toISOString() : new Date().toISOString()
+                });
+            }
+
+            // 3. Tarefas
+            const rTar = await this.pgPool.query('SELECT * FROM tarefas');
+            for (const row of rTar.rows) {
+                let dependencias = [];
+                let criterios = [];
+                try {
+                    dependencias = typeof row.dependencias === 'string' ? JSON.parse(row.dependencias) : (row.dependencias || []);
+                    criterios = typeof row.criterios_aceite === 'string' ? JSON.parse(row.criterios_aceite) : (row.criterios_aceite || []);
+                } catch (_) {}
+
+                this.tabelas.tarefas.set(row.id, {
+                    id: row.id,
+                    id_tarefa: row.id,
+                    projeto_id: row.projeto_id,
+                    agente_id: row.agente_id,
+                    especialista: row.especialista,
+                    titulo: row.titulo,
+                    descricao: row.descricao,
+                    dependencias: dependencias,
+                    criterios_aceite: criterios,
+                    estado: row.estado,
+                    criado_em: row.criado_em ? new Date(row.criado_em).toISOString() : new Date().toISOString(),
+                    atualizado_em: row.atualizado_em ? new Date(row.atualizado_em).toISOString() : new Date().toISOString()
+                });
+            }
+
+            // 4. Entregas
+            const rEnt = await this.pgPool.query('SELECT * FROM entregas');
+            for (const row of rEnt.rows) {
+                let manifesto = {};
+                let arquivos = [];
+                try {
+                    manifesto = typeof row.manifesto === 'string' ? JSON.parse(row.manifesto) : (row.manifesto || {});
+                    arquivos = typeof row.arquivos === 'string' ? JSON.parse(row.arquivos) : (row.arquivos || []);
+                } catch (_) {}
+
+                this.tabelas.entregas.set(row.id, {
+                    id: row.id,
+                    tarefa_id: row.tarefa_id,
+                    projeto_id: row.projeto_id,
+                    diretorio_fisico: row.diretorio_fisico,
+                    arquivos: arquivos,
+                    dados: manifesto,
+                    aprovado_pelo_coordenador: !!row.aprovado_pelo_coordenador,
+                    parecer_coordenador: row.parecer_coordenador,
+                    submetido_em: row.submetido_em ? new Date(row.submetido_em).toISOString() : new Date().toISOString()
+                });
+            }
+
+            // 5. Eventos Histórico
+            const rEvt = await this.pgPool.query('SELECT * FROM eventos_historico ORDER BY id ASC');
+            this.tabelas.eventos_historico = rEvt.rows.map(row => {
+                let detalhes = null;
+                try {
+                    detalhes = typeof row.detalhes === 'string' ? JSON.parse(row.detalhes) : row.detalhes;
+                } catch (_) {}
+                return {
+                    id: row.id,
+                    projeto_id: row.projeto_id,
+                    tarefa_id: row.tarefa_id,
+                    timestamp: row.timestamp ? new Date(row.timestamp).toISOString() : new Date().toISOString(),
+                    autor: row.autor,
+                    tipo_evento: row.tipo_evento,
+                    estado_anterior: row.estado_anterior,
+                    novo_estado: row.novo_estado,
+                    nota: row.nota,
+                    detalhes: detalhes
+                };
+            });
+
+            // 6. CRM Leads
+            const rLeads = await this.pgPool.query('SELECT * FROM crm_leads');
+            for (const row of rLeads.rows) {
+                let msgs = [];
+                let cad = [];
+                try {
+                    msgs = typeof row.mensagens === 'string' ? JSON.parse(row.mensagens) : (row.mensagens || []);
+                    cad = typeof row.cadencias_ativas === 'string' ? JSON.parse(row.cadencias_ativas) : (row.cadencias_ativas || []);
+                } catch (_) {}
+
+                this.tabelas.crm_leads.set(row.id, {
+                    id: row.id,
+                    cliente_id: row.cliente_id,
+                    nome: row.nome,
+                    telefone: row.telefone,
+                    canal_origem: row.canal_origem,
+                    etapa_funil: row.etapa_funil,
+                    status_atendimento: row.status_atendimento,
+                    opt_out: !!row.opt_out,
+                    valor_estimado: parseFloat(row.valor_estimado) || 0,
+                    mensagens: msgs,
+                    cadencias_ativas: cad,
+                    criado_em: row.criado_em ? new Date(row.criado_em).toISOString() : new Date().toISOString(),
+                    atualizado_em: row.atualizado_em ? new Date(row.atualizado_em).toISOString() : new Date().toISOString()
+                });
+            }
+
+            this.persistir();
+            console.log(`[VIDE_DB] Hidratação PostgreSQL concluída: ${rProj.rowCount} projetos, ${rTar.rowCount} tarefas, ${rCli.rowCount} clientes, ${rLeads.rowCount} leads sincronizados.`);
+        } catch (e) {
+            console.warn('[VIDE_DB] Aviso ao hidratar dados do PostgreSQL:', e.message);
         }
     }
 
@@ -198,7 +354,31 @@ class BancoDadosRelacionalVIDE {
 
         this.tabelas.clientes.set(cliente.id, cliente);
         if (!this.transacaoAtiva) this.persistir();
+
+        if (this.pgPool) {
+            this.pgPool.query(`
+                INSERT INTO clientes (id, nome, documento, email, telefone, segmento, ticket_medio, criado_em, atualizado_em)
+                VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+                ON CONFLICT (id) DO UPDATE SET
+                    nome = EXCLUDED.nome,
+                    documento = EXCLUDED.documento,
+                    email = EXCLUDED.email,
+                    telefone = EXCLUDED.telefone,
+                    segmento = EXCLUDED.segmento,
+                    ticket_medio = EXCLUDED.ticket_medio,
+                    atualizado_em = EXCLUDED.atualizado_em
+            `, [cliente.id, cliente.nome, cliente.documento, cliente.email, cliente.telefone, cliente.segmento, cliente.ticket_medio, cliente.criado_em, cliente.atualizado_em])
+            .catch(err => console.warn('[VIDE_DB_PG] Falha assíncrona ao sincronizar cliente:', err.message));
+        }
+
         return cliente;
+    }
+
+    inserirCliente(dados) {
+        const id = dados.id || dados.id_cliente;
+        const nome = dados.nome || dados.nome_empresa || dados.responsavel;
+        const cli = this.inserirOuAtualizarCliente({ id, nome, ...dados });
+        return { sucesso: true, cliente: cli };
     }
 
     obterCliente(id) {
@@ -241,6 +421,35 @@ class BancoDadosRelacionalVIDE {
 
         this.tabelas.projetos.set(projeto.id, projeto);
         if (!this.transacaoAtiva) this.persistir();
+
+        if (this.pgPool) {
+            this.pgPool.query(`
+                INSERT INTO projetos (id, cliente_id, id_demanda_origem, solicitacao_original, situacao_projeto, autorizacao_status, servicos_autorizados, data_autorizacao, observacao_autorizacao, prioridade, criado_em, atualizado_em)
+                VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)
+                ON CONFLICT (id) DO UPDATE SET
+                    situacao_projeto = EXCLUDED.situacao_projeto,
+                    autorizacao_status = EXCLUDED.autorizacao_status,
+                    servicos_autorizados = EXCLUDED.servicos_autorizados,
+                    data_autorizacao = EXCLUDED.data_autorizacao,
+                    observacao_autorizacao = EXCLUDED.observacao_autorizacao,
+                    prioridade = EXCLUDED.prioridade,
+                    atualizado_em = EXCLUDED.atualizado_em
+            `, [
+                projeto.id,
+                projeto.cliente_id,
+                projeto.id_demanda_origem,
+                projeto.solicitacao_original,
+                projeto.situacao_projeto,
+                projeto.autorizacao_status,
+                JSON.stringify(projeto.servicos_autorizados || []),
+                projeto.data_autorizacao,
+                projeto.observacao_autorizacao,
+                projeto.prioridade,
+                projeto.criado_em,
+                projeto.atualizado_em
+            ]).catch(err => console.warn('[VIDE_DB_PG] Falha assíncrona ao sincronizar projeto:', err.message));
+        }
+
         return projeto;
     }
 
@@ -329,6 +538,33 @@ class BancoDadosRelacionalVIDE {
 
         this.tabelas.tarefas.set(idTarefa, tarefa);
         if (!this.transacaoAtiva) this.persistir();
+
+        if (this.pgPool) {
+            this.pgPool.query(`
+                INSERT INTO tarefas (id, projeto_id, agente_id, especialista, titulo, descricao, dependencias, criterios_aceite, estado, criado_em, atualizado_em)
+                VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
+                ON CONFLICT (id) DO UPDATE SET
+                    titulo = EXCLUDED.titulo,
+                    descricao = EXCLUDED.descricao,
+                    dependencias = EXCLUDED.dependencias,
+                    criterios_aceite = EXCLUDED.criterios_aceite,
+                    estado = EXCLUDED.estado,
+                    atualizado_em = EXCLUDED.atualizado_em
+            `, [
+                tarefa.id,
+                tarefa.projeto_id,
+                tarefa.agente_id,
+                tarefa.especialista,
+                tarefa.titulo,
+                tarefa.descricao,
+                JSON.stringify(tarefa.dependencias || []),
+                JSON.stringify(tarefa.criterios_aceite || []),
+                tarefa.estado,
+                tarefa.criado_em,
+                tarefa.atualizado_em
+            ]).catch(err => console.warn('[VIDE_DB_PG] Falha assíncrona ao sincronizar tarefa:', err.message));
+        }
+
         return tarefa;
     }
 
@@ -391,6 +627,30 @@ class BancoDadosRelacionalVIDE {
 
         this.tabelas.entregas.set(idEntrega, entrega);
         if (!this.transacaoAtiva) this.persistir();
+
+        if (this.pgPool) {
+            this.pgPool.query(`
+                INSERT INTO entregas (id, tarefa_id, projeto_id, diretorio_fisico, arquivos, manifesto, aprovado_pelo_coordenador, parecer_coordenador, submetido_em)
+                VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+                ON CONFLICT (id) DO UPDATE SET
+                    arquivos = EXCLUDED.arquivos,
+                    manifesto = EXCLUDED.manifesto,
+                    aprovado_pelo_coordenador = EXCLUDED.aprovado_pelo_coordenador,
+                    parecer_coordenador = EXCLUDED.parecer_coordenador,
+                    auditado_em = CURRENT_TIMESTAMP
+            `, [
+                entrega.id,
+                entrega.tarefa_id,
+                entrega.projeto_id,
+                entrega.diretorio_fisico,
+                JSON.stringify(entrega.arquivos || []),
+                JSON.stringify(entrega.dados || {}),
+                entrega.aprovado_pelo_coordenador,
+                entrega.parecer_coordenador,
+                entrega.submetido_em
+            ]).catch(err => console.warn('[VIDE_DB_PG] Falha assíncrona ao sincronizar entrega:', err.message));
+        }
+
         return entrega;
     }
 
@@ -420,6 +680,24 @@ class BancoDadosRelacionalVIDE {
 
         this.tabelas.eventos_historico.push(evento);
         if (!this.transacaoAtiva) this.persistir();
+
+        if (this.pgPool) {
+            this.pgPool.query(`
+                INSERT INTO eventos_historico (projeto_id, tarefa_id, timestamp, autor, tipo_evento, estado_anterior, novo_estado, nota, detalhes)
+                VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+            `, [
+                evento.projeto_id,
+                evento.tarefa_id,
+                evento.timestamp,
+                evento.autor,
+                evento.tipo_evento,
+                evento.estado_anterior,
+                evento.novo_estado,
+                evento.nota,
+                JSON.stringify(evento.detalhes || null)
+            ]).catch(err => console.warn('[VIDE_DB_PG] Falha assíncrona ao sincronizar evento:', err.message));
+        }
+
         return evento;
     }
 
@@ -477,6 +755,38 @@ class BancoDadosRelacionalVIDE {
 
         this.tabelas.crm_leads.set(idLead, lead);
         if (!this.transacaoAtiva) this.persistir();
+
+        if (this.pgPool) {
+            this.pgPool.query(`
+                INSERT INTO crm_leads (id, cliente_id, nome, telefone, canal_origem, etapa_funil, status_atendimento, opt_out, valor_estimado, mensagens, cadencias_ativas, criado_em, atualizado_em)
+                VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)
+                ON CONFLICT (id) DO UPDATE SET
+                    nome = EXCLUDED.nome,
+                    canal_origem = EXCLUDED.canal_origem,
+                    etapa_funil = EXCLUDED.etapa_funil,
+                    status_atendimento = EXCLUDED.status_atendimento,
+                    opt_out = EXCLUDED.opt_out,
+                    valor_estimado = EXCLUDED.valor_estimado,
+                    mensagens = EXCLUDED.mensagens,
+                    cadencias_ativas = EXCLUDED.cadencias_ativas,
+                    atualizado_em = EXCLUDED.atualizado_em
+            `, [
+                lead.id,
+                lead.cliente_id,
+                lead.nome,
+                lead.telefone,
+                lead.canal_origem,
+                lead.etapa_funil,
+                lead.status_atendimento,
+                lead.opt_out,
+                lead.valor_estimado,
+                JSON.stringify(lead.mensagens || []),
+                JSON.stringify(lead.cadencias_ativas || []),
+                lead.criado_em,
+                lead.atualizado_em
+            ]).catch(err => console.warn('[VIDE_DB_PG] Falha assíncrona ao sincronizar lead:', err.message));
+        }
+
         return lead;
     }
 
@@ -496,6 +806,77 @@ class BancoDadosRelacionalVIDE {
             leads.push(lead);
         }
         return leads;
+    }
+
+    // =========================================================================
+    // OPERAÇÕES: ARMAZENAMENTO DURÁVEL DE ARQUIVOS (STORAGE POSTGRESQL)
+    // =========================================================================
+    async salvarArquivoStorage({ idProjeto, especialista, nomeArquivo, caminhoRelativo, conteudo, mimetype }) {
+        const id = `${idProjeto}/${especialista}/${nomeArquivo}`;
+        const tamanhoBytes = Buffer.byteLength(conteudo || '', 'utf-8');
+        const registro = {
+            id,
+            projeto_id: idProjeto,
+            especialista,
+            nome_arquivo: nomeArquivo,
+            caminho_relativo: caminhoRelativo,
+            mimetype: mimetype || 'text/plain',
+            conteudo,
+            tamanho_bytes: tamanhoBytes,
+            criado_em: new Date().toISOString(),
+            atualizado_em: new Date().toISOString()
+        };
+        this.tabelas.arquivos_armazenamento.set(id, registro);
+
+        if (this.pgPool) {
+            try {
+                await this.pgPool.query(`
+                    INSERT INTO arquivos_armazenamento (id, projeto_id, especialista, nome_arquivo, caminho_relativo, mimetype, conteudo, tamanho_bytes, criado_em, atualizado_em)
+                    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+                    ON CONFLICT (id) DO UPDATE SET
+                        conteudo = EXCLUDED.conteudo,
+                        tamanho_bytes = EXCLUDED.tamanho_bytes,
+                        mimetype = EXCLUDED.mimetype,
+                        atualizado_em = CURRENT_TIMESTAMP
+                `, [id, idProjeto, especialista, nomeArquivo, caminhoRelativo, mimetype || 'text/plain', conteudo, tamanhoBytes]);
+                return { sucesso: true, id, persistencia: 'POSTGRESQL' };
+            } catch (e) {
+                console.warn('[VIDE_DB_PG] Falha ao salvar arquivo no PostgreSQL:', e.message);
+                return { sucesso: false, erro: e.message };
+            }
+        }
+        return { sucesso: true, id, persistencia: 'LOCAL_DISCO' };
+    }
+
+    async obterArquivoStorage(idProjeto, especialista, nomeArquivo) {
+        const id = `${idProjeto}/${especialista}/${nomeArquivo}`;
+        if (this.tabelas.arquivos_armazenamento.has(id)) {
+            return this.tabelas.arquivos_armazenamento.get(id);
+        }
+        if (this.pgPool) {
+            try {
+                const res = await this.pgPool.query('SELECT * FROM arquivos_armazenamento WHERE id = $1', [id]);
+                if (res.rows.length > 0) {
+                    this.tabelas.arquivos_armazenamento.set(id, res.rows[0]);
+                    return res.rows[0];
+                }
+            } catch (e) {
+                console.warn('[VIDE_DB_PG] Falha ao consultar arquivo no PostgreSQL:', e.message);
+            }
+        }
+        return null;
+    }
+
+    async listarArquivosStorage(idProjeto) {
+        if (this.pgPool) {
+            try {
+                const res = await this.pgPool.query('SELECT id, projeto_id, especialista, nome_arquivo, caminho_relativo, mimetype, tamanho_bytes, criado_em, atualizado_em FROM arquivos_armazenamento WHERE projeto_id = $1', [idProjeto]);
+                return res.rows;
+            } catch (e) {
+                console.warn('[VIDE_DB_PG] Falha ao listar arquivos no PostgreSQL:', e.message);
+            }
+        }
+        return [];
     }
 
     // =========================================================================

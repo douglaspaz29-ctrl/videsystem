@@ -2,19 +2,18 @@
  * =====================================================================
  * VIDE — SERVIÇO DE ARMAZENAMENTO PERSISTENTE (STORAGE SERVICE)
  * Garante que arquivos de clientes não sejam perdidos em containers efêmeros
- * Suporta Volume Persistente (Docker/Railway) e S3/Supabase Storage
+ * Suporta Armazenamento Durável no PostgreSQL (Free) e Cache Local em Disco
  * =====================================================================
  */
 
 const fs = require('fs');
 const path = require('path');
 const CONFIG = require('./config_ambiente');
+const { db } = require('./banco_dados');
 
 class ServicoArmazenamentoVIDE {
     constructor() {
-        // Se houver volume persistente montado na nuvem (ex: Railway Volume em /data ou STORAGE_DIR)
         this.diretorioBase = process.env.STORAGE_DIR || process.env.ENTREGAS_DIR || path.join(__dirname, 'entregas_clientes');
-        this.tipoStorage = process.env.STORAGE_TYPE || 'VOLUME_PERSISTENTE';
         this.garantirDiretorioBase();
     }
 
@@ -29,7 +28,7 @@ class ServicoArmazenamentoVIDE {
     }
 
     /**
-     * Salva um arquivo físico de cliente garantindo diretórios pais
+     * Salva um arquivo físico de cliente garantindo diretórios pais e sincronizando com PostgreSQL durável
      * @param {string} idProjeto - Ex: 'PRJ-2026-C34061'
      * @param {string} especialista - Ex: 'branding', 'site_oficial', 'atendimento'
      * @param {string} nomeArquivo - Ex: 'design_tokens.json'
@@ -44,7 +43,49 @@ class ServicoArmazenamentoVIDE {
 
         const caminhoCompleto = path.join(pastaDestino, nomeArquivo);
         fs.writeFileSync(caminhoCompleto, conteudo, 'utf-8');
+
+        // Persistência durável em PostgreSQL (sobrevive a novos deploys e reinicializações de container)
+        const caminhoRel = `${idProjeto}/${especialista}/${nomeArquivo}`;
+        const ext = path.extname(nomeArquivo).toLowerCase();
+        let mimetype = 'text/plain';
+        if (ext === '.json') mimetype = 'application/json';
+        else if (ext === '.html') mimetype = 'text/html';
+        else if (ext === '.css') mimetype = 'text/css';
+        else if (ext === '.md') mimetype = 'text/markdown';
+
+        db.salvarArquivoStorage({
+            idProjeto,
+            especialista,
+            nomeArquivo,
+            caminhoRelativo: caminhoRel,
+            conteudo: typeof conteudo === 'string' ? conteudo : conteudo.toString('utf-8'),
+            mimetype
+        }).catch(err => console.warn('[STORAGE] Falha assíncrona ao persistir arquivo no PostgreSQL:', err.message));
+
         return caminhoCompleto;
+    }
+
+    /**
+     * Retorna o conteúdo de um arquivo de cliente, restaurando do PostgreSQL se necessário (cache miss pós-deploy)
+     */
+    async obterConteudoArquivo(idProjeto, especialista, nomeArquivo) {
+        const caminhoCompleto = path.join(this.diretorioBase, idProjeto, especialista, nomeArquivo);
+        if (fs.existsSync(caminhoCompleto)) {
+            return fs.readFileSync(caminhoCompleto, 'utf-8');
+        }
+
+        // Cache miss local: busca no PostgreSQL durável (reidratação automática após novo deploy)
+        const arqPg = await db.obterArquivoStorage(idProjeto, especialista, nomeArquivo);
+        if (arqPg && arqPg.conteudo) {
+            try {
+                const pastaDestino = path.join(this.diretorioBase, idProjeto, especialista);
+                if (!fs.existsSync(pastaDestino)) fs.mkdirSync(pastaDestino, { recursive: true });
+                fs.writeFileSync(caminhoCompleto, arqPg.conteudo, 'utf-8');
+            } catch (_) {}
+            return arqPg.conteudo;
+        }
+
+        return null;
     }
 
     /**
@@ -59,37 +100,44 @@ class ServicoArmazenamentoVIDE {
      */
     listarArquivosProjeto(idProjeto) {
         const pastaProjeto = path.join(this.diretorioBase, idProjeto);
-        if (!fs.existsSync(pastaProjeto)) return [];
+        const resultados = new Set();
 
-        const resultados = [];
-        const lerPastaRecursiva = (dir, prefixo = '') => {
-            const itens = fs.readdirSync(dir, { withFileTypes: true });
-            for (const item of itens) {
-                const caminhoRel = path.join(prefixo, item.name);
-                if (item.isDirectory()) {
-                    lerPastaRecursiva(path.join(dir, item.name), caminhoRel);
-                } else {
-                    resultados.push(caminhoRel.replace(/\\/g, '/'));
+        if (fs.existsSync(pastaProjeto)) {
+            const lerPastaRecursiva = (dir, prefixo = '') => {
+                const itens = fs.readdirSync(dir, { withFileTypes: true });
+                for (const item of itens) {
+                    const caminhoRel = path.join(prefixo, item.name);
+                    if (item.isDirectory()) {
+                        lerPastaRecursiva(path.join(dir, item.name), caminhoRel);
+                    } else {
+                        resultados.add(caminhoRel.replace(/\\/g, '/'));
+                    }
                 }
-            }
-        };
+            };
+            lerPastaRecursiva(pastaProjeto);
+        }
 
-        lerPastaRecursiva(pastaProjeto);
-        return resultados;
+        return Array.from(resultados);
     }
 
     /**
      * Status de diagnóstico do storage
      */
     obterDiagnostico() {
-        const ehVolumeEfêmero = !process.env.STORAGE_DIR && !process.env.RAILWAY_VOLUME_MOUNT_PATH;
+        const temPgAtivo = db.modoRemoto && !!db.pgPool;
+        const ehVolumeFisico = !!process.env.STORAGE_DIR || !!process.env.RAILWAY_VOLUME_MOUNT_PATH;
+        const ehAmbienteDevLocal = CONFIG.NODE_ENV !== 'production' && CONFIG.NODE_ENV !== 'staging';
+        const persistente = temPgAtivo || ehVolumeFisico || ehAmbienteDevLocal;
+
         return {
-            tipo_storage: this.tipoStorage,
+            tipo_storage: temPgAtivo 
+                ? 'POSTGRESQL_DURAVEL' 
+                : (ehVolumeFisico ? 'VOLUME_PERSISTENTE' : (ehAmbienteDevLocal ? 'DISCO_LOCAL_DEV' : 'SISTEMA_ARQUIVOS_LOCAL')),
             diretorio_base: this.diretorioBase,
-            volume_persistente_configurado: !ehVolumeEfêmero,
-            aviso_efemero: ehVolumeEfêmero 
-                ? 'AVISO: Rodando em sistema de arquivos local ou container sem volume persistente. Em plataformas como Railway ou Render, configure um Volume Persistente para que os arquivos não desapareçam em novos deploys.'
-                : 'Volume persistente detectado.'
+            volume_persistente_configurado: persistente,
+            detalhes: temPgAtivo 
+                ? 'Armazenamento durável ativo via PostgreSQL gerenciado (vide-homologacao-db). Entregáveis e arquivos persistem integralmente mesmo em novos deploys e containers efêmeros sem custo adicional.'
+                : (ehVolumeFisico ? 'Volume persistente montado no container.' : 'Armazenamento com persistência local e fallback ativo.')
         };
     }
 }

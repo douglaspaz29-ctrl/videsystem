@@ -108,21 +108,32 @@ function salvarProjeto(projeto) {
 }
 
 /**
- * Carrega um projeto persistido pelo ID
+ * Carrega um projeto persistido pelo ID com cache em disco e fallback para PostgreSQL durável
  * @param {string} idProjeto 
  * @returns {Object|null}
  */
 function obterProjetoPorId(idProjeto) {
     inicializarEstrutura();
     const caminhoArquivo = path.join(DIRETORIO_PROJETOS, `${idProjeto}.json`);
-    if (!fs.existsSync(caminhoArquivo)) {
-        return null;
+    if (fs.existsSync(caminhoArquivo)) {
+        try {
+            return JSON.parse(fs.readFileSync(caminhoArquivo, 'utf-8'));
+        } catch (_) {}
     }
-    return JSON.parse(fs.readFileSync(caminhoArquivo, 'utf-8'));
+
+    // Cache miss no disco (ex: novo container efêmero após deploy): reidrata do banco relacional
+    const projDb = db.obterProjeto(idProjeto);
+    if (projDb) {
+        try {
+            fs.writeFileSync(caminhoArquivo, JSON.stringify(projDb, null, 2), 'utf-8');
+        } catch (_) {}
+        return projDb;
+    }
+    return null;
 }
 
 /**
- * Lista todos os projetos registrados no índice ou filtrados por cliente
+ * Lista todos os projetos registrados no índice ou filtrados por cliente, reidratando do PostgreSQL se necessário
  * @param {string} [filtroClienteId]
  * @returns {Array<Object>}
  */
@@ -131,9 +142,25 @@ function listarProjetos(filtroClienteId = null) {
         return db.listarProjetos(filtroClienteId);
     }
     inicializarEstrutura();
-    if (!fs.existsSync(ARQUIVO_INDICE)) return [];
-    const indice = JSON.parse(fs.readFileSync(ARQUIVO_INDICE, 'utf-8'));
-    return indice.projetos || [];
+    let lista = [];
+    if (fs.existsSync(ARQUIVO_INDICE)) {
+        try {
+            const indice = JSON.parse(fs.readFileSync(ARQUIVO_INDICE, 'utf-8'));
+            lista = indice.projetos || [];
+        } catch (_) {}
+    }
+
+    // Se o índice em disco estiver vazio (restart de container), reidrata a partir do banco de dados relacional
+    if (lista.length === 0) {
+        const listaDb = db.listarProjetos();
+        if (listaDb && listaDb.length > 0) {
+            lista = listaDb;
+            try {
+                fs.writeFileSync(ARQUIVO_INDICE, JSON.stringify({ projetos: lista, atualizado_em: new Date().toISOString() }, null, 2), 'utf-8');
+            } catch (_) {}
+        }
+    }
+    return lista;
 }
 
 /**

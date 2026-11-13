@@ -145,8 +145,21 @@ const servidor = http.createServer(async (req, res) => {
                     openai: CONFIG.OPENAI_API_KEY ? 'CONECTADO_API_EXTERNA' : 'DESATIVADO'
                 },
                 automacao_n8n: {
-                    url_configurada: CONFIG.N8N_URL,
-                    tipo: CONFIG.N8N_URL.includes('localhost') ? 'LOCAL' : 'REMOTO_NUVEM'
+                    status: (CONFIG.N8N_URL && !CONFIG.N8N_URL.includes('localhost')) 
+                        ? 'CONECTADO_REMOTO' 
+                        : (CONFIG.NODE_ENV === 'staging' || CONFIG.NODE_ENV === 'production')
+                            ? 'AGUARDANDO_INSTANCIA_N8N_NUVEM'
+                            : 'LOCAL_DEV',
+                    url_configurada: (CONFIG.N8N_URL && !CONFIG.N8N_URL.includes('localhost'))
+                        ? CONFIG.N8N_URL
+                        : 'NENHUMA (Aguardando implantação de instância n8n pública na nuvem)',
+                    ambiente_execucao: CONFIG.NODE_ENV,
+                    webhooks_prontos_para_receber: {
+                        triagem_leads: `${CONFIG.BASE_URL}/api/webhook/triagem`,
+                        whatsapp_meta: `${CONFIG.BASE_URL}/api/webhook/whatsapp`,
+                        status_infra: `${CONFIG.BASE_URL}/api/status/infraestrutura`
+                    },
+                    instrucoes_integracao: "O backend VIDE está 100% preparado para receber requisições do n8n via POST nos webhooks acima. Quando uma instância n8n pública for provisionada, defina a variável N8N_URL no Render apontando para ela."
                 }
             }
         };
@@ -356,24 +369,34 @@ const servidor = http.createServer(async (req, res) => {
     // REDIRECIONAMENTOS DE NAVEGAÇÃO INTELIGENTES
     // =========================================================================
     if (urlLimpa === '/' || urlLimpa === '') {
-        if (fs.existsSync(path.join(DIRETORIO_RAIZ, '01_SITE_OFICIAL_LANDING_PAGE'))) {
+        if (fs.existsSync(path.join(DIRETORIO_RAIZ, '01_SITE_OFICIAL_LANDING_PAGE', 'index.html'))) {
             res.writeHead(302, { 'Location': '/01_SITE_OFICIAL_LANDING_PAGE/index.html' });
+        } else if (fs.existsSync(path.join(DIRETORIO_RAIZ, 'index.html'))) {
+            res.writeHead(302, { 'Location': '/index.html' });
         } else {
             res.writeHead(302, { 'Location': '/landing_page/index.html' });
         }
         return res.end();
     }
 
-    if (urlLimpa === '/central' || urlLimpa === '/central/' || urlLimpa === '/central_de_comando.html') {
-        res.writeHead(302, { 'Location': '/painel_interno/central_de_comando.html' });
+    if (urlLimpa === '/central' || urlLimpa === '/central/') {
+        if (fs.existsSync(path.join(DIRETORIO_RAIZ, 'central_de_comando.html'))) {
+            res.writeHead(302, { 'Location': '/central_de_comando.html' });
+        } else if (fs.existsSync(path.join(DIRETORIO_RAIZ, '02_PAINEL_E_FERRAMENTA_INTERNA', 'central_de_comando.html'))) {
+            res.writeHead(302, { 'Location': '/painel_interno/central_de_comando.html' });
+        } else {
+            res.writeHead(302, { 'Location': '/central_de_comando.html' });
+        }
         return res.end();
     }
 
     if (urlLimpa === '/painel' || urlLimpa === '/painel/' || urlLimpa === '/console') {
-        if (fs.existsSync(path.join(DIRETORIO_RAIZ, '02_PAINEL_E_FERRAMENTA_INTERNA'))) {
+        if (fs.existsSync(path.join(DIRETORIO_RAIZ, 'central_de_comando.html'))) {
+            res.writeHead(302, { 'Location': '/central_de_comando.html' });
+        } else if (fs.existsSync(path.join(DIRETORIO_RAIZ, '02_PAINEL_E_FERRAMENTA_INTERNA', 'index.html'))) {
             res.writeHead(302, { 'Location': '/02_PAINEL_E_FERRAMENTA_INTERNA/index.html' });
         } else {
-            res.writeHead(302, { 'Location': '/painel_interno/index.html' });
+            res.writeHead(302, { 'Location': '/index.html' });
         }
         return res.end();
     }
@@ -386,9 +409,17 @@ const servidor = http.createServer(async (req, res) => {
     // Fallbacks para manter total compatibilidade de URLs
     if (!fs.existsSync(caminhoArquivo)) {
         if (urlLimpa.startsWith('/landing_page/')) {
-            caminhoArquivo = path.join(DIRETORIO_RAIZ, '01_SITE_OFICIAL_LANDING_PAGE', urlLimpa.replace('/landing_page/', ''));
+            const rel = urlLimpa.replace('/landing_page/', '');
+            caminhoArquivo = path.join(DIRETORIO_RAIZ, rel);
+            if (!fs.existsSync(caminhoArquivo)) {
+                caminhoArquivo = path.join(DIRETORIO_RAIZ, '01_SITE_OFICIAL_LANDING_PAGE', rel);
+            }
         } else if (urlLimpa.startsWith('/painel_interno/')) {
-            caminhoArquivo = path.join(DIRETORIO_RAIZ, '02_PAINEL_E_FERRAMENTA_INTERNA', urlLimpa.replace('/painel_interno/', ''));
+            const rel = urlLimpa.replace('/painel_interno/', '');
+            caminhoArquivo = path.join(DIRETORIO_RAIZ, rel);
+            if (!fs.existsSync(caminhoArquivo)) {
+                caminhoArquivo = path.join(DIRETORIO_RAIZ, '02_PAINEL_E_FERRAMENTA_INTERNA', rel);
+            }
         }
     }
 

@@ -7,23 +7,28 @@
  */
 
 const http = require('http');
+const https = require('https');
 const fs = require('fs');
 const path = require('path');
+
+const BASE_URL = process.env.TEST_API_URL || 'http://localhost:3000';
 
 function fazerRequisicaoHttp({ url, metodo = 'GET', body = null }) {
     return new Promise((resolve, reject) => {
         const urlObj = new URL(url);
+        const isHttps = urlObj.protocol === 'https:';
+        const client = isHttps ? https : http;
         const options = {
             hostname: urlObj.hostname,
-            port: urlObj.port,
-            path: urlObj.pathname,
+            port: urlObj.port || (isHttps ? 443 : 80),
+            path: urlObj.pathname + urlObj.search,
             method: metodo,
             headers: {
                 'Content-Type': 'application/json'
             }
         };
 
-        const req = http.request(options, (res) => {
+        const req = client.request(options, (res) => {
             let dados = '';
             res.on('data', chunk => { dados += chunk; });
             res.on('end', () => {
@@ -68,7 +73,7 @@ async function executarTestesPontaAPonta() {
         };
 
         const res1 = await fazerRequisicaoHttp({
-            url: 'http://localhost:3000/api/webhook/triagem',
+            url: `${BASE_URL}/api/webhook/triagem`,
             metodo: 'POST',
             body: payload1
         });
@@ -105,7 +110,7 @@ async function executarTestesPontaAPonta() {
         };
 
         const res2 = await fazerRequisicaoHttp({
-            url: 'http://localhost:3000/api/webhook/triagem',
+            url: `${BASE_URL}/api/webhook/triagem`,
             metodo: 'POST',
             body: payload2
         });
@@ -138,7 +143,7 @@ async function executarTestesPontaAPonta() {
     console.log('>>> TESTE 3: Verificação de Leitura do Painel Interno');
     try {
         const res3 = await fazerRequisicaoHttp({
-            url: 'http://localhost:3000/api/projetos',
+            url: `${BASE_URL}/api/projetos`,
             metodo: 'GET'
         });
 

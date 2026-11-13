@@ -1,0 +1,18 @@
+# Dependências
+node_modules/
+
+# Variáveis de ambiente sensíveis
+.env
+.env.local
+
+# Logs
+*.log
+npm-debug.log*
+
+# Persistência efêmera e entregas de teste local
+equipe_digital_vide/dados_persistencia/
+equipe_digital_vide/entregas_clientes/PRJ-*
+
+# Sistema operacional
+.DS_Store
+Thumbs.db

@@ -1,0 +1,7 @@
+{
+    email douglaspaz29@gmail.com
+}
+
+:80, :443 {
+    reverse_proxy vide-server:3000
+}

@@ -5,7 +5,9 @@
   "main": "serve.js",
   "scripts": {
     "start": "node servidor_local.js",
-    "dev": "node servidor_local.js"
+    "dev": "node servidor_local.js",
+    "test": "node equipe_digital_vide/testes_homologacao_geral_7_agentes.js",
+    "migrate": "node -e \"require('./equipe_digital_vide/banco_dados').db.aplicarSchemaSeNecessario()\""
   },
   "dependencies": {
     "pg": "^8.11.5"
