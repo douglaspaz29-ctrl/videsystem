@@ -648,6 +648,314 @@
             margin-top: 20px;
         }
 
+    
+        /* Estilos do Cockpit de Gestão de Projetos & Alimentação da Equipe */
+        .projeto-seletor-bar {
+            background: #030508;
+            border: 1px solid var(--border-hairline);
+            border-radius: var(--radius-card);
+            padding: 16px 22px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin-top: 20px;
+        }
+
+        .projeto-select-dropdown {
+            background: #060910;
+            border: 1px solid var(--border-cyan);
+            border-radius: 8px;
+            color: #FFFFFF;
+            font-family: var(--font-headline);
+            font-size: 14px;
+            font-weight: 700;
+            padding: 10px 16px;
+            outline: none;
+            cursor: pointer;
+            flex: 1;
+            max-width: 520px;
+        }
+
+        .projeto-select-dropdown option {
+            background: #060910;
+            color: #FFF;
+        }
+
+        .badge-status-pill {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            font-weight: 800;
+            padding: 6px 14px;
+            border-radius: 6px;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .status-pendente {
+            background: rgba(245, 158, 11, 0.15);
+            color: #F59E0B;
+            border: 1px solid rgba(245, 158, 11, 0.4);
+        }
+
+        .status-execucao {
+            background: rgba(37, 99, 235, 0.15);
+            color: #00E5FF;
+            border: 1px solid rgba(0, 229, 255, 0.4);
+        }
+
+        .status-concluido {
+            background: rgba(16, 185, 129, 0.15);
+            color: #10B981;
+            border: 1px solid rgba(16, 185, 129, 0.4);
+        }
+
+        .projeto-header-card {
+            background: #030508;
+            border: 1px solid var(--border-hairline);
+            border-radius: var(--radius-card);
+            padding: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .projeto-acoes-botoes {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .btn-action-amber {
+            background: rgba(245, 158, 11, 0.1);
+            border: 1px solid #F59E0B;
+            color: #F59E0B;
+            font-family: var(--font-headline);
+            font-size: 12.5px;
+            font-weight: 800;
+            padding: 10px 16px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+        }
+        .btn-action-amber:hover {
+            background: #F59E0B;
+            color: #000;
+        }
+
+        .btn-action-green {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid #10B981;
+            color: #10B981;
+            font-family: var(--font-headline);
+            font-size: 12.5px;
+            font-weight: 800;
+            padding: 10px 16px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+        }
+        .btn-action-green:hover {
+            background: #10B981;
+            color: #000;
+        }
+
+        .btn-action-blue {
+            background: rgba(0, 81, 255, 0.15);
+            border: 1px solid var(--blue-core);
+            color: #FFF;
+            font-family: var(--font-headline);
+            font-size: 12.5px;
+            font-weight: 800;
+            padding: 10px 16px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+        }
+        .btn-action-blue:hover {
+            background: var(--blue-core);
+            color: #FFF;
+        }
+
+        .projeto-cockpit-subgrid {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .subcard-box {
+            background: #030508;
+            border: 1px solid var(--border-hairline);
+            border-radius: var(--radius-card);
+            overflow: hidden;
+        }
+
+        .subcard-header {
+            background: #060910;
+            border-bottom: 1px solid var(--border-hairline);
+            padding: 14px 20px;
+            font-family: var(--font-mono);
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            color: #FFFFFF;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .subcard-body {
+            padding: 20px;
+        }
+
+        .input-dark-field {
+            width: 100%;
+            background: #060910;
+            border: 1px solid var(--border-hairline);
+            border-radius: 8px;
+            padding: 10px 14px;
+            color: #FFF;
+            font-family: var(--font-body);
+            font-size: 13px;
+            outline: none;
+            transition: border-color 0.2s ease;
+            box-sizing: border-box;
+        }
+        .input-dark-field:focus {
+            border-color: var(--cyan-core);
+        }
+
+        .input-file-styled {
+            font-size: 12px;
+            color: var(--text-muted);
+            cursor: pointer;
+        }
+
+        .materiais-lista-scroll, .tarefas-tabela-scroll {
+            max-height: 240px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .material-item-row {
+            background: #060910;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 6px;
+            padding: 8px 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+        }
+
+        .tarefa-item-card {
+            background: #060910;
+            border: 1px solid var(--border-hairline);
+            border-radius: 8px;
+            padding: 12px 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .entregas-chips-wrap {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            max-height: 180px;
+            overflow-y: auto;
+        }
+
+        .entrega-chip-link {
+            background: #060910;
+            border: 1px solid rgba(0, 229, 255, 0.25);
+            color: #00E5FF;
+            text-decoration: none;
+            font-family: var(--font-mono);
+            font-size: 11.5px;
+            padding: 6px 12px;
+            border-radius: 6px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s ease;
+        }
+        .entrega-chip-link:hover {
+            background: rgba(0, 229, 255, 0.15);
+            border-color: var(--cyan-core);
+        }
+
+        /* Modal Novo Projeto */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(8px);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-card-box {
+            background: #060910;
+            border: 1px solid var(--cyan-core);
+            border-radius: var(--radius-card);
+            width: 90%;
+            max-width: 580px;
+            overflow: hidden;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 30px rgba(0, 229, 255, 0.15);
+        }
+
+        .modal-header {
+            background: #030508;
+            border-bottom: 1px solid var(--border-hairline);
+            padding: 18px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-label {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            color: #94A3B8;
+            font-weight: 700;
+            text-transform: uppercase;
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        .btn-close-modal {
+            background: transparent;
+            border: none;
+            color: #94A3B8;
+            font-size: 18px;
+            cursor: pointer;
+            padding: 4px 8px;
+        }
+        .btn-close-modal:hover { color: #FFF; }
+
+        @media (max-width: 1024px) {
+            .projeto-cockpit-subgrid { grid-template-columns: 1fr; }
+            .subcard-box { grid-column: span 1 !important; }
+        }
+
     </style>
 </head>
 <body>
@@ -973,6 +1281,164 @@
             </div>
         </section>
 
+        
+        <!-- =====================================================================
+         * SEÇÃO: COCKPIT DE GESTÃO DE PROJETOS, BRIEFINGS E ALIMENTAÇÃO DA EQUIPE
+         * ===================================================================== -->
+        <section class="cockpit-cluster-section" id="secao-gestao-projetos">
+            <div class="cluster-head-row" style="flex-wrap: wrap; gap: 16px;">
+                <div>
+                    <div style="font-family: var(--font-mono); font-size: 11px; font-weight: 800; color: #00E5FF; letter-spacing: 0.12em;">PAINEL EXECUTIVO // CONTROLE OPERACIONAL</div>
+                    <h2 style="font-size: 22px; font-weight: 800; text-transform: uppercase; margin-top: 4px;">Gestão de Projetos & Alimentação da Equipe</h2>
+                    <p style="font-size: 13px; color: var(--text-muted); margin-top: 4px;">Acompanhe o status real, anexe briefings e arquivos de referência, audite entregas e libere autorizações.</p>
+                </div>
+                <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+                    <button onclick="abrirModalNovoProjeto()" class="btn-blue-action">
+                        <i class="fas fa-plus"></i>
+                        <span>Novo Projeto</span>
+                    </button>
+                    <button onclick="carregarProjetosSelect()" class="btn-black-outline">
+                        <i class="fas fa-rotate"></i>
+                        <span>Atualizar</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Seletor do Projeto Ativo -->
+            <div class="projeto-seletor-bar">
+                <div style="display: flex; align-items: center; gap: 12px; flex: 1; min-width: 280px;">
+                    <label for="select-projeto-ativo" style="font-family: var(--font-mono); font-size: 12px; font-weight: 700; color: #00E5FF; white-space: nowrap;">
+                        <i class="fas fa-folder-open"></i> PROJETO ATIVO:
+                    </label>
+                    <select id="select-projeto-ativo" class="projeto-select-dropdown" onchange="selecionarProjetoAtivo(this.value)">
+                        <option value="">Carregando projetos...</option>
+                    </select>
+                </div>
+                <div id="badge-status-projeto" class="badge-status-pill status-pendente">STATUS: CARREGANDO</div>
+            </div>
+
+            <!-- Detalhes do Projeto Ativo & Painel de Ações -->
+            <div id="painel-projeto-detalhes" style="display: none; margin-top: 24px;">
+                <!-- Header do Projeto com Metadados e Ações Rápidas -->
+                <div class="projeto-header-card">
+                    <div>
+                        <div id="proj-nome-cliente" style="font-family: var(--font-headline); font-size: 22px; font-weight: 900; color: #FFF;">-</div>
+                        <div id="proj-solicitacao-txt" style="font-size: 13px; color: var(--text-muted); margin-top: 4px; max-width: 720px;">-</div>
+                        <div id="proj-catalogo-tag" style="margin-top: 8px;"></div>
+                    </div>
+                    <div class="projeto-acoes-botoes">
+                        <button onclick="dispararDiagnosticoComercial()" class="btn-action-amber" id="btn-acao-diagnostico">
+                            <i class="fas fa-microscope"></i>
+                            <span>Diagnóstico Comercial VIDE</span>
+                        </button>
+                        <button onclick="aprovarProjetoAtivo()" class="btn-action-green" id="btn-acao-aprovar">
+                            <i class="fas fa-check-double"></i>
+                            <span>Autorizar Projeto</span>
+                        </button>
+                        <button onclick="executarEsteiraProjetoAtivo()" class="btn-action-blue" id="btn-acao-executar">
+                            <i class="fas fa-play"></i>
+                            <span>Executar Esteira Especialistas</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Grid de 3 Colunas: Alimentar Equipe / Grafo de Tarefas / Entregáveis -->
+                <div class="projeto-cockpit-subgrid">
+                    <!-- Coluna 1: Alimentar a Equipe (Arquivos e Briefings) -->
+                    <div class="subcard-box">
+                        <div class="subcard-header">
+                            <i class="fas fa-paperclip" style="color: #00E5FF;"></i>
+                            <span>ALIMENTAR A EQUIPE (BRIEFING & ARQUIVOS)</span>
+                        </div>
+                        <div class="subcard-body">
+                            <form onsubmit="enviarAnexoProjeto(event)" style="display: flex; flex-direction: column; gap: 10px;">
+                                <textarea id="input-briefing-texto" class="input-dark-field" rows="3" placeholder="Insira briefings, orientações de estilo, nicho, concorrentes ou observações para os agentes..."></textarea>
+                                
+                                <div style="display: flex; gap: 10px; align-items: center;">
+                                    <input type="file" id="input-arquivo-upload" class="input-file-styled" accept=".pdf,.png,.jpg,.jpeg,.json,.txt,.md,.svg,.docx">
+                                </div>
+
+                                <button type="submit" class="btn-blue-action" style="align-self: flex-start; padding: 8px 16px;">
+                                    <i class="fas fa-cloud-arrow-up"></i>
+                                    <span>Anexar ao Projeto</span>
+                                </button>
+                            </form>
+
+                            <div style="margin-top: 18px; border-top: 1px solid rgba(255,255,255,0.06); padding-top: 12px;">
+                                <div style="font-family: var(--font-mono); font-size: 11px; font-weight: 700; color: #94A3B8; margin-bottom: 8px;">
+                                    MATERIAIS ANEXADOS (<span id="total-materiais-anexados">0</span>):
+                                </div>
+                                <div id="lista-materiais-container" class="materiais-lista-scroll">
+                                    <div style="font-size: 12px; color: #64748B;">Nenhum arquivo anexado ainda.</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Coluna 2: Grafo DAG de Tarefas e Status dos 7 Agentes -->
+                    <div class="subcard-box" style="grid-column: span 2;">
+                        <div class="subcard-header">
+                            <i class="fas fa-diagram-project" style="color: #2563EB;"></i>
+                            <span>GRAFO DE TAREFAS & ESPECIALISTAS ATIVOS</span>
+                        </div>
+                        <div class="subcard-body">
+                            <div id="grafo-tarefas-container" class="tarefas-tabela-scroll">
+                                <div style="font-size: 12px; color: #64748B;">Selecione um projeto para inspecionar o grafo de tarefas.</div>
+                            </div>
+
+                            <!-- Área de Entregas e Arquivos Físicos -->
+                            <div style="margin-top: 18px; border-top: 1px solid rgba(255,255,255,0.06); padding-top: 14px;">
+                                <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px;">
+                                    <div style="font-family: var(--font-mono); font-size: 11px; font-weight: 700; color: #10B981;">
+                                        <i class="fas fa-box-archive"></i> ENTREGÁVEIS FÍSICOS HOMOLOGADOS (<span id="total-entregas-arquivos">0</span>):
+                                    </div>
+                                    <span style="font-size: 11px; color: #64748B; font-family: var(--font-mono);">Storage Durável + PostgreSQL</span>
+                                </div>
+                                <div id="lista-entregas-container" class="entregas-chips-wrap">
+                                    <div style="font-size: 12px; color: #64748B;">Nenhum entregável gerado ainda.</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Modal Novo Projeto -->
+        <div id="modal-novo-projeto" class="modal-overlay" style="display: none;">
+            <div class="modal-card-box">
+                <div class="modal-header">
+                    <div>
+                        <div style="font-family: var(--font-mono); font-size: 10px; color: #00E5FF; font-weight: 800;">DIRETORIA EXECUTIVA // INGESTÃO DE PROJETO</div>
+                        <h3 style="font-size: 18px; font-weight: 800; color: #FFF; margin-top: 2px;">Cadastrar Novo Projeto</h3>
+                    </div>
+                    <button onclick="fecharModalNovoProjeto()" class="btn-close-modal"><i class="fas fa-xmark"></i></button>
+                </div>
+                <form onsubmit="salvarNovoProjetoModal(event)" style="padding: 24px; display: flex; flex-direction: column; gap: 14px;">
+                    <div>
+                        <label class="modal-label">Nome da Empresa / Cliente:</label>
+                        <input type="text" id="modal-cliente" class="input-dark-field" required placeholder="Ex: Loja Bella Moda Feminina">
+                    </div>
+                    <div>
+                        <label class="modal-label">Demanda / Necessidade Principal:</label>
+                        <input type="text" id="modal-solicitacao" class="input-dark-field" required placeholder="Ex: Recebo contatos no Instagram e WhatsApp mas perco vendas por falta de processo">
+                    </div>
+                    <div>
+                        <label class="modal-label">Briefing / Detalhes Operacionais (Opcional):</label>
+                        <textarea id="modal-briefing" class="input-dark-field" rows="3" placeholder="Informações de segmento, canais atuais, produtos, ticket médio, equipe..."></textarea>
+                    </div>
+                    <div>
+                        <label class="modal-label">Expectativa de Prazo:</label>
+                        <input type="text" id="modal-prazo" class="input-dark-field" placeholder="Ex: 15 dias, urgente, convencional...">
+                    </div>
+                    <div style="display: flex; justify-content: flex-end; gap: 12px; margin-top: 10px;">
+                        <button type="button" onclick="fecharModalNovoProjeto()" class="btn-black-outline">Cancelar</button>
+                        <button type="submit" class="btn-blue-action"><i class="fas fa-check"></i> Criar Projeto</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
         <!-- Seção do Terminal Interativo com o Coordenador Geral -->
         <section class="terminal-executor-section">
             <div class="terminal-top-bar">
@@ -1166,6 +1632,7 @@
                     adicionarLogTerminal('AGT-02 COORDENADOR', 'Projeto [' + data.id_projeto + '] registrado no Coordenador Geral. Situação: AGUARDANDO_AUTORIZACAO_COMERCIAL (Bloqueio estrito de especialistas até autorização da Diretoria).');
                     adicionarLogTerminal('DIRETORIA', 'Para liberar e disparar os 7 especialistas, execute: aprovar ' + data.id_projeto);
                     carregarTelemetriaReal();
+        carregarProjetosSelect();
                 } else {
                     adicionarLogTerminal('AGT-01 TRIAGEM', 'Erro ao processar demanda: ' + (data.erro || 'Falha desconhecida'));
                 }
@@ -1298,6 +1765,393 @@
             }
         } catch(err) {
             adicionarLogTerminal('AGT-02 COORDENADOR', 'Comando assimilado pelo Coordenador Geral. Roadmap operacional alinhado.');
+        }
+    }
+
+    
+    // =========================================================================
+    // FUNÇÕES DA CENTRAL DE COMANDO: GESTÃO DE PROJETOS & ALIMENTAÇÃO DA EQUIPE
+    // =========================================================================
+    let projetoAtivoId = null;
+    let dadosProjetoAtivo = null;
+
+    function abrirModalNovoProjeto() {
+        const m = document.getElementById('modal-novo-projeto');
+        if (m) m.style.display = 'flex';
+    }
+
+    function fecharModalNovoProjeto() {
+        const m = document.getElementById('modal-novo-projeto');
+        if (m) m.style.display = 'none';
+    }
+
+    async function salvarNovoProjetoModal(e) {
+        e.preventDefault();
+        const cliente = document.getElementById('modal-cliente').value.trim();
+        const solicitacao = document.getElementById('modal-solicitacao').value.trim();
+        const briefing = document.getElementById('modal-briefing').value.trim();
+        const prazo = document.getElementById('modal-prazo').value.trim();
+
+        try {
+            adicionarLogTerminal('DIRETORIA', 'Criando novo projeto para [' + cliente + ']...');
+            const res = await fetch('/api/projetos/novo', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ cliente, solicitacao, briefing, prazo })
+            });
+            const data = await res.json();
+            if (res.ok && data.id_projeto) {
+                adicionarLogTerminal('AGT-02 COORDENADOR', 'Projeto [' + data.id_projeto + '] registrado! Situação: AGUARDANDO_AUTORIZACAO_COMERCIAL (Bloqueio estrito mantido).');
+                fecharModalNovoProjeto();
+                await carregarProjetosSelect();
+                selecionarProjetoAtivo(data.id_projeto);
+            } else {
+                adicionarLogTerminal('AGT-02 COORDENADOR', 'Erro ao criar projeto: ' + (data.erro || 'Falha'));
+            }
+        } catch(err) {
+            adicionarLogTerminal('AGT-02 COORDENADOR', 'Erro na criação do projeto: ' + err.message);
+        }
+    }
+
+    async function carregarProjetosSelect() {
+        try {
+            const token = sessionStorage.getItem('vide_jwt');
+            const headers = token ? { 'Authorization': 'Bearer ' + token } : {};
+            const res = await fetch('/api/projetos', { headers });
+            const data = await res.json();
+            const select = document.getElementById('select-projeto-ativo');
+            if (!select) return;
+
+            select.innerHTML = '';
+            const lista = data.projetos || data || [];
+
+            if (lista.length === 0) {
+                select.innerHTML = '<option value="">Nenhum projeto registrado</option>';
+                const badge = document.getElementById('badge-status-projeto');
+                if (badge) badge.textContent = 'STATUS: VAZIO';
+                return;
+            }
+
+            lista.forEach((p, idx) => {
+                const opt = document.createElement('option');
+                const id = p.id_projeto || p.id;
+                opt.value = id;
+                opt.textContent = '[' + id + '] ' + (p.cliente || 'Sem Nome') + ' (' + (p.situacao_projeto || p.status || 'EM_ANDAMENTO') + ')';
+                select.appendChild(opt);
+            });
+
+            // Seleciona o primeiro ou o projeto anteriormente ativo
+            const alvo = projetoAtivoId && lista.some(p => (p.id_projeto || p.id) === projetoAtivoId)
+                ? projetoAtivoId
+                : (lista[0].id_projeto || lista[0].id);
+
+            select.value = alvo;
+            await selecionarProjetoAtivo(alvo);
+        } catch(err) {
+            console.warn('Erro ao carregar lista de projetos:', err);
+        }
+    }
+
+    async function selecionarProjetoAtivo(idProjeto) {
+        if (!idProjeto) {
+            const painel = document.getElementById('painel-projeto-detalhes');
+            if (painel) painel.style.display = 'none';
+            return;
+        }
+
+        projetoAtivoId = idProjeto;
+        try {
+            const token = sessionStorage.getItem('vide_jwt');
+            const headers = token ? { 'Authorization': 'Bearer ' + token } : {};
+            const res = await fetch('/api/projetos/' + idProjeto + '/detalhes', { headers });
+            const data = await res.json();
+            if (!res.ok || !data.sucesso) return;
+
+            dadosProjetoAtivo = data;
+            const p = data.projeto;
+            const painel = document.getElementById('painel-projeto-detalhes');
+            if (painel) painel.style.display = 'block';
+
+            // 1. Header do Projeto
+            const elCliente = document.getElementById('proj-nome-cliente');
+            if (elCliente) elCliente.textContent = p.cliente || 'Cliente Sem Nome';
+
+            const elSol = document.getElementById('proj-solicitacao-txt');
+            if (elSol) elSol.textContent = p.solicitacao_original || 'Sem solicitação declarada.';
+
+            const elBadge = document.getElementById('badge-status-projeto');
+            if (elBadge) {
+                const sit = p.situacao_projeto || 'EM_EXECUCAO';
+                elBadge.className = 'badge-status-pill ' + 
+                    (sit === 'AGUARDANDO_AUTORIZACAO_COMERCIAL' ? 'status-pendente' : (sit === 'EM_EXECUCAO' ? 'status-execucao' : 'status-concluido'));
+                elBadge.textContent = sit.replace(/_/g, ' ');
+            }
+
+            const elCatTag = document.getElementById('proj-catalogo-tag');
+            if (elCatTag) {
+                const solCat = p.solucao_catalogo?.categoria || p.solucao_catalogo?.solucao?.nome || 'VIDE Sistema Integrado';
+                elCatTag.innerHTML = '<span class="catalogo-pill-tag"><i class="fas fa-layer-group"></i> ' + solCat + '</span>';
+            }
+
+            // 2. Materiais Anexados
+            const containerMat = document.getElementById('lista-materiais-container');
+            const totalMat = document.getElementById('total-materiais-anexados');
+            const mats = data.materiais_anexados || [];
+            if (totalMat) totalMat.textContent = mats.length;
+            if (containerMat) {
+                if (mats.length === 0) {
+                    containerMat.innerHTML = '<div style="font-size: 12px; color: #64748B;">Nenhum arquivo anexado ainda.</div>';
+                } else {
+                    containerMat.innerHTML = mats.map(m => {
+                        const link = '/api/projetos/' + idProjeto + '/arquivos/' + m.caminho_relativo;
+                        return '<div class="material-item-row">' +
+                            '<span><i class="fas fa-file-lines" style="color: #00E5FF; margin-right: 6px;"></i>' + m.nome_arquivo + '</span>' +
+                            '<a href="' + link + '" target="_blank" class="entrega-chip-link" style="padding: 2px 8px; font-size: 10px;"><i class="fas fa-eye"></i> Ver</a>' +
+                        '</div>';
+                    }).join('');
+                }
+            }
+
+            // 3. Grafo DAG de Tarefas
+            const containerTsk = document.getElementById('grafo-tarefas-container');
+            const tarefas = p.grafo_tarefas || [];
+            if (containerTsk) {
+                if (tarefas.length === 0) {
+                    containerTsk.innerHTML = '<div style="font-size: 12px; color: #64748B;">Nenhuma tarefa instanciada no grafo.</div>';
+                } else {
+                    containerTsk.innerHTML = tarefas.map(t => {
+                        const est = t.estado || 'PRONTA_PARA_EXECUCAO';
+                        let badgeClass = 'status-execucao';
+                        if (est.includes('BLOQUEADA')) badgeClass = 'status-pendente';
+                        if (est === 'APROVADA') badgeClass = 'status-concluido';
+
+                        return '<div class="tarefa-item-card">' +
+                            '<div style="display: flex; justify-content: space-between; align-items: baseline;">' +
+                                '<span style="font-family: var(--font-mono); font-size: 11px; font-weight: 800; color: #00E5FF;">' + t.id_tarefa + ' // ' + t.especialista + '</span>' +
+                                '<span class="badge-status-pill ' + badgeClass + '" style="font-size: 9.5px; padding: 2px 8px;">' + est.replace(/_/g, ' ') + '</span>' +
+                            '</div>' +
+                            '<div style="font-size: 13px; font-weight: 700; color: #FFF;">' + (t.titulo || t.titulo_tarefa) + '</div>' +
+                            '<div style="font-size: 11.5px; color: #94A3B8;">' + (t.descricao || '') + '</div>' +
+                            (t.dependencias && t.dependencias.length > 0 ? '<div style="font-size: 10.5px; color: #F59E0B; font-family: var(--font-mono);"><i class="fas fa-link"></i> Depende de: ' + t.dependencias.join(', ') + '</div>' : '') +
+                        '</div>';
+                    }).join('');
+                }
+            }
+
+            // 4. Entregáveis Físicos
+            const containerEnt = document.getElementById('lista-entregas-container');
+            const totalEnt = document.getElementById('total-entregas-arquivos');
+            const arqs = data.arquivos || [];
+            if (totalEnt) totalEnt.textContent = arqs.length;
+            if (containerEnt) {
+                if (arqs.length === 0) {
+                    containerEnt.innerHTML = '<div style="font-size: 12px; color: #64748B;">Nenhum entregável gerado ainda.</div>';
+                } else {
+                    containerEnt.innerHTML = arqs.map(a => {
+                        const link = '/api/projetos/' + idProjeto + '/arquivos/' + a;
+                        return '<a href="' + link + '" target="_blank" class="entrega-chip-link"><i class="fas fa-file-code"></i> ' + a + '</a>';
+                    }).join('');
+                }
+            }
+
+            // 5. Atualizar Cluster dos 7 Agentes com status real deste projeto
+            atualizarClusterAgentesComProjeto(data.status_agentes);
+
+        } catch(err) {
+            console.warn('Erro ao carregar detalhes do projeto:', err);
+        }
+    }
+
+    function atualizarClusterAgentesComProjeto(statusAgentes) {
+        if (!statusAgentes) return;
+        const mapa = {
+            '01_triagem': 'Triagem Comercial',
+            '02_coordenador': 'Coordenador Geral',
+            '03_desenvolvedor': 'Desenvolvedor Full-Stack',
+            '04_branding': 'Branding e Design',
+            '05_atendimento': 'Atendimento e Vendas',
+            '06_automacao': 'Automação e Integrações',
+            '07_inteligencia': 'Inteligência Comercial'
+        };
+
+        const cards = document.querySelectorAll('.agent-micro-card');
+        cards.forEach(c => {
+            const tag = c.querySelector('.agent-code-tag')?.textContent || '';
+            const statusEl = c.querySelector('.agent-live-status');
+            if (!statusEl) return;
+
+            let chave = null;
+            if (tag.includes('AGT-01')) chave = '01_triagem';
+            else if (tag.includes('AGT-02')) chave = '02_coordenador';
+            else if (tag.includes('AGT-03')) chave = '03_desenvolvedor';
+            else if (tag.includes('AGT-04')) chave = '04_branding';
+            else if (tag.includes('AGT-05')) chave = '05_atendimento';
+            else if (tag.includes('AGT-06')) chave = '06_automacao';
+            else if (tag.includes('AGT-07')) chave = '07_inteligencia';
+
+            if (chave && statusAgentes[chave]) {
+                const info = statusAgentes[chave];
+                const est = info.estado || info.status || 'ATIVO';
+                if (est === 'APROVADA' || est === 'CONCLUIDO') {
+                    statusEl.innerHTML = '<i class="fas fa-circle-check" style="font-size: 7px; color: #10B981;"></i> ENTREGUE';
+                    statusEl.style.color = '#10B981';
+                } else if (est.includes('BLOQUEADA')) {
+                    statusEl.innerHTML = '<i class="fas fa-lock" style="font-size: 7px; color: #F59E0B;"></i> BLOQUEADO';
+                    statusEl.style.color = '#F59E0B';
+                } else if (est === 'PRONTA_PARA_EXECUCAO' || est === 'EM_EXECUCAO') {
+                    statusEl.innerHTML = '<i class="fas fa-bolt" style="font-size: 7px; color: #00E5FF;"></i> PRONTO';
+                    statusEl.style.color = '#00E5FF';
+                }
+            }
+        });
+    }
+
+    async function enviarAnexoProjeto(e) {
+        e.preventDefault();
+        if (!projetoAtivoId) {
+            alert('Selecione um projeto antes de anexar materiais.');
+            return;
+        }
+
+        const textoBriefing = document.getElementById('input-briefing-texto').value.trim();
+        const fileInput = document.getElementById('input-arquivo-upload');
+        const file = fileInput.files && fileInput.files[0];
+
+        if (!textoBriefing && !file) {
+            alert('Digite um briefing ou escolha um arquivo para anexar.');
+            return;
+        }
+
+        try {
+            adicionarLogTerminal('DIRETORIA', 'Anexando materiais ao projeto [' + projetoAtivoId + ']...');
+
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = async function() {
+                    const base64Data = reader.result.split(',')[1];
+                    const payload = {
+                        nome_arquivo: file.name,
+                        conteudo_base64: base64Data,
+                        mimetype: file.type,
+                        briefing: textoBriefing
+                    };
+                    await enviarPayloadAnexo(payload);
+                };
+                reader.readAsDataURL(file);
+            } else {
+                await enviarPayloadAnexo({ briefing: textoBriefing });
+            }
+        } catch(err) {
+            adicionarLogTerminal('AGT-02 COORDENADOR', 'Erro ao processar anexo: ' + err.message);
+        }
+    }
+
+    async function enviarPayloadAnexo(payload) {
+        const token = sessionStorage.getItem('vide_jwt');
+        const headers = { 'Content-Type': 'application/json' };
+        if (token) headers['Authorization'] = 'Bearer ' + token;
+
+        const res = await fetch('/api/projetos/' + projetoAtivoId + '/anexos', {
+            method: 'POST',
+            headers,
+            body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+        if (res.ok && data.sucesso) {
+            adicionarLogTerminal('AGT-02 COORDENADOR', 'Material anexado com sucesso ao projeto [' + projetoAtivoId + ']! Total de anexos: ' + data.total_materiais);
+            document.getElementById('input-briefing-texto').value = '';
+            document.getElementById('input-arquivo-upload').value = '';
+            await selecionarProjetoAtivo(projetoAtivoId);
+        } else {
+            adicionarLogTerminal('AGT-02 COORDENADOR', 'Falha ao anexar: ' + (data.erro || 'Erro'));
+        }
+    }
+
+    async function dispararDiagnosticoComercial() {
+        if (!projetoAtivoId) return;
+        adicionarLogTerminal('AGT-02 COORDENADOR', 'Iniciando Diagnóstico Comercial VIDE para [' + projetoAtivoId + '] (10 passos)...');
+        try {
+            const token = sessionStorage.getItem('vide_jwt');
+            const headers = { 'Content-Type': 'application/json' };
+            if (token) headers['Authorization'] = 'Bearer ' + token;
+
+            const res = await fetch('/api/projetos/' + projetoAtivoId + '/diagnostico', {
+                method: 'POST',
+                headers,
+                body: JSON.stringify({})
+            });
+            const data = await res.json();
+            if (res.ok && data.sucesso) {
+                const d = data.diagnostico;
+                adicionarLogTerminal('AGT-02 COORDENADOR', '✓ Diagnóstico Comercial concluído! Solução recomendada: ' + d.solucao_recomendada);
+                adicionarLogTerminal('AGT-07 TELEMETRIA', 'Fatos: ' + d.fatos_comprovados.length + ' | Informações Ausentes: ' + d.informacoes_ausentes.length + ' | Gargalos: ' + d.gargalos_identificados.length);
+                adicionarLogTerminal('DIRETORIA', 'Proposta comercial gerada com governança de dimensionamento. O projeto permanece aguardando autorização.');
+                await selecionarProjetoAtivo(projetoAtivoId);
+            } else {
+                adicionarLogTerminal('AGT-02 COORDENADOR', 'Erro no diagnóstico: ' + (data.erro || 'Falha'));
+            }
+        } catch(err) {
+            adicionarLogTerminal('AGT-02 COORDENADOR', 'Erro ao executar diagnóstico: ' + err.message);
+        }
+    }
+
+    async function aprovarProjetoAtivo() {
+        if (!projetoAtivoId) return;
+        const token = sessionStorage.getItem('vide_jwt');
+        if (!token) {
+            adicionarLogTerminal('SEGURANÇA', 'Autentique-se com login douglas VideDouglas#2026 antes de autorizar.');
+            return;
+        }
+
+        adicionarLogTerminal('DIRETORIA', 'Emitindo autorização formal expressa para [' + projetoAtivoId + ']...');
+        try {
+            const res = await fetch('/api/coordenador/aprovar-projeto', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + token
+                },
+                body: JSON.stringify({ id_projeto: projetoAtivoId })
+            });
+            const data = await res.json();
+            if (res.ok && data.sucesso) {
+                adicionarLogTerminal('AGT-02 COORDENADOR', 'Projeto [' + projetoAtivoId + '] AUTORIZADO com sucesso! Tarefas liberadas no Grafo DAG.');
+                await selecionarProjetoAtivo(projetoAtivoId);
+            } else {
+                adicionarLogTerminal('AGT-02 COORDENADOR', 'Falha ao autorizar: ' + (data.erro || 'Erro'));
+            }
+        } catch(err) {
+            adicionarLogTerminal('AGT-02 COORDENADOR', 'Erro ao autorizar: ' + err.message);
+        }
+    }
+
+    async function executarEsteiraProjetoAtivo() {
+        if (!projetoAtivoId) return;
+        const token = sessionStorage.getItem('vide_jwt');
+        if (!token) {
+            adicionarLogTerminal('SEGURANÇA', 'Autentique-se com login douglas VideDouglas#2026 antes de executar a esteira.');
+            return;
+        }
+
+        adicionarLogTerminal('AGT-02 COORDENADOR', 'Disparando esteira dos especialistas para [' + projetoAtivoId + ']...');
+        try {
+            const res = await fetch('/api/coordenador/executar-esteira', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + token
+                },
+                body: JSON.stringify({ id_projeto: projetoAtivoId })
+            });
+            const data = await res.json();
+            if (res.ok && data.sucesso) {
+                adicionarLogTerminal('AGT-02 COORDENADOR', 'Esteira concluída! ' + (data.entregaveis?.length || 0) + ' entregas físicas validadas e auditadas.');
+                await selecionarProjetoAtivo(projetoAtivoId);
+            } else {
+                adicionarLogTerminal('AGT-02 COORDENADOR', 'Falha na esteira: ' + (data.erro || 'Erro'));
+            }
+        } catch(err) {
+            adicionarLogTerminal('AGT-02 COORDENADOR', 'Erro na esteira: ' + err.message);
         }
     }
 

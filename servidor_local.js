@@ -20,18 +20,21 @@ const HOST = CONFIG.HOST;
 const DIRETORIO_RAIZ = __dirname;
 
 const { executarFluxoTriagemParaCoordenador } = require(`${moduloAgentesDir}/conexao_triagem_coordenador`);
-const { obterProjetoPorId, listarProjetos } = require(`${moduloAgentesDir}/agente_02_coordenador/repositorio_projetos_tarefas`);
+const { obterProjetoPorId, listarProjetos, salvarProjeto, registrarEvento } = require(`${moduloAgentesDir}/agente_02_coordenador/repositorio_projetos_tarefas`);
 const { executarCicloCompletoDesenvolvedor } = require(`${moduloAgentesDir}/agente_03_desenvolvedor/executor_desenvolvedor`);
 const { executarCicloCompletoBranding } = require(`${moduloAgentesDir}/agente_04_branding_design/executor_branding_design`);
 const { executarCicloCompletoAtendimento } = require(`${moduloAgentesDir}/agente_05_atendimento/executor_atendimento`);
 const { executarCicloCompletoAutomacao } = require(`${moduloAgentesDir}/agente_06_automacao/executor_automacao`);
 const { executarCicloCompletoInteligencia } = require(`${moduloAgentesDir}/agente_07_inteligencia_comercial/executor_inteligencia_comercial`);
 const {
+    receberRegistroTriagem,
     autorizarProjetoComercialmente,
     interpretarComandoDiretora,
     interpretarComandoDiretoraComIA,
     conferirEntrega
 } = require(`${moduloAgentesDir}/agente_02_coordenador/executor_coordenador`);
+const { processarTriagemComIA, processarTriagemRevisada } = require(`${moduloAgentesDir}/agente_01_triagem/executor_triagem`);
+const { executarDiagnosticoComercialVIDE } = require(`${moduloAgentesDir}/diagnostico_comercial_vide`);
 const { seguranca } = require(`${moduloAgentesDir}/seguranca`);
 const { db } = require(`${moduloAgentesDir}/banco_dados`);
 const { whatsAppService } = require(`${moduloAgentesDir}/whatsapp_business_integration`);
@@ -50,8 +53,13 @@ const TIPOS_MIME = {
     '.json': 'application/json; charset=utf-8',
     '.png': 'image/png',
     '.jpg': 'image/jpeg',
+    '.jpeg': 'image/jpeg',
+    '.webp': 'image/webp',
+    '.pdf': 'application/pdf',
     '.svg': 'image/svg+xml',
-    '.ico': 'image/x-icon'
+    '.ico': 'image/x-icon',
+    '.md': 'text/markdown; charset=utf-8',
+    '.txt': 'text/plain; charset=utf-8'
 };
 
 /**
@@ -106,92 +114,113 @@ function executarEsteiraCompletaEspecialistas(idProjeto) {
 
     let prjAtual = obterProjetoPorId(idProjeto);
 
-    // 1. Estrategista
-    const tskEstrategista = (prjAtual.grafo_tarefas || []).find(t => 
-        (t.especialista === 'Estrategista' || (t.especialista || '').toLowerCase().includes('estrateg')) && t.estado !== 'APROVADA'
-    );
-    if (tskEstrategista) {
-        prjAtual = conferirEntrega({
-            idProjeto,
-            idTarefa: tskEstrategista.id_tarefa,
-            entregaSubmetida: {
-                posicionamento: 'Posicionamento e Proposta de Valor Aprovados',
-                mapa_arquitetura: 'Pipeline Tripartite VIDE Ativada'
-            },
-            criteriosAtendidos: true,
-            parecerCoordenador: 'Homologação estratégica aprovada pela Diretoria VIDE.'
-        });
-        resultados.push({ especialista: 'Estrategista', tarefa: tskEstrategista.id_tarefa, status: 'APROVADA' });
-    }
+    // Multi-pass topological runner: executa as tarefas desbloqueadas até resolver o grafo DAG
+    for (let passada = 1; passada <= 5; passada++) {
+        let executouNestaPassada = false;
+        prjAtual = obterProjetoPorId(idProjeto);
 
-    // 2. Branding & Design (Agente 04)
-    const tskBranding = (prjAtual.grafo_tarefas || []).find(t => 
-        ((t.especialista || '').toLowerCase().includes('branding') || (t.especialista || '').toLowerCase().includes('design')) && t.estado !== 'APROVADA'
-    );
-    if (tskBranding) {
-        try {
-            const ciclo = executarCicloCompletoBranding({ idProjeto, idTarefa: tskBranding.id_tarefa });
-            resultados.push({ especialista: 'Branding e Design', tarefa: tskBranding.id_tarefa, arquivos: ciclo.dadosEntrega?.arquivosCriados || [] });
+        // 1. Estrategista
+        const tskEstrategista = (prjAtual.grafo_tarefas || []).find(t => 
+            (t.especialista === 'Estrategista' || (t.especialista || '').toLowerCase().includes('estrateg')) && 
+            t.estado === 'PRONTA_PARA_EXECUCAO'
+        );
+        if (tskEstrategista) {
+            prjAtual = conferirEntrega({
+                idProjeto,
+                idTarefa: tskEstrategista.id_tarefa,
+                entregaSubmetida: {
+                    posicionamento: 'Posicionamento e Proposta de Valor Aprovados',
+                    mapa_arquitetura: 'Pipeline Tripartite VIDE Ativada'
+                },
+                criteriosAtendidos: true,
+                parecerCoordenador: 'Homologação estratégica aprovada pela Diretoria VIDE.'
+            });
+            resultados.push({ especialista: 'Estrategista', tarefa: tskEstrategista.id_tarefa, status: 'APROVADA' });
+            executouNestaPassada = true;
             prjAtual = obterProjetoPorId(idProjeto);
-        } catch(e) {
-            console.warn('[ESTEIRA] Branding aviso: ' + e.message);
         }
-    }
 
-    // 3. Desenvolvedor Web (Agente 03)
-    const tskDev = (prjAtual.grafo_tarefas || []).find(t => 
-        ((t.especialista || '').toLowerCase().includes('desenvolv') || (t.especialista || '').toLowerCase().includes('web')) && t.estado !== 'APROVADA'
-    );
-    if (tskDev) {
-        try {
-            const ciclo = executarCicloCompletoDesenvolvedor({ idProjeto, idTarefa: tskDev.id_tarefa });
-            resultados.push({ especialista: 'Desenvolvedor', tarefa: tskDev.id_tarefa, arquivos: ciclo.dadosEntrega?.arquivosCriados || [] });
-            prjAtual = obterProjetoPorId(idProjeto);
-        } catch(e) {
-            console.warn('[ESTEIRA] Dev aviso: ' + e.message);
+        // 2. Branding & Design (Agente 04)
+        const tskBranding = (prjAtual.grafo_tarefas || []).find(t => 
+            ((t.especialista || '').toLowerCase().includes('branding') || (t.especialista || '').toLowerCase().includes('design')) && 
+            t.estado === 'PRONTA_PARA_EXECUCAO'
+        );
+        if (tskBranding) {
+            try {
+                const ciclo = executarCicloCompletoBranding({ idProjeto, idTarefa: tskBranding.id_tarefa });
+                resultados.push({ especialista: 'Branding e Design', tarefa: tskBranding.id_tarefa, arquivos: ciclo.dadosEntrega?.arquivosCriados || [] });
+                executouNestaPassada = true;
+                prjAtual = obterProjetoPorId(idProjeto);
+            } catch(e) {
+                console.warn('[ESTEIRA] Branding aviso: ' + e.message);
+            }
         }
-    }
 
-    // 4. Atendimento & Vendas (Agente 05)
-    const tskAtend = (prjAtual.grafo_tarefas || []).find(t => 
-        (t.especialista || '').toLowerCase().includes('atend') && t.estado !== 'APROVADA'
-    );
-    if (tskAtend) {
-        try {
-            const ciclo = executarCicloCompletoAtendimento({ idProjeto, idTarefa: tskAtend.id_tarefa });
-            resultados.push({ especialista: 'Atendimento', tarefa: tskAtend.id_tarefa, arquivos: ciclo.dadosEntrega?.arquivosCriados || [] });
-            prjAtual = obterProjetoPorId(idProjeto);
-        } catch(e) {
-            console.warn('[ESTEIRA] Atendimento aviso: ' + e.message);
+        // 3. Desenvolvedor Web (Agente 03)
+        const tskDev = (prjAtual.grafo_tarefas || []).find(t => 
+            ((t.especialista || '').toLowerCase().includes('desenvolv') || (t.especialista || '').toLowerCase().includes('web')) && 
+            t.estado === 'PRONTA_PARA_EXECUCAO'
+        );
+        if (tskDev) {
+            try {
+                const ciclo = executarCicloCompletoDesenvolvedor({ idProjeto, idTarefa: tskDev.id_tarefa });
+                resultados.push({ especialista: 'Desenvolvedor', tarefa: tskDev.id_tarefa, arquivos: ciclo.dadosEntrega?.arquivosCriados || [] });
+                executouNestaPassada = true;
+                prjAtual = obterProjetoPorId(idProjeto);
+            } catch(e) {
+                console.warn('[ESTEIRA] Dev aviso: ' + e.message);
+            }
         }
-    }
 
-    // 5. Automação & Integrações (Agente 06)
-    const tskAuto = (prjAtual.grafo_tarefas || []).find(t => 
-        (t.especialista || '').toLowerCase().includes('auto') && t.estado !== 'APROVADA'
-    );
-    if (tskAuto) {
-        try {
-            const ciclo = executarCicloCompletoAutomacao({ idProjeto, idTarefa: tskAuto.id_tarefa });
-            resultados.push({ especialista: 'Automação', tarefa: tskAuto.id_tarefa, arquivos: ciclo.dadosEntrega?.arquivosCriados || [] });
-            prjAtual = obterProjetoPorId(idProjeto);
-        } catch(e) {
-            console.warn('[ESTEIRA] Automação aviso: ' + e.message);
+        // 4. Atendimento & Vendas (Agente 05)
+        const tskAtend = (prjAtual.grafo_tarefas || []).find(t => 
+            (t.especialista || '').toLowerCase().includes('atend') && 
+            t.estado === 'PRONTA_PARA_EXECUCAO'
+        );
+        if (tskAtend) {
+            try {
+                const ciclo = executarCicloCompletoAtendimento({ idProjeto, idTarefa: tskAtend.id_tarefa });
+                resultados.push({ especialista: 'Atendimento', tarefa: tskAtend.id_tarefa, arquivos: ciclo.dadosEntrega?.arquivosCriados || [] });
+                executouNestaPassada = true;
+                prjAtual = obterProjetoPorId(idProjeto);
+            } catch(e) {
+                console.warn('[ESTEIRA] Atendimento aviso: ' + e.message);
+            }
         }
-    }
 
-    // 6. Inteligência Comercial (Agente 07)
-    const tskIntel = (prjAtual.grafo_tarefas || []).find(t => 
-        (t.especialista || '').toLowerCase().includes('intel') && t.estado !== 'APROVADA'
-    );
-    if (tskIntel) {
-        try {
-            const ciclo = executarCicloCompletoInteligencia({ idProjeto, idTarefa: tskIntel.id_tarefa });
-            resultados.push({ especialista: 'Inteligência Comercial', tarefa: tskIntel.id_tarefa, arquivos: ciclo.dadosEntrega?.arquivosCriados || [] });
-            prjAtual = obterProjetoPorId(idProjeto);
-        } catch(e) {
-            console.warn('[ESTEIRA] Inteligência aviso: ' + e.message);
+        // 5. Automação & Integrações (Agente 06)
+        const tskAuto = (prjAtual.grafo_tarefas || []).find(t => 
+            (t.especialista || '').toLowerCase().includes('auto') && 
+            t.estado === 'PRONTA_PARA_EXECUCAO'
+        );
+        if (tskAuto) {
+            try {
+                const ciclo = executarCicloCompletoAutomacao({ idProjeto, idTarefa: tskAuto.id_tarefa });
+                resultados.push({ especialista: 'Automação', tarefa: tskAuto.id_tarefa, arquivos: ciclo.dadosEntrega?.arquivosCriados || [] });
+                executouNestaPassada = true;
+                prjAtual = obterProjetoPorId(idProjeto);
+            } catch(e) {
+                console.warn('[ESTEIRA] Automação aviso: ' + e.message);
+            }
         }
+
+        // 6. Inteligência Comercial (Agente 07)
+        const tskIntel = (prjAtual.grafo_tarefas || []).find(t => 
+            (t.especialista || '').toLowerCase().includes('intel') && 
+            t.estado === 'PRONTA_PARA_EXECUCAO'
+        );
+        if (tskIntel) {
+            try {
+                const ciclo = executarCicloCompletoInteligencia({ idProjeto, idTarefa: tskIntel.id_tarefa });
+                resultados.push({ especialista: 'Inteligência Comercial', tarefa: tskIntel.id_tarefa, arquivos: ciclo.dadosEntrega?.arquivosCriados || [] });
+                executouNestaPassada = true;
+                prjAtual = obterProjetoPorId(idProjeto);
+            } catch(e) {
+                console.warn('[ESTEIRA] Inteligência aviso: ' + e.message);
+            }
+        }
+
+        if (!executouNestaPassada) break;
     }
 
     try {
@@ -325,8 +354,187 @@ const servidor = http.createServer(async (req, res) => {
         return res.end(JSON.stringify({ sucesso: true, projetos: projetosCompletos }));
     }
 
+    // 1.1 POST /api/projetos/novo — Criação direta de novo projeto com briefing e triagem imediata
+    if (urlLimpa === '/api/projetos/novo' && req.method === 'POST') {
+        try {
+            const body = await lerCorpoJson(req);
+            const cliente = (body.cliente || 'Cliente Sem Nome').trim();
+            const solicitacao = (body.solicitacao || body.demanda || '').trim();
+            const briefing = (body.briefing || '').trim();
+            const prazo = body.prazo || null;
+
+            if (!solicitacao && !briefing) {
+                res.writeHead(400, { 'Content-Type': 'application/json; charset=utf-8' });
+                return res.end(JSON.stringify({ sucesso: false, erro: 'Informe a solicitação ou o briefing do projeto.' }));
+            }
+
+            const regTriagem = await processarTriagemComIA({
+                solicitacaoOriginal: solicitacao || briefing,
+                identificadorCenario: cliente,
+                prazoUrgenciaInformado: prazo
+            });
+
+            const projetoCriado = receberRegistroTriagem(regTriagem, { forcarPendente: true });
+            if (briefing) {
+                projetoCriado.briefing_diretoria = briefing;
+                const nomeBriefing = `briefing_inicial_${Date.now()}.md`;
+                storageService.salvarArquivo(projetoCriado.id_projeto, 'materiais_cliente', nomeBriefing, Buffer.from(briefing, 'utf-8'));
+                if (!projetoCriado.materiais_anexados) projetoCriado.materiais_anexados = [];
+                projetoCriado.materiais_anexados.push({
+                    nome_arquivo: nomeBriefing,
+                    tamanho_bytes: Buffer.byteLength(briefing, 'utf-8'),
+                    tipo: 'text/markdown',
+                    criado_em: new Date().toISOString(),
+                    caminho_relativo: `materiais_cliente/${nomeBriefing}`
+                });
+                salvarProjeto(projetoCriado);
+            }
+
+            if (db.pgPool) await db.sincronizarProjetoCompletoPostgres(projetoCriado);
+
+            res.writeHead(201, { 'Content-Type': 'application/json; charset=utf-8' });
+            return res.end(JSON.stringify({ 
+                sucesso: true, 
+                id_projeto: projetoCriado.id_projeto,
+                projeto: projetoCriado,
+                triagem: regTriagem
+            }));
+        } catch (e) {
+            res.writeHead(500, { 'Content-Type': 'application/json; charset=utf-8' });
+            return res.end(JSON.stringify({ sucesso: false, erro: e.message }));
+        }
+    }
+
+    // 1.2 POST /api/projetos/:id/anexos — Alimentação da equipe com briefings, imagens e documentos
+    if (urlLimpa.startsWith('/api/projetos/') && urlLimpa.endsWith('/anexos') && req.method === 'POST') {
+        const idProjeto = decodeURIComponent(urlLimpa.replace('/api/projetos/', '').replace('/anexos', ''));
+        try {
+            const body = await lerCorpoJson(req);
+            let projeto = obterProjetoPorId(idProjeto);
+            if (!projeto && db.pgPool) projeto = await db.obterProjetoDoPostgres(idProjeto);
+            if (!projeto) {
+                res.writeHead(404, { 'Content-Type': 'application/json; charset=utf-8' });
+                return res.end(JSON.stringify({ sucesso: false, erro: 'Projeto não encontrado.' }));
+            }
+
+            if (!projeto.materiais_anexados) projeto.materiais_anexados = [];
+            let arquivoInfo = null;
+
+            // Caso A: Arquivo em Base64 ou Texto
+            if (body.nome_arquivo && (body.conteudo || body.conteudo_base64)) {
+                const nomeArquivo = body.nome_arquivo.replace(/[^a-zA-Z0-9._-]/g, '_');
+                const buffer = body.conteudo_base64 
+                    ? Buffer.from(body.conteudo_base64, 'base64') 
+                    : Buffer.from(body.conteudo, 'utf-8');
+
+                storageService.salvarArquivo(idProjeto, 'materiais_cliente', nomeArquivo, buffer);
+                arquivoInfo = {
+                    nome_arquivo: nomeArquivo,
+                    tamanho_bytes: buffer.length,
+                    tipo: body.mimetype || path.extname(nomeArquivo),
+                    criado_em: new Date().toISOString(),
+                    caminho_relativo: `materiais_cliente/${nomeArquivo}`
+                };
+                projeto.materiais_anexados.push(arquivoInfo);
+                registrarEvento(idProjeto, `Material anexado pela Diretoria: ${nomeArquivo} (${buffer.length} bytes).`);
+            }
+
+            // Caso B: Texto de Briefing ou Orientações
+            if (body.briefing || body.instrucoes || body.orientacoes) {
+                const textoBriefing = body.briefing || body.instrucoes || body.orientacoes;
+                projeto.briefing_diretoria = (projeto.briefing_diretoria ? (projeto.briefing_diretoria + '\n\n' + textoBriefing) : textoBriefing);
+                const nomeBriefing = `briefing_diretoria_${Date.now()}.md`;
+                storageService.salvarArquivo(idProjeto, 'materiais_cliente', nomeBriefing, Buffer.from(textoBriefing, 'utf-8'));
+                projeto.materiais_anexados.push({
+                    nome_arquivo: nomeBriefing,
+                    tamanho_bytes: Buffer.byteLength(textoBriefing, 'utf-8'),
+                    tipo: 'text/markdown',
+                    criado_em: new Date().toISOString(),
+                    caminho_relativo: `materiais_cliente/${nomeBriefing}`
+                });
+                registrarEvento(idProjeto, `Briefing/Orientação executiva adicionada pela Diretoria.`);
+            }
+
+            salvarProjeto(projeto);
+            if (db.pgPool) await db.sincronizarProjetoCompletoPostgres(projeto);
+
+            res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+            return res.end(JSON.stringify({ 
+                sucesso: true, 
+                mensagem: 'Material incorporado com sucesso ao contexto do projeto.',
+                arquivo: arquivoInfo,
+                total_materiais: projeto.materiais_anexados.length,
+                materiais: projeto.materiais_anexados
+            }));
+        } catch (e) {
+            res.writeHead(500, { 'Content-Type': 'application/json; charset=utf-8' });
+            return res.end(JSON.stringify({ sucesso: false, erro: e.message }));
+        }
+    }
+
+    // 1.3 POST /api/projetos/:id/diagnostico — Execução do Diagnóstico Comercial VIDE (10 passos)
+    if (urlLimpa.startsWith('/api/projetos/') && urlLimpa.endsWith('/diagnostico') && req.method === 'POST') {
+        const idProjeto = decodeURIComponent(urlLimpa.replace('/api/projetos/', '').replace('/diagnostico', ''));
+        try {
+            const body = await lerCorpoJson(req);
+            const resultado = await executarDiagnosticoComercialVIDE({
+                idProjeto,
+                dadosNegocio: body
+            });
+            const prjAtualizado = obterProjetoPorId(idProjeto);
+            if (prjAtualizado && db.pgPool) await db.sincronizarProjetoCompletoPostgres(prjAtualizado);
+
+            res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+            return res.end(JSON.stringify({ sucesso: true, diagnostico: resultado }));
+        } catch (e) {
+            res.writeHead(500, { 'Content-Type': 'application/json; charset=utf-8' });
+            return res.end(JSON.stringify({ sucesso: false, erro: e.message }));
+        }
+    }
+
+    // 1.4 GET /api/projetos/:id/detalhes — Retorna o projeto com estado real dos 7 agentes, materiais e entregas
+    if (urlLimpa.startsWith('/api/projetos/') && urlLimpa.endsWith('/detalhes') && req.method === 'GET') {
+        const idProjeto = decodeURIComponent(urlLimpa.replace('/api/projetos/', '').replace('/detalhes', ''));
+        let projeto = obterProjetoPorId(idProjeto);
+        if (!projeto && db.pgPool) projeto = await db.obterProjetoDoPostgres(idProjeto);
+        if (!projeto) {
+            res.writeHead(404, { 'Content-Type': 'application/json; charset=utf-8' });
+            return res.end(JSON.stringify({ sucesso: false, erro: 'Projeto não encontrado.' }));
+        }
+
+        const arquivosLocais = storageService.listarArquivosProjeto(idProjeto);
+        const arquivosPg = await db.listarArquivosStorage(idProjeto);
+        const listaArquivos = Array.from(new Set([
+            ...arquivosLocais,
+            ...arquivosPg.map(a => (a.caminho_relativo ? a.caminho_relativo.replace(idProjeto + '/', '') : (a.especialista + '/' + a.nome_arquivo)).replace(/\\/g, '/'))
+        ]));
+
+        const tarefas = projeto.grafo_tarefas || [];
+        const statusAgentes = {
+            '01_triagem': { status: 'CONCLUIDO', tarefa: 'Triagem e qualificação comercial' },
+            '02_coordenador': { status: projeto.situacao_projeto, tarefa: 'Coordenação e governança operacional' },
+            '03_desenvolvedor': tarefas.find(t => (t.especialista || '').toLowerCase().includes('desenvolv')) || { estado: 'NAO_CONTRATADO' },
+            '04_branding': tarefas.find(t => (t.especialista || '').toLowerCase().includes('brand')) || { estado: 'NAO_CONTRATADO' },
+            '05_atendimento': tarefas.find(t => (t.especialista || '').toLowerCase().includes('atend')) || { estado: 'NAO_CONTRATADO' },
+            '06_automacao': tarefas.find(t => (t.especialista || '').toLowerCase().includes('auto')) || { estado: 'NAO_CONTRATADO' },
+            '07_inteligencia': tarefas.find(t => (t.especialista || '').toLowerCase().includes('intel')) || { estado: 'NAO_CONTRATADO' }
+        };
+
+        res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+        return res.end(JSON.stringify({
+            sucesso: true,
+            id_projeto: idProjeto,
+            projeto,
+            status_agentes: statusAgentes,
+            total_arquivos: listaArquivos.length,
+            arquivos: listaArquivos,
+            materiais_anexados: projeto.materiais_anexados || [],
+            diagnostico_comercial: projeto.diagnostico_comercial || null
+        }));
+    }
+
     // 2. GET /api/projetos/:id — Retorna detalhes de um projeto específico com fallback direto no PostgreSQL
-    if (urlLimpa.startsWith('/api/projetos/') && !urlLimpa.includes('/arquivos') && req.method === 'GET') {
+    if (urlLimpa.startsWith('/api/projetos/') && !urlLimpa.includes('/arquivos') && !urlLimpa.includes('/detalhes') && !urlLimpa.includes('/anexos') && !urlLimpa.includes('/diagnostico') && req.method === 'GET') {
         const idProjeto = decodeURIComponent(urlLimpa.replace('/api/projetos/', ''));
         let projeto = obterProjetoPorId(idProjeto);
         if (!projeto && db.pgPool) {

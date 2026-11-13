@@ -42,25 +42,38 @@ class ServicoArmazenamentoVIDE {
             fs.mkdirSync(pastaDestino, { recursive: true });
         }
 
-        fs.writeFileSync(caminhoCompleto, conteudo, 'utf-8');
+        if (Buffer.isBuffer(conteudo)) {
+            fs.writeFileSync(caminhoCompleto, conteudo);
+        } else {
+            fs.writeFileSync(caminhoCompleto, conteudo, 'utf-8');
+        }
 
         // Persistência durável em PostgreSQL (sobrevive a novos deploys e reinicializações de container)
         const caminhoRel = `${idProjeto}/${especialista}/${nomeArquivo}`.replace(/\\/g, '/');
         const ext = path.extname(nomeArquivo).toLowerCase();
-        let mimetype = 'text/plain';
-        if (ext === '.json') mimetype = 'application/json';
-        else if (ext === '.html') mimetype = 'text/html';
-        else if (ext === '.css') mimetype = 'text/css';
-        else if (ext === '.md') mimetype = 'text/markdown';
+        let mimetype = 'text/plain; charset=utf-8';
+        if (ext === '.json') mimetype = 'application/json; charset=utf-8';
+        else if (ext === '.html') mimetype = 'text/html; charset=utf-8';
+        else if (ext === '.css') mimetype = 'text/css; charset=utf-8';
+        else if (ext === '.md') mimetype = 'text/markdown; charset=utf-8';
         else if (ext === '.svg') mimetype = 'image/svg+xml';
-        else if (ext === '.js') mimetype = 'application/javascript';
+        else if (ext === '.js') mimetype = 'application/javascript; charset=utf-8';
+        else if (ext === '.pdf') mimetype = 'application/pdf';
+        else if (ext === '.png') mimetype = 'image/png';
+        else if (ext === '.jpg' || ext === '.jpeg') mimetype = 'image/jpeg';
+        else if (ext === '.webp') mimetype = 'image/webp';
+        else if (ext === '.txt') mimetype = 'text/plain; charset=utf-8';
+
+        const conteudoDb = Buffer.isBuffer(conteudo)
+            ? (mimetype.startsWith('image/') || mimetype === 'application/pdf' ? conteudo.toString('base64') : conteudo.toString('utf-8'))
+            : String(conteudo);
 
         db.salvarArquivoStorage({
             idProjeto,
             especialista,
             nomeArquivo,
             caminhoRelativo: caminhoRel,
-            conteudo: typeof conteudo === 'string' ? conteudo : conteudo.toString('utf-8'),
+            conteudo: conteudoDb,
             mimetype
         }).catch(err => console.warn('[STORAGE] Falha assíncrona ao persistir arquivo no PostgreSQL:', err.message));
 
@@ -73,7 +86,9 @@ class ServicoArmazenamentoVIDE {
     async obterConteudoArquivo(idProjeto, especialista, nomeArquivo) {
         const caminhoCompleto = path.join(this.diretorioBase, idProjeto, especialista, nomeArquivo);
         if (fs.existsSync(caminhoCompleto)) {
-            return fs.readFileSync(caminhoCompleto, 'utf-8');
+            const ext = path.extname(nomeArquivo).toLowerCase();
+            const ehBinario = ext === '.png' || ext === '.jpg' || ext === '.jpeg' || ext === '.pdf' || ext === '.webp' || ext === '.ico';
+            return ehBinario ? fs.readFileSync(caminhoCompleto) : fs.readFileSync(caminhoCompleto, 'utf-8');
         }
 
         // Cache miss local: busca no PostgreSQL durável (reidratação automática após novo deploy)
@@ -82,7 +97,13 @@ class ServicoArmazenamentoVIDE {
             try {
                 const pastaDestino = path.dirname(caminhoCompleto);
                 if (!fs.existsSync(pastaDestino)) fs.mkdirSync(pastaDestino, { recursive: true });
-                fs.writeFileSync(caminhoCompleto, arqPg.conteudo, 'utf-8');
+                const ext = path.extname(nomeArquivo).toLowerCase();
+                const ehBinario = ext === '.png' || ext === '.jpg' || ext === '.jpeg' || ext === '.pdf' || ext === '.webp' || ext === '.ico';
+                const dadosGravar = ehBinario && typeof arqPg.conteudo === 'string'
+                    ? Buffer.from(arqPg.conteudo, 'base64')
+                    : arqPg.conteudo;
+                fs.writeFileSync(caminhoCompleto, dadosGravar);
+                return dadosGravar;
             } catch (_) {}
             return arqPg.conteudo;
         }

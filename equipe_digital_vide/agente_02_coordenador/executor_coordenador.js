@@ -584,8 +584,16 @@ function autorizarProjetoComercialmente(idProjeto, servicoAutorizadoNome = 'Diag
         servicosAutorizados: servicoAutorizadoNome
     };
 
-    // Se a demanda era sobre vendas/Instagram, gera o plano do Motor de Objeções + Atendimento
-    if (projeto.solicitacao_original.toLowerCase().includes('instagram') || projeto.solicitacao_original.toLowerCase().includes('vendas')) {
+    // Se a demanda era estritamente sobre vendas/Instagram sem envolver site próprio ou transformação comercial integrada
+    const solBaixa = (projeto.solicitacao_original || '').toLowerCase();
+    const ehDemandaEstritaInstagram = (solBaixa.includes('instagram') || solBaixa.includes('vendas')) &&
+        !solBaixa.includes('site') &&
+        !solBaixa.includes('landing') &&
+        !solBaixa.includes('marca') &&
+        !solBaixa.includes('roupas') &&
+        !solBaixa.includes('integrad');
+
+    if (ehDemandaEstritaInstagram) {
         projeto.grafo_tarefas = [
             {
                 id_tarefa: `TSK-${idProjeto}-01`,
@@ -799,6 +807,43 @@ function interpretarComandoDiretora(comandoTexto) {
         }
     }
 
+    // 3.2 "Diagnóstico: <ID>" ou "Diagnosticar <ID>" — Execução do Diagnóstico Comercial VIDE
+    const matchDiagnostico = cmd.match(/(?:diagn[oó]stico|diagnosticar)\s+(?:do\s+)?(?:projeto\s+)?(prj-[\w-]+)/i);
+    if (matchDiagnostico) {
+        const idAlvo = matchDiagnostico[1].toUpperCase();
+        try {
+            const { executarDiagnosticoComercialVIDE } = require('../diagnostico_comercial_vide');
+            const resDiag = executarDiagnosticoComercialVIDE({ idProjeto: idAlvo });
+            return resDiag.then(dados => ({
+                sucesso: true,
+                resposta: `📊 **DIAGNÓSTICO COMERCIAL VIDE CONCLUÍDO [${idAlvo}]**\n\n` +
+                    `• **Cliente:** ${dados.cliente}\n` +
+                    `• **Solução Recomendada:** ${dados.solucao_recomendada}\n` +
+                    `• **Fatos Identificados:** ${dados.fatos_comprovados.length} pontos\n` +
+                    `• **Informações Ausentes:** ${dados.informacoes_ausentes.length} pendências mapeadas\n\n` +
+                    `**Gargalos Operacionais Detectados:**\n` +
+                    dados.gargalos_identificados.map((g, i) => `  ${i+1}. ${g}`).join('\n') + `\n\n` +
+                    `**Perguntas de Alinhamento:**\n` +
+                    dados.perguntas_complementares.slice(0, 3).map(p => `  ${p}`).join('\n') + `\n\n` +
+                    `📄 **Relatórios Gravados no Storage:**\n` +
+                    `  1. ${dados.arquivos_gerados[0]}\n` +
+                    `  2. ${dados.arquivos_gerados[1]}\n\n` +
+                    `🔒 **Governança:** A esteira técnica permanece aguardando sua autorização. Digite **aprovar ${idAlvo}** para liberar a execução da equipe.`,
+                dados
+            })).catch(err => ({
+                sucesso: false,
+                resposta: `Erro ao executar diagnóstico comercial para [${idAlvo}]: ${err.message}`,
+                erro: err.message
+            }));
+        } catch (eDiag) {
+            return {
+                sucesso: false,
+                resposta: `Erro ao iniciar diagnóstico comercial: ${eDiag.message}`,
+                erro: eDiag.message
+            };
+        }
+    }
+
     // 4. "Apresente um relatório de todos os projetos" ou "Relatório geral"
     if (cmd.includes('relatório') || cmd.includes('relatorio') || cmd.includes('resumo geral') || cmd.includes('todos os projetos')) {
         let totalTarefas = 0;
@@ -854,21 +899,44 @@ function interpretarComandoDiretora(comandoTexto) {
  * Interpretador com IA Generativa de Diretrizes da Diretoria
  */
 async function interpretarComandoDiretoraComIA(comandoTexto) {
-    const basico = interpretarComandoDiretora(comandoTexto);
+    const basico = await interpretarComandoDiretora(comandoTexto);
     // Se o básico já tratou um comando específico e não caiu na mensagem de ajuda, retorna imediatamente
     if (!basico.resposta.startsWith('Comando recebido:')) {
         return basico;
     }
 
-    // Se for diretriz aberta, consulta a IA com a persona do Coordenador Geral
+    // Se for diretriz aberta, consulta a IA com a persona do Coordenador Geral contextualizada
     try {
-        const prompt = `Como Coordenador Geral da VIDE, analise e responda à seguinte instrução da Diretoria Executiva (Douglas): "${comandoTexto}".
-Forneça um parecer executivo, alinhamento técnico e informe como a equipe dos 7 especialistas atuará.`;
-        const resIa = await iaService.gerarTextoIA(prompt, 'Você é o Agente 02 (Coordenador Geral) da VIDE — Sistemas de Crescimento Comercial.', 'COORDENADOR');
+        const { listarProjetos } = require('./repositorio_projetos_tarefas');
+        const todos = listarProjetos();
+        const ultimos = todos.slice(0, 4).map(p => `• [${p.id_projeto}] Cliente: ${p.cliente} | Situação: ${p.situacao_projeto} | Autorizado: ${p.autorizado ? 'SIM' : 'NÃO'}`).join('\n');
+
+        const prompt = `Você é o Coordenador Geral da VIDE reportando diretamente ao Diretor Executivo (Douglas).
+Instrução recebida de Douglas: "${comandoTexto}"
+
+Contexto operacional atual da VIDE:
+${ultimos || 'Nenhum projeto registrado.'}
+
+Responda com o máximo rigor técnico, postura de liderança operacional e clareza executiva, estruturando obrigatoriamente a resposta em 3 seções:
+1. **O QUE ENTENDI:** Síntese objetiva do objetivo estratégico e do que foi demandado.
+2. **PLANO DE AÇÃO & ESPECIALISTAS:** Como os 7 especialistas atuarão, quais tarefas serão criadas e em qual sequência do Grafo DAG.
+3. **DECISÕES QUE DEPENDEM DA DIRETORIA:** Pontos que requerem aprovação formal de Douglas (ex: autorização comercial, escopo, investimento, liberação de esteira).`;
+
+        const resIa = await iaService.gerarTextoIA(prompt, 'Você é o Agente 02 (Coordenador Geral) da VIDE — Sistemas de Crescimento Comercial. Liderança operacional rigorosa e governança executiva.', 'COORDENADOR');
+        let textoFinal = resIa.texto;
+        try {
+            if (typeof textoFinal === 'string' && textoFinal.trim().startsWith('{')) {
+                const parsed = JSON.parse(textoFinal);
+                textoFinal = `### 1. **O QUE ENTENDI:**\n${parsed.analise_estrategica || parsed.o_que_entendi || parsed.resumo || 'Demanda recebida e interpretada sob a visão de crescimento e retenção comercial VIDE.'}\n\n` +
+                    `### 2. **PLANO DE AÇÃO & ESPECIALISTAS:**\n${parsed.dependencias_criticas || parsed.plano_de_acao || parsed.especialistas || 'Mobilização dos 7 agentes especialistas respeitando a topologia do Grafo DAG de tarefas.'}\n\n` +
+                    `### 3. **DECISÕES QUE DEPENDEM DA DIRETORIA:**\n${parsed.recomendacao_executiva || parsed.decisoes_diretoria || 'Autorização formal para execução da esteira técnica e validação de dimensionamento comercial.'}`;
+            }
+        } catch (_) {}
+
         return {
             sucesso: true,
-            resposta: resIa.texto,
-            parecer: resIa.texto,
+            resposta: textoFinal,
+            parecer: textoFinal,
             origem_inteligencia: resIa.metadados
         };
     } catch (_) {
