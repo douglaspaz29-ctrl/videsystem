@@ -842,8 +842,8 @@ function interpretarComandoDiretora(comandoTexto) {
  */
 async function interpretarComandoDiretoraComIA(comandoTexto) {
     const basico = interpretarComandoDiretora(comandoTexto);
-    // Se o básico já identificou um comando especial estruturado, retorna imediatamente
-    if (basico.idProjetoParaExecucao || basico.novoProjetoId || basico.resposta.includes('projetos em andamento') || basico.resposta.includes('Relatório Executivo') || basico.resposta.includes('pendente')) {
+    // Se o básico já tratou um comando específico e não caiu na mensagem de ajuda, retorna imediatamente
+    if (!basico.resposta.startsWith('Comando recebido:')) {
         return basico;
     }
 
