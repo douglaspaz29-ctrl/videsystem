@@ -10,7 +10,7 @@ const fs = require('fs');
 const path = require('path');
 
 // Suporte tanto para a pasta consolidada (03_AGENTES_DE_IA_E_TRIAGEM) quanto legado (equipe_digital_vide)
-const moduloAgentesDir = fs.existsSync(path.join(__dirname, '03_AGENTES_DE_IA_E_TRIAGEM')) 
+const moduloAgentesDir = fs.existsSync(path.join(__dirname, '03_AGENTES_DE_IA_E_TRIAGEM', 'config_ambiente.js')) 
     ? './03_AGENTES_DE_IA_E_TRIAGEM' 
     : './equipe_digital_vide';
 

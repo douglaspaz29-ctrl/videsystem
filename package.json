@@ -4,8 +4,11 @@
   "description": "VIDE — Sistemas Integrados de Crescimento Comercial & Central de Comando OS",
   "main": "serve.js",
   "scripts": {
-    "start": "node serve.js",
-    "dev": "node serve.js"
+    "start": "node servidor_local.js",
+    "dev": "node servidor_local.js"
+  },
+  "dependencies": {
+    "pg": "^8.11.5"
   },
   "keywords": [
     "vide",
