@@ -505,6 +505,84 @@ class BancoDadosRelacionalVIDE {
         return projeto;
     }
 
+    async sincronizarProjetoCompletoPostgres(projeto) {
+        if (!this.pgPool || !projeto) return;
+        try {
+            const idProjeto = projeto.id_projeto || projeto.id;
+            const nomeCliente = projeto.cliente || 'Cliente Sem Nome';
+            const idCliente = projeto.cliente_id || ('CLI-' + crypto.createHash('md5').update(nomeCliente).digest('hex').substring(0, 8).toUpperCase());
+
+            // 1. Garante Cliente
+            await this.pgPool.query(`
+                INSERT INTO clientes (id, nome, segmento, ticket_medio, criado_em, atualizado_em)
+                VALUES ($1, $2, 'Geral', 0, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+                ON CONFLICT (id) DO UPDATE SET nome = EXCLUDED.nome
+            `, [idCliente, nomeCliente]);
+
+            // 2. Garante Projeto
+            const servicos = (projeto.autorizacao_comercial && projeto.autorizacao_comercial.servicos_autorizados) || projeto.servicos_autorizados || [];
+            await this.pgPool.query(`
+                INSERT INTO projetos (id, cliente_id, id_demanda_origem, solicitacao_original, situacao_projeto, autorizacao_status, servicos_autorizados, data_autorizacao, observacao_autorizacao, prioridade, criado_em, atualizado_em)
+                VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+                ON CONFLICT (id) DO UPDATE SET
+                    situacao_projeto = EXCLUDED.situacao_projeto,
+                    autorizacao_status = EXCLUDED.autorizacao_status,
+                    servicos_autorizados = EXCLUDED.servicos_autorizados,
+                    data_autorizacao = EXCLUDED.data_autorizacao,
+                    observacao_autorizacao = EXCLUDED.observacao_autorizacao,
+                    atualizado_em = CURRENT_TIMESTAMP
+            `, [
+                idProjeto,
+                idCliente,
+                projeto.id_demanda_origem || null,
+                projeto.solicitacao_original || '',
+                projeto.situacao_projeto || 'AGUARDANDO_AUTORIZACAO_COMERCIAL',
+                (projeto.autorizacao_comercial && projeto.autorizacao_comercial.status) || projeto.autorizacao_status || 'PENDENTE',
+                JSON.stringify(servicos),
+                (projeto.autorizacao_comercial && projeto.autorizacao_comercial.data_autorizacao) || null,
+                (projeto.autorizacao_comercial && projeto.autorizacao_comercial.observacao) || null,
+                (projeto.cronograma && projeto.cronograma.prioridade) || projeto.prioridade || 'NORMAL'
+            ]);
+
+            // 3. Garante Tarefas se houver
+            if (Array.isArray(projeto.grafo_tarefas)) {
+                for (const t of projeto.grafo_tarefas) {
+                    await this.pgPool.query(`
+                        INSERT INTO tarefas (id, projeto_id, especialista, titulo, descricao, dependencias, criterios_aceite, estado, criado_em, atualizado_em)
+                        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+                        ON CONFLICT (id) DO UPDATE SET
+                            estado = EXCLUDED.estado,
+                            atualizado_em = CURRENT_TIMESTAMP
+                    `, [
+                        t.id_tarefa,
+                        idProjeto,
+                        t.especialista,
+                        t.titulo || 'Tarefa Especialista',
+                        t.descricao || '',
+                        JSON.stringify(t.dependencias || []),
+                        JSON.stringify(t.criterios_aceite || []),
+                        t.estado || 'BLOQUEADA_POR_DEPENDENCIA'
+                    ]);
+                }
+            }
+            console.log(`[VIDE_DB] Projeto ${idProjeto} sincronizado com sucesso no PostgreSQL.`);
+        } catch (e) {
+            console.error(`[VIDE_DB] Erro ao sincronizar projeto no PostgreSQL:`, e.message);
+        }
+    }
+
+    async obterProjetoDoPostgres(id) {
+        if (!this.pgPool) return this.obterProjeto(id);
+        try {
+            const rProj = await this.pgPool.query('SELECT * FROM projetos WHERE id = $1', [id]);
+            if (rProj.rows.length === 0) return null;
+            await this.hidratarDoPostgres();
+            return this.obterProjeto(id);
+        } catch(e) {
+            return this.obterProjeto(id);
+        }
+    }
+
     obterProjeto(id) {
         const p = this.tabelas.projetos.get(id);
         if (!p) return null;

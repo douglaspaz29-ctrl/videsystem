@@ -268,8 +268,19 @@ const servidor = http.createServer(async (req, res) => {
 
     // 1. GET /api/projetos — Lista todos os projetos completos com suas tarefas
     if (urlLimpa === '/api/projetos' && req.method === 'GET') {
+        if (db.pgPool) {
+            try { await db.hidratarDoPostgres(); } catch (_) {}
+        }
         const indice = listarProjetos();
-        const projetosCompletos = indice.map(p => obterProjetoPorId(p.id_projeto)).filter(Boolean);
+        let projetosCompletos = indice.map(p => obterProjetoPorId(p.id_projeto) || db.obterProjeto(p.id_projeto)).filter(Boolean);
+        
+        if (projetosCompletos.length === 0 && db.pgPool) {
+            try {
+                const resPg = await db.pgPool.query('SELECT id FROM projetos ORDER BY criado_em DESC');
+                projetosCompletos = resPg.rows.map(row => db.obterProjeto(row.id)).filter(Boolean);
+            } catch (_) {}
+        }
+
         res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
         return res.end(JSON.stringify({ sucesso: true, projetos: projetosCompletos }));
     }
@@ -278,14 +289,8 @@ const servidor = http.createServer(async (req, res) => {
     if (urlLimpa.startsWith('/api/projetos/') && !urlLimpa.includes('/arquivos') && req.method === 'GET') {
         const idProjeto = decodeURIComponent(urlLimpa.replace('/api/projetos/', ''));
         let projeto = obterProjetoPorId(idProjeto);
-        if (!projeto && db.pgPool) {
-            try {
-                const rPg = await db.pgPool.query('SELECT * FROM projetos WHERE id = $1', [idProjeto]);
-                if (rPg.rows.length > 0) {
-                    await db.hidratarDoPostgres();
-                    projeto = obterProjetoPorId(idProjeto) || db.obterProjeto(idProjeto);
-                }
-            } catch (_) {}
+        if (!projeto) {
+            projeto = await db.obterProjetoDoPostgres(idProjeto);
         }
         if (!projeto) {
             res.writeHead(404, { 'Content-Type': 'application/json; charset=utf-8' });
@@ -374,6 +379,10 @@ const servidor = http.createServer(async (req, res) => {
                 identificadorCenario: cenario,
                 prazoUrgenciaInformado: prazo
             });
+
+            if (resultado.projeto) {
+                await db.sincronizarProjetoCompletoPostgres(resultado.projeto);
+            }
 
             res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
             return res.end(JSON.stringify({ 
@@ -500,6 +509,11 @@ const servidor = http.createServer(async (req, res) => {
                 } catch(errExec) {
                     console.warn('[COORDENADOR] Aviso ao executar especialistas:', errExec.message);
                 }
+            }
+
+            const projFinal = obterProjetoPorId(idProjeto) || projetoAtualizado;
+            if (projFinal) {
+                await db.sincronizarProjetoCompletoPostgres(projFinal);
             }
 
             res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
