@@ -362,8 +362,23 @@ function processarTriagemRevisada({
         prioridade,
         observacoes,
         comunicacaoCliente,
-        analiseCognitivaIA: iaService.gerarRespostaSemanticaLocal(solicitacaoOriginal)
+        analiseCognitivaIA: iaService.gerarRespostaSemanticaLocal(solicitacaoOriginal, 'TRIAGEM'),
+        origem_inteligencia: iaService.obterStatusProvedor()
     };
+}
+
+/**
+ * Processamento Assíncrono com IA Generativa da Triagem Comercial
+ */
+async function processarTriagemComIA(params) {
+    const base = processarTriagemRevisada(params);
+    try {
+        const enriquecimento = await iaService.enriquecerTriagemComIA(base.solicitacaoOriginal, base.cenario, params.prazoUrgenciaInformado);
+        base.analiseCognitivaIA = enriquecimento.analise_cognitiva;
+        base.perguntasEstrategicasIA = enriquecimento.perguntas_recomendadas;
+        base.origem_inteligencia = enriquecimento.origem_inteligencia;
+    } catch (_) {}
+    return base;
 }
 
 /**
@@ -419,6 +434,7 @@ ${registro.observacoes}`;
 
 module.exports = {
     processarTriagemRevisada,
+    processarTriagemComIA,
     formatarEncaminhamentoCoordenadorRevisado,
     ESPECIALISTAS
 };

@@ -784,6 +784,13 @@
                 }
                 const bco = (data.banco_de_dados && data.banco_de_dados.modo_operacao) || 'POSTGRESQL_REMOTO_ATIVO';
                 adicionarLogTerminal('AGT-07 TELEMETRIA', 'Telemetria ao vivo: ' + bco + ' operacional.');
+                if (data.integracoes && data.integracoes.inteligencia_artificial) {
+                    const iaInfo = data.integracoes.inteligencia_artificial;
+                    const iaStatusTexto = iaInfo.ia_generativa_ativa 
+                        ? `IA Generativa Ativa [${iaInfo.provedor} / ${iaInfo.modelo}]` 
+                        : `Motor Cognitivo Local Ativo [${iaInfo.modelo}]`;
+                    adicionarLogTerminal('AGT-02 COORDENADOR', 'Inteligência Artificial: ' + iaStatusTexto);
+                }
             }
         } catch(e) {
             adicionarLogTerminal('SISTEMA', 'Telemetria local ativa em modo simulado.');
@@ -818,7 +825,7 @@
 
         // 1. Comando AJUDA / HELP
         if (acao === 'ajuda' || acao === 'help') {
-            adicionarLogTerminal('AGT-02 COORDENADOR', 'Comandos do Cockpit: [demanda <texto>], [status], [projetos], [login <usr> <pwd>], [aprovar <id>], [executar <id>], [auditar <id>], [limpar] ou diretriz executiva livre.');
+            adicionarLogTerminal('AGT-02 COORDENADOR', 'Comandos do Cockpit: [demanda <texto>], [status], [ia], [projetos], [aprovar <id>], [executar <id>], [auditar <id>], [webhook <url>], [login <usr> <pwd>], [limpar] ou diretriz executiva livre.');
             return;
         }
 

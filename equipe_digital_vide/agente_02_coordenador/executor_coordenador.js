@@ -13,6 +13,8 @@ const {
     atualizarEstadoTarefa,
     registrarEvento
 } = require('./repositorio_projetos_tarefas');
+const { iaService } = require('../ia_service');
+const { servicoWebhooksSaida } = require('../servico_webhooks_saida');
 
 /**
  * 1. FUNÇÃO 1 & 2: Receber Registro da Triagem e Verificar Autorização Comercial
@@ -111,6 +113,15 @@ function receberRegistroTriagem(registroTriagem, opcoes = {}) {
 
     const salvo = salvarProjeto(projeto);
     salvo.sucesso = true;
+    try {
+        servicoWebhooksSaida.dispararEvento('lead_recebido', {
+            id_projeto: idProjeto,
+            id_demanda: registroTriagem.idDemanda,
+            cliente: registroTriagem.cenario,
+            situacao: situacaoProjetoInicial,
+            prioridade: registroTriagem.prioridade
+        });
+    } catch (_) {}
     return salvo;
 }
 
@@ -511,7 +522,8 @@ function conferirEntrega(param1, param2, param3, param4, param5) {
 
     tarefa.entrega = {
         data_submissao: new Date().toISOString(),
-        conteudo: entregaSubmetida
+        conteudo: entregaSubmetida,
+        origem_inteligencia: iaService.obterStatusProvedor()
     };
 
     const novoEstado = criteriosAtendidos ? 'APROVADA' : 'PENDENCIA_IDENTIFICADA';
@@ -524,6 +536,17 @@ function conferirEntrega(param1, param2, param3, param4, param5) {
         notaAuditoria: `${prefixo} ${parecerCoordenador}`,
         autor: 'Coordenador Geral'
     });
+
+    try {
+        servicoWebhooksSaida.dispararEvento('tarefa_concluida', {
+            id_projeto: idProjeto,
+            id_tarefa: idTarefa,
+            especialista: tarefa.especialista || tarefa.id_especialista_responsavel,
+            titulo: tarefa.titulo || tarefa.titulo_tarefa,
+            novo_estado: novoEstado,
+            criterios_atendidos: criteriosAtendidos
+        });
+    } catch (_) {}
 
     projAtualizado.sucesso = true;
     projAtualizado.estado_final = novoEstado;
@@ -629,6 +652,14 @@ function autorizarProjetoComercialmente(idProjeto, servicoAutorizadoNome = 'Diag
 
     const salvo = salvarProjeto(projeto);
     salvo.sucesso = true;
+    try {
+        servicoWebhooksSaida.dispararEvento('projeto_autorizado', {
+            id_projeto: idProjeto,
+            autorizado_por: autorizadoPor,
+            servico: nomeServico,
+            total_tarefas: projeto.grafo_tarefas.length
+        });
+    } catch (_) {}
     return salvo;
 }
 

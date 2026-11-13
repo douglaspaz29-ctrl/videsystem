@@ -35,6 +35,8 @@ const { seguranca } = require(`${moduloAgentesDir}/seguranca`);
 const { db } = require(`${moduloAgentesDir}/banco_dados`);
 const { whatsAppService } = require(`${moduloAgentesDir}/whatsapp_business_integration`);
 const { storageService } = require(`${moduloAgentesDir}/storage_service`);
+const { iaService } = require(`${moduloAgentesDir}/ia_service`);
+const { servicoWebhooksSaida } = require(`${moduloAgentesDir}/servico_webhooks_saida`);
 
 const TIPOS_MIME = {
     '.html': 'text/html; charset=utf-8',
@@ -187,6 +189,14 @@ function executarEsteiraCompletaEspecialistas(idProjeto) {
         }
     }
 
+    try {
+        servicoWebhooksSaida.dispararEvento('esteira_concluida', {
+            id_projeto: idProjeto,
+            total_entregaveis: resultados.length,
+            entregaveis: resultados
+        });
+    } catch (_) {}
+
     return resultados;
 }
 
@@ -251,9 +261,11 @@ const servidor = http.createServer(async (req, res) => {
                     status: (CONFIG.META_WA_PHONE_NUMBER_ID && CONFIG.META_WA_ACCESS_TOKEN) ? 'CREDENCIAS_CONFIGURADAS' : 'AGUARDANDO_CREDENCIAIS_META',
                     phone_number_id_definido: !!CONFIG.META_WA_PHONE_NUMBER_ID
                 },
-                inteligencia_artificial: {
-                    gemini: CONFIG.GEMINI_API_KEY ? 'CONECTADO_API_EXTERNA' : 'AGUARDANDO_CHAVE (Fallback Cognitivo Ativo)',
-                    openai: CONFIG.OPENAI_API_KEY ? 'CONECTADO_API_EXTERNA' : 'DESATIVADO'
+                inteligencia_artificial: iaService.obterStatusProvedor(),
+                webhooks_saida: {
+                    status: CONFIG.N8N_WEBHOOK_URL ? 'DESTINO_EXTERNO_CONFIGURADO' : 'RETENCAO_LOCAL_HISTORICO',
+                    n8n_webhook_url: CONFIG.N8N_WEBHOOK_URL || null,
+                    total_disparados: servicoWebhooksSaida.obterHistorico().length
                 },
                 automacao_n8n: {
                     status: (CONFIG.N8N_URL && !CONFIG.N8N_URL.includes('localhost')) 
@@ -505,11 +517,82 @@ const servidor = http.createServer(async (req, res) => {
         }
     }
 
+    // 3.4 POST /api/webhooks/testar-disparo — Teste e Disparo de Webhook Outbound para n8n ou CRM
+    if (urlLimpa === '/api/webhooks/testar-disparo' && req.method === 'POST') {
+        try {
+            const body = await lerCorpoJson(req);
+            const urlDestino = body.url || CONFIG.N8N_WEBHOOK_URL || (CONFIG.N8N_URL ? `${CONFIG.N8N_URL.replace(/\/$/, '')}/webhook/vide-eventos` : null);
+            if (!urlDestino) {
+                res.writeHead(400, { 'Content-Type': 'application/json; charset=utf-8' });
+                return res.end(JSON.stringify({ sucesso: false, erro: 'URL de destino para disparo do webhook não informada (defina N8N_WEBHOOK_URL).' }));
+            }
+            const evento = body.evento || 'teste_conexao_n8n';
+            const payload = body.dados || { mensagem: 'Validação de Webhook Bidirecional VIDE <-> n8n', timestamp: new Date().toISOString() };
+            const resultado = await servicoWebhooksSaida.enviarHttp(
+                urlDestino, 
+                JSON.stringify({ evento, dados: payload, teste: true }), 
+                servicoWebhooksSaida.gerarAssinaturaHmac(JSON.stringify(payload)), 
+                'EVT-TESTE', 
+                evento
+            );
+            res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+            return res.end(JSON.stringify({ sucesso: resultado.sucesso, resultado, urlDestino }));
+        } catch (e) {
+            res.writeHead(500, { 'Content-Type': 'application/json; charset=utf-8' });
+            return res.end(JSON.stringify({ sucesso: false, erro: e.message }));
+        }
+    }
+
+    // 3.5 GET /api/webhooks/historico — Auditoria de Disparos de Webhooks de Saída
+    if (urlLimpa === '/api/webhooks/historico' && req.method === 'GET') {
+        const historico = servicoWebhooksSaida.obterHistorico(50);
+        res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+        return res.end(JSON.stringify({ sucesso: true, total: historico.length, historico }));
+    }
+
     // 4. POST /api/coordenador/comando ou /api/coordenador/instrucao — Chat e comandos executivos da Diretoria
     if ((urlLimpa === '/api/coordenador/comando' || urlLimpa === '/api/coordenador/instrucao') && req.method === 'POST') {
         try {
             const body = await lerCorpoJson(req);
-            const comando = body.comando || body.instrucao || '';
+            const comando = (body.comando || body.instrucao || '').trim();
+
+            // Comando especial: Diagnóstico do Provedor de IA
+            if (comando.toLowerCase() === 'ia' || comando.toLowerCase() === 'status ia') {
+                const statusIa = iaService.obterStatusProvedor();
+                const resposta = `🤖 **DIAGNÓSTICO DO MOTOR DE INTELIGÊNCIA ARTIFICIAL VIDE**\n\n` +
+                    `• **Provedor Ativo:** ${statusIa.provedor}\n` +
+                    `• **Modelo:** ${statusIa.modelo}\n` +
+                    `• **IA Generativa Ativa:** ${statusIa.ia_generativa_ativa ? 'SIM (LLM Remota)' : 'NÃO (Motor Cognitivo Local VIDE)'}\n` +
+                    `• **Status:** ${statusIa.status}\n` +
+                    `• **Detalhes:** ${statusIa.detalhes}\n` +
+                    (statusIa.motivo_fallback ? `• **Motivo do Fallback:** ${statusIa.motivo_fallback}\n` : '');
+                res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+                return res.end(JSON.stringify({ sucesso: true, resposta, parecer: resposta, dados: statusIa }));
+            }
+
+            // Comando especial: Testar disparo de Webhook para n8n
+            if (comando.toLowerCase().startsWith('webhook')) {
+                const partes = comando.split(' ');
+                const urlDestino = partes[1] || CONFIG.N8N_WEBHOOK_URL || (CONFIG.N8N_URL ? `${CONFIG.N8N_URL.replace(/\/$/, '')}/webhook/vide-eventos` : null);
+                if (!urlDestino) {
+                    const msg = `Sintaxe: webhook <URL_N8N>. Ex: webhook https://n8n.meuservidor.com/webhook/vide`;
+                    res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+                    return res.end(JSON.stringify({ sucesso: false, resposta: msg, parecer: msg }));
+                }
+                const resDisparo = await servicoWebhooksSaida.enviarHttp(
+                    urlDestino, 
+                    JSON.stringify({ evento: 'teste_terminal', autor: 'Diretoria Executiva Douglas', timestamp: new Date().toISOString() }), 
+                    servicoWebhooksSaida.gerarAssinaturaHmac('teste'), 
+                    'EVT-TERM', 
+                    'teste_terminal'
+                );
+                const resposta = resDisparo.sucesso 
+                    ? `✅ Webhook disparado com sucesso para [${urlDestino}]! Status HTTP: ${resDisparo.status}`
+                    : `⚠️ Tentativa de disparo para [${urlDestino}] registrada: ${resDisparo.erro || 'Status ' + resDisparo.status}`;
+                res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+                return res.end(JSON.stringify({ sucesso: true, resposta, parecer: resposta, dados: resDisparo }));
+            }
+
             const resposta = interpretarComandoDiretora(comando);
 
             // Se o comando disparou a autorização de um projeto, executa autonomamente a esteira dos especialistas

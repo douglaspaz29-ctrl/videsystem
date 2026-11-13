@@ -22,6 +22,7 @@ const {
     conferirEntrega
 } = require('../agente_02_coordenador/executor_coordenador');
 const { storageService } = require('../storage_service');
+const { iaService } = require('../ia_service');
 
 // Diretório oficial de entregas físicas no disco
 const DIRETORIO_ENTREGAS_BASE = path.join(__dirname, '..', 'entregas_clientes');
