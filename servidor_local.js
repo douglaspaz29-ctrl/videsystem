@@ -21,6 +21,11 @@ const DIRETORIO_RAIZ = __dirname;
 
 const { executarFluxoTriagemParaCoordenador } = require(`${moduloAgentesDir}/conexao_triagem_coordenador`);
 const { obterProjetoPorId, listarProjetos } = require(`${moduloAgentesDir}/agente_02_coordenador/repositorio_projetos_tarefas`);
+const { executarCicloCompletoDesenvolvedor } = require(`${moduloAgentesDir}/agente_03_desenvolvedor/executor_desenvolvedor`);
+const { executarCicloCompletoBranding } = require(`${moduloAgentesDir}/agente_04_branding_design/executor_branding_design`);
+const { executarCicloCompletoAtendimento } = require(`${moduloAgentesDir}/agente_05_atendimento/executor_atendimento`);
+const { executarCicloCompletoAutomacao } = require(`${moduloAgentesDir}/agente_06_automacao/executor_automacao`);
+const { executarCicloCompletoInteligencia } = require(`${moduloAgentesDir}/agente_07_inteligencia_comercial/executor_inteligencia_comercial`);
 const {
     autorizarProjetoComercialmente,
     interpretarComandoDiretora,
@@ -363,7 +368,7 @@ const servidor = http.createServer(async (req, res) => {
         }
     }
 
-    // 5. POST /api/coordenador/aprovar-projeto — Aprovação formal de contratação (PROTEGIDO)
+    // 5. POST /api/coordenador/aprovar-projeto — Aprovação formal de contratação e execução de esteira (PROTEGIDO)
     if (urlLimpa === '/api/coordenador/aprovar-projeto' && req.method === 'POST') {
         const adminAuth = verificarAutenticacaoAdmin(req);
         if (!adminAuth) {
@@ -373,11 +378,50 @@ const servidor = http.createServer(async (req, res) => {
 
         try {
             const body = await lerCorpoJson(req);
-            const idProjeto = body.idProjeto;
-            const servicoNome = body.servicoNome || 'Escopo Comercial Homologado';
+            const idProjeto = body.idProjeto || body.id_projeto;
+            const servicoNome = body.servicoNome || body.servico_nome || 'Escopo Comercial Homologado';
             const projetoAtualizado = autorizarProjetoComercialmente(idProjeto, servicoNome);
+
+            let entregaveis = [];
+            if (body.executar_esteira !== false) {
+                try {
+                    entregaveis = executarEsteiraCompletaEspecialistas(idProjeto);
+                } catch(errExec) {
+                    console.warn('[COORDENADOR] Aviso ao executar especialistas:', errExec.message);
+                }
+            }
+
             res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
-            return res.end(JSON.stringify({ sucesso: true, projeto: projetoAtualizado }));
+            return res.end(JSON.stringify({
+                sucesso: true,
+                projeto: obterProjetoPorId(idProjeto) || projetoAtualizado,
+                entregaveis
+            }));
+        } catch (e) {
+            res.writeHead(500, { 'Content-Type': 'application/json; charset=utf-8' });
+            return res.end(JSON.stringify({ sucesso: false, erro: e.message }));
+        }
+    }
+
+    // 5.1 POST /api/coordenador/executar-esteira — Disparo explícito dos 7 especialistas (PROTEGIDO)
+    if (urlLimpa === '/api/coordenador/executar-esteira' && req.method === 'POST') {
+        const adminAuth = verificarAutenticacaoAdmin(req);
+        if (!adminAuth) {
+            res.writeHead(401, { 'Content-Type': 'application/json; charset=utf-8' });
+            return res.end(JSON.stringify({ sucesso: false, erro: 'Acesso não autorizado. Token de Diretoria obrigatório.' }));
+        }
+
+        try {
+            const body = await lerCorpoJson(req);
+            const idProjeto = body.idProjeto || body.id_projeto;
+            const entregaveis = executarEsteiraCompletaEspecialistas(idProjeto);
+            res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+            return res.end(JSON.stringify({
+                sucesso: true,
+                id_projeto: idProjeto,
+                projeto: obterProjetoPorId(idProjeto),
+                entregaveis
+            }));
         } catch (e) {
             res.writeHead(500, { 'Content-Type': 'application/json; charset=utf-8' });
             return res.end(JSON.stringify({ sucesso: false, erro: e.message }));

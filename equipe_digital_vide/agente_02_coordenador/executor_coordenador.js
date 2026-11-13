@@ -322,6 +322,98 @@ function gerarPlanoTarefas(registroTriagem, idProjeto) {
         }
     }
 
+    // Fallback Geral Integrado: Se nenhuma palavra-chave restringiu o escopo,
+    // ativa a esteira integrada completa VIDE (Branding + Dev + Atendimento + Automação + Inteligência)
+    if (tarefas.length === 0) {
+        tarefas.push({
+            id_tarefa: `TSK-${idProjeto}-01`,
+            especialista: 'Estrategista',
+            titulo: 'Alinhamento Estratégico e Arquitetura do Escopo Tripartite',
+            descricao: 'Definir o posicionamento da empresa, proposta de valor, jornada do cliente e cronograma de dependências para orientar Branding, Dev e Automação.',
+            dependencias: [],
+            criterios_aceite: [
+                'Documento de direcionamento estratégico aprovado',
+                'Mapa de requisitos da marca e do site formalizado'
+            ],
+            estado: 'PRONTA_PARA_EXECUCAO',
+            historico_auditoria: []
+        });
+
+        tarefas.push({
+            id_tarefa: `TSK-${idProjeto}-02`,
+            especialista: 'Branding e Design',
+            titulo: 'Design System, Identidade Visual e Ativos Gráficos',
+            descricao: 'Criar os design tokens, paleta cromática, tipografia, logotipo vetorial SVG e guidelines para a presença digital.',
+            dependencias: [`TSK-${idProjeto}-01`],
+            criterios_aceite: [
+                'Design tokens estruturados em JSON',
+                'Logotipo vetorial SVG entregue',
+                'Guia de aplicação visual aprovado'
+            ],
+            estado: 'BLOQUEADA_POR_DEPENDENCIA',
+            historico_auditoria: []
+        });
+
+        tarefas.push({
+            id_tarefa: `TSK-${idProjeto}-03`,
+            especialista: 'Desenvolvedor',
+            titulo: 'Construção, Programação e Publicação da Landing Page',
+            descricao: 'Programar a landing page responsiva, ultrarrápida, orientada à conversão e com integração direta para o WhatsApp/Formulário.',
+            dependencias: [`TSK-${idProjeto}-02`],
+            criterios_aceite: [
+                'Código limpo sem dependências desnecessárias',
+                'Pontuação de performance no Lighthouse acima de 90',
+                'Responsividade perfeita em desktop, tablet e mobile'
+            ],
+            estado: 'BLOQUEADA_POR_DEPENDENCIA',
+            historico_auditoria: []
+        });
+
+        tarefas.push({
+            id_tarefa: `TSK-${idProjeto}-04`,
+            especialista: 'Atendimento',
+            titulo: 'Estruturação das Regras e Roteiros de Atendimento',
+            descricao: 'Desenhar as árvores de decisão, roteiros de resposta rápida, qualificação de leads e réguas de follow-up que serão automatizadas.',
+            dependencias: [`TSK-${idProjeto}-01`],
+            criterios_aceite: [
+                'Roteiros de mensagens validados para cada etapa da conversa',
+                'Critérios de triagem e passagem de bastão para humanos definidos'
+            ],
+            estado: 'BLOQUEADA_POR_DEPENDENCIA',
+            historico_auditoria: []
+        });
+
+        tarefas.push({
+            id_tarefa: `TSK-${idProjeto}-05`,
+            especialista: 'Automação',
+            titulo: 'Configuração dos Fluxos Técnicos de Automação e Integrações',
+            descricao: 'Implementar os fluxos no n8n conectando os formulários do site e WhatsApp comercial ao CRM, acionando as réguas aprovadas pelo Atendimento.',
+            dependencias: [`TSK-${idProjeto}-03`, `TSK-${idProjeto}-04`],
+            criterios_aceite: [
+                'Fluxo n8n testado com disparo de webhook em menos de 10 segundos',
+                'Sincronização com o CRM e disparo de notificações validadas'
+            ],
+            estado: 'BLOQUEADA_POR_DEPENDENCIA',
+            historico_auditoria: []
+        });
+
+        tarefas.push({
+            id_tarefa: `TSK-${idProjeto}-06`,
+            especialista: 'Inteligência Comercial',
+            titulo: 'Auditoria de Funil, Motor de Objeções e Plano de Retroalimentação',
+            descricao: 'Auditar as conversas e leads persistidos no CRM, mapear vazamentos do funil, classificar as 4 categorias de objeção e formular recomendações retroalimentadoras.',
+            dependencias: [`TSK-${idProjeto}-05`],
+            criterios_aceite: [
+                'Cálculo de taxas de conversão e perdas do funil',
+                'Motor de Objeções estruturado com cálculo de receita em risco',
+                'Dashboard executivo em HTML gerado',
+                'Manifesto unificado de entrega'
+            ],
+            estado: 'BLOQUEADA_POR_DEPENDENCIA',
+            historico_auditoria: []
+        });
+    }
+
     return tarefas;
 }
 
