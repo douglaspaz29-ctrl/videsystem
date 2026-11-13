@@ -107,20 +107,35 @@ class BancoDadosRelacionalVIDE {
                     servicos = typeof row.servicos_autorizados === 'string' ? JSON.parse(row.servicos_autorizados) : (row.servicos_autorizados || []);
                 } catch (_) {}
 
-                this.tabelas.projetos.set(row.id, {
+                const prjObj = {
                     id: row.id,
+                    id_projeto: row.id,
                     cliente_id: row.cliente_id,
                     id_demanda_origem: row.id_demanda_origem,
                     solicitacao_original: row.solicitacao_original,
                     situacao_projeto: row.situacao_projeto,
                     autorizacao_status: row.autorizacao_status,
-                    servicos_autorizados: servicos,
-                    data_autorizacao: row.data_autorizacao ? new Date(row.data_autorizacao).toISOString() : null,
-                    observacao_autorizacao: row.observacao_autorizacao,
-                    prioridade: row.prioridade || 'NORMAL',
-                    criado_em: row.criado_em ? new Date(row.criado_em).toISOString() : new Date().toISOString(),
-                    atualizado_em: row.atualizado_em ? new Date(row.atualizado_em).toISOString() : new Date().toISOString()
-                });
+                    autorizacao_comercial: {
+                        status: row.autorizacao_status,
+                        servicos_autorizados: servicos,
+                        data_autorizacao: row.data_autorizacao ? new Date(row.data_autorizacao).toISOString() : null,
+                        observacao: row.observacao_autorizacao
+                    },
+                    cronograma: {
+                        prioridade: row.prioridade || 'NORMAL',
+                        criado_em: row.criado_em ? new Date(row.criado_em).toISOString() : new Date().toISOString(),
+                        atualizado_em: row.atualizado_em ? new Date(row.atualizado_em).toISOString() : new Date().toISOString()
+                    }
+                };
+
+                this.tabelas.projetos.set(row.id, prjObj);
+
+                try {
+                    const pastaProjs = path.join(__dirname, 'dados_persistencia', 'projetos');
+                    if (!fs.existsSync(pastaProjs)) fs.mkdirSync(pastaProjs, { recursive: true });
+                    const arqProj = path.join(pastaProjs, `${row.id}.json`);
+                    fs.writeFileSync(arqProj, JSON.stringify(prjObj, null, 2), 'utf-8');
+                } catch (_) {}
             }
 
             // 3. Tarefas
@@ -451,31 +466,40 @@ class BancoDadosRelacionalVIDE {
         if (!this.transacaoAtiva) this.persistir();
 
         if (this.pgPool) {
-            this.pgPool.query(`
-                INSERT INTO projetos (id, cliente_id, id_demanda_origem, solicitacao_original, situacao_projeto, autorizacao_status, servicos_autorizados, data_autorizacao, observacao_autorizacao, prioridade, criado_em, atualizado_em)
-                VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)
-                ON CONFLICT (id) DO UPDATE SET
-                    situacao_projeto = EXCLUDED.situacao_projeto,
-                    autorizacao_status = EXCLUDED.autorizacao_status,
-                    servicos_autorizados = EXCLUDED.servicos_autorizados,
-                    data_autorizacao = EXCLUDED.data_autorizacao,
-                    observacao_autorizacao = EXCLUDED.observacao_autorizacao,
-                    prioridade = EXCLUDED.prioridade,
-                    atualizado_em = EXCLUDED.atualizado_em
-            `, [
-                projeto.id,
-                projeto.cliente_id,
-                projeto.id_demanda_origem,
-                projeto.solicitacao_original,
-                projeto.situacao_projeto,
-                projeto.autorizacao_status,
-                JSON.stringify(projeto.servicos_autorizados || []),
-                projeto.data_autorizacao,
-                projeto.observacao_autorizacao,
-                projeto.prioridade,
-                projeto.criado_em,
-                projeto.atualizado_em
-            ]).catch(err => console.warn('[VIDE_DB_PG] Falha assíncrona ao sincronizar projeto:', err.message));
+            const cli = this.tabelas.clientes.get(projeto.cliente_id);
+            const queryCli = cli ? this.pgPool.query(`
+                INSERT INTO clientes (id, nome, documento, email, telefone, segmento, ticket_medio, criado_em, atualizado_em)
+                VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+                ON CONFLICT (id) DO NOTHING
+            `, [cli.id, cli.nome, cli.documento, cli.email, cli.telefone, cli.segmento, cli.ticket_medio, cli.criado_em, cli.atualizado_em]) : Promise.resolve();
+
+            queryCli.then(() => {
+                return this.pgPool.query(`
+                    INSERT INTO projetos (id, cliente_id, id_demanda_origem, solicitacao_original, situacao_projeto, autorizacao_status, servicos_autorizados, data_autorizacao, observacao_autorizacao, prioridade, criado_em, atualizado_em)
+                    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)
+                    ON CONFLICT (id) DO UPDATE SET
+                        situacao_projeto = EXCLUDED.situacao_projeto,
+                        autorizacao_status = EXCLUDED.autorizacao_status,
+                        servicos_autorizados = EXCLUDED.servicos_autorizados,
+                        data_autorizacao = EXCLUDED.data_autorizacao,
+                        observacao_autorizacao = EXCLUDED.observacao_autorizacao,
+                        prioridade = EXCLUDED.prioridade,
+                        atualizado_em = EXCLUDED.atualizado_em
+                `, [
+                    projeto.id,
+                    projeto.cliente_id,
+                    projeto.id_demanda_origem,
+                    projeto.solicitacao_original,
+                    projeto.situacao_projeto,
+                    projeto.autorizacao_status,
+                    JSON.stringify(projeto.servicos_autorizados || []),
+                    projeto.data_autorizacao,
+                    projeto.observacao_autorizacao,
+                    projeto.prioridade,
+                    projeto.criado_em,
+                    projeto.atualizado_em
+                ]);
+            }).catch(err => console.warn('[VIDE_DB_PG] Falha assíncrona ao sincronizar projeto:', err.message));
         }
 
         return projeto;

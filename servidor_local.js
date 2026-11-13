@@ -274,10 +274,19 @@ const servidor = http.createServer(async (req, res) => {
         return res.end(JSON.stringify({ sucesso: true, projetos: projetosCompletos }));
     }
 
-    // 2. GET /api/projetos/:id — Retorna detalhes de um projeto específico
+    // 2. GET /api/projetos/:id — Retorna detalhes de um projeto específico com fallback direto no PostgreSQL
     if (urlLimpa.startsWith('/api/projetos/') && !urlLimpa.includes('/arquivos') && req.method === 'GET') {
         const idProjeto = decodeURIComponent(urlLimpa.replace('/api/projetos/', ''));
-        const projeto = obterProjetoPorId(idProjeto);
+        let projeto = obterProjetoPorId(idProjeto);
+        if (!projeto && db.pgPool) {
+            try {
+                const rPg = await db.pgPool.query('SELECT * FROM projetos WHERE id = $1', [idProjeto]);
+                if (rPg.rows.length > 0) {
+                    await db.hidratarDoPostgres();
+                    projeto = obterProjetoPorId(idProjeto) || db.obterProjeto(idProjeto);
+                }
+            } catch (_) {}
+        }
         if (!projeto) {
             res.writeHead(404, { 'Content-Type': 'application/json; charset=utf-8' });
             return res.end(JSON.stringify({ sucesso: false, erro: 'Projeto não encontrado' }));
@@ -635,10 +644,14 @@ const servidor = http.createServer(async (req, res) => {
     }
 });
 
-servidor.listen(PORTA, HOST, () => {
+servidor.listen(PORTA, HOST, async () => {
     console.log(`[VIDE] Servidor Operacional Ativo em: http://${HOST}:${PORTA}`);
     console.log(`[VIDE] URL Base do Sistema: ${CONFIG.BASE_URL}`);
     console.log(`[VIDE] Painel Interno Privado: ${CONFIG.BASE_URL}/painel`);
     console.log(`[VIDE] Landing Page Oficial: ${CONFIG.BASE_URL}/`);
     console.log(`[VIDE] API REST & Webhook n8n prontos em: ${CONFIG.BASE_URL}/api/`);
+    try {
+        await db.hidratarDoPostgres();
+        console.log('[VIDE] Hidratação relacional pós-boot concluída.');
+    } catch (_) {}
 });
