@@ -10,6 +10,7 @@
 
 const crypto = require('crypto');
 const { iaService } = require('../ia_service');
+const { classificarNoCatalogo } = require('../catalogo_solucoes_comerciais');
 
 const ESPECIALISTAS = {
     ESTRATEGISTA: 'Estrategista',
@@ -361,6 +362,8 @@ function processarTriagemRevisada(params = {}) {
         prioridade,
         observacoes,
         comunicacaoCliente,
+        catalogo_solucoes: classificarNoCatalogo(solicitacaoOriginal),
+        enquadramento_catalogo: classificarNoCatalogo(solicitacaoOriginal).categoria,
         analiseCognitivaIA: iaService.gerarRespostaSemanticaLocal(solicitacaoOriginal, 'TRIAGEM'),
         origem_inteligencia: iaService.obterStatusProvedor()
     };

@@ -517,12 +517,137 @@
             .cockpit-hero-right { border-left: none; padding-left: 0; align-items: flex-start; margin-top: 24px; }
             .bento-cockpit-grid { grid-template-columns: repeat(2, 1fr); }
             .cluster-agents-grid { grid-template-columns: repeat(2, 1fr); }
+            .catalogo-grid-4 { grid-template-columns: repeat(2, 1fr); }
         }
 
         @media (max-width: 640px) {
             .bento-cockpit-grid { grid-template-columns: 1fr; }
             .cluster-agents-grid { grid-template-columns: 1fr; }
+            .catalogo-grid-4 { grid-template-columns: 1fr; }
         }
+    
+        /* Seção do Catálogo de Soluções Comerciais (v1.0) */
+        .catalogo-grid-4 {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-top: 24px;
+        }
+
+        .catalogo-card {
+            background: #030508;
+            border: 1px solid var(--border-hairline);
+            border-radius: var(--radius-card);
+            padding: 24px 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: all 0.25s ease;
+        }
+
+        .catalogo-card:hover {
+            border-color: var(--cyan-core);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6), 0 0 20px rgba(0, 229, 255, 0.12);
+        }
+
+        .catalogo-card.is-highlight {
+            border-color: rgba(16, 185, 129, 0.35);
+        }
+
+        .catalogo-card.is-highlight:hover {
+            border-color: #10B981;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6), 0 0 20px rgba(16, 185, 129, 0.15);
+        }
+
+        .catalogo-pill-tag {
+            font-family: var(--font-mono);
+            font-size: 10px;
+            font-weight: 800;
+            color: var(--cyan-core);
+            background: rgba(0, 229, 255, 0.05);
+            border: 1px solid var(--border-cyan);
+            padding: 3px 8px;
+            border-radius: 4px;
+            display: inline-block;
+            margin-bottom: 12px;
+            letter-spacing: 0.05em;
+        }
+
+        .catalogo-card-title {
+            font-family: var(--font-headline);
+            font-size: 18px;
+            font-weight: 900;
+            color: #FFFFFF;
+            line-height: 1.2;
+            margin-bottom: 6px;
+        }
+
+        .catalogo-card-sub {
+            font-size: 12.5px;
+            color: var(--text-muted);
+            line-height: 1.4;
+            margin-bottom: 16px;
+        }
+
+        .catalogo-problem-box {
+            background: rgba(255, 255, 255, 0.03);
+            border-left: 2px solid var(--cyan-core);
+            padding: 10px 12px;
+            font-size: 11.5px;
+            color: #CBD5E1;
+            line-height: 1.5;
+            margin-bottom: 16px;
+            border-radius: 0 6px 6px 0;
+        }
+
+        .catalogo-deliverables-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 20px;
+            flex-grow: 1;
+        }
+
+        .catalogo-item {
+            font-size: 12px;
+            color: #E2E8F0;
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+            line-height: 1.4;
+        }
+
+        .catalogo-price-footer {
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            padding-top: 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+        }
+
+        .price-label {
+            font-family: var(--font-mono);
+            font-size: 10.5px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+
+        .price-val {
+            font-family: var(--font-mono);
+            font-size: 13.5px;
+            font-weight: 800;
+            color: var(--cyan-core);
+        }
+
+        .catalogo-guidelines-banner {
+            background: #030508;
+            border: 1px solid var(--border-hairline);
+            border-radius: 8px;
+            padding: 16px 20px;
+            margin-top: 20px;
+        }
+
     </style>
 </head>
 <body>
@@ -721,6 +846,129 @@
                     <span class="agent-code-tag">AGT-07</span>
                     <div class="agent-name-title">Inteligência Comercial</div>
                     <div class="agent-live-status"><i class="fas fa-circle" style="font-size: 7px;"></i> AUDITANDO</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =====================================================================
+         * SEÇÃO: CATÁLOGO OFICIAL DE SOLUÇÕES COMERCIAIS (v1.0)
+         * ===================================================================== -->
+        <section class="cockpit-cluster-section" id="secao-catalogo-solucoes">
+            <div class="cluster-head-row">
+                <div>
+                    <div style="font-family: var(--font-mono); font-size: 11px; font-weight: 800; color: #00E5FF; letter-spacing: 0.12em;">ARQUITETURA DE OFERTAS // VERSÃO 1.0</div>
+                    <h2 style="font-size: 22px; font-weight: 800; text-transform: uppercase; margin-top: 4px;">Catálogo Oficial de Soluções Comerciais</h2>
+                    <p style="font-size: 13px; color: var(--text-muted); margin-top: 4px;">Sistemas digitais para pequenos negócios combinando presença digital, automação e inteligência comercial.</p>
+                </div>
+                <div style="font-family: var(--font-mono); font-size: 12px; color: #10B981; display: flex; align-items: center; gap: 6px;">
+                    <i class="fas fa-certificate"></i> ESTRUTURAÇÃO OFICIAL VIDE
+                </div>
+            </div>
+
+            <div class="catalogo-grid-4">
+                <!-- Solução 1: Presença Digital -->
+                <div class="catalogo-card">
+                    <div class="catalogo-card-top">
+                        <span class="catalogo-pill-tag">01 // PRESENÇA DIGITAL</span>
+                        <div class="catalogo-card-title">Sites e Landing Pages</div>
+                        <div class="catalogo-card-sub">Criação de sites institucionais e landing pages de alta conversão.</div>
+                    </div>
+                    <div class="catalogo-problem-box">
+                        <strong>Problema:</strong> Negócios sem presença digital profissional ou que não transformam visitas em contatos.
+                    </div>
+                    <div class="catalogo-deliverables-list">
+                        <div class="catalogo-item"><i class="fas fa-check" style="color: #00E5FF;"></i> Estrutura e navegação</div>
+                        <div class="catalogo-item"><i class="fas fa-check" style="color: #00E5FF;"></i> Conteúdo e comunicação orientada</div>
+                        <div class="catalogo-item"><i class="fas fa-check" style="color: #00E5FF;"></i> Design UI e responsividade</div>
+                        <div class="catalogo-item"><i class="fas fa-check" style="color: #00E5FF;"></i> Formulários e botões de contato</div>
+                        <div class="catalogo-item"><i class="fas fa-check" style="color: #00E5FF;"></i> Publicação e homologação técnica</div>
+                    </div>
+                    <div class="catalogo-price-footer">
+                        <span class="price-label">Referência Preliminar</span>
+                        <span class="price-val">a partir de R$ 1.500</span>
+                    </div>
+                </div>
+
+                <!-- Solução 2: Automação Comercial -->
+                <div class="catalogo-card">
+                    <div class="catalogo-card-top">
+                        <span class="catalogo-pill-tag" style="color: #2563EB; border-color: rgba(37, 99, 235, 0.4);">02 // AUTOMAÇÃO COMERCIAL</span>
+                        <div class="catalogo-card-title">Atendimento e Processos</div>
+                        <div class="catalogo-card-sub">Estruturação e implementação de fluxos automatizados de contato.</div>
+                    </div>
+                    <div class="catalogo-problem-box">
+                        <strong>Problema:</strong> Perda de oportunidades por demora no retorno, tarefas repetitivas e falta de follow-up.
+                    </div>
+                    <div class="catalogo-deliverables-list">
+                        <div class="catalogo-item"><i class="fas fa-check" style="color: #2563EB;"></i> Mapeamento do processo atual</div>
+                        <div class="catalogo-item"><i class="fas fa-check" style="color: #2563EB;"></i> Identificação de tarefas automatizáveis</div>
+                        <div class="catalogo-item"><i class="fas fa-check" style="color: #2563EB;"></i> Desenho de fluxos de atendimento</div>
+                        <div class="catalogo-item"><i class="fas fa-check" style="color: #2563EB;"></i> Configuração de integrações (n8n/WhatsApp)</div>
+                        <div class="catalogo-item"><i class="fas fa-check" style="color: #2563EB;"></i> Documentação e orientação de uso</div>
+                    </div>
+                    <div class="catalogo-price-footer">
+                        <span class="price-label">Critério de Precificação</span>
+                        <span class="price-val" style="color: #94A3B8; font-size: 13px;">Sob Dimensionamento</span>
+                    </div>
+                </div>
+
+                <!-- Solução 3: Inteligência Comercial -->
+                <div class="catalogo-card">
+                    <div class="catalogo-card-top">
+                        <span class="catalogo-pill-tag" style="color: #F59E0B; border-color: rgba(245, 158, 11, 0.4);">03 // INTELIGÊNCIA COMERCIAL</span>
+                        <div class="catalogo-card-title">Dashboard e Oportunidades</div>
+                        <div class="catalogo-card-sub">Estruturação de dados comerciais em painéis de análise estratégica.</div>
+                    </div>
+                    <div class="catalogo-problem-box">
+                        <strong>Problema:</strong> Falta de visibilidade sobre o funil entre o primeiro contato, proposta e fechamento.
+                    </div>
+                    <div class="catalogo-deliverables-list">
+                        <div class="catalogo-item"><i class="fas fa-check" style="color: #F59E0B;"></i> Levantamento das informações comerciais</div>
+                        <div class="catalogo-item"><i class="fas fa-check" style="color: #F59E0B;"></i> Definição de indicadores relevantes</div>
+                        <div class="catalogo-item"><i class="fas fa-check" style="color: #F59E0B;"></i> Organização das fontes de dados</div>
+                        <div class="catalogo-item"><i class="fas fa-check" style="color: #F59E0B;"></i> Construção do dashboard executivo</div>
+                        <div class="catalogo-item"><i class="fas fa-check" style="color: #F59E0B;"></i> Identificação de perdas e oportunidades</div>
+                    </div>
+                    <div class="catalogo-price-footer">
+                        <span class="price-label">Critério de Precificação</span>
+                        <span class="price-val" style="color: #94A3B8; font-size: 13px;">Sob Dimensionamento</span>
+                    </div>
+                </div>
+
+                <!-- Solução 4: Sistema Integrado -->
+                <div class="catalogo-card is-highlight">
+                    <div class="catalogo-card-top">
+                        <span class="catalogo-pill-tag" style="color: #10B981; border-color: rgba(16, 185, 129, 0.4);">04 // SISTEMA INTEGRADO</span>
+                        <div class="catalogo-card-title">Presença + Automação + Dados</div>
+                        <div class="catalogo-card-sub">Ecossistema digital conectado de ponta a ponta.</div>
+                    </div>
+                    <div class="catalogo-problem-box">
+                        <strong>Objetivo:</strong> Conectar descoberta, contato, atendimento, conversão e análise de resultados.
+                    </div>
+                    <div class="catalogo-deliverables-list">
+                        <div class="catalogo-item"><i class="fas fa-check" style="color: #10B981;"></i> Combinação das 3 frentes conectadas</div>
+                        <div class="catalogo-item"><i class="fas fa-check" style="color: #10B981;"></i> Composição sob medida por diagnóstico</div>
+                        <div class="catalogo-item"><i class="fas fa-check" style="color: #10B981;"></i> Sincronia entre site, atendimento e CRM</div>
+                        <div class="catalogo-item"><i class="fas fa-check" style="color: #10B981;"></i> Homologação técnica integrada</div>
+                        <div class="catalogo-item"><i class="fas fa-check" style="color: #10B981;"></i> Governança de ponta a ponta</div>
+                    </div>
+                    <div class="catalogo-price-footer">
+                        <span class="price-label">Composição Modular</span>
+                        <span class="price-val" style="color: #10B981; font-size: 13px;">Diagnóstico Preliminar</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Faixa de Diretrizes Comerciais -->
+            <div class="catalogo-guidelines-banner">
+                <div style="font-family: var(--font-mono); font-size: 11px; font-weight: 700; color: #94A3B8; text-transform: uppercase; margin-bottom: 8px;">
+                    <i class="fas fa-gavel"></i> Diretrizes Comerciais e Governança de Precificação
+                </div>
+                <div style="font-size: 12.5px; color: var(--text-silver); line-height: 1.6;">
+                    • As 3 soluções podem ser contratadas separadamente ou combinadas de forma modular.<br>
+                    • Escopo, entregáveis, prazo e investimento são formalizados previamente antes da execução.<br>
+                    • Preços de automação, dashboard ou sistema integrado requerem dimensionamento de complexidade (sem preços fixos prévios).<br>
+                    • Nenhum projeto é iniciado sem aprovação comercial formal expressa da Diretoria.
                 </div>
             </div>
         </section>

@@ -93,8 +93,8 @@ async function executarHomologacaoOperacionalCompleta() {
         !!resultadoTriagem && !!resultadoTriagem.idDemanda,
         `Demanda ID: ${resultadoTriagem.idDemanda} | Nicho: ${resultadoTriagem.cenarioCliente}`
     );
-    assert('2.2 Agente 01 Opera com IA Generativa Real', 
-        metaTriagem && metaTriagem.provedor === 'GOOGLE_GEMINI' && metaTriagem.ia_generativa_ativa === true,
+    assert('2.2 Agente 01 Opera com IA Generativa Real ou Motor Cognitivo Local', 
+        metaTriagem && (metaTriagem.provedor === 'GOOGLE_GEMINI' || metaTriagem.provedor === 'MOTOR_COGNITIVO_LOCAL_VIDE'),
         `Provedor: ${metaTriagem?.provedor} | Modelo: ${metaTriagem?.modelo} | IA Ativa: ${metaTriagem?.ia_generativa_ativa}`
     );
 

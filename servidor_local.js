@@ -38,6 +38,7 @@ const { whatsAppService } = require(`${moduloAgentesDir}/whatsapp_business_integ
 const { storageService } = require(`${moduloAgentesDir}/storage_service`);
 const { iaService } = require(`${moduloAgentesDir}/ia_service`);
 const { servicoWebhooksSaida } = require(`${moduloAgentesDir}/servico_webhooks_saida`);
+const { obterCatalogoCompleto } = require(`${moduloAgentesDir}/catalogo_solucoes_comerciais`);
 
 // Timestamp de cooldown para proteção de custos da API de IA
 let ultimaAuditoriaIaTimestamp = 0;
@@ -292,6 +293,13 @@ const servidor = http.createServer(async (req, res) => {
         };
         res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
         return res.end(JSON.stringify(payloadStatus, null, 2));
+    }
+
+    // 0.2 GET /api/catalogo ou /api/solucoes — Catálogo Oficial de Soluções Comerciais VIDE (v1.0)
+    if ((urlLimpa === '/api/catalogo' || urlLimpa === '/api/solucoes') && req.method === 'GET') {
+        const catalogo = obterCatalogoCompleto();
+        res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+        return res.end(JSON.stringify({ sucesso: true, catalogo }));
     }
 
     // 1. GET /api/projetos — Lista todos os projetos completos com suas tarefas

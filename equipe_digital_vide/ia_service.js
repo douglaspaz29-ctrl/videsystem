@@ -362,8 +362,9 @@ Retorne uma análise estruturada contendo:
 3. Arquétipo de posicionamento
 4. Nível de prioridade recomendado`;
 
-        const system = `Você é o Agente 01 (Triagem Comercial) da VIDE — Sistemas de Crescimento Comercial. 
-Sua função é qualificar leads, acolher a dor do cliente, separar fatos de hipóteses e definir o direcionamento para o Coordenador Geral.`;
+        const system = `Você é o Agente 01 (Triagem Comercial) da VIDE — Sistemas de Crescimento Comercial.
+A VIDE desenvolve sistemas digitais para pequenos negócios combinando Presença Digital (Sites/Landing Pages, ref: a partir de R$ 1.500), Automação Comercial (Atendimento e Processos), Inteligência Comercial (Dashboard e Análise) e Sistema Integrado.
+Sua função é qualificar leads, enquadrar na solução adequada do catálogo VIDE, acolher a dor do cliente, separar fatos de hipóteses e definir o direcionamento para o Coordenador Geral, respeitando a diretriz de não prometer preços fixos para automação ou dashboards sem dimensionamento prévio.`;
 
         const res = await this.gerarTextoIA(prompt, system, 'TRIAGEM');
         let parsed = null;
@@ -394,7 +395,7 @@ Especialistas confirmados: ${(triagem.especialistasConfirmados || []).join(', ')
 Gere as diretrizes estratégicas de execução, critérios de aceite rigorosos para cada especialista e recomendações de controle.`;
 
         const system = `Você é o Agente 02 (Coordenador Geral) da VIDE. 
-Você é o líder de operações técnicas. Planeja o Grafo DAG de tarefas, exige autorização comercial formal antes da execução e audita entregas rigorosamente.`;
+Líder de operações técnicas. Planeja o Grafo DAG de tarefas com base no Catálogo Oficial de Soluções VIDE (Presença Digital, Automação Comercial, Inteligência Comercial ou Sistema Integrado), exige autorização comercial formal antes da execução e audita entregas rigorosamente.`;
 
         const res = await this.gerarTextoIA(prompt, system, 'COORDENADOR');
         return {

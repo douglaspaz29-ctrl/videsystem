@@ -15,6 +15,7 @@ const {
 } = require('./repositorio_projetos_tarefas');
 const { iaService } = require('../ia_service');
 const { servicoWebhooksSaida } = require('../servico_webhooks_saida');
+const { classificarNoCatalogo, formatarCatalogoEmTexto, obterCatalogoCompleto } = require('../catalogo_solucoes_comerciais');
 
 /**
  * 1. FUNÇÃO 1 & 2: Receber Registro da Triagem e Verificar Autorização Comercial
@@ -54,6 +55,7 @@ function receberRegistroTriagem(registroTriagem, opcoes = {}) {
         cliente: registroTriagem.cenario || registroTriagem.cliente,
         solicitacao_original: registroTriagem.solicitacaoOriginal,
         situacao_projeto: situacaoProjetoInicial,
+        solucao_catalogo: registroTriagem.catalogo_solucoes || classificarNoCatalogo(registroTriagem.solicitacaoOriginal || ''),
         autorizacao_comercial: {
             status: statusAutorizacao,
             servicos_autorizados: servicosAutorizados,
@@ -826,6 +828,16 @@ function interpretarComandoDiretora(comandoTexto) {
         };
     }
 
+    // 5. "Catálogo", "Soluções Comerciais", "Preços", "Produtos"
+    if (cmd.includes('catálogo') || cmd.includes('catalogo') || cmd.includes('soluções') || cmd.includes('solucoes') || cmd.includes('produtos') || cmd.includes('serviços') || cmd.includes('servicos') || cmd.includes('preços') || cmd.includes('precos') || cmd.includes('tabela')) {
+        const textoCatalogo = formatarCatalogoEmTexto();
+        return {
+            sucesso: true,
+            resposta: textoCatalogo,
+            dados: obterCatalogoCompleto()
+        };
+    }
+
     // Resposta padrão caso o comando não seja reconhecido
     return {
         sucesso: true,
@@ -833,7 +845,8 @@ function interpretarComandoDiretora(comandoTexto) {
             `• *"Quais projetos estão em andamento?"*\n` +
             `• *"O que está pendente de aprovação?"*\n` +
             `• *"Inicie as tarefas autorizadas do projeto [ID]"*\n` +
-            `• *"Apresente um relatório de todos os projetos"*`
+            `• *"Apresente um relatório de todos os projetos"*\n` +
+            `• *"Catálogo de Soluções"*`
     };
 }
 
