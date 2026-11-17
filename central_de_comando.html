@@ -1130,6 +1130,44 @@
 <body>
 
     <!-- =====================================================================
+     * LOCKSCREEN DE ACESSO PRIVADO EXECUTIVO (ZERO TRUST // DIRETORIA)
+     * ===================================================================== -->
+    <div id="lockscreen-privado" style="display: none; position: fixed; inset: 0; background: rgba(5, 7, 10, 0.98); backdrop-filter: blur(24px); z-index: 100000; align-items: center; justify-content: center; padding: 24px;">
+        <div style="background: #0B0E14; border: 1px solid rgba(0, 229, 255, 0.25); border-radius: 12px; max-width: 440px; width: 100%; padding: 40px; box-shadow: 0 25px 60px rgba(0, 0, 0, 0.9); text-align: left;">
+            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 20px;">
+                <div style="width: 10px; height: 10px; border-radius: 50%; background: #00E5FF; box-shadow: 0 0 10px #00E5FF;"></div>
+                <div style="font-family: var(--font-mono); font-size: 11px; font-weight: 800; color: #00E5FF; letter-spacing: 0.15em;">ACESSO RESTRITO // GOVERNANÇA PRIVADA</div>
+            </div>
+
+            <h2 style="font-size: 24px; font-weight: 800; text-transform: uppercase; margin-bottom: 8px; color: #FFFFFF; letter-spacing: -0.02em;">Central de Comando OS</h2>
+            <p style="font-size: 13px; color: #94A3B8; margin-bottom: 24px; line-height: 1.5;">Ambiente executivo restrito da VIDE. Autenticação obrigatória com credenciais criptografadas para orquestração da equipe digital.</p>
+
+            <form id="form-lockscreen-login" onsubmit="autenticarLockscreen(event)" style="display: flex; flex-direction: column; gap: 16px;">
+                <div>
+                    <label style="display: block; font-family: var(--font-mono); font-size: 10px; font-weight: 700; color: #94A3B8; text-transform: uppercase; margin-bottom: 6px;">Usuário Autorizado:</label>
+                    <input type="text" id="lockscreen-usuario" class="input-dark-field" placeholder="Ex: douglas" required autofocus style="width: 100%;">
+                </div>
+
+                <div>
+                    <label style="display: block; font-family: var(--font-mono); font-size: 10px; font-weight: 700; color: #94A3B8; text-transform: uppercase; margin-bottom: 6px;">Credencial de Segurança:</label>
+                    <input type="password" id="lockscreen-senha" class="input-dark-field" placeholder="••••••••••••" required style="width: 100%;">
+                </div>
+
+                <div id="lockscreen-erro" style="display: none; padding: 10px; background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 6px; font-family: var(--font-mono); font-size: 11px; color: #EF4444;"></div>
+
+                <button type="submit" id="btn-lockscreen-submit" class="btn-brand-cyan" style="width: 100%; justify-content: center; padding: 14px; margin-top: 8px; font-weight: 800;">
+                    DESBLOQUEAR COCKPIT PRIVADO
+                </button>
+            </form>
+
+            <div style="margin-top: 24px; padding-top: 16px; border-top: 1px solid rgba(255, 255, 255, 0.05); font-family: var(--font-mono); font-size: 10px; color: #64748B; text-align: center;">
+                ZERO TRUST • ASSINATURA HMAC-SHA256 • SESSÃO PROTEGIDA
+            </div>
+        </div>
+    </div>
+
+
+    <!-- =====================================================================
      * 1. BARRA SUPERIOR NEO-EDITORIAL
      * ===================================================================== -->
     <header class="cockpit-top-bar">
@@ -3060,11 +3098,98 @@
         if (hostEl) {
             hostEl.textContent = 'Central de Comando operacional inicializada em ' + (window.location.host || 'vide-homologacao-backend.onrender.com') + '.';
         }
-        if (sessionStorage.getItem('vide_jwt')) {
+        const autenticado = verificarAutenticacaoCockpit();
+        if (autenticado) {
             adicionarLogTerminal('SEGURANÇA', 'Sessão JWT ativa da Diretoria identificada no navegador.');
+            carregarTelemetriaReal();
+            carregarEmpresasMotor();
         }
-        carregarTelemetriaReal();
     });
+
+    // =========================================================================
+    // CONTROLE DE ACESSO PRIVADO DA CENTRAL DE COMANDO (ZERO TRUST)
+    // =========================================================================
+    function verificarAutenticacaoCockpit() {
+        const token = sessionStorage.getItem('vide_jwt');
+        const lock = document.getElementById('lockscreen-privado');
+        if (!token) {
+            if (lock) {
+                lock.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+            }
+            return false;
+        } else {
+            if (lock) {
+                lock.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+            return true;
+        }
+    }
+
+    async function autenticarLockscreen(e) {
+        e.preventDefault();
+        const usr = document.getElementById('lockscreen-usuario').value.trim();
+        const pwd = document.getElementById('lockscreen-senha').value.trim();
+        const erroEl = document.getElementById('lockscreen-erro');
+        const btn = document.getElementById('btn-lockscreen-submit');
+
+        if (erroEl) erroEl.style.display = 'none';
+        if (btn) {
+            btn.disabled = true;
+            btn.textContent = 'AUTENTICANDO...';
+        }
+
+        try {
+            const res = await fetch('/api/auth/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ usuario: usr, senha: pwd })
+            });
+
+            const data = await res.json();
+            if (res.ok && data.sucesso && data.token) {
+                sessionStorage.setItem('vide_jwt', data.token);
+                sessionStorage.setItem('vide_usuario', JSON.stringify(data.usuario));
+                const lock = document.getElementById('lockscreen-privado');
+                if (lock) {
+                    lock.style.display = 'none';
+                    document.body.style.overflow = 'auto';
+                }
+                adicionarLogTerminal('SEGURANÇA', 'Sessão autorizada para [' + data.usuario.nome + ' - ' + data.usuario.papel + '].');
+                carregarTelemetriaReal();
+                carregarEmpresasMotor();
+            } else {
+                if (erroEl) {
+                    erroEl.textContent = data.erro || 'Credenciais inválidas. Verifique usuário e senha.';
+                    erroEl.style.display = 'block';
+                }
+            }
+        } catch (err) {
+            if (erroEl) {
+                erroEl.textContent = 'Falha de comunicação: ' + err.message;
+                erroEl.style.display = 'block';
+            }
+        } finally {
+            if (btn) {
+                btn.disabled = false;
+                btn.textContent = 'DESBLOQUEAR COCKPIT PRIVADO';
+            }
+        }
+    }
+
+    function bloquearSessaoCockpit() {
+        sessionStorage.removeItem('vide_jwt');
+        sessionStorage.removeItem('vide_usuario');
+        const lock = document.getElementById('lockscreen-privado');
+        if (lock) {
+            lock.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+            document.getElementById('lockscreen-senha').value = '';
+        }
+        adicionarLogTerminal('SEGURANÇA', 'Sessão encerrada pela Diretoria. Central de Comando bloqueada.');
+    }
+
     </script>
     <!-- GSAP 3, ScrollTrigger & Lenis Smooth Scroll -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
