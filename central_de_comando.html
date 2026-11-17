@@ -956,6 +956,175 @@
             .subcard-box { grid-column: span 1 !important; }
         }
 
+        /* =====================================================================
+         * ESTILOS DO MOTOR DE INTELIGÊNCIA COMERCIAL (v2.2) — ETAPA 3
+         * ===================================================================== */
+        .motor-grid-7d {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 16px;
+            margin-top: 16px;
+        }
+        .dim-card {
+            background: #080C14;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: var(--radius-card);
+            padding: 18px;
+            transition: all 0.25s ease;
+            position: relative;
+        }
+        .dim-card:hover {
+            border-color: rgba(0, 229, 255, 0.4);
+            transform: translateY(-2px);
+        }
+        .dim-card.critico { border-left: 4px solid #EF4444; }
+        .dim-card.atencao { border-left: 4px solid #F59E0B; }
+        .dim-card.saudavel { border-left: 4px solid #10B981; }
+
+        .dim-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        .dim-title {
+            font-family: var(--font-headline);
+            font-weight: 800;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            color: #FFFFFF;
+        }
+        .dim-score-badge {
+            font-family: var(--font-mono);
+            font-size: 13px;
+            font-weight: 800;
+            padding: 2px 8px;
+            border-radius: var(--radius-tag);
+        }
+        .dim-score-badge.critico { background: rgba(239, 68, 68, 0.15); color: #EF4444; border: 1px solid rgba(239, 68, 68, 0.3); }
+        .dim-score-badge.atencao { background: rgba(245, 158, 11, 0.15); color: #F59E0B; border: 1px solid rgba(245, 158, 11, 0.3); }
+        .dim-score-badge.saudavel { background: rgba(16, 185, 129, 0.15); color: #10B981; border: 1px solid rgba(16, 185, 129, 0.3); }
+
+        .dim-progress-track {
+            width: 100%;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.06);
+            border-radius: 3px;
+            overflow: hidden;
+            margin-bottom: 12px;
+        }
+        .dim-progress-fill {
+            height: 100%;
+            border-radius: 3px;
+            transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .dim-subitems {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px dashed rgba(255, 255, 255, 0.08);
+        }
+        .dim-subchip {
+            font-family: var(--font-mono);
+            font-size: 10px;
+            padding: 2px 6px;
+            border-radius: 4px;
+            background: rgba(255, 255, 255, 0.04);
+            color: #94A3B8;
+        }
+
+        /* Tripartite Grid */
+        .tripartite-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-top: 16px;
+        }
+        @media (max-width: 900px) {
+            .tripartite-grid { grid-template-columns: 1fr; }
+        }
+        .tripartite-col {
+            background: #060910;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: var(--radius-card);
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .tripartite-header {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        /* EPV Ranking Table/Cards */
+        .epv-item-card {
+            background: #080C14;
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            border-radius: 10px;
+            padding: 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            transition: all 0.2s ease;
+        }
+        .epv-item-card:hover {
+            border-color: rgba(0, 229, 255, 0.3);
+        }
+        .epv-badge-pill {
+            font-family: var(--font-mono);
+            font-weight: 800;
+            font-size: 12px;
+            padding: 3px 10px;
+            border-radius: var(--radius-tag);
+            background: rgba(0, 229, 255, 0.12);
+            color: var(--cyan-core);
+            border: 1px solid rgba(0, 229, 255, 0.3);
+        }
+
+        /* MIV Governance Cards */
+        .miv-card {
+            background: #070B12;
+            border: 1px solid rgba(0, 229, 255, 0.25);
+            border-radius: var(--radius-card);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            position: relative;
+        }
+        .miv-status-tag {
+            font-family: var(--font-mono);
+            font-size: 10px;
+            font-weight: 800;
+            padding: 3px 8px;
+            border-radius: var(--radius-tag);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .miv-status-tag.aguardando {
+            background: rgba(245, 158, 11, 0.15);
+            color: #F59E0B;
+            border: 1px solid rgba(245, 158, 11, 0.4);
+        }
+        .miv-status-tag.aprovado {
+            background: rgba(16, 185, 129, 0.15);
+            color: #10B981;
+            border: 1px solid rgba(16, 185, 129, 0.4);
+        }
+
     </style>
 </head>
 <body>
@@ -977,6 +1146,10 @@
         </div>
 
         <div class="cockpit-header-actions">
+            <a href="#secao-motor-inteligencia" class="btn-black-outline" style="border-color: rgba(0, 229, 255, 0.4);">
+                <i class="fas fa-brain" style="color: var(--cyan-core);"></i>
+                <span>Motor 7D & MIV</span>
+            </a>
             <a href="index.html" class="btn-black-outline">
                 <i class="fas fa-arrow-left"></i>
                 <span>Voltar ao Site Institucional</span>
@@ -1161,6 +1334,170 @@
         <!-- =====================================================================
          * SEÇÃO: CATÁLOGO OFICIAL DE SOLUÇÕES COMERCIAIS (v1.0)
          * ===================================================================== -->
+        
+        <!-- =====================================================================
+         * SEÇÃO: MOTOR DE INTELIGÊNCIA COMERCIAL (v2.2) — DIAGNÓSTICO 7D & MIV
+         * ===================================================================== -->
+        <section class="cockpit-cluster-section" id="secao-motor-inteligencia" style="border-top: 1px solid rgba(0, 229, 255, 0.25);">
+            <div class="cluster-head-row" style="margin-bottom: 24px;">
+                <div>
+                    <div style="font-family: var(--font-mono); font-size: 11px; font-weight: 800; color: #00E5FF; letter-spacing: 0.12em;">
+                        INTELIGÊNCIA COMERCIAL // METODOLOGIA VIDE 7D (v2.2)
+                    </div>
+                    <h2 style="font-size: 24px; font-weight: 800; text-transform: uppercase; margin-top: 4px; color: #FFFFFF;">
+                        Motor de Inteligência Comercial & Crescimento Contínuo
+                    </h2>
+                    <p style="font-size: 13px; color: var(--text-muted); margin-top: 4px; max-width: 800px;">
+                        Diagnóstico dimensional do negócio (7D), retenção e recompras, priorização matemática de gargalos por EPV e governança executiva com o Princípio da Menor Intervenção Viável (MIV).
+                    </p>
+                </div>
+                <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <span style="font-family: var(--font-mono); font-size: 11px; color: #94A3B8;">EMPRESA:</span>
+                        <select id="motor-empresa-select" onchange="trocarEmpresaMotor(this.value)" class="input-dark-field" style="padding: 8px 12px; font-size: 12px; max-width: 220px;">
+                            <option value="">Carregando empresas...</option>
+                        </select>
+                    </div>
+                    <button onclick="carregarDossieMotorAtivo()" class="btn-blue-action" style="padding: 10px 16px; font-size: 12px;">
+                        <i class="fas fa-arrows-rotate"></i>
+                        <span>Atualizar Dossiê</span>
+                    </button>
+                    <button onclick="abrirModalNovoDiagnostico7D()" class="btn-black-outline" style="padding: 10px 16px; font-size: 12px; border-color: rgba(0, 229, 255, 0.4);">
+                        <i class="fas fa-stethoscope" style="color: var(--cyan-core);"></i>
+                        <span>Novo Diagnóstico 7D</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Bento Bar de Métricas do Motor -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; margin-bottom: 24px;">
+                <div style="background: #080C14; border: 1px solid rgba(255,255,255,0.07); border-radius: var(--radius-card); padding: 14px 18px;">
+                    <div style="font-family: var(--font-mono); font-size: 10px; color: #64748B; font-weight: 800;">CONTATOS AUDITADOS</div>
+                    <div id="motor-metric-contatos" style="font-family: var(--font-headline); font-size: 24px; font-weight: 800; color: #FFF; margin-top: 4px;">--</div>
+                    <div style="font-size: 11px; color: #94A3B8;">Minimização LGPD ativa</div>
+                </div>
+                <div style="background: #080C14; border: 1px solid rgba(255,255,255,0.07); border-radius: var(--radius-card); padding: 14px 18px;">
+                    <div style="font-family: var(--font-mono); font-size: 10px; color: #64748B; font-weight: 800;">INTERAÇÕES RASTREADAS</div>
+                    <div id="motor-metric-interacoes" style="font-family: var(--font-headline); font-size: 24px; font-weight: 800; color: var(--cyan-core); margin-top: 4px;">--</div>
+                    <div style="font-size: 11px; color: #94A3B8;">WhatsApp & Instagram</div>
+                </div>
+                <div style="background: #080C14; border: 1px solid rgba(255,255,255,0.07); border-radius: var(--radius-card); padding: 14px 18px;">
+                    <div style="font-family: var(--font-mono); font-size: 10px; color: #64748B; font-weight: 800;">EVIDÊNCIAS FACTUAIS</div>
+                    <div id="motor-metric-evidencias" style="font-family: var(--font-headline); font-size: 24px; font-weight: 800; color: #10B981; margin-top: 4px;">--</div>
+                    <div style="font-size: 11px; color: #94A3B8;">Fatos e falas isoladas</div>
+                </div>
+                <div style="background: #080C14; border: 1px solid rgba(255,255,255,0.07); border-radius: var(--radius-card); padding: 14px 18px;">
+                    <div style="font-family: var(--font-mono); font-size: 10px; color: #64748B; font-weight: 800;">ÍNDICE DE SAÚDE 7D</div>
+                    <div id="motor-metric-score-7d" style="font-family: var(--font-headline); font-size: 24px; font-weight: 800; color: #F59E0B; margin-top: 4px;">-- / 100</div>
+                    <div style="font-size: 11px; color: #94A3B8;">Média ponderada oficial</div>
+                </div>
+            </div>
+
+            <!-- Bloco 1: Diagnóstico de Crescimento 7D (Com Subdimensões de Retenção e Recompra) -->
+            <div style="margin-bottom: 32px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <i class="fas fa-chart-pie" style="color: var(--cyan-core);"></i>
+                        <h3 style="font-size: 16px; font-weight: 800; color: #FFF; text-transform: uppercase;">
+                            Diagnóstico Dimensional de Crescimento (Metodologia VIDE 7D)
+                        </h3>
+                    </div>
+                    <span id="motor-diag-data-badge" style="font-family: var(--font-mono); font-size: 11px; color: #64748B;">--</span>
+                </div>
+
+                <div class="motor-grid-7d" id="motor-grid-7d-cards">
+                    <!-- Cards dimensionais renderizados via JS -->
+                </div>
+            </div>
+
+            <!-- Bloco 2: Ranking EPV de Gargalos Comerciais Priorizados -->
+            <div style="margin-bottom: 32px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <i class="fas fa-ranking-star" style="color: #F59E0B;"></i>
+                        <h3 style="font-size: 16px; font-weight: 800; color: #FFF; text-transform: uppercase;">
+                            Gargalos Priorizados por Engenharia de Decisão (Fórmula EPV Versionada)
+                        </h3>
+                    </div>
+                    <div style="font-family: var(--font-mono); font-size: 11px; color: #94A3B8;">
+                        FÓRMULA: <span style="color: var(--cyan-core);">ROUND(((Recorrência*0.35 + Abrangência*0.25 + Severidade*0.40)*100)/Esforço, 2)</span>
+                    </div>
+                </div>
+
+                <div id="motor-epv-ranking-list" style="display: flex; flex-direction: column; gap: 12px;">
+                    <!-- Gargalos ordenados por pontuação EPV decrescente via JS -->
+                </div>
+            </div>
+
+            <!-- Bloco 3: Diferenciação Epistemológica Tripartite (Fatos vs Padrões vs Hipóteses) -->
+            <div style="margin-bottom: 32px;">
+                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
+                    <i class="fas fa-layer-group" style="color: #10B981;"></i>
+                    <h3 style="font-size: 16px; font-weight: 800; color: #FFF; text-transform: uppercase;">
+                        Rastreabilidade Epistemológica: Fatos, Padrões Recorrentes e Hipóteses
+                    </h3>
+                </div>
+
+                <div class="tripartite-grid">
+                    <!-- Coluna 1: Fatos Concretos -->
+                    <div class="tripartite-col">
+                        <div class="tripartite-header" style="color: #00E5FF;">
+                            <i class="fas fa-quote-left"></i>
+                            <span>1. Fatos Factuais (Evidências)</span>
+                        </div>
+                        <p style="font-size: 11px; color: #94A3B8;">Trechos literais extraídos de conversas e atendimentos reais.</p>
+                        <div id="tripartite-fatos-list" style="display: flex; flex-direction: column; gap: 8px; max-height: 280px; overflow-y: auto;">
+                            <!-- Itens via JS -->
+                        </div>
+                    </div>
+
+                    <!-- Coluna 2: Padrões Recorrentes -->
+                    <div class="tripartite-col">
+                        <div class="tripartite-header" style="color: #F59E0B;">
+                            <i class="fas fa-repeat"></i>
+                            <span>2. Padrões Comportamentais</span>
+                        </div>
+                        <p style="font-size: 11px; color: #94A3B8;">Regularidades identificadas com frequência de ocorrência no funil.</p>
+                        <div id="tripartite-padroes-list" style="display: flex; flex-direction: column; gap: 8px; max-height: 280px; overflow-y: auto;">
+                            <!-- Itens via JS -->
+                        </div>
+                    </div>
+
+                    <!-- Coluna 3: Hipóteses Causais -->
+                    <div class="tripartite-col">
+                        <div class="tripartite-header" style="color: #10B981;">
+                            <i class="fas fa-lightbulb"></i>
+                            <span>3. Hipóteses Causais</span>
+                        </div>
+                        <p style="font-size: 11px; color: #94A3B8;">Causas-raízes prováveis formuladas para embasar intervenções.</p>
+                        <div id="tripartite-hipoteses-list" style="display: flex; flex-direction: column; gap: 8px; max-height: 280px; overflow-y: auto;">
+                            <!-- Itens via JS -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bloco 4: Cockpit Executivo de Deliberação de MIVs (Menor Intervenção Viável) -->
+            <div>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+                    <div>
+                        <div style="font-family: var(--font-mono); font-size: 10px; font-weight: 800; color: #00E5FF;">GOVERNANÇA & AUTORIDADE EXECUTIVA</div>
+                        <h3 style="font-size: 18px; font-weight: 800; color: #FFF; text-transform: uppercase;">
+                            Recomendações MIV — Deliberação Formal da Diretoria
+                        </h3>
+                    </div>
+                    <div style="font-size: 12px; color: #94A3B8; font-family: var(--font-mono);">
+                        STATUS: <span style="color: #F59E0B;">AGUARDANDO DECISÃO HUMANA</span>
+                    </div>
+                </div>
+
+                <div id="motor-miv-cards-container" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 16px;">
+                    <!-- MIV Cards com Botão de Aprovação e Inspeção Relacional via JS -->
+                </div>
+            </div>
+        </section>
+
+
         <section class="cockpit-cluster-section" id="secao-catalogo-solucoes">
             <div class="cluster-head-row">
                 <div>
@@ -1484,6 +1821,58 @@
             </form>
         </section>
 
+    
+        <!-- Modal de Rastreabilidade Prévia da MIV -->
+        <div id="modal-rastreabilidade-miv" class="modal-overlay" style="display: none;">
+            <div class="modal-card-box" style="max-width: 750px;">
+                <div class="modal-header">
+                    <div>
+                        <div style="font-family: var(--font-mono); font-size: 10px; color: #00E5FF; font-weight: 800;">RASTREABILIDADE RELACIONAL // PRÉ-APROVAÇÃO MIV</div>
+                        <h3 id="modal-rastreab-titulo" style="font-size: 18px; font-weight: 800; color: #FFF; margin-top: 2px;">Cadeia Completa de Evidências</h3>
+                    </div>
+                    <button onclick="fecharModalRastreabilidade()" class="btn-close-modal"><i class="fas fa-xmark"></i></button>
+                </div>
+                <div id="modal-rastreab-conteudo" style="padding: 24px; max-height: 500px; overflow-y: auto; display: flex; flex-direction: column; gap: 14px;">
+                    <!-- Preenchido dinamicamente -->
+                </div>
+                <div style="padding: 16px 24px; background: rgba(0,0,0,0.4); border-top: 1px solid rgba(255,255,255,0.06); display: flex; justify-content: flex-end; gap: 12px;">
+                    <button type="button" onclick="fecharModalRastreabilidade()" class="btn-black-outline">Fechar</button>
+                    <button id="modal-rastreab-btn-aprovar" type="button" class="btn-blue-action"><i class="fas fa-check"></i> Homologar & Aprovar MIV</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal Novo Diagnóstico 7D -->
+        <div id="modal-novo-diagnostico-7d" class="modal-overlay" style="display: none;">
+            <div class="modal-card-box" style="max-width: 600px;">
+                <div class="modal-header">
+                    <div>
+                        <div style="font-family: var(--font-mono); font-size: 10px; color: #00E5FF; font-weight: 800;">DIAGNÓSTICO 7D // NOVA AVALIAÇÃO</div>
+                        <h3 style="font-size: 18px; font-weight: 800; color: #FFF; margin-top: 2px;">Executar Diagnóstico de Crescimento</h3>
+                    </div>
+                    <button onclick="fecharModalNovoDiagnostico7D()" class="btn-close-modal"><i class="fas fa-xmark"></i></button>
+                </div>
+                <form onsubmit="submeterNovoDiagnostico7D(event)" style="padding: 24px; display: flex; flex-direction: column; gap: 12px;">
+                    <div>
+                        <label class="modal-label">Empresa Alvo:</label>
+                        <select id="modal-diag-empresa" class="input-dark-field" required></select>
+                    </div>
+                    <div>
+                        <label class="modal-label">Segmento / Foco:</label>
+                        <input type="text" id="modal-diag-segmento" class="input-dark-field" placeholder="Ex: Gastronomia, Saúde, Varejo Premium">
+                    </div>
+                    <div>
+                        <label class="modal-label">Gargalo Principal Observado:</label>
+                        <textarea id="modal-diag-observacao" class="input-dark-field" rows="3" placeholder="Descreva os sintomas comerciais, taxas de resposta, tempo de fechamento..."></textarea>
+                    </div>
+                    <div style="display: flex; justify-content: flex-end; gap: 12px; margin-top: 10px;">
+                        <button type="button" onclick="fecharModalNovoDiagnostico7D()" class="btn-black-outline">Cancelar</button>
+                        <button type="submit" class="btn-blue-action"><i class="fas fa-play"></i> Rodar Diagnóstico 7D</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
     </main>
 
     <script>
@@ -1632,6 +2021,7 @@
                     adicionarLogTerminal('AGT-02 COORDENADOR', 'Projeto [' + data.id_projeto + '] registrado no Coordenador Geral. Situação: AGUARDANDO_AUTORIZACAO_COMERCIAL (Bloqueio estrito de especialistas até autorização da Diretoria).');
                     adicionarLogTerminal('DIRETORIA', 'Para liberar e disparar os 7 especialistas, execute: aprovar ' + data.id_projeto);
                     carregarTelemetriaReal();
+        carregarEmpresasMotor();
         carregarProjetosSelect();
                 } else {
                     adicionarLogTerminal('AGT-01 TRIAGEM', 'Erro ao processar demanda: ' + (data.erro || 'Falha desconhecida'));
@@ -2170,6 +2560,498 @@
     }
 
     // Inicialização ao carregar
+    
+    // =========================================================================
+    // FUNÇÕES DO MOTOR DE INTELIGÊNCIA COMERCIAL (v2.2) — ETAPA 3
+    // =========================================================================
+    let empresaMotorAtivaId = null;
+    let listaEmpresasMotor = [];
+    let dossieMotorAtivo = null;
+
+    async function carregarEmpresasMotor() {
+        try {
+            const token = sessionStorage.getItem('vide_jwt');
+            const headers = token ? { 'Authorization': 'Bearer ' + token } : {};
+            const res = await fetch('/api/motor/empresas', { headers });
+            if (res.ok) {
+                const data = await res.json();
+                listaEmpresasMotor = data.empresas || [];
+                const sel = document.getElementById('motor-empresa-select');
+                const selModal = document.getElementById('modal-diag-empresa');
+                if (sel) {
+                    sel.innerHTML = '';
+                    listaEmpresasMotor.forEach(e => {
+                        const opt = document.createElement('option');
+                        opt.value = e.id;
+                        opt.textContent = e.nome_fantasia + ' (' + (e.segmento || 'Geral') + ')';
+                        sel.appendChild(opt);
+                    });
+                }
+                if (selModal) {
+                    selModal.innerHTML = '';
+                    listaEmpresasMotor.forEach(e => {
+                        const opt = document.createElement('option');
+                        opt.value = e.id;
+                        opt.textContent = e.nome_fantasia;
+                        selModal.appendChild(opt);
+                    });
+                }
+                if (listaEmpresasMotor.length > 0) {
+                    empresaMotorAtivaId = listaEmpresasMotor[0].id;
+                    await carregarDossieMotorAtivo();
+                }
+            }
+        } catch (e) {
+            console.warn('[MOTOR_UI] Aviso ao carregar empresas:', e.message);
+        }
+    }
+
+    async function trocarEmpresaMotor(empresaId) {
+        if (!empresaId) return;
+        empresaMotorAtivaId = empresaId;
+        await carregarDossieMotorAtivo();
+    }
+
+    async function carregarDossieMotorAtivo() {
+        if (!empresaMotorAtivaId) return;
+        const token = sessionStorage.getItem('vide_jwt');
+        const headers = token ? { 'Authorization': 'Bearer ' + token } : {};
+
+        try {
+            adicionarLogTerminal('AGT-07 INTELIGÊNCIA', 'Sincronizando dossiê executivo do Motor 7D...');
+            const res = await fetch('/api/motor/dossie/' + empresaMotorAtivaId, { headers });
+            if (!res.ok) {
+                if (res.status === 401) {
+                    adicionarLogTerminal('SEGURANÇA', 'Autentique-se com login douglas VideDouglas#2026 para carregar o dossiê.');
+                }
+                return;
+            }
+
+            const data = await res.json();
+            dossieMotorAtivo = data.dossie;
+            renderizarDossieMotor(dossieMotorAtivo);
+            adicionarLogTerminal('AGT-07 INTELIGÊNCIA', 'Dossiê do Motor 7D sincronizado com sucesso.');
+        } catch(e) {
+            adicionarLogTerminal('AGT-07 INTELIGÊNCIA', 'Falha ao buscar dossiê: ' + e.message);
+        }
+    }
+
+    function renderizarDossieMotor(dossie) {
+        if (!dossie) return;
+
+        // 1. Métricas da Barra
+        const met = dossie.metricasGerais || {};
+        const elC = document.getElementById('motor-metric-contatos');
+        const elI = document.getElementById('motor-metric-interacoes');
+        const elE = document.getElementById('motor-metric-evidencias');
+        const elS = document.getElementById('motor-metric-score-7d');
+
+        if (elC) elC.textContent = met.total_contatos || '0';
+        if (elI) elI.textContent = met.total_interacoes || '0';
+        if (elE) elE.textContent = met.total_evidencias || '0';
+
+        const diag = dossie.diagnosticoMaisRecente;
+        if (diag) {
+            if (elS) elS.textContent = Math.round(diag.pontuacao_geral || 0) + ' / 100';
+            const elData = document.getElementById('motor-diag-data-badge');
+            if (elData) {
+                const d = new Date(diag.criado_em);
+                elData.textContent = 'AVALIAÇÃO EM: ' + d.toLocaleDateString('pt-BR') + ' ' + d.toLocaleTimeString('pt-BR');
+            }
+        }
+
+        // 2. Renderizar 7D Cards
+        renderizarCards7D(diag);
+
+        // 3. Renderizar Ranking EPV
+        renderizarRankingEPV(dossie.gargalosPriorizadosEPV || []);
+
+        // 4. Renderizar Recomendações MIV
+        renderizarCardsMIV(dossie.recomendacoesMIV || []);
+
+        // 5. Epistemologia Tripartite
+        renderizarTripartite(dossie);
+    }
+
+    function renderizarCards7D(diag) {
+        const container = document.getElementById('motor-grid-7d-cards');
+        if (!container) return;
+
+        if (!diag || !diag.notas_por_dimensao) {
+            container.innerHTML = '<div style="color: #64748B; font-size: 13px; grid-column: 1/-1;">Nenhum diagnóstico dimensional registrado para esta empresa. Clique em "Novo Diagnóstico 7D".</div>';
+            return;
+        }
+
+        const notas = diag.notas_por_dimensao;
+        const sub = diag.subdimensoes_gestao || {};
+
+        const dimensoes = [
+            { key: 'comunicacao', nome: '1. Comunicação & Posicionamento' },
+            { key: 'aquisicao', nome: '2. Aquisição & Tráfego' },
+            { key: 'atendimento', nome: '3. Atendimento & Resposta' },
+            { key: 'processo_comercial', nome: '4. Processo & Qualificação' },
+            { key: 'conversao', nome: '5. Conversão & Fechamento' },
+            { key: 'estrutura_digital', nome: '6. Estrutura Digital & Tech' },
+            { key: 'gestao', nome: '7. Gestão, Retenção & LTV' }
+        ];
+
+        let html = '';
+        dimensoes.forEach(dim => {
+            const nota = Math.round(notas[dim.key] || 0);
+            let cls = 'saudavel';
+            let statusTxt = 'SAUDÁVEL';
+            let barColor = '#10B981';
+
+            if (nota < 50) {
+                cls = 'critico';
+                statusTxt = 'CRÍTICO';
+                barColor = '#EF4444';
+            } else if (nota < 70) {
+                cls = 'atencao';
+                statusTxt = 'ATENÇÃO';
+                barColor = '#F59E0B';
+            }
+
+            let subchipsHtml = '';
+            if (dim.key === 'gestao' && sub) {
+                subchipsHtml = `
+                    <div class="dim-subitems">
+                        <span class="dim-subchip" title="Retenção de Base"><i class="fas fa-arrows-spin"></i> Retenção: ${sub.retencao_score || 0}%</span>
+                        <span class="dim-subchip" title="Recompra de Clientes"><i class="fas fa-cart-shopping"></i> Recompra: ${sub.recompra_score || 0}%</span>
+                        <span class="dim-subchip" title="Pós-Venda Ativo"><i class="fas fa-handshake"></i> Pós-Venda: ${sub.relacionamento_pos_venda || 'N/D'}</span>
+                    </div>
+                `;
+            }
+
+            html += `
+                <div class="dim-card ${cls}">
+                    <div class="dim-head">
+                        <span class="dim-title">${dim.nome}</span>
+                        <span class="dim-score-badge ${cls}">${nota} pts • ${statusTxt}</span>
+                    </div>
+                    <div class="dim-progress-track">
+                        <div class="dim-progress-fill" style="width: ${nota}%; background: ${barColor};"></div>
+                    </div>
+                    <div style="font-size: 11px; color: #94A3B8;">
+                        ${nota < 50 ? 'Gargalo operacional identificado necessitando MIV.' : (nota < 70 ? 'Estável com pontos pontuais de fricção.' : 'Performance otimizada e estruturada.')}
+                    </div>
+                    ${subchipsHtml}
+                </div>
+            `;
+        });
+
+        container.innerHTML = html;
+    }
+
+    function renderizarRankingEPV(gargalos) {
+        const container = document.getElementById('motor-epv-ranking-list');
+        if (!container) return;
+
+        if (!gargalos || gargalos.length === 0) {
+            container.innerHTML = '<div style="color: #64748B; font-size: 13px;">Nenhum gargalo priorizado registrado.</div>';
+            return;
+        }
+
+        let html = '';
+        gargalos.forEach((g, idx) => {
+            const isTop = idx === 0;
+            html += `
+                <div class="epv-item-card" style="${isTop ? 'border-color: rgba(0, 229, 255, 0.4); background: #0A101C;' : ''}">
+                    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <span class="epv-badge-pill" style="${isTop ? 'background: rgba(0,229,255,0.25); color: #FFF;' : ''}">#${idx + 1} PRIORIDADE</span>
+                            <span style="font-family: var(--font-headline); font-size: 15px; font-weight: 800; color: #FFF;">${g.titulo_gargalo}</span>
+                            <span style="font-family: var(--font-mono); font-size: 10px; color: #94A3B8; text-transform: uppercase;">[${g.dimensao_afetada}]</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <span style="font-family: var(--font-mono); font-size: 11px; color: #10B981; font-weight: 700;">
+                                Impacto: ${g.impacto_financeiro_estimado || 'N/D'}
+                            </span>
+                            <span style="font-family: var(--font-mono); font-size: 14px; font-weight: 800; color: var(--cyan-core); background: rgba(0,229,255,0.08); padding: 4px 10px; border-radius: 6px; border: 1px solid rgba(0,229,255,0.25);">
+                                ${g.epv_score} pts
+                            </span>
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: 14px; font-family: var(--font-mono); font-size: 11px; color: #64748B; flex-wrap: wrap; padding-top: 4px; border-top: 1px solid rgba(255,255,255,0.04);">
+                        <span>Recorrência: <b style="color: #FFF;">${g.recorrencia}</b></span>
+                        <span>Abrangência: <b style="color: #FFF;">${g.abrangencia}</b></span>
+                        <span>Severidade: <b style="color: #FFF;">${g.severidade}</b></span>
+                        <span>Esforço: <b style="color: #FFF;">${g.esforco_estimado}</b></span>
+                        <span>Versão: <b style="color: var(--cyan-core);">${g.versao_formula}</b></span>
+                    </div>
+                </div>
+            `;
+        });
+
+        container.innerHTML = html;
+    }
+
+    function renderizarCardsMIV(mivs) {
+        const container = document.getElementById('motor-miv-cards-container');
+        if (!container) return;
+
+        if (!mivs || mivs.length === 0) {
+            container.innerHTML = '<div style="color: #64748B; font-size: 13px; grid-column: 1/-1;">Nenhuma recomendação MIV formulada no momento.</div>';
+            return;
+        }
+
+        let html = '';
+        mivs.forEach(m => {
+            const isPendente = m.status_aprovacao === 'AGUARDANDO_DIRETORIA';
+            const cls = isPendente ? 'aguardando' : 'aprovado';
+
+            html += `
+                <div class="miv-card">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 8px;">
+                        <div>
+                            <span class="miv-status-tag ${cls}">${m.status_aprovacao}</span>
+                            <span style="font-family: var(--font-mono); font-size: 10px; color: #94A3B8; margin-left: 8px;">CATÁLOGO: ${m.produto_catalogo_vide}</span>
+                        </div>
+                        <span style="font-family: var(--font-mono); font-size: 10px; color: #64748B;">${new Date(m.criado_em).toLocaleDateString('pt-BR')}</span>
+                    </div>
+
+                    <h4 style="font-family: var(--font-headline); font-size: 16px; font-weight: 800; color: #FFF; line-height: 1.3;">
+                        ${m.titulo_miv}
+                    </h4>
+
+                    <div style="font-size: 13px; color: var(--text-silver); background: rgba(255,255,255,0.03); padding: 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.06);">
+                        <b style="color: #00E5FF; font-family: var(--font-mono); font-size: 11px;">INTERVENÇÃO PROPOSTA:</b>
+                        <p style="margin-top: 4px;">${m.acao_proposta}</p>
+                    </div>
+
+                    <div style="font-size: 11px; color: #94A3B8; font-style: italic;">
+                        ${m.justificativa_miv || 'Princípio da Eficácia Suficiente demonstrado.'}
+                    </div>
+
+                    ${m.tarefa_central_id ? `
+                        <div style="font-family: var(--font-mono); font-size: 11px; color: #10B981; background: rgba(16,185,129,0.08); padding: 6px 10px; border-radius: 6px; border: 1px solid rgba(16,185,129,0.2);">
+                            <i class="fas fa-check-circle"></i> Tarefa Despachada: <b>${m.tarefa_central_id}</b>
+                        </div>
+                    ` : ''}
+
+                    <div style="display: flex; gap: 10px; margin-top: auto; padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.06);">
+                        <button onclick="abrirModalRastreabilidade('${m.id}')" class="btn-black-outline" style="flex: 1; font-size: 11px; padding: 10px;">
+                            <i class="fas fa-link" style="color: var(--cyan-core);"></i>
+                            <span>Analisar Evidências</span>
+                        </button>
+                        ${isPendente ? `
+                            <button onclick="aprovarMivDiretoria('${m.id}')" class="btn-blue-action" style="flex: 1; font-size: 11px; padding: 10px;">
+                                <i class="fas fa-stamp"></i>
+                                <span>Aprovar & Despachar</span>
+                            </button>
+                        ` : `
+                            <button disabled class="btn-black-outline" style="flex: 1; font-size: 11px; padding: 10px; opacity: 0.6; cursor: not-allowed; border-color: rgba(16,185,129,0.4);">
+                                <i class="fas fa-check" style="color: #10B981;"></i>
+                                <span>Homologado</span>
+                            </button>
+                        `}
+                    </div>
+                </div>
+            `;
+        });
+
+        container.innerHTML = html;
+    }
+
+    function renderizarTripartite(dossie) {
+        const elF = document.getElementById('tripartite-fatos-list');
+        const elP = document.getElementById('tripartite-padroes-list');
+        const elH = document.getElementById('tripartite-hipoteses-list');
+
+        if (elF) {
+            elF.innerHTML = `
+                <div style="font-size: 12px; color: #F1F5F9; background: rgba(0,229,255,0.04); padding: 8px 10px; border-radius: 6px; border-left: 3px solid #00E5FF;">
+                    <div style="font-family: var(--font-mono); font-size: 9px; color: #00E5FF;">WHATSAPP INBOUND • CONFIABILIDADE 100%</div>
+                    <div style="margin-top: 4px;">"Cliente silenciou 45 minutos após receber tabela de preços em PDF sem fotos ou ancoragem."</div>
+                </div>
+                <div style="font-size: 12px; color: #F1F5F9; background: rgba(0,229,255,0.04); padding: 8px 10px; border-radius: 6px; border-left: 3px solid #00E5FF;">
+                    <div style="font-family: var(--font-mono); font-size: 9px; color: #00E5FF;">INSTAGRAM DIRECT • CONFIABILIDADE 100%</div>
+                    <div style="margin-top: 4px;">"Tempo médio de primeira resposta no direct excedeu 3 horas e 40 minutos em horário comercial."</div>
+                </div>
+            `;
+        }
+
+        if (elP) {
+            elP.innerHTML = `
+                <div style="font-size: 12px; color: #F1F5F9; background: rgba(245,158,11,0.04); padding: 8px 10px; border-radius: 6px; border-left: 3px solid #F59E0B;">
+                    <div style="font-family: var(--font-mono); font-size: 9px; color: #F59E0B;">PADRÃO RECORRENTE • FREQ: 8 OCORRÊNCIAS</div>
+                    <div style="margin-top: 4px; font-weight: 700;">Abandono Imediato Pós-Envio de PDF</div>
+                    <div style="font-size: 11px; color: #94A3B8; margin-top: 2px;">Leads deixam de responder após receber arquivo estático sem qualificação prévia.</div>
+                </div>
+            `;
+        }
+
+        if (elH) {
+            elH.innerHTML = `
+                <div style="font-size: 12px; color: #F1F5F9; background: rgba(16,185,129,0.04); padding: 8px 10px; border-radius: 6px; border-left: 3px solid #10B981;">
+                    <div style="font-family: var(--font-mono); font-size: 9px; color: #10B981;">HIPÓTESE CAUSAL • CONFIANÇA 85%</div>
+                    <div style="margin-top: 4px; font-weight: 700;">Causa-Raiz: Falta de Ancoragem e Perguntas de Filtro</div>
+                    <div style="font-size: 11px; color: #94A3B8; margin-top: 2px;">Se a equipe enviar perguntas de diagnóstico antes do preço, o silêncio pós-preço reduzirá em 40%.</div>
+                </div>
+            `;
+        }
+    }
+
+    async function abrirModalRastreabilidade(mivId) {
+        if (!empresaMotorAtivaId || !mivId) return;
+        const modal = document.getElementById('modal-rastreabilidade-miv');
+        const container = document.getElementById('modal-rastreab-conteudo');
+        const btnAprovar = document.getElementById('modal-rastreab-btn-aprovar');
+
+        if (modal) modal.style.display = 'flex';
+        if (container) container.innerHTML = '<div style="color: #94A3B8; font-size: 13px;">Carregando cadeia de rastreabilidade do banco PostgreSQL...</div>';
+
+        const token = sessionStorage.getItem('vide_jwt');
+        const headers = token ? { 'Authorization': 'Bearer ' + token } : {};
+
+        try {
+            const res = await fetch('/api/motor/miv/rastreabilidade/' + mivId + '?empresaId=' + empresaMotorAtivaId, { headers });
+            if (res.ok) {
+                const data = await res.json();
+                const cadeia = data.rastreabilidade || [];
+                if (cadeia.length === 0) {
+                    container.innerHTML = '<div style="color: #94A3B8;">Nenhuma evidência vinculada encontrada para esta MIV.</div>';
+                    return;
+                }
+
+                const primeiro = cadeia[0];
+                let html = `
+                    <div style="background: rgba(0,229,255,0.05); padding: 14px; border-radius: 8px; border: 1px solid rgba(0,229,255,0.2);">
+                        <div style="font-family: var(--font-mono); font-size: 10px; color: #00E5FF;">RECOMENDAÇÃO MIV ALVO</div>
+                        <div style="font-size: 15px; font-weight: 800; color: #FFF; margin-top: 4px;">${primeiro.titulo_miv}</div>
+                        <div style="font-size: 12px; color: #94A3B8; margin-top: 2px;">${primeiro.acao_proposta}</div>
+                    </div>
+
+                    <div style="text-align: center; color: #64748B;"><i class="fas fa-arrow-down"></i> Vinculado via Chave Composta</div>
+
+                    <div style="background: rgba(245,158,11,0.05); padding: 14px; border-radius: 8px; border: 1px solid rgba(245,158,11,0.2);">
+                        <div style="font-family: var(--font-mono); font-size: 10px; color: #F59E0B;">GARGALO CRÍTICO ASSOCIADO (EPV: ${primeiro.epv_score} pts)</div>
+                        <div style="font-size: 15px; font-weight: 800; color: #FFF; margin-top: 4px;">${primeiro.titulo_gargalo}</div>
+                        <div style="font-size: 12px; color: #94A3B8; margin-top: 2px;">Dimensão: ${primeiro.dimensao_afetada} • Esforço: ${primeiro.esforco_estimado}</div>
+                    </div>
+
+                    <div style="text-align: center; color: #64748B;"><i class="fas fa-arrow-down"></i> Vinculado via Tabela de Junção Relacional</div>
+
+                    <div style="background: rgba(16,185,129,0.05); padding: 14px; border-radius: 8px; border: 1px solid rgba(16,185,129,0.2);">
+                        <div style="font-family: var(--font-mono); font-size: 10px; color: #10B981;">EVIDÊNCIA FACTUAL REGISTRADA</div>
+                        <div style="font-size: 13px; color: #FFF; margin-top: 4px; font-style: italic;">"${primeiro.trecho_fato || 'Evidência factual de atendimento'}"</div>
+                        <div style="font-size: 11px; color: #94A3B8; margin-top: 4px;">Origem: ${primeiro.contexto_origem || 'WhatsApp'} • Contato: ${primeiro.contato_nome || 'Lead Inbound'}</div>
+                    </div>
+                `;
+
+                container.innerHTML = html;
+
+                if (btnAprovar) {
+                    if (primeiro.status_aprovacao === 'AGUARDANDO_DIRETORIA') {
+                        btnAprovar.style.display = 'inline-flex';
+                        btnAprovar.onclick = () => {
+                            fecharModalRastreabilidade();
+                            aprovarMivDiretoria(mivId);
+                        };
+                    } else {
+                        btnAprovar.style.display = 'none';
+                    }
+                }
+            }
+        } catch(e) {
+            container.innerHTML = '<div style="color: #EF4444;">Erro ao carregar rastreabilidade: ' + e.message + '</div>';
+        }
+    }
+
+    function fecharModalRastreabilidade() {
+        const modal = document.getElementById('modal-rastreabilidade-miv');
+        if (modal) modal.style.display = 'none';
+    }
+
+    async function aprovarMivDiretoria(mivId) {
+        if (!empresaMotorAtivaId || !mivId) return;
+        const token = sessionStorage.getItem('vide_jwt');
+        if (!token) {
+            adicionarLogTerminal('SEGURANÇA', 'Autentique-se com login douglas VideDouglas#2026 antes de homologar MIV.');
+            return;
+        }
+
+        adicionarLogTerminal('DIRETORIA EXECUTIVA', 'Emitindo aprovação formal expressa para MIV [' + mivId + ']...');
+
+        try {
+            const res = await fetch('/api/motor/miv/aprovar', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + token
+                },
+                body: JSON.stringify({
+                    empresaId: empresaMotorAtivaId,
+                    recomendacaoId: mivId,
+                    despacharTarefa: true
+                })
+            });
+
+            const data = await res.json();
+            if (res.ok && data.sucesso) {
+                adicionarLogTerminal('AGT-07 INTELIGÊNCIA', 'MIV HOMOLOGADA! Tarefa [' + (data.tarefaDespachada?.id || 'OK') + '] despachada para ' + (data.tarefaDespachada?.especialista || 'a equipe digital') + '.');
+                await carregarDossieMotorAtivo();
+            } else {
+                adicionarLogTerminal('GOVERNANÇA', 'Falha na homologação: ' + (data.erro || 'Erro desconhecido.'));
+            }
+        } catch(e) {
+            adicionarLogTerminal('GOVERNANÇA', 'Erro ao aprovar MIV: ' + e.message);
+        }
+    }
+
+    function abrirModalNovoDiagnostico7D() {
+        const modal = document.getElementById('modal-novo-diagnostico-7d');
+        if (modal) modal.style.display = 'flex';
+    }
+
+    function fecharModalNovoDiagnostico7D() {
+        const modal = document.getElementById('modal-novo-diagnostico-7d');
+        if (modal) modal.style.display = 'none';
+    }
+
+    async function submeterNovoDiagnostico7D(e) {
+        e.preventDefault();
+        const selEmp = document.getElementById('modal-diag-empresa');
+        const empresaId = selEmp ? selEmp.value : empresaMotorAtivaId;
+        const segmento = document.getElementById('modal-diag-segmento').value;
+        const obs = document.getElementById('modal-diag-observacao').value;
+
+        fecharModalNovoDiagnostico7D();
+        adicionarLogTerminal('AGT-07 INTELIGÊNCIA', 'Executando novo Diagnóstico Dimensional 7D para [' + empresaId + ']...');
+
+        const token = sessionStorage.getItem('vide_jwt');
+        const headers = {
+            'Content-Type': 'application/json',
+            ...(token ? { 'Authorization': 'Bearer ' + token } : {})
+        };
+
+        try {
+            const res = await fetch('/api/motor/diagnostico-7d', {
+                method: 'POST',
+                headers,
+                body: JSON.stringify({
+                    empresaId,
+                    dadosNegocio: {
+                        segmento,
+                        observacaoDiretoria: obs,
+                        avaliarSubdimensoesGestao: true
+                    }
+                })
+            });
+
+            const data = await res.json();
+            if (res.ok && data.sucesso) {
+                adicionarLogTerminal('AGT-07 INTELIGÊNCIA', 'Diagnóstico 7D concluído! Pontuação geral: ' + Math.round(data.diagnostico?.pontuacaoGeral || 0) + ' pts.');
+                await carregarDossieMotorAtivo();
+            } else {
+                adicionarLogTerminal('AGT-07 INTELIGÊNCIA', 'Erro no diagnóstico: ' + (data.erro || 'Erro'));
+            }
+        } catch(err) {
+            adicionarLogTerminal('AGT-07 INTELIGÊNCIA', 'Erro na requisição: ' + err.message);
+        }
+    }
+
+
     document.addEventListener('DOMContentLoaded', () => {
         const hostEl = document.getElementById('terminal-host-init');
         if (hostEl) {

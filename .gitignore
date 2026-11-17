@@ -16,3 +16,6 @@ equipe_digital_vide/entregas_clientes/PRJ-*
 # Sistema operacional
 .DS_Store
 Thumbs.db
+
+# Dumps e backups locais
+backups/

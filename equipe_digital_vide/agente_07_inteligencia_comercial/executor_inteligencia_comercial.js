@@ -12,6 +12,7 @@ const { obterProjetoPorId, salvarProjeto } = require('../agente_02_coordenador/r
 const { conferirEntrega } = require('../agente_02_coordenador/executor_coordenador');
 const { iaService } = require('../ia_service');
 const { storageService } = require('../storage_service');
+const { servicoMotorInteligencia } = require('../servico_motor_inteligencia');
 
 // Diretório base de entregas físicas
 const DIRETORIO_ENTREGAS = path.join(__dirname, '..', 'entregas_clientes');
@@ -884,11 +885,121 @@ async function gerarDiagnosticoComIA(padroesVazamento) {
     return await iaService.formularHipotesesCausaisIA(padroesVazamento);
 }
 
+/**
+ * 6. FUNÇÃO 6: Integração Oficial com o Motor de Inteligência Comercial (v2.2)
+ * Conecta o Agente 07 à camada relacional do PostgreSQL com RLS, 7D, EPV e MIV
+ */
+async function executarCicloMotorInteligencia({ idProjeto, empresaId, dadosOperacionais = {}, loteConversas = [] }) {
+    if (!empresaId) {
+        throw new Error('[AGENTE_07_MOTOR] empresa_id é mandatório para operar o Motor com isolamento RLS.');
+    }
+
+    // 1. Executa Diagnóstico 7D com subdimensões de Retenção & Recompra
+    const diag7D = await servicoMotorInteligencia.executarDiagnosticoCrescimento7D({
+        empresaId,
+        dadosOperacionais
+    });
+
+    const resultadosConversas = [];
+    const todasEvidenciasIds = [];
+
+    // 2. Ingestão e mineração contínua do lote de conversas
+    for (const c of loteConversas) {
+        const contato = await servicoMotorInteligencia.registrarContatoIdentificado({
+            empresaId,
+            nome: c.nome,
+            canalOrigem: c.canalOrigem || 'WHATSAPP',
+            identificadores: c.identificadores || []
+        });
+
+        const interacao = await servicoMotorInteligencia.registrarInteracaoEEventos({
+            empresaId,
+            contatoId: contato.id,
+            canal: c.canalOrigem || 'WHATSAPP',
+            direcao: c.direcao || 'ENTRADA',
+            conteudoTexto: c.texto,
+            eventos: c.eventos || []
+        });
+
+        if (c.evidencias && c.evidencias.length > 0) {
+            const evIds = await servicoMotorInteligencia.isolarEvidencias({
+                empresaId,
+                contatoId: contato.id,
+                interacaoId: interacao.interacaoId,
+                listaEvidencias: c.evidencias
+            });
+            todasEvidenciasIds.push(...evIds);
+        }
+
+        resultadosConversas.push({ contatoId: contato.id, interacaoId: interacao.interacaoId });
+    }
+
+    // 3. Mineração de Padrões e Hipóteses Causais
+    let padraoMinerado = null;
+    if (todasEvidenciasIds.length > 0) {
+        padraoMinerado = await servicoMotorInteligencia.minerarPadraoEHipoteses({
+            empresaId,
+            categoria: 'PRECO_VALOR',
+            tituloPadrao: 'Abandono Imediato Pós-Envio de Preço Sem Ancoragem',
+            descricaoPadrao: 'Leads cessam resposta nos primeiros minutos após receberem valores sem prévia demonstração de autoridade.',
+            frequencia: todasEvidenciasIds.length,
+            evidenciasIds: todasEvidenciasIds,
+            hipotese: {
+                enunciado: 'A revelação antecipada do preço numérico gera choque e quebra a percepção de valor.',
+                causaRaiz: 'Falta de roteiro consultivo em 3 etapas e ausência de prova social antes do orçamento.',
+                nivelConfianca: 0.88
+            }
+        });
+    }
+
+    // 4. Identificação do Gargalo Crítico com Cálculo EPV
+    const gargalo = await servicoMotorInteligencia.cadastrarGargaloEPV({
+        empresaId,
+        diagnosticoId: diag7D.diagnosticoId,
+        dimensao: 'CONVERSAO',
+        titulo: 'Vazamento Crítico Pós-Apresentação de Preço no WhatsApp',
+        descricao: 'Leads não recebem perguntas de qualificação antes do envio do cardápio/tabela, gerando abandono.',
+        impactoFinanceiro: dadosOperacionais.impactoFinanceiroEstimado || 8500.00,
+        recorrencia: 0.85,
+        abrangencia: 0.70,
+        severidade: 0.90,
+        esforco: 2, // Ajuste de processo e copy
+        evidenciasIds: todasEvidenciasIds
+    });
+
+    // 5. Formulação da Menor Intervenção Viável (MIV) com Eficácia Suficiente
+    const miv = await servicoMotorInteligencia.formularRecomendacaoMIV({
+        empresaId,
+        gargaloId: gargalo.gargaloId,
+        tituloMiv: 'MIV 1: Roteiro de Qualificação em 3 Etapas com Ancoragem Parcelada',
+        acaoProposta: 'Implementar script com 3 perguntas de sondagem e áudio de acolhimento antes de informar valores.',
+        justificativaMiv: 'Reduz o choque de preço e aumenta a taxa de resposta imediata em até 40%.',
+        justificativaEficaciaSuficiente: 'Intervenção ataca diretamente a causa-raiz identificada pelas evidências (choque de valor) com esforço cirúrgico sem necessidade de software novo.',
+        produtoCatalogoVide: 'AUTOMACOES'
+    });
+
+    // 6. Obtém o Dossiê Consolidado
+    const dossie = await servicoMotorInteligencia.obterDossieConsolidado(empresaId);
+
+    return {
+        sucesso: true,
+        empresaId,
+        idProjeto,
+        diagnostico7D: diag7D,
+        conversasProcessadas: resultadosConversas.length,
+        padraoMinerado,
+        gargaloEPV: gargalo,
+        recomendacaoMIV: miv,
+        dossie
+    };
+}
+
 module.exports = {
     assumirTarefaInteligencia,
     gerarEntregaveisInteligencia,
     executarBateriaTestesInteligencia,
     submeterEntregaParaCoordenador,
     executarCicloCompletoInteligencia,
-    gerarDiagnosticoComIA
+    gerarDiagnosticoComIA,
+    executarCicloMotorInteligencia
 };

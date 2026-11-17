@@ -42,6 +42,7 @@ const { storageService } = require(`${moduloAgentesDir}/storage_service`);
 const { iaService } = require(`${moduloAgentesDir}/ia_service`);
 const { servicoWebhooksSaida } = require(`${moduloAgentesDir}/servico_webhooks_saida`);
 const { obterCatalogoCompleto } = require(`${moduloAgentesDir}/catalogo_solucoes_comerciais`);
+const { servicoMotorInteligencia } = require(`${moduloAgentesDir}/servico_motor_inteligencia`);
 
 // Timestamp de cooldown para proteção de custos da API de IA
 let ultimaAuditoriaIaTimestamp = 0;
@@ -1015,6 +1016,548 @@ const servidor = http.createServer(async (req, res) => {
     }
 
     // =========================================================================
+    // 7. ROTAS DO MOTOR DE INTELIGÊNCIA COMERCIAL (v2.2) — ETAPA 3
+    // =========================================================================
+
+    // 7.0 GET /api/motor/empresas — Lista Empresas Ativas no Motor (Contexto e Seletor do Cockpit)
+    if (urlLimpa === '/api/motor/empresas' && req.method === 'GET') {
+        const auth = seguranca.autenticarRequisicao(req);
+        if (!auth.autenticado) {
+            res.writeHead(401, { 'Content-Type': 'application/json; charset=utf-8' });
+            return res.end(JSON.stringify({ sucesso: false, erro: 'Autenticação necessária para listar empresas.' }));
+        }
+
+        try {
+            const usuario = auth.usuario;
+            let empresas = [];
+
+            if (usuario.clienteId && usuario.papel !== 'DIRETOR' && usuario.papel !== 'DIRETORA' && usuario.papel !== 'ADMIN') {
+                const resEmpresa = await servicoMotorInteligencia.pool.query(
+                    "SELECT id, nome_fantasia, razao_social, segmento, plano_motor, status, criado_em FROM empresas_motor WHERE id = $1 AND status = 'ATIVO';",
+                    [usuario.clienteId]
+                );
+                empresas = resEmpresa.rows;
+            } else {
+                const resEmpresas = await servicoMotorInteligencia.pool.query(
+                    "SELECT id, nome_fantasia, razao_social, segmento, plano_motor, status, criado_em FROM empresas_motor WHERE status = 'ATIVO' ORDER BY criado_em ASC;"
+                );
+                empresas = resEmpresas.rows;
+            }
+
+            res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+            return res.end(JSON.stringify({ sucesso: true, total: empresas.length, empresas }));
+        } catch (e) {
+            res.writeHead(500, { 'Content-Type': 'application/json; charset=utf-8' });
+            return res.end(JSON.stringify({ sucesso: false, erro: e.message }));
+        }
+    }
+
+    // 7.1 GET /api/motor/dossie/:empresaId — Dossiê Consolidado de Crescimento e Inteligência
+    if (urlLimpa.startsWith('/api/motor/dossie/') && req.method === 'GET') {
+        const auth = seguranca.autenticarRequisicao(req);
+        if (!auth.autenticado) {
+            res.writeHead(401, { 'Content-Type': 'application/json; charset=utf-8' });
+            return res.end(JSON.stringify({ sucesso: false, erro: 'Autenticação obrigatória para acessar o dossiê executivo.' }));
+        }
+
+        const empresaIdParam = decodeURIComponent(urlLimpa.replace('/api/motor/dossie/', '').trim());
+        const usuario = auth.usuario;
+        let empresaIdEfetivo = empresaIdParam;
+
+        // Se o usuário autenticado for um cliente específico, ele JAMAIS pode acessar dados de outra empresa
+        if (usuario.clienteId && usuario.papel !== 'DIRETOR' && usuario.papel !== 'DIRETORA' && usuario.papel !== 'ADMIN') {
+            if (empresaIdParam && empresaIdParam !== usuario.clienteId) {
+                res.writeHead(403, { 'Content-Type': 'application/json; charset=utf-8' });
+                return res.end(JSON.stringify({ sucesso: false, erro: 'Acesso negado: Tentativa de violação de fronteira multiempresa.' }));
+            }
+            empresaIdEfetivo = usuario.clienteId;
+        }
+
+        try {
+            // Se for Diretoria/Admin e empresaIdParam for 'default' ou 'primeira' ou vazio, buscar primeira empresa ativa
+            if (empresaIdEfetivo === 'default' || empresaIdEfetivo === 'primeira' || !empresaIdEfetivo) {
+                const resPrimeira = await servicoMotorInteligencia.pool.query(
+                    "SELECT id, nome_fantasia FROM empresas_motor WHERE status = 'ATIVO' ORDER BY criado_em ASC LIMIT 1;"
+                );
+                if (resPrimeira.rows.length === 0) {
+                    res.writeHead(404, { 'Content-Type': 'application/json; charset=utf-8' });
+                    return res.end(JSON.stringify({ sucesso: false, erro: 'Nenhuma empresa cadastrada no Motor de Inteligência Comercial.' }));
+                }
+                empresaIdEfetivo = resPrimeira.rows[0].id;
+            } else {
+                // Valida se empresa existe no banco relacional
+                const resExiste = await servicoMotorInteligencia.pool.query(
+                    "SELECT id, nome_fantasia FROM empresas_motor WHERE id = $1 AND status = 'ATIVO';",
+                    [empresaIdEfetivo]
+                );
+                if (resExiste.rows.length === 0) {
+                    res.writeHead(404, { 'Content-Type': 'application/json; charset=utf-8' });
+                    return res.end(JSON.stringify({ sucesso: false, erro: `Empresa ${empresaIdEfetivo} não encontrada no Motor de Inteligência Comercial.` }));
+                }
+            }
+
+            const dossie = await servicoMotorInteligencia.obterDossieConsolidado(empresaIdEfetivo);
+            res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+            return res.end(JSON.stringify({
+                sucesso: true,
+                empresaId: empresaIdEfetivo,
+                dossie
+            }));
+        } catch (e) {
+            res.writeHead(500, { 'Content-Type': 'application/json; charset=utf-8' });
+            return res.end(JSON.stringify({ sucesso: false, erro: e.message }));
+        }
+    }
+
+    // 7.2 POST /api/motor/diagnostico-7d — Execução do Diagnóstico de Crescimento Dimensional (7D)
+    if (urlLimpa === '/api/motor/diagnostico-7d' && req.method === 'POST') {
+        const auth = seguranca.autenticarRequisicao(req);
+        if (!auth.autenticado) {
+            res.writeHead(401, { 'Content-Type': 'application/json; charset=utf-8' });
+            return res.end(JSON.stringify({ sucesso: false, erro: 'Autenticação obrigatória para executar diagnóstico 7D.' }));
+        }
+
+        try {
+            const body = await lerCorpoJson(req);
+            const usuario = auth.usuario;
+            let empresaId = body.empresaId;
+
+            // Se o usuário não for Diretoria/Admin, forçar empresa do token
+            if (usuario.clienteId && usuario.papel !== 'DIRETOR' && usuario.papel !== 'DIRETORA' && usuario.papel !== 'ADMIN') {
+                if (empresaId && empresaId !== usuario.clienteId) {
+                    res.writeHead(403, { 'Content-Type': 'application/json; charset=utf-8' });
+                    return res.end(JSON.stringify({ sucesso: false, erro: 'Acesso negado: Usuário não tem permissão para acionar diagnósticos para outro tenant.' }));
+                }
+                empresaId = usuario.clienteId;
+            }
+
+            if (!empresaId) {
+                const resPrimeira = await servicoMotorInteligencia.pool.query(
+                    "SELECT id FROM empresas_motor WHERE status = 'ATIVO' ORDER BY criado_em ASC LIMIT 1;"
+                );
+                if (resPrimeira.rows.length === 0) {
+                    res.writeHead(404, { 'Content-Type': 'application/json; charset=utf-8' });
+                    return res.end(JSON.stringify({ sucesso: false, erro: 'Nenhuma empresa cadastrada no Motor.' }));
+                }
+                empresaId = resPrimeira.rows[0].id;
+            }
+
+            // Valida existência da empresa
+            const checaEmpresa = await servicoMotorInteligencia.pool.query(
+                "SELECT id FROM empresas_motor WHERE id = $1 AND status = 'ATIVO';",
+                [empresaId]
+            );
+            if (checaEmpresa.rows.length === 0) {
+                res.writeHead(404, { 'Content-Type': 'application/json; charset=utf-8' });
+                return res.end(JSON.stringify({ sucesso: false, erro: `Empresa ${empresaId} não encontrada.` }));
+            }
+
+            const dadosNegocio = body.dadosNegocio || body;
+            const diagResultado = await servicoMotorInteligencia.executarDiagnosticoCrescimento7D({
+                empresaId,
+                dadosNegocio
+            });
+
+            res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+            return res.end(JSON.stringify({
+                sucesso: true,
+                empresaId,
+                diagnostico: diagResultado
+            }));
+        } catch (e) {
+            res.writeHead(500, { 'Content-Type': 'application/json; charset=utf-8' });
+            return res.end(JSON.stringify({ sucesso: false, erro: e.message }));
+        }
+    }
+
+    // 7.3 POST /api/motor/interacoes — Ingestão de Conversas, Eventos de Funil e Evidências Comerciais
+    if (urlLimpa === '/api/motor/interacoes' && req.method === 'POST') {
+        const auth = seguranca.autenticarRequisicao(req);
+        if (!auth.autenticado) {
+            res.writeHead(401, { 'Content-Type': 'application/json; charset=utf-8' });
+            return res.end(JSON.stringify({ sucesso: false, erro: 'Autenticação obrigatória para ingestão comercial.' }));
+        }
+
+        try {
+            const body = await lerCorpoJson(req);
+            const usuario = auth.usuario;
+            let empresaId = body.empresaId;
+
+            if (usuario.clienteId && usuario.papel !== 'DIRETOR' && usuario.papel !== 'DIRETORA' && usuario.papel !== 'ADMIN') {
+                if (empresaId && empresaId !== usuario.clienteId) {
+                    res.writeHead(403, { 'Content-Type': 'application/json; charset=utf-8' });
+                    return res.end(JSON.stringify({ sucesso: false, erro: 'Acesso negado: Tentativa de ingestão cruzada entre empresas.' }));
+                }
+                empresaId = usuario.clienteId;
+            }
+
+            if (!empresaId) {
+                res.writeHead(400, { 'Content-Type': 'application/json; charset=utf-8' });
+                return res.end(JSON.stringify({ sucesso: false, erro: 'empresaId é obrigatório para ingestão de interações.' }));
+            }
+
+            // Valida existência da empresa
+            const resEmpresa = await servicoMotorInteligencia.pool.query(
+                "SELECT id FROM empresas_motor WHERE id = $1 AND status = 'ATIVO';",
+                [empresaId]
+            );
+            if (resEmpresa.rows.length === 0) {
+                res.writeHead(404, { 'Content-Type': 'application/json; charset=utf-8' });
+                return res.end(JSON.stringify({ sucesso: false, erro: `Empresa ${empresaId} não encontrada.` }));
+            }
+
+            // Validação de canal e conteúdo
+            const canal = (body.canal || (body.interacao && body.interacao.canal) || 'WHATSAPP').toUpperCase();
+            const canaisValidos = ['WHATSAPP', 'INSTAGRAM', 'SITE', 'TELEFONE', 'EMAIL', 'PRESENCIAL'];
+            if (!canaisValidos.includes(canal)) {
+                res.writeHead(400, { 'Content-Type': 'application/json; charset=utf-8' });
+                return res.end(JSON.stringify({ sucesso: false, erro: `Canal inválido: ${canal}. Canais aceitos: ${canaisValidos.join(', ')}` }));
+            }
+
+            const conteudoTexto = (body.conteudoTexto || (body.interacao && body.interacao.conteudoTexto) || '').trim();
+            if (!conteudoTexto) {
+                res.writeHead(400, { 'Content-Type': 'application/json; charset=utf-8' });
+                return res.end(JSON.stringify({ sucesso: false, erro: 'conteudoTexto da interação não pode ser vazio.' }));
+            }
+
+            const direcao = (body.direcao || (body.interacao && body.interacao.direcao) || 'ENTRANTE').toUpperCase();
+            const sessaoExternaId = body.sessaoExternaId || (body.interacao && body.interacao.sessaoExternaId) || null;
+            const idExternoMensagem = body.idExternoMensagem || (body.interacao && body.interacao.idExternoMensagem) || null;
+
+            // Deduplicação Relacional de Interação
+            if (idExternoMensagem || sessaoExternaId) {
+                const dedupe = await servicoMotorInteligencia.comTenant(empresaId, async (client) => {
+                    return await client.query(`
+                        SELECT id, criado_em FROM interacoes_comerciais 
+                        WHERE empresa_id = $1 AND (
+                            (sessao_externa_id IS NOT NULL AND sessao_externa_id = $2)
+                            OR (metadados->>'id_externo_mensagem' = $3)
+                        )
+                        LIMIT 1;
+                    `, [empresaId, sessaoExternaId, idExternoMensagem]);
+                });
+
+                if (dedupe.rows.length > 0) {
+                    res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+                    return res.end(JSON.stringify({
+                        sucesso: true,
+                        deduplicado: true,
+                        mensagem: 'Interação já registrada anteriormente (deduplicação idempotente).',
+                        interacaoId: dedupe.rows[0].id
+                    }));
+                }
+            }
+
+            // Resolução Canônica de Identidade do Contato
+            let contatoId = body.contatoId || null;
+            if (!contatoId && body.contato) {
+                const contatoDados = body.contato;
+                const idfs = contatoDados.identificadores || [];
+                for (const idf of idfs) {
+                    if (idf.tipo && idf.valor) {
+                        const resIdf = await servicoMotorInteligencia.comTenant(empresaId, async (client) => {
+                            return await client.query(`
+                                SELECT contato_id FROM identificadores_contato
+                                WHERE empresa_id = $1 AND tipo_identificador = $2 AND valor_identificador = $3
+                                LIMIT 1;
+                            `, [empresaId, idf.tipo, idf.valor]);
+                        });
+                        if (resIdf.rows.length > 0) {
+                            contatoId = resIdf.rows[0].contato_id;
+                            break;
+                        }
+                    }
+                }
+
+                if (!contatoId) {
+                    const novoContato = await servicoMotorInteligencia.registrarContatoIdentificado({
+                        empresaId,
+                        nome: contatoDados.nome || 'Lead Inbound',
+                        canalOrigem: canal,
+                        baseLegal: contatoDados.baseLegal || 'LEGITIMO_INTERESSE',
+                        identificadores: idfs
+                    });
+                    contatoId = novoContato.id;
+                }
+            }
+
+            // Grava Interação e Eventos de Jornada
+            const metadados = {
+                ...(body.metadados || (body.interacao && body.interacao.metadados) || {}),
+                id_externo_mensagem: idExternoMensagem,
+                ip_origem: req.socket.remoteAddress
+            };
+            const eventos = body.eventos || [];
+
+            const resInteracao = await servicoMotorInteligencia.registrarInteracaoEEventos({
+                empresaId,
+                contatoId,
+                canal,
+                direcao,
+                conteudoTexto,
+                sessaoExternaId,
+                eventos,
+                metadados
+            });
+
+            // Grava Evidências Factuais (se fornecidas na ingestão)
+            let evidenciasCriadas = [];
+            if (Array.isArray(body.evidencias) && body.evidencias.length > 0) {
+                evidenciasCriadas = await servicoMotorInteligencia.isolarEvidencias({
+                    empresaId,
+                    contatoId,
+                    interacaoId: resInteracao.interacaoId,
+                    listaEvidencias: body.evidencias
+                });
+            }
+
+            res.writeHead(201, { 'Content-Type': 'application/json; charset=utf-8' });
+            return res.end(JSON.stringify({
+                sucesso: true,
+                deduplicado: false,
+                interacaoId: resInteracao.interacaoId,
+                contatoId,
+                eventosRegistrados: resInteracao.eventos.length,
+                evidenciasCriadas: evidenciasCriadas.length
+            }));
+        } catch (e) {
+            res.writeHead(500, { 'Content-Type': 'application/json; charset=utf-8' });
+            return res.end(JSON.stringify({ sucesso: false, erro: e.message }));
+        }
+    }
+
+    // 7.4 POST /api/motor/miv/aprovar — Homologação Executiva Formal de MIV e Despacho de Tarefa
+    if (urlLimpa === '/api/motor/miv/aprovar' && req.method === 'POST') {
+        const auth = seguranca.autenticarRequisicao(req);
+        if (!auth.autenticado) {
+            res.writeHead(401, { 'Content-Type': 'application/json; charset=utf-8' });
+            return res.end(JSON.stringify({ sucesso: false, erro: 'Acesso não autorizado. Token da Diretoria Executiva obrigatório.' }));
+        }
+
+        const usuario = auth.usuario;
+        if (usuario.papel !== 'DIRETOR' && usuario.papel !== 'DIRETORA' && usuario.papel !== 'ADMIN') {
+            res.writeHead(403, { 'Content-Type': 'application/json; charset=utf-8' });
+            return res.end(JSON.stringify({ sucesso: false, erro: 'Acesso negado: Apenas a Diretoria Executiva possui autoridade para aprovar recomendações MIV.' }));
+        }
+
+        try {
+            const body = await lerCorpoJson(req);
+            const { empresaId, recomendacaoId, despacharTarefa = true, idProjeto = null } = body;
+
+            if (!empresaId || !recomendacaoId) {
+                res.writeHead(400, { 'Content-Type': 'application/json; charset=utf-8' });
+                return res.end(JSON.stringify({ sucesso: false, erro: 'empresaId e recomendacaoId são mandatórios.' }));
+            }
+
+            // 1. Verificação de Estado e Proteção contra Aprovação Duplicada (Controle de Estado)
+            const checagemMiv = await servicoMotorInteligencia.comTenant(empresaId, async (client) => {
+                const res = await client.query(`
+                    SELECT r.*, g.titulo_gargalo, g.dimensao_afetada, g.epv_score
+                    FROM recomendacoes_miv r
+                    JOIN gargalos_comerciais g ON g.empresa_id = r.empresa_id AND g.id = r.gargalo_id
+                    WHERE r.empresa_id = $1 AND r.id = $2;
+                `, [empresaId, recomendacaoId]);
+                return res.rows[0] || null;
+            });
+
+            if (!checagemMiv) {
+                res.writeHead(404, { 'Content-Type': 'application/json; charset=utf-8' });
+                return res.end(JSON.stringify({ sucesso: false, erro: `Recomendação MIV ${recomendacaoId} não encontrada para a empresa informada.` }));
+            }
+
+            if (checagemMiv.status_aprovacao === 'APROVADO' || checagemMiv.status_aprovacao === 'EM_EXECUCAO' || checagemMiv.status_aprovacao === 'CONCLUIDO') {
+                res.writeHead(409, { 'Content-Type': 'application/json; charset=utf-8' });
+                return res.end(JSON.stringify({
+                    sucesso: false,
+                    erro: `A recomendação MIV já se encontra no status '${checagemMiv.status_aprovacao}'. Operação duplicada rejeitada por governança executiva.`,
+                    statusAtual: checagemMiv.status_aprovacao,
+                    tarefaVinculada: checagemMiv.tarefa_central_id
+                }));
+            }
+
+            // 2. Despacho de Tarefas para a Equipe Digital (APENAS APÓS APROVAÇÃO FORMAL)
+            let tarefaDespachada = null;
+            if (despacharTarefa) {
+                const produto = checagemMiv.produto_catalogo_vide || 'AUTOMACOES';
+                let agenteId = 'agente_06_automacao';
+                let especialista = 'Automação e Integrações';
+
+                if (produto.includes('ATENDIMENTO') || checagemMiv.dimensao_afetada === 'ATENDIMENTO') {
+                    agenteId = 'agente_05_atendimento';
+                    especialista = 'Atendimento e Vendas';
+                } else if (produto.includes('PAGINA') || produto.includes('WEB') || checagemMiv.dimensao_afetada === 'ESTRUTURA_DIGITAL') {
+                    agenteId = 'agente_03_desenvolvedor';
+                    especialista = 'Desenvolvedor Full-Stack';
+                } else if (produto.includes('BRANDING') || checagemMiv.dimensao_afetada === 'COMUNICACAO') {
+                    agenteId = 'agente_04_branding_design';
+                    especialista = 'Branding e Design';
+                }
+
+                // Identifica projeto alvo para vinculação
+                let targetProjetoId = idProjeto;
+                const activePgPool = servicoMotorInteligencia.pool || db.pgPool;
+
+                if (activePgPool && !targetProjetoId) {
+                    try {
+                        const resPrj = await activePgPool.query('SELECT id FROM projetos ORDER BY criado_em DESC LIMIT 1;');
+                        if (resPrj.rows.length > 0) {
+                            targetProjetoId = resPrj.rows[0].id;
+                        } else {
+                            let cliId = 'cli_vide_padrao';
+                            const resCli = await activePgPool.query('SELECT id FROM clientes LIMIT 1;');
+                            if (resCli.rows.length > 0) {
+                                cliId = resCli.rows[0].id;
+                            } else {
+                                await activePgPool.query(`
+                                    INSERT INTO clientes (id, nome_cliente, email_contato)
+                                    VALUES ('cli_vide_padrao', 'Operação Geral VIDE', 'contato@vide.com.br')
+                                    ON CONFLICT (id) DO NOTHING;
+                                `);
+                            }
+                            targetProjetoId = 'prj_governanca_miv';
+                            await activePgPool.query(`
+                                INSERT INTO projetos (id, cliente_id, solicitacao_original, situacao_projeto)
+                                VALUES ($1, $2, 'Operações de MIVs Aprovadas pela Diretoria', 'EM_EXECUCAO')
+                                ON CONFLICT (id) DO NOTHING;
+                            `, [targetProjetoId, cliId]);
+                        }
+                    } catch (ePrj) {
+                        console.warn('[MIV_APROVACAO] Aviso ao resolver projeto:', ePrj.message);
+                    }
+                }
+
+                if (!targetProjetoId) {
+                    const prjs = listarProjetos();
+                    if (prjs.length > 0) targetProjetoId = prjs[0].id_projeto;
+                }
+
+                const idTarefaNova = `tsk_miv_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
+                tarefaDespachada = {
+                    id: idTarefaNova,
+                    projeto_id: targetProjetoId || 'prj_governanca_miv',
+                    agente_id: agenteId,
+                    especialista: especialista,
+                    titulo: `[MIV APROVADA] ${checagemMiv.titulo_miv}`,
+                    descricao: `Intervenção de Eficácia Suficiente homologada pela Diretoria: ${checagemMiv.acao_proposta}. Gargalo: ${checagemMiv.titulo_gargalo} (Score EPV: ${checagemMiv.epv_score}).`,
+                    estado: 'PRONTA_PARA_EXECUCAO',
+                    criado_em: new Date().toISOString()
+                };
+
+                // Persiste no banco de dados legados / PostgreSQL se houver pool
+                if (activePgPool && targetProjetoId) {
+                    try {
+                        await activePgPool.query(`
+                            INSERT INTO tarefas (id, projeto_id, agente_id, especialista, titulo, descricao, estado)
+                            VALUES ($1, $2, $3, $4, $5, $6, $7)
+                            ON CONFLICT (id) DO NOTHING;
+                        `, [tarefaDespachada.id, targetProjetoId, tarefaDespachada.agente_id, tarefaDespachada.especialista, tarefaDespachada.titulo, tarefaDespachada.descricao, tarefaDespachada.estado]);
+                    } catch (errPg) {
+                        console.warn('[MIV_APROVACAO] Aviso ao persistir na tabela tarefas:', errPg.message);
+                    }
+                }
+
+                db.tabelas.tarefas.set(idTarefaNova, tarefaDespachada);
+
+                if (targetProjetoId) {
+                    const prj = obterProjetoPorId(targetProjetoId);
+                    if (prj) {
+                        if (!prj.grafo_tarefas) prj.grafo_tarefas = [];
+                        prj.grafo_tarefas.push({
+                            id_tarefa: idTarefaNova,
+                            especialista,
+                            titulo: tarefaDespachada.titulo,
+                            estado: 'PRONTA_PARA_EXECUCAO',
+                            descricao: tarefaDespachada.descricao
+                        });
+                        salvarProjeto(prj);
+                        registrarEvento(targetProjetoId, `MIV aprovada pela Diretoria: Tarefa ${idTarefaNova} despachada para ${especialista}.`);
+                    }
+                }
+            }
+
+            // 3. Atualiza Recomendação no Motor (comTenant sob RLS) e grava na Trilha de Auditoria Append-Only
+            const mivAprovada = await servicoMotorInteligencia.aprovarRecomendacaoMIV({
+                empresaId,
+                recomendacaoId,
+                usuarioAutorizador: usuario.usuario || 'DIRETOR_DOUGLAS',
+                tarefaCentralId: tarefaDespachada ? tarefaDespachada.id : null
+            });
+
+            res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+            return res.end(JSON.stringify({
+                sucesso: true,
+                mensagem: 'Recomendação MIV aprovada com sucesso pela Diretoria e despachada para a equipe digital.',
+                recomendacao: mivAprovada,
+                tarefaDespachada
+            }));
+        } catch (e) {
+            res.writeHead(500, { 'Content-Type': 'application/json; charset=utf-8' });
+            return res.end(JSON.stringify({ sucesso: false, erro: e.message }));
+        }
+    }
+
+    // 7.5 GET /api/motor/miv/rastreabilidade/:recomendacaoId — Inspeção Relacional Prévia da MIV
+    if (urlLimpa.startsWith('/api/motor/miv/rastreabilidade/') && req.method === 'GET') {
+        const auth = seguranca.autenticarRequisicao(req);
+        if (!auth.autenticado) {
+            res.writeHead(401, { 'Content-Type': 'application/json; charset=utf-8' });
+            return res.end(JSON.stringify({ sucesso: false, erro: 'Autenticação obrigatória para inspecionar rastreabilidade.' }));
+        }
+
+        const recomendacaoId = decodeURIComponent(urlLimpa.replace('/api/motor/miv/rastreabilidade/', '').trim());
+        const usuario = auth.usuario;
+
+        // Extrai empresaId dos parâmetros da query ou header
+        const urlObj = new URL(req.url, `http://${req.headers.host || 'localhost'}`);
+        let empresaId = urlObj.searchParams.get('empresaId');
+
+        if (usuario.clienteId && usuario.papel !== 'DIRETOR' && usuario.papel !== 'DIRETORA' && usuario.papel !== 'ADMIN') {
+            if (empresaId && empresaId !== usuario.clienteId) {
+                res.writeHead(403, { 'Content-Type': 'application/json; charset=utf-8' });
+                return res.end(JSON.stringify({ sucesso: false, erro: 'Acesso negado: Tentativa de violação multiempresa.' }));
+            }
+            empresaId = usuario.clienteId;
+        }
+
+        if (!empresaId) {
+            // Se a diretoria não passou a empresa, resolve pelo próprio ID da recomendação
+            try {
+                const resBusca = await servicoMotorInteligencia.pool.query(
+                    'SELECT empresa_id FROM recomendacoes_miv WHERE id = $1 LIMIT 1;',
+                    [recomendacaoId]
+                );
+                if (resBusca.rows.length > 0) {
+                    empresaId = resBusca.rows[0].empresa_id;
+                }
+            } catch (_) {}
+        }
+
+        if (!empresaId) {
+            res.writeHead(400, { 'Content-Type': 'application/json; charset=utf-8' });
+            return res.end(JSON.stringify({ sucesso: false, erro: 'empresaId é obrigatório para consultar a rastreabilidade.' }));
+        }
+
+        try {
+            const cadeia = await servicoMotorInteligencia.obterRastreabilidadeRecomendacao({
+                empresaId,
+                recomendacaoId
+            });
+
+            res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+            return res.end(JSON.stringify({
+                sucesso: true,
+                recomendacaoId,
+                empresaId,
+                totalElos: cadeia.length,
+                rastreabilidade: cadeia
+            }));
+        } catch (e) {
+            res.writeHead(500, { 'Content-Type': 'application/json; charset=utf-8' });
+            return res.end(JSON.stringify({ sucesso: false, erro: e.message }));
+        }
+    }
+
+    // =========================================================================
     // REDIRECIONAMENTOS DE NAVEGAÇÃO INTELIGENTES
     // =========================================================================
     if (urlLimpa === '/' || urlLimpa === '') {
@@ -1105,3 +1648,5 @@ servidor.listen(PORTA, HOST, async () => {
         console.log('[VIDE] Hidratação relacional pós-boot concluída.');
     } catch (_) {}
 });
+
+module.exports = { servidor };
