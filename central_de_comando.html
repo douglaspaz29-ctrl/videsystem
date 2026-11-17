@@ -2849,6 +2849,10 @@
                             acoesBotoes = '<div style="margin-top: 10px;">' +
                                 '<button onclick="executarTarefaIndividual(\'' + t.id_tarefa + '\')" class="btn-action-blue" style="padding: 4px 12px; font-size: 11px;"><i class="fas fa-play"></i> Executar Especialista (' + t.especialista + ')</button>' +
                             '</div>';
+                        } else if (est === 'CONCLUIDO' || est === 'APROVADA') {
+                            acoesBotoes = '<div style="margin-top: 10px;">' +
+                                '<button onclick="abrirInspecaoTarefa(\'' + t.id_tarefa + '\')" class="btn-blue-action" style="padding: 4px 10px; font-size: 11px; background: rgba(16,185,129,0.12); border-color: rgba(16,185,129,0.3); color: #10B981;"><i class="fas fa-magnifying-glass"></i> Inspecionar Entregas Homologadas</button>' +
+                            '</div>';
                         } else if (t.apontamentos_correcao) {
                             acoesBotoes = '<div style="margin-top: 10px;">' +
                                 '<button onclick="executarCorrecaoTarefaIndividual(\'' + t.id_tarefa + '\')" class="btn-action-amber" style="padding: 4px 12px; font-size: 11px;"><i class="fas fa-wrench"></i> Aplicar Correção</button>' +
