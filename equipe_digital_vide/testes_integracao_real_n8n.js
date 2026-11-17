@@ -11,9 +11,11 @@ const https = require('https');
 const fs = require('fs');
 const path = require('path');
 
+const { seguranca } = require('./seguranca');
+
 const BASE_URL = process.env.TEST_API_URL || 'http://localhost:3000';
 
-function fazerRequisicaoHttp({ url, metodo = 'GET', body = null }) {
+function fazerRequisicaoHttp({ url, metodo = 'GET', body = null, headers = {} }) {
     return new Promise((resolve, reject) => {
         const urlObj = new URL(url);
         const isHttps = urlObj.protocol === 'https:';
@@ -24,7 +26,8 @@ function fazerRequisicaoHttp({ url, metodo = 'GET', body = null }) {
             path: urlObj.pathname + urlObj.search,
             method: metodo,
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                ...headers
             }
         };
 
@@ -142,9 +145,11 @@ async function executarTestesPontaAPonta() {
     // -----------------------------------------------------------------
     console.log('>>> TESTE 3: Verificação de Leitura do Painel Interno');
     try {
+        const tokenAuth = seguranca.gerarTokenSessao({ userId: 'usr_douglas', usuario: 'douglas', papel: 'DIRETOR' });
         const res3 = await fazerRequisicaoHttp({
             url: `${BASE_URL}/api/projetos`,
-            metodo: 'GET'
+            metodo: 'GET',
+            headers: { 'Authorization': 'Bearer ' + tokenAuth }
         });
 
         console.log(`Status HTTP: ${res3.status}`);

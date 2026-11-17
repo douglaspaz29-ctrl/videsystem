@@ -101,6 +101,34 @@ function verificarAutenticacaoAdmin(req) {
 }
 
 /**
+ * Validação rigorosa de autenticação e permissões RBAC para rotas da API (JWT Bearer)
+ * Retorna o payload do usuário autenticado se válido; caso contrário, envia resposta HTTP 401/403 e retorna null.
+ */
+function exigirAutenticacao(req, res, papeisPermitidos = null) {
+    const auth = seguranca.autenticarRequisicao(req);
+    if (!auth.autenticado) {
+        res.writeHead(401, { 'Content-Type': 'application/json; charset=utf-8' });
+        res.end(JSON.stringify({ 
+            sucesso: false, 
+            erro: 'Acesso não autorizado. É necessário fornecer um token JWT Bearer válido.' 
+        }));
+        return null;
+    }
+    if (papeisPermitidos && papeisPermitidos.length > 0) {
+        const papel = auth.usuario?.papel;
+        if (!papeisPermitidos.includes(papel)) {
+            res.writeHead(403, { 'Content-Type': 'application/json; charset=utf-8' });
+            res.end(JSON.stringify({ 
+                sucesso: false, 
+                erro: `Acesso negado. O perfil [${papel || 'DESCONHECIDO'}] não possui permissão para esta operação.` 
+            }));
+            return null;
+        }
+    }
+    return auth.usuario;
+}
+
+/**
  * Executa sequencialmente o pipeline completo dos 7 especialistas da VIDE
  * salvando todos os entregáveis duráveis no PostgreSQL através do storageService
  */
@@ -332,8 +360,11 @@ const servidor = http.createServer(async (req, res) => {
         return res.end(JSON.stringify({ sucesso: true, catalogo }));
     }
 
-    // 1. GET /api/projetos — Lista todos os projetos completos com suas tarefas
+    // 1. GET /api/projetos — Lista todos os projetos completos com suas tarefas (Autenticação Obrigatória)
     if (urlLimpa === '/api/projetos' && req.method === 'GET') {
+        const usuarioAutenticado = exigirAutenticacao(req, res);
+        if (!usuarioAutenticado) return;
+
         if (db.pgPool) {
             try { await db.hidratarDoPostgres(); } catch (_) {}
         }
@@ -355,8 +386,11 @@ const servidor = http.createServer(async (req, res) => {
         return res.end(JSON.stringify({ sucesso: true, projetos: projetosCompletos }));
     }
 
-    // 1.1 POST /api/projetos/novo — Criação direta de novo projeto com briefing e triagem imediata
+    // 1.1 POST /api/projetos/novo — Criação direta de novo projeto com briefing e triagem imediata (Autenticação e RBAC Obrigatórios)
     if (urlLimpa === '/api/projetos/novo' && req.method === 'POST') {
+        const usuarioAutenticado = exigirAutenticacao(req, res, ['DIRETOR', 'DIRETORA', 'ADMIN', 'OPERADOR']);
+        if (!usuarioAutenticado) return;
+
         try {
             const body = await lerCorpoJson(req);
             const cliente = (body.cliente || 'Cliente Sem Nome').trim();
@@ -406,8 +440,11 @@ const servidor = http.createServer(async (req, res) => {
         }
     }
 
-    // 1.2 POST /api/projetos/:id/anexos — Alimentação da equipe com briefings, imagens e documentos
+    // 1.2 POST /api/projetos/:id/anexos — Alimentação da equipe com briefings, imagens e documentos (Autenticação Obrigatória)
     if (urlLimpa.startsWith('/api/projetos/') && urlLimpa.endsWith('/anexos') && req.method === 'POST') {
+        const usuarioAutenticado = exigirAutenticacao(req, res, ['DIRETOR', 'DIRETORA', 'ADMIN', 'OPERADOR']);
+        if (!usuarioAutenticado) return;
+
         const idProjeto = decodeURIComponent(urlLimpa.replace('/api/projetos/', '').replace('/anexos', ''));
         try {
             const body = await lerCorpoJson(req);
@@ -473,8 +510,11 @@ const servidor = http.createServer(async (req, res) => {
         }
     }
 
-    // 1.3 POST /api/projetos/:id/diagnostico — Execução do Diagnóstico Comercial VIDE (10 passos)
+    // 1.3 POST /api/projetos/:id/diagnostico — Execução do Diagnóstico Comercial VIDE (10 passos) (Autenticação Obrigatória)
     if (urlLimpa.startsWith('/api/projetos/') && urlLimpa.endsWith('/diagnostico') && req.method === 'POST') {
+        const usuarioAutenticado = exigirAutenticacao(req, res, ['DIRETOR', 'DIRETORA', 'ADMIN', 'OPERADOR']);
+        if (!usuarioAutenticado) return;
+
         const idProjeto = decodeURIComponent(urlLimpa.replace('/api/projetos/', '').replace('/diagnostico', ''));
         try {
             const body = await lerCorpoJson(req);
@@ -493,8 +533,11 @@ const servidor = http.createServer(async (req, res) => {
         }
     }
 
-    // 1.4 GET /api/projetos/:id/detalhes — Retorna o projeto com estado real dos 7 agentes, materiais e entregas
+    // 1.4 GET /api/projetos/:id/detalhes — Retorna o projeto com estado real dos 7 agentes, materiais e entregas (Autenticação Obrigatória)
     if (urlLimpa.startsWith('/api/projetos/') && urlLimpa.endsWith('/detalhes') && req.method === 'GET') {
+        const usuarioAutenticado = exigirAutenticacao(req, res);
+        if (!usuarioAutenticado) return;
+
         const idProjeto = decodeURIComponent(urlLimpa.replace('/api/projetos/', '').replace('/detalhes', ''));
         let projeto = obterProjetoPorId(idProjeto);
         if (!projeto && db.pgPool) projeto = await db.obterProjetoDoPostgres(idProjeto);
@@ -534,8 +577,11 @@ const servidor = http.createServer(async (req, res) => {
         }));
     }
 
-    // 2. GET /api/projetos/:id — Retorna detalhes de um projeto específico com fallback direto no PostgreSQL
+    // 2. GET /api/projetos/:id — Retorna detalhes de um projeto específico com fallback direto no PostgreSQL (Autenticação Obrigatória)
     if (urlLimpa.startsWith('/api/projetos/') && !urlLimpa.includes('/arquivos') && !urlLimpa.includes('/detalhes') && !urlLimpa.includes('/anexos') && !urlLimpa.includes('/diagnostico') && req.method === 'GET') {
+        const usuarioAutenticado = exigirAutenticacao(req, res);
+        if (!usuarioAutenticado) return;
+
         const idProjeto = decodeURIComponent(urlLimpa.replace('/api/projetos/', ''));
         let projeto = obterProjetoPorId(idProjeto);
         if (!projeto && db.pgPool) {
@@ -568,8 +614,11 @@ const servidor = http.createServer(async (req, res) => {
         return res.end(JSON.stringify({ sucesso: true, projeto }));
     }
 
-    // 2.1 GET /api/projetos/:id/arquivos — Lista ou recupera arquivos persistidos do projeto no storage
+    // 2.1 GET /api/projetos/:id/arquivos — Lista ou recupera arquivos persistidos do projeto no storage (Autenticação Obrigatória)
     if (urlLimpa.startsWith('/api/projetos/') && urlLimpa.includes('/arquivos') && req.method === 'GET') {
+        const usuarioAutenticado = exigirAutenticacao(req, res);
+        if (!usuarioAutenticado) return;
+
         const partes = urlLimpa.replace('/api/projetos/', '').split('/arquivos');
         const idProjeto = decodeURIComponent(partes[0]);
         const resto = partes[1] ? decodeURIComponent(partes[1]).replace(/^\//, '') : '';
@@ -719,8 +768,11 @@ const servidor = http.createServer(async (req, res) => {
         }
     }
 
-    // 3.3 POST /api/whatsapp/enviar — Despacho Outbound de Mensagens
+    // 3.3 POST /api/whatsapp/enviar — Despacho Outbound de Mensagens (Autenticação Obrigatória)
     if (urlLimpa === '/api/whatsapp/enviar' && req.method === 'POST') {
+        const usuarioAutenticado = exigirAutenticacao(req, res, ['DIRETOR', 'DIRETORA', 'ADMIN', 'OPERADOR']);
+        if (!usuarioAutenticado) return;
+
         try {
             const body = await lerCorpoJson(req);
             const { to, text, template } = body;
@@ -738,8 +790,11 @@ const servidor = http.createServer(async (req, res) => {
         }
     }
 
-    // 3.4 POST /api/webhooks/testar-disparo — Teste e Disparo de Webhook Outbound para n8n ou CRM
+    // 3.4 POST /api/webhooks/testar-disparo — Teste e Disparo de Webhook Outbound para n8n ou CRM (Autenticação Obrigatória)
     if (urlLimpa === '/api/webhooks/testar-disparo' && req.method === 'POST') {
+        const usuarioAutenticado = exigirAutenticacao(req, res, ['DIRETOR', 'DIRETORA', 'ADMIN', 'OPERADOR']);
+        if (!usuarioAutenticado) return;
+
         try {
             const body = await lerCorpoJson(req);
             const urlDestino = body.url || CONFIG.N8N_WEBHOOK_URL || (CONFIG.N8N_URL ? `${CONFIG.N8N_URL.replace(/\/$/, '')}/webhook/vide-eventos` : null);

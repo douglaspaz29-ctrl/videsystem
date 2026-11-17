@@ -2222,9 +2222,12 @@
 
         try {
             adicionarLogTerminal('DIRETORIA', 'Criando novo projeto para [' + cliente + ']...');
+            const token = sessionStorage.getItem('vide_jwt');
+            const headers = { 'Content-Type': 'application/json' };
+            if (token) headers['Authorization'] = 'Bearer ' + token;
             const res = await fetch('/api/projetos/novo', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers,
                 body: JSON.stringify({ cliente, solicitacao, briefing, prazo })
             });
             const data = await res.json();

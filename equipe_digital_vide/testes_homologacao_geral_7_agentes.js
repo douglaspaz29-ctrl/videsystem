@@ -32,6 +32,7 @@ const { executarCicloCompletoBranding, assumirTarefaBranding } = require('./agen
 const { executarCicloCompletoAtendimento, assumirTarefaAtendimento } = require('./agente_05_atendimento/executor_atendimento');
 const { executarCicloCompletoAutomacao, assumirTarefaAutomacao } = require('./agente_06_automacao/executor_automacao');
 const { executarCicloCompletoInteligencia, assumirTarefaInteligencia } = require('./agente_07_inteligencia_comercial/executor_inteligencia_comercial');
+const { seguranca } = require('./seguranca');
 
 async function executarHomologacaoGeral() {
     console.log('======================================================================');
@@ -341,7 +342,8 @@ async function executarHomologacaoGeral() {
     console.log('----------------------------------------------------------------------');
 
     let statusApi = await new Promise((resolve) => {
-        http.get('http://localhost:3000/api/projetos', (res) => {
+        const tokenAuth = seguranca.gerarTokenSessao({ userId: 'usr_douglas', usuario: 'douglas', papel: 'DIRETOR' });
+        http.get('http://localhost:3000/api/projetos', { headers: { 'Authorization': 'Bearer ' + tokenAuth } }, (res) => {
             let data = '';
             res.on('data', chunk => data += chunk);
             res.on('end', () => {
