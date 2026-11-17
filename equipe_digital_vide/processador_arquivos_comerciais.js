@@ -350,6 +350,9 @@ function classificarTipoDadosComerciais(registros, tipoExplicitado = null) {
         if (['VENDA', 'VENDAS', 'FECHAMENTO', 'TRANSACOES'].includes(t)) return 'VENDA';
         if (['PRODUTO', 'PRODUTOS', 'SERVICO', 'SERVICOS', 'CATALOGO'].includes(t)) return 'PRODUTO_SERVICO';
         if (['RETENCAO', 'RECOMPRA', 'CHURN', 'NPS', 'LTV'].includes(t)) return 'METRICA_RETENCAO';
+        if (['INSTAGRAM', 'INSTAGRAM_INSIGHTS', 'METRICAS_INSTAGRAM', 'REELS', 'STORIES'].includes(t)) return 'METRICAS_INSTAGRAM';
+        if (['META_ADS', 'CAMPANHAS_META_ADS', 'ANUNCIOS', 'CAMPANHAS', 'FACEBOOK_ADS'].includes(t)) return 'CAMPANHAS_META_ADS';
+        if (['CONVERSAO_WEB', 'WEB_ANALYTICS', 'GA4', 'SITES', 'LANDING_PAGE'].includes(t)) return 'CONVERSAO_WEB';
     }
 
     if (!Array.isArray(registros) || registros.length === 0) {
@@ -395,7 +398,24 @@ function classificarTipoDadosComerciais(registros, tipoExplicitado = null) {
         return 'PRODUTO_SERVICO';
     }
 
-    // 6. Contatos e Leads
+    // 6. Métricas de Instagram Insights
+    if (temChave('instagram', 'reels', 'stories', 'carrossel', 'salvamentos', 'visitas_perfil') ||
+       (temChave('alcance', 'impressoes') && temChave('curtidas', 'comentarios', 'salvamentos'))) {
+        return 'METRICAS_INSTAGRAM';
+    }
+
+    // 7. Campanhas de Mídia Paga Meta Ads
+    if (temChave('meta_ads', 'facebook_ads', 'cpm', 'cpc', 'ctr', 'adset', 'criativo') ||
+       (temChave('investimento', 'spend') && temChave('cliques', 'resultados', 'cpa'))) {
+        return 'CAMPANHAS_META_ADS';
+    }
+
+    // 8. Conversão de Sites e Interfaces Web
+    if (temChave('ga4', 'sessoes', 'bounce_rate', 'taxa_rejeicao', 'landing_page', 'cliques_cta', 'formularios_iniciados', 'formularios_concluidos')) {
+        return 'CONVERSAO_WEB';
+    }
+
+    // 9. Contatos e Leads
     if (temChave('nome', 'contato', 'lead', 'cliente') && temChave('telefone', 'whatsapp', 'email', 'fone', 'celular')) {
         return 'CONTATO';
     }
@@ -626,6 +646,43 @@ function validarENormalizarItemComercial(dadoBruto, tipo, natureza = 'IMPORTADO'
         normalizado.churn = churn ? (['SIM', 'TRUE', '1', 'CANCELADO'].includes(churn.toString().toUpperCase())) : false;
         normalizado.ltv = ltv ? parseFloat(ltv.toString().replace(/[^\d.,]/g, '').replace(',', '.')) : null;
         normalizado.cliente_referencia = encontrarValor('cliente', 'empresa', 'contato', 'id_cliente');
+    } else if (tipo === 'METRICAS_INSTAGRAM') {
+        normalizado.alcance = parseInt(encontrarValor('alcance', 'reach', 'pessoas_alcancadas') || 0, 10);
+        normalizado.impressoes = parseInt(encontrarValor('impressoes', 'impressions') || 0, 10);
+        normalizado.curtidas = parseInt(encontrarValor('curtidas', 'likes') || 0, 10);
+        normalizado.comentarios = parseInt(encontrarValor('comentarios', 'comments') || 0, 10);
+        normalizado.compartilhamentos = parseInt(encontrarValor('compartilhamentos', 'shares') || 0, 10);
+        normalizado.salvamentos = parseInt(encontrarValor('salvamentos', 'saves') || 0, 10);
+        normalizado.visitas_perfil = parseInt(encontrarValor('visitas_perfil', 'profile_visits') || 0, 10);
+        normalizado.formato = (encontrarValor('formato', 'tipo_conteudo', 'tipo') || 'FEED_ESTATICO').toString().toUpperCase();
+        normalizado.identificador_post = encontrarValor('post_id', 'id_publicacao', 'link', 'titulo');
+        if (normalizado.alcance === 0 && normalizado.impressoes === 0) {
+            inconsistencias.push('Métrica de Instagram sem registro de alcance ou impressões.');
+        }
+    } else if (tipo === 'CAMPANHAS_META_ADS') {
+        normalizado.nome_campanha = encontrarValor('campanha', 'campaign_name', 'nome') || 'Campanha Sem Nome';
+        normalizado.investimento = parseFloat((encontrarValor('investimento', 'spend', 'valor_gasto') || 0).toString().replace(/[^\d.,]/g, '').replace(',', '.'));
+        normalizado.alcance = parseInt(encontrarValor('alcance', 'reach') || 0, 10);
+        normalizado.impressoes = parseInt(encontrarValor('impressoes', 'impressions') || 0, 10);
+        normalizado.cliques = parseInt(encontrarValor('cliques', 'clicks', 'link_clicks') || 0, 10);
+        normalizado.resultados = parseInt(encontrarValor('resultados', 'results', 'conversoes') || 0, 10);
+        normalizado.cpm = parseFloat((encontrarValor('cpm') || 0).toString().replace(/[^\d.,]/g, '').replace(',', '.'));
+        normalizado.cpc = parseFloat((encontrarValor('cpc') || 0).toString().replace(/[^\d.,]/g, '').replace(',', '.'));
+        normalizado.ctr = parseFloat((encontrarValor('ctr') || 0).toString().replace(/[^\d.,]/g, '').replace(',', '.'));
+        if (normalizado.investimento === 0 && normalizado.impressoes === 0) {
+            inconsistencias.push('Registro de campanha sem investimento ou impressões informadas.');
+        }
+    } else if (tipo === 'CONVERSAO_WEB') {
+        normalizado.sessoes = parseInt(encontrarValor('sessoes', 'sessions') || 0, 10);
+        normalizado.usuarios = parseInt(encontrarValor('usuarios', 'users') || 0, 10);
+        normalizado.cliques_cta = parseInt(encontrarValor('cliques_cta', 'cta_clicks') || 0, 10);
+        normalizado.formularios_iniciados = parseInt(encontrarValor('formularios_iniciados', 'form_starts') || 0, 10);
+        normalizado.formularios_concluidos = parseInt(encontrarValor('formularios_concluidos', 'form_submits', 'leads') || 0, 10);
+        normalizado.pagina = encontrarValor('pagina', 'landing_page', 'url', 'caminho');
+        normalizado.canal_origem = encontrarValor('canal', 'origem', 'medium', 'source') || 'DIRETO';
+        if (normalizado.sessoes === 0 && normalizado.cliques_cta === 0) {
+            inconsistencias.push('Registro de conversão web sem sessões ou cliques identificados.');
+        }
     }
 
     // Determina status de validação

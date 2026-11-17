@@ -20,6 +20,7 @@ const pg = require('pg');
 const CONFIG = require('./config_ambiente');
 const { classificarNoCatalogo, SOLUCOES_COMERCIAIS } = require('./catalogo_solucoes_comerciais');
 const { iaService } = require('./ia_service');
+const { calibrarScores7DComMarketing } = require('./agente_07_inteligencia_comercial/analisador_marketing_performance');
 
 class ServicoMotorInteligenciaVIDE {
     /**
@@ -525,7 +526,7 @@ class ServicoMotorInteligenciaVIDE {
 
             const scoreGestao = Math.min(100, Math.round(subdimRetencao + subdimRecompra + subdimRelacionamento + subdimMetricas));
 
-            const scoresDimensoes = {
+            let scoresDimensoes = {
                 comunicacao: scoreComunicacao,
                 aquisicao: scoreAquisicao,
                 atendimento: scoreAtendimento,
@@ -543,26 +544,40 @@ class ServicoMotorInteligenciaVIDE {
                 }
             };
 
+            // Enriquecimento e calibração com dados analíticos de marketing (se fornecidos)
+            const marketingInput = dadosOperacionais.marketing || dadosOperacionais.metricasMarketing;
+            if (marketingInput && typeof calibrarScores7DComMarketing === 'function') {
+                scoresDimensoes = calibrarScores7DComMarketing(scoresDimensoes, marketingInput);
+            }
+
+            const scoreComFinal = scoresDimensoes.comunicacao;
+            const scoreAquFinal = scoresDimensoes.aquisicao;
+            const scoreAteFinal = scoresDimensoes.atendimento;
+            const scoreProFinal = scoresDimensoes.processo_comercial;
+            const scoreConFinal = scoresDimensoes.conversao;
+            const scoreEstFinal = scoresDimensoes.estrutura_digital;
+            const scoreGesFinal = typeof scoresDimensoes.gestao === 'object' ? scoresDimensoes.gestao.score_total : scoresDimensoes.gestao;
+
             // Score Geral de Maturidade (Média Ponderada das 7 Dimensões)
             const scoreGeral = Math.round(
-                (scoreComunicacao * 0.12 +
-                 scoreAquisicao * 0.15 +
-                 scoreAtendimento * 0.18 +
-                 scoreProcesso * 0.15 +
-                 scoreConversao * 0.18 +
-                 scoreEstrutura * 0.10 +
-                 scoreGestao * 0.12) * 100
+                (scoreComFinal * 0.12 +
+                 scoreAquFinal * 0.15 +
+                 scoreAteFinal * 0.18 +
+                 scoreProFinal * 0.15 +
+                 scoreConFinal * 0.18 +
+                 scoreEstFinal * 0.10 +
+                 scoreGesFinal * 0.12) * 100
             ) / 100;
 
             const resumoExecutivo = `Diagnóstico de Maturidade Comercial 7D concluído com pontuação geral de ${scoreGeral}/100. Dimensão mais crítica: ${
                 Object.entries({
-                    'Comunicação': scoreComunicacao,
-                    'Aquisição': scoreAquisicao,
-                    'Atendimento': scoreAtendimento,
-                    'Processo Comercial': scoreProcesso,
-                    'Conversão': scoreConversao,
-                    'Estrutura Digital': scoreEstrutura,
-                    'Gestão/Retenção': scoreGestao
+                    'Comunicação': scoreComFinal,
+                    'Aquisição': scoreAquFinal,
+                    'Atendimento': scoreAteFinal,
+                    'Processo Comercial': scoreProFinal,
+                    'Conversão': scoreConFinal,
+                    'Estrutura Digital': scoreEstFinal,
+                    'Gestão/Retenção': scoreGesFinal
                 }).sort((a,b) => a[1] - b[1])[0][0]
             }.`;
 

@@ -13,6 +13,15 @@ const { conferirEntrega } = require('../agente_02_coordenador/executor_coordenad
 const { iaService } = require('../ia_service');
 const { storageService } = require('../storage_service');
 const { servicoMotorInteligencia } = require('../servico_motor_inteligencia');
+const {
+    analisarMetricasInstagram,
+    analisarCampanhasMetaAds,
+    analisarConversaoWeb,
+    analisarFunilMarketingVendas,
+    estruturarRelatorioAnalitico9Etapas,
+    calibrarScores7DComMarketing,
+    construirGargaloEPVMarketing
+} = require('./analisador_marketing_performance');
 
 // Diretório base de entregas físicas
 const DIRETORIO_ENTREGAS = path.join(__dirname, '..', 'entregas_clientes');
@@ -1010,6 +1019,54 @@ async function executarCicloMotorInteligencia({ idProjeto, empresaId, dadosOpera
         produtoCatalogoVide: 'AUTOMACOES'
     });
 
+    // 5.1 Enriquecimento e Integração com Marketing & Performance Comercial (se fornecido)
+    let analiseMarketing = null;
+    let gargaloMarketing = null;
+    let mivMarketing = null;
+
+    if (dadosOperacionais.marketing) {
+        analiseMarketing = executarAnaliseMarketingEPerformance({
+            empresaId,
+            idProjeto,
+            dadosMarketing: dadosOperacionais.marketing,
+            contextoComercial: {
+                segmento: dadosOperacionais.segmento || 'Comércio & Serviços',
+                ticketMedio: dadosOperacionais.ticketMedio || 1000
+            }
+        });
+
+        // Se houver atrito severo de interface ou formulário, registra gargalo EPV e MIV no Motor
+        if (analiseMarketing.analises.conversao_web && 
+            analiseMarketing.analises.conversao_web.atritos_identificados && 
+            analiseMarketing.analises.conversao_web.atritos_identificados.length > 0) {
+            
+            const payloadGargalo = construirGargaloEPVMarketing({
+                empresaId,
+                diagnosticoId: diag7D.diagnosticoId,
+                tipoGargalo: 'ABANDONO_FORMULARIO_WEB',
+                dadosMarketing: analiseMarketing.analises.conversao_web.indicadores_consolidados,
+                ticketMedioBRL: dadosOperacionais.ticketMedio || 1000
+            });
+            gargaloMarketing = await servicoMotorInteligencia.cadastrarGargaloEPV(payloadGargalo);
+
+            mivMarketing = await servicoMotorInteligencia.formularRecomendacaoMIV({
+                empresaId,
+                gargaloId: gargaloMarketing.gargaloId,
+                hipoteseId: null,
+                tituloMiv: 'MIV Marketing: Otimização de Captura e Redução de Atrito no Formulário',
+                acaoProposta: 'Reduzir formulário para apenas 2 campos essenciais (Nome e WhatsApp) e adicionar prova social visual no topo da página de destino.',
+                justificativaMiv: 'Elimina atrito cognitivo no momento da captura, mitigando o abandono e aumentando a taxa de conclusão.',
+                justificativaEficaciaSuficiente: 'Intervenção cirúrgica de interface sem custo de software ou infraestrutura.',
+                resultadoEsperado: 'Elevação da taxa de conclusão do formulário de 30% para mais de 50%.',
+                indicadorAvaliacao: 'Taxa de conclusão de formulário web (%)',
+                janelaObservacaoDias: 14,
+                criterioSucesso: 'Taxa de conclusão superior a 50% após 14 dias de implantação.',
+                grauConfianca: 'ALTO',
+                produtoCatalogoVide: 'CONVERSAO_DE_INTERFACE'
+            });
+        }
+    }
+
     // 6. Obtém o Dossiê Consolidado
     const dossie = await servicoMotorInteligencia.obterDossieConsolidado(empresaId);
 
@@ -1023,6 +1080,9 @@ async function executarCicloMotorInteligencia({ idProjeto, empresaId, dadosOpera
         investigacaoCausal,
         gargaloEPV: gargalo,
         recomendacaoMIV: miv,
+        analiseMarketing,
+        gargaloMarketing,
+        mivMarketing,
         dossie
     };
 }
@@ -1058,6 +1118,67 @@ async function avaliarImpactoMIV({
     });
 }
 
+/**
+ * 8. FUNÇÃO 8: Execução de Análise de Marketing e Performance Comercial (Agente 07)
+ * Orquestra as 4 frentes analíticas (Instagram, Meta Ads, Conversão Web, Funil Integrado)
+ * e estrutura o parecer oficial em 9 etapas epistemológicas da VIDE.
+ * Preserva estritamente o isolamento multiempresa e a rastreabilidade da origem dos dados.
+ */
+function executarAnaliseMarketingEPerformance({
+    empresaId,
+    idProjeto = null,
+    dadosMarketing = {},
+    contextoComercial = {}
+}) {
+    if (!empresaId) {
+        throw new Error('[AGENTE_07_MARKETING] empresa_id é mandatório para análise com governança e isolamento.');
+    }
+
+    const {
+        instagram = null,
+        metaAds = null,
+        webConversion = null,
+        funilJornada = null,
+        relatorio9Etapas = null
+    } = dadosMarketing;
+
+    const resultados = {
+        empresa_id: empresaId,
+        id_projeto: idProjeto,
+        data_analise: new Date().toISOString(),
+        responsavel: 'Agente 07 — Inteligência Comercial',
+        natureza_dados: dadosMarketing.eh_simulado ? 'SIMULADO' : (dadosMarketing.natureza || 'SIMULADO'),
+        analises: {}
+    };
+
+    // 1. Instagram Insights
+    if (instagram) {
+        resultados.analises.instagram = analisarMetricasInstagram(instagram, contextoComercial);
+    }
+
+    // 2. Meta Ads (Mídia Paga & Comparativo)
+    if (metaAds) {
+        resultados.analises.meta_ads = analisarCampanhasMetaAds(metaAds, contextoComercial);
+    }
+
+    // 3. Conversão de Sites (Interfaces & Funil Web)
+    if (webConversion) {
+        resultados.analises.conversao_web = analisarConversaoWeb(webConversion, contextoComercial);
+    }
+
+    // 4. Cruzamento Ponta a Ponta: Atenção -> Visita -> Contato -> Conversa -> Proposta -> Venda -> Retenção
+    if (funilJornada) {
+        resultados.analises.funil_marketing_vendas = analisarFunilMarketingVendas(funilJornada, contextoComercial);
+    }
+
+    // 5. Estruturação do Parecer Analítico em 9 Etapas se requisitado
+    if (relatorio9Etapas) {
+        resultados.relatorio_9_etapas = estruturarRelatorioAnalitico9Etapas(relatorio9Etapas);
+    }
+
+    return resultados;
+}
+
 module.exports = {
     assumirTarefaInteligencia,
     gerarEntregaveisInteligencia,
@@ -1066,5 +1187,13 @@ module.exports = {
     executarCicloCompletoInteligencia,
     gerarDiagnosticoComIA,
     executarCicloMotorInteligencia,
-    avaliarImpactoMIV
+    avaliarImpactoMIV,
+    executarAnaliseMarketingEPerformance,
+    analisarMetricasInstagram,
+    analisarCampanhasMetaAds,
+    analisarConversaoWeb,
+    analisarFunilMarketingVendas,
+    estruturarRelatorioAnalitico9Etapas,
+    calibrarScores7DComMarketing,
+    construirGargaloEPVMarketing
 };
