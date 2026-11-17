@@ -51,7 +51,7 @@ function assumirTarefaInteligencia({ idProjeto, idTarefa }) {
     if (tarefa.dependencias && tarefa.dependencias.length > 0) {
         for (const depId of tarefa.dependencias) {
             const depTarefa = projeto.grafo_tarefas.find(t => t.id_tarefa === depId);
-            if (!depTarefa || depTarefa.estado !== 'APROVADA') {
+            if (!depTarefa || (depTarefa.estado !== 'APROVADA' && depTarefa.estado !== 'CONCLUIDO' && depTarefa.estado !== 'CONCLUIDA')) {
                 throw new Error(`[BLOQUEIO_DEPENDENCIA] Tarefa [${idTarefa}] está BLOQUEADA_POR_DEPENDENCIA. Aguardando aprovação prévia de [${depId}] (${depTarefa ? depTarefa.especialista : 'Desconhecida'}).`);
             }
         }
@@ -59,6 +59,9 @@ function assumirTarefaInteligencia({ idProjeto, idTarefa }) {
 
     // 1.5. Transiciona estado para EM_ANDAMENTO
     tarefa.estado = 'EM_ANDAMENTO';
+    if (!tarefa.historico_auditoria) {
+        tarefa.historico_auditoria = tarefa.historico_alteracoes || [];
+    }
     tarefa.historico_auditoria.push({
         timestamp: new Date().toISOString(),
         autor: 'Agente 07 — Inteligência Comercial',
@@ -804,6 +807,9 @@ function submeterEntregaParaCoordenador({ idProjeto, idTarefa, dadosEntrega, rel
     if (!tarefa) throw new Error(`Tarefa ${idTarefa} não encontrada.`);
 
     tarefa.estado = 'AGUARDANDO_AUDITORIA_COORDENADOR';
+    if (!tarefa.historico_auditoria) {
+        tarefa.historico_auditoria = tarefa.historico_alteracoes || [];
+    }
     tarefa.historico_auditoria.push({
         timestamp: new Date().toISOString(),
         autor: 'Agente 07 — Inteligência Comercial',

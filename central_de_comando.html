@@ -1896,12 +1896,33 @@
                         <input type="text" id="modal-cliente" class="input-dark-field" required placeholder="Ex: Loja Bella Moda Feminina">
                     </div>
                     <div>
+                        <label class="modal-label">Frentes Comerciais da VIDE:</label>
+                        <div style="display: flex; gap: 14px; flex-wrap: wrap; margin-top: 6px;">
+                            <label style="font-size: 12px; color: #E2E8F0; display: flex; align-items: center; gap: 6px; cursor: pointer;">
+                                <input type="checkbox" id="modal-frente-presenca" value="PRESENCA_COMERCIAL" checked>
+                                <span>Presença Comercial (Site / Landing Page)</span>
+                            </label>
+                            <label style="font-size: 12px; color: #E2E8F0; display: flex; align-items: center; gap: 6px; cursor: pointer;">
+                                <input type="checkbox" id="modal-frente-sistema" value="SISTEMA_COMERCIAL">
+                                <span>Sistema Comercial (Atendimento / CRM / n8n)</span>
+                            </label>
+                            <label style="font-size: 12px; color: #E2E8F0; display: flex; align-items: center; gap: 6px; cursor: pointer;">
+                                <input type="checkbox" id="modal-frente-intel" value="INTELIGENCIA_OTIMIZACAO">
+                                <span>Inteligência & Otimização (Motor 7D / MIV)</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div>
                         <label class="modal-label">Demanda / Necessidade Principal:</label>
                         <input type="text" id="modal-solicitacao" class="input-dark-field" required placeholder="Ex: Recebo contatos no Instagram e WhatsApp mas perco vendas por falta de processo">
                     </div>
                     <div>
                         <label class="modal-label">Briefing / Detalhes Operacionais (Opcional):</label>
                         <textarea id="modal-briefing" class="input-dark-field" rows="3" placeholder="Informações de segmento, canais atuais, produtos, ticket médio, equipe..."></textarea>
+                    </div>
+                    <div>
+                        <label class="modal-label">Limites do Trabalho (O que NÃO está incluso):</label>
+                        <input type="text" id="modal-limites" class="input-dark-field" placeholder="Ex: Não inclui anúncios pagos nem integração com ERP legado">
                     </div>
                     <div>
                         <label class="modal-label">Expectativa de Prazo:</label>
@@ -1912,6 +1933,94 @@
                         <button type="submit" class="btn-blue-action"><i class="fas fa-check"></i> Criar Projeto</button>
                     </div>
                 </form>
+            </div>
+        </div>
+
+        <!-- Modal Autorizar Projeto Comercial Formal -->
+        <div id="modal-autorizar-projeto" class="modal-overlay" style="display: none;">
+            <div class="modal-card-box" style="max-width: 580px;">
+                <div class="modal-header">
+                    <div>
+                        <div style="font-family: var(--font-mono); font-size: 10px; color: #10B981; font-weight: 800;">DIRETORIA EXECUTIVA // GOVERNANÇA COMERCIAL</div>
+                        <h3 style="font-size: 18px; font-weight: 800; color: #FFF; margin-top: 2px;">Autorização Comercial de Entrega</h3>
+                    </div>
+                    <button onclick="fecharModalAutorizarProjeto()" class="btn-close-modal"><i class="fas fa-xmark"></i></button>
+                </div>
+                <form onsubmit="confirmarAutorizacaoProjeto(event)" style="padding: 24px; display: flex; flex-direction: column; gap: 14px;">
+                    <div>
+                        <div style="font-size: 12px; color: #94A3B8;">Projeto: <strong id="modal-aut-id" style="color: #00E5FF;">-</strong></div>
+                        <div style="font-size: 12px; color: #94A3B8; margin-top: 2px;">Empresa Contratante: <strong id="modal-aut-empresa" style="color: #FFF;">-</strong></div>
+                    </div>
+                    <div>
+                        <label class="modal-label">Frentes Comerciais Autorizadas:</label>
+                        <div style="display: flex; gap: 12px; flex-wrap: wrap; margin-top: 4px;">
+                            <label style="font-size: 12px; color: #E2E8F0; display: flex; align-items: center; gap: 6px; cursor: pointer;">
+                                <input type="checkbox" id="aut-frente-presenca" value="PRESENCA_COMERCIAL"> Presença Comercial
+                            </label>
+                            <label style="font-size: 12px; color: #E2E8F0; display: flex; align-items: center; gap: 6px; cursor: pointer;">
+                                <input type="checkbox" id="aut-frente-sistema" value="SISTEMA_COMERCIAL"> Sistema Comercial
+                            </label>
+                            <label style="font-size: 12px; color: #E2E8F0; display: flex; align-items: center; gap: 6px; cursor: pointer;">
+                                <input type="checkbox" id="aut-frente-intel" value="INTELIGENCIA_OTIMIZACAO"> Inteligência e Otimização
+                            </label>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="modal-label">Escopo Autorizado Formal:</label>
+                        <textarea id="aut-escopo" class="input-dark-field" rows="2" required placeholder="Descrição exata do escopo contratado"></textarea>
+                    </div>
+                    <div>
+                        <label class="modal-label">Limites do Trabalho (Exclusões Formais):</label>
+                        <input type="text" id="aut-limites" class="input-dark-field" placeholder="Ex: Não inclui anúncios pagos ou ERP legado">
+                    </div>
+                    <div>
+                        <label class="modal-label">Responsável pela Aprovação Executiva:</label>
+                        <input type="text" id="aut-responsavel" class="input-dark-field" value="Douglas Paz — Diretor Executivo" required>
+                    </div>
+                    <div style="display: flex; justify-content: flex-end; gap: 12px; margin-top: 10px;">
+                        <button type="button" onclick="fecharModalAutorizarProjeto()" class="btn-black-outline">Cancelar</button>
+                        <button type="submit" class="btn-action-green"><i class="fas fa-file-signature"></i> Conceder Autorização Formal</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Modal Inspecionar Tarefa, Entregáveis & Evidências -->
+        <div id="modal-inspecionar-tarefa" class="modal-overlay" style="display: none;">
+            <div class="modal-card-box" style="max-width: 680px; max-height: 90vh; overflow-y: auto;">
+                <div class="modal-header">
+                    <div>
+                        <div id="modal-insp-badge" style="font-family: var(--font-mono); font-size: 10px; color: #00E5FF; font-weight: 800;">INSPEÇÃO // AGT-XX</div>
+                        <h3 id="modal-insp-titulo" style="font-size: 18px; font-weight: 800; color: #FFF; margin-top: 2px;">Inspeção de Entrega</h3>
+                    </div>
+                    <button onclick="fecharModalInspecaoTarefa()" class="btn-close-modal"><i class="fas fa-xmark"></i></button>
+                </div>
+                <div style="padding: 24px; display: flex; flex-direction: column; gap: 16px;">
+                    <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 14px;">
+                        <div style="font-size: 11px; font-family: var(--font-mono); color: #00E5FF; font-weight: 700; margin-bottom: 4px;">OBJETIVO DA TAREFA:</div>
+                        <div id="modal-insp-objetivo" style="font-size: 13px; color: #E2E8F0;">-</div>
+                    </div>
+                    <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 14px;">
+                        <div style="font-size: 11px; font-family: var(--font-mono); color: #10B981; font-weight: 700; margin-bottom: 4px;">CRITÉRIOS DE CONCLUSÃO (ACEITE TÉCNICO):</div>
+                        <div id="modal-insp-criterios" style="font-size: 12.5px; color: #E2E8F0;">-</div>
+                    </div>
+                    <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 14px;">
+                        <div style="font-size: 11px; font-family: var(--font-mono); color: #F59E0B; font-weight: 700; margin-bottom: 4px;">EVIDÊNCIAS DE EXECUÇÃO & ARQUIVOS FÍSICOS:</div>
+                        <div id="modal-insp-evidencias" style="font-size: 12px; color: #E2E8F0;">-</div>
+                    </div>
+                    <div id="modal-insp-historico-box" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 14px;">
+                        <div style="font-size: 11px; font-family: var(--font-mono); color: #94A3B8; font-weight: 700; margin-bottom: 4px;">HISTÓRICO DE AUDITORIA & TRANSIÇÕES:</div>
+                        <div id="modal-insp-historico" style="font-size: 11px; font-family: var(--font-mono); color: #94A3B8; max-height: 140px; overflow-y: auto;">-</div>
+                    </div>
+                    <div style="display: flex; justify-content: flex-end; gap: 12px; margin-top: 10px; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 14px;">
+                        <button type="button" onclick="solicitarCorrecaoTarefaModal()" class="btn-action-amber" style="background: rgba(245,158,11,0.15); border: 1px solid #F59E0B; color: #F59E0B;">
+                            <i class="fas fa-rotate-left"></i> Solicitar Correção
+                        </button>
+                        <button type="button" onclick="aprovarEntregaTarefaModal()" class="btn-action-green">
+                            <i class="fas fa-check"></i> Aprovar Entrega
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -2539,6 +2648,12 @@
         const briefing = document.getElementById('modal-briefing').value.trim();
         const prazo = document.getElementById('modal-prazo').value.trim();
 
+        const frentes = [];
+        if (document.getElementById('modal-frente-presenca')?.checked) frentes.push('PRESENCA_COMERCIAL');
+        if (document.getElementById('modal-frente-sistema')?.checked) frentes.push('SISTEMA_COMERCIAL');
+        if (document.getElementById('modal-frente-intel')?.checked) frentes.push('INTELIGENCIA_OTIMIZACAO');
+        const limites = (document.getElementById('modal-limites')?.value || '').trim();
+
         try {
             adicionarLogTerminal('DIRETORIA', 'Criando novo projeto para [' + cliente + ']...');
             const token = sessionStorage.getItem('vide_jwt');
@@ -2547,7 +2662,15 @@
             const res = await fetch('/api/projetos/novo', {
                 method: 'POST',
                 headers,
-                body: JSON.stringify({ cliente, solicitacao, briefing, prazo })
+                body: JSON.stringify({ 
+                    empresaContratante: cliente,
+                    cliente, 
+                    solicitacao, 
+                    briefing, 
+                    prazo, 
+                    frentesComerciais: frentes, 
+                    limitesTrabalho: limites 
+                })
             });
             const data = await res.json();
             if (res.ok && data.id_projeto) {
@@ -2639,8 +2762,39 @@
 
             const elCatTag = document.getElementById('proj-catalogo-tag');
             if (elCatTag) {
-                const solCat = p.solucao_catalogo?.categoria || p.solucao_catalogo?.solucao?.nome || 'VIDE Sistema Integrado';
-                elCatTag.innerHTML = '<span class="catalogo-pill-tag"><i class="fas fa-layer-group"></i> ' + solCat + '</span>';
+                const frentesLista = p.frentes_comerciais || [];
+                let tagsHtml = frentesLista.map(f => {
+                    let nome = f.replace(/_/g, ' ');
+                    if (f === 'PRESENCA_COMERCIAL') nome = 'Presença Comercial';
+                    if (f === 'SISTEMA_COMERCIAL') nome = 'Sistema Comercial';
+                    if (f === 'INTELIGENCIA_OTIMIZACAO') nome = 'Inteligência e Otimização';
+                    return '<span class="catalogo-pill-tag" style="background: rgba(0,229,255,0.12); color: #00E5FF; border-color: rgba(0,229,255,0.3);"><i class="fas fa-layer-group"></i> ' + nome + '</span>';
+                }).join(' ');
+
+                if (!tagsHtml) {
+                    const solCat = p.solucao_catalogo?.categoria || p.solucao_catalogo?.solucao?.nome || 'VIDE Sistema Integrado';
+                    tagsHtml = '<span class="catalogo-pill-tag"><i class="fas fa-layer-group"></i> ' + solCat + '</span>';
+                }
+
+                tagsHtml += ' <span class="catalogo-pill-tag" style="background: rgba(16,185,129,0.12); color: #10B981; border-color: rgba(16,185,129,0.3);"><i class="fas fa-shield-halved"></i> SIMULADO</span>';
+
+                if (p.limites_trabalho) {
+                    tagsHtml += '<div style="font-size: 11.5px; color: #94A3B8; margin-top: 6px;"><i class="fas fa-ban" style="color: #F59E0B;"></i> <strong>Limites:</strong> ' + p.limites_trabalho + '</div>';
+                }
+
+                elCatTag.innerHTML = tagsHtml;
+            }
+
+            // Visibilidade do botão de autorização
+            const btnAprovar = document.getElementById('btn-acao-aprovar');
+            if (btnAprovar) {
+                if (p.situacao_projeto === 'AGUARDANDO_AUTORIZACAO_COMERCIAL' || (p.autorizacao_comercial && p.autorizacao_comercial.status !== 'AUTORIZADO')) {
+                    btnAprovar.style.display = 'inline-flex';
+                    btnAprovar.onclick = abrirModalAutorizarProjeto;
+                    btnAprovar.innerHTML = '<i class="fas fa-file-signature"></i> <span>Autorizar Projeto Comercial</span>';
+                } else {
+                    btnAprovar.style.display = 'none';
+                }
             }
 
             // 2. Materiais Anexados
@@ -2672,17 +2826,47 @@
                     containerTsk.innerHTML = tarefas.map(t => {
                         const est = t.estado || 'PRONTA_PARA_EXECUCAO';
                         let badgeClass = 'status-execucao';
-                        if (est.includes('BLOQUEADA')) badgeClass = 'status-pendente';
-                        if (est === 'APROVADA') badgeClass = 'status-concluido';
+                        let iconeEstado = 'fas fa-spinner fa-spin';
+                        if (est === 'CONCLUIDO' || est === 'APROVADA') {
+                            badgeClass = 'status-concluido';
+                            iconeEstado = 'fas fa-check-double';
+                        } else if (est === 'AGUARDANDO_APROVACAO') {
+                            badgeClass = 'status-pendente';
+                            iconeEstado = 'fas fa-clock';
+                        } else if (est === 'BLOQUEADO' || est.includes('BLOQUEADA')) {
+                            badgeClass = 'status-pendente';
+                            iconeEstado = 'fas fa-lock';
+                        }
 
-                        return '<div class="tarefa-item-card">' +
-                            '<div style="display: flex; justify-content: space-between; align-items: baseline;">' +
+                        let acoesBotoes = '';
+                        if (est === 'AGUARDANDO_APROVACAO') {
+                            acoesBotoes = '<div style="display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap;">' +
+                                '<button onclick="abrirInspecaoTarefa(\'' + t.id_tarefa + '\')" class="btn-blue-action" style="padding: 4px 10px; font-size: 11px;"><i class="fas fa-magnifying-glass"></i> Inspecionar Entregas</button>' +
+                                '<button onclick="conferirEntregaTarefa(\'' + t.id_tarefa + '\', true)" class="btn-action-green" style="padding: 4px 10px; font-size: 11px;"><i class="fas fa-check"></i> Aprovar</button>' +
+                                '<button onclick="solicitarCorrecaoTarefaPrompt(\'' + t.id_tarefa + '\')" class="btn-action-amber" style="padding: 4px 10px; font-size: 11px;"><i class="fas fa-rotate-left"></i> Rejeitar / Corrigir</button>' +
+                            '</div>';
+                        } else if (est === 'EM_EXECUCAO' || est === 'PRONTA_PARA_EXECUCAO') {
+                            acoesBotoes = '<div style="margin-top: 10px;">' +
+                                '<button onclick="executarTarefaIndividual(\'' + t.id_tarefa + '\')" class="btn-action-blue" style="padding: 4px 12px; font-size: 11px;"><i class="fas fa-play"></i> Executar Especialista (' + t.especialista + ')</button>' +
+                            '</div>';
+                        } else if (t.apontamentos_correcao) {
+                            acoesBotoes = '<div style="margin-top: 10px;">' +
+                                '<button onclick="executarCorrecaoTarefaIndividual(\'' + t.id_tarefa + '\')" class="btn-action-amber" style="padding: 4px 12px; font-size: 11px;"><i class="fas fa-wrench"></i> Aplicar Correção</button>' +
+                            '</div>';
+                        }
+
+                        return '<div class="tarefa-item-card" style="border-left: 3px solid ' + (est === 'CONCLUIDO' || est === 'APROVADA' ? '#10B981' : (est === 'AGUARDANDO_APROVACAO' ? '#F59E0B' : '#00E5FF')) + ';">' +
+                            '<div style="display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 6px;">' +
                                 '<span style="font-family: var(--font-mono); font-size: 11px; font-weight: 800; color: #00E5FF;">' + t.id_tarefa + ' // ' + t.especialista + '</span>' +
-                                '<span class="badge-status-pill ' + badgeClass + '" style="font-size: 9.5px; padding: 2px 8px;">' + est.replace(/_/g, ' ') + '</span>' +
+                                '<span class="badge-status-pill ' + badgeClass + '" style="font-size: 9.5px; padding: 2px 8px;"><i class="' + iconeEstado + '"></i> ' + est.replace(/_/g, ' ') + '</span>' +
                             '</div>' +
-                            '<div style="font-size: 13px; font-weight: 700; color: #FFF;">' + (t.titulo || t.titulo_tarefa) + '</div>' +
-                            '<div style="font-size: 11.5px; color: #94A3B8;">' + (t.descricao || '') + '</div>' +
-                            (t.dependencias && t.dependencias.length > 0 ? '<div style="font-size: 10.5px; color: #F59E0B; font-family: var(--font-mono);"><i class="fas fa-link"></i> Depende de: ' + t.dependencias.join(', ') + '</div>' : '') +
+                            '<div style="font-size: 13.5px; font-weight: 700; color: #FFF; margin-top: 4px;">' + (t.titulo || t.titulo_tarefa) + '</div>' +
+                            '<div style="font-size: 12px; color: #94A3B8; margin-top: 2px;">' + (t.objetivo || t.descricao || '') + '</div>' +
+                            (t.criterio_conclusao ? '<div style="font-size: 11px; color: #10B981; margin-top: 4px; font-family: var(--font-mono);"><i class="fas fa-check-circle"></i> Critério: ' + t.criterio_conclusao + '</div>' : '') +
+                            (t.dependencias && t.dependencias.length > 0 ? '<div style="font-size: 10.5px; color: #F59E0B; font-family: var(--font-mono); margin-top: 2px;"><i class="fas fa-link"></i> Depende de: ' + t.dependencias.join(', ') + '</div>' : '') +
+                            (t.bloqueio_motivo ? '<div style="font-size: 11px; color: #EF4444; background: rgba(239,68,68,0.1); border-left: 2px solid #EF4444; padding: 4px 8px; border-radius: 4px; margin-top: 6px;"><i class="fas fa-lock"></i> ' + t.bloqueio_motivo + '</div>' : '') +
+                            (t.apontamentos_correcao ? '<div style="font-size: 11px; color: #F59E0B; background: rgba(245,158,11,0.1); border-left: 2px solid #F59E0B; padding: 4px 8px; border-radius: 4px; margin-top: 6px;"><i class="fas fa-triangle-exclamation"></i> Pendência a corrigir: ' + t.apontamentos_correcao + '</div>' : '') +
+                            acoesBotoes +
                         '</div>';
                     }).join('');
                 }
@@ -2846,32 +3030,284 @@
     }
 
     async function aprovarProjetoAtivo() {
+        abrirModalAutorizarProjeto();
+    }
+
+    let tarefaInspecaoAtivaId = null;
+
+    function abrirModalAutorizarProjeto() {
+        if (!projetoAtivoId || !dadosProjetoAtivo) return;
+        const p = dadosProjetoAtivo.projeto;
+        const elId = document.getElementById('modal-aut-id');
+        const elEmpresa = document.getElementById('modal-aut-empresa');
+        const elEscopo = document.getElementById('aut-escopo');
+        const elLimites = document.getElementById('aut-limites');
+        const elResp = document.getElementById('aut-responsavel');
+
+        if (elId) elId.textContent = p.id_projeto || p.id;
+        if (elEmpresa) elEmpresa.textContent = p.cliente || p.empresa_contratante || 'Empresa Cliente';
+        if (elEscopo) elEscopo.value = p.escopo_autorizado || p.solicitacao_original || '';
+        if (elLimites) elLimites.value = p.limites_trabalho || 'Escopo restrito aos entregáveis contratados. Exclui tráfego pago e ERP legado.';
+        if (elResp) elResp.value = 'Douglas Paz — Diretor Executivo';
+
+        const frentes = p.frentes_comerciais || ['PRESENCA_COMERCIAL'];
+        const chkPresenca = document.getElementById('aut-frente-presenca');
+        const chkSistema = document.getElementById('aut-frente-sistema');
+        const chkIntel = document.getElementById('aut-frente-intel');
+        if (chkPresenca) chkPresenca.checked = frentes.includes('PRESENCA_COMERCIAL');
+        if (chkSistema) chkSistema.checked = frentes.includes('SISTEMA_COMERCIAL');
+        if (chkIntel) chkIntel.checked = frentes.includes('INTELIGENCIA_OTIMIZACAO');
+
+        const m = document.getElementById('modal-autorizar-projeto');
+        if (m) m.style.display = 'flex';
+    }
+
+    function fecharModalAutorizarProjeto() {
+        const m = document.getElementById('modal-autorizar-projeto');
+        if (m) m.style.display = 'none';
+    }
+
+    async function confirmarAutorizacaoProjeto(e) {
+        e.preventDefault();
         if (!projetoAtivoId) return;
+
         const token = sessionStorage.getItem('vide_jwt');
         if (!token) {
             adicionarLogTerminal('SEGURANÇA', 'Autentique-se com login douglas VideDouglas#2026 antes de autorizar.');
             return;
         }
 
-        adicionarLogTerminal('DIRETORIA', 'Emitindo autorização formal expressa para [' + projetoAtivoId + ']...');
+        const frentes = [];
+        if (document.getElementById('aut-frente-presenca')?.checked) frentes.push('PRESENCA_COMERCIAL');
+        if (document.getElementById('aut-frente-sistema')?.checked) frentes.push('SISTEMA_COMERCIAL');
+        if (document.getElementById('aut-frente-intel')?.checked) frentes.push('INTELIGENCIA_OTIMIZACAO');
+        const escopo = document.getElementById('aut-escopo').value.trim();
+        const limites = document.getElementById('aut-limites').value.trim();
+        const responsavel = document.getElementById('aut-responsavel').value.trim();
+
+        adicionarLogTerminal('DIRETORIA', 'Emitindo autorização formal de ' + responsavel + ' para [' + projetoAtivoId + ']...');
         try {
-            const res = await fetch('/api/coordenador/aprovar-projeto', {
+            const res = await fetch('/api/projetos/autorizar', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': 'Bearer ' + token
                 },
-                body: JSON.stringify({ id_projeto: projetoAtivoId })
+                body: JSON.stringify({
+                    idProjeto: projetoAtivoId,
+                    frentesComerciais: frentes,
+                    escopoAutorizado: escopo,
+                    limitesTrabalho: limites,
+                    responsavelAprovacao: responsavel
+                })
             });
             const data = await res.json();
             if (res.ok && data.sucesso) {
-                adicionarLogTerminal('AGT-02 COORDENADOR', 'Projeto [' + projetoAtivoId + '] AUTORIZADO com sucesso! Tarefas liberadas no Grafo DAG.');
+                adicionarLogTerminal('AGT-02 COORDENADOR', 'Projeto [' + projetoAtivoId + '] AUTORIZADO com sucesso! Grafo DAG de tarefas liberado. Frentes: ' + frentes.join(', '));
+                fecharModalAutorizarProjeto();
                 await selecionarProjetoAtivo(projetoAtivoId);
             } else {
                 adicionarLogTerminal('AGT-02 COORDENADOR', 'Falha ao autorizar: ' + (data.erro || 'Erro'));
             }
         } catch(err) {
             adicionarLogTerminal('AGT-02 COORDENADOR', 'Erro ao autorizar: ' + err.message);
+        }
+    }
+
+    async function executarTarefaIndividual(idTarefa) {
+        if (!projetoAtivoId || !idTarefa) return;
+        const token = sessionStorage.getItem('vide_jwt');
+        if (!token) {
+            adicionarLogTerminal('SEGURANÇA', 'Autentique-se com login douglas VideDouglas#2026 antes de executar a tarefa.');
+            return;
+        }
+
+        adicionarLogTerminal('AGT-02 COORDENADOR', 'Despachando especialista para tarefa [' + idTarefa + ']...');
+        try {
+            const res = await fetch('/api/projetos/tarefa/executar', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + token
+                },
+                body: JSON.stringify({ idProjeto: projetoAtivoId, idTarefa })
+            });
+            const data = await res.json();
+            if (res.ok && data.sucesso) {
+                adicionarLogTerminal('ESPECIALISTA', 'Tarefa [' + idTarefa + '] executada com sucesso! ' + (data.arquivos?.length || 0) + ' arquivos gerados. Estado: AGUARDANDO_APROVACAO.');
+                await selecionarProjetoAtivo(projetoAtivoId);
+            } else {
+                adicionarLogTerminal('AGT-02 COORDENADOR', 'Bloqueio / Erro ao executar tarefa: ' + (data.erro || 'Erro'));
+            }
+        } catch(err) {
+            adicionarLogTerminal('AGT-02 COORDENADOR', 'Erro na execução da tarefa: ' + err.message);
+        }
+    }
+
+    function abrirInspecaoTarefa(idTarefa) {
+        if (!dadosProjetoAtivo || !dadosProjetoAtivo.projeto) return;
+        const p = dadosProjetoAtivo.projeto;
+        const t = (p.grafo_tarefas || []).find(item => (item.id_tarefa === idTarefa || item.id === idTarefa));
+        if (!t) return;
+
+        tarefaInspecaoAtivaId = idTarefa;
+        document.getElementById('modal-insp-badge').textContent = 'INSPEÇÃO // ' + t.id_tarefa + ' // ' + t.especialista;
+        document.getElementById('modal-insp-titulo').textContent = t.titulo || t.titulo_tarefa;
+        document.getElementById('modal-insp-objetivo').textContent = t.objetivo || t.descricao || 'Sem objetivo declarado.';
+        document.getElementById('modal-insp-criterios').textContent = t.criterio_conclusao || (t.criterios_aceite ? t.criterios_aceite.join('; ') : 'Conformidade técnica homologada.');
+
+        const containerEvid = document.getElementById('modal-insp-evidencias');
+        const evidencias = t.evidencias_execucao || [];
+        if (evidencias.length === 0) {
+            containerEvid.innerHTML = '<span style="color: #64748B;">Nenhuma evidência estruturada submetida.</span>';
+        } else {
+            containerEvid.innerHTML = evidencias.map(ev => {
+                let txt = '• <strong>' + ev.tipo + ':</strong> ';
+                if (ev.arquivos) txt += ev.arquivos.join(', ') + ' (' + ev.quantidade + ' arquivos)';
+                if (ev.score) txt += 'Score: ' + ev.score + '% - ' + ev.resultado;
+                if (ev.criterios) txt += 'Critérios: ' + ev.status;
+                return '<div>' + txt + '</div>';
+            }).join('');
+        }
+
+        const containerHist = document.getElementById('modal-insp-historico');
+        const historico = t.historico_alteracoes || t.historico_auditoria || [];
+        if (historico.length === 0) {
+            containerHist.innerHTML = 'Nenhum histórico registrado.';
+        } else {
+            containerHist.innerHTML = historico.map(h => {
+                return '<div>[' + (h.timestamp ? h.timestamp.split('T')[1].slice(0, 8) : '') + '] ' + h.autor + ': ' + (h.estado_anterior ? h.estado_anterior + ' ➔ ' : '') + h.novo_estado + (h.nota ? ' (' + h.nota + ')' : '') + '</div>';
+            }).join('');
+        }
+
+        const m = document.getElementById('modal-inspecionar-tarefa');
+        if (m) m.style.display = 'flex';
+    }
+
+    function fecharModalInspecaoTarefa() {
+        const m = document.getElementById('modal-inspecionar-tarefa');
+        if (m) m.style.display = 'none';
+        tarefaInspecaoAtivaId = null;
+    }
+
+    async function aprovarEntregaTarefaModal() {
+        if (!tarefaInspecaoAtivaId) return;
+        const idTarefa = tarefaInspecaoAtivaId;
+        fecharModalInspecaoTarefa();
+        await conferirEntregaTarefa(idTarefa, true);
+    }
+
+    async function solicitarCorrecaoTarefaModal() {
+        if (!tarefaInspecaoAtivaId) return;
+        const idTarefa = tarefaInspecaoAtivaId;
+        fecharModalInspecaoTarefa();
+        await solicitarCorrecaoTarefaPrompt(idTarefa);
+    }
+
+    async function conferirEntregaTarefa(idTarefa, aprovado) {
+        if (!projetoAtivoId || !idTarefa) return;
+        const token = sessionStorage.getItem('vide_jwt');
+        if (!token) {
+            adicionarLogTerminal('SEGURANÇA', 'Autentique-se com login douglas VideDouglas#2026 antes de avaliar a entrega.');
+            return;
+        }
+
+        adicionarLogTerminal('DIRETORIA', (aprovado ? 'Aprovando' : 'Rejeitando') + ' entrega da tarefa [' + idTarefa + ']...');
+        try {
+            const res = await fetch('/api/projetos/tarefa/conferir', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + token
+                },
+                body: JSON.stringify({
+                    idProjeto: projetoAtivoId,
+                    idTarefa,
+                    aprovado,
+                    parecer: aprovado ? 'Entrega homologada conforme critérios de aceite pelo Diretor Douglas Paz.' : 'Necessita revisão de critérios técnicos.'
+                })
+            });
+            const data = await res.json();
+            if (res.ok && data.sucesso) {
+                adicionarLogTerminal('AGT-02 COORDENADOR', 'Tarefa [' + idTarefa + '] ' + (aprovado ? 'APROVADA e marcada como CONCLUÍDO! DAG recalculado.' : 'Rejeitada com solicitação de correção.'));
+                await selecionarProjetoAtivo(projetoAtivoId);
+            } else {
+                adicionarLogTerminal('AGT-02 COORDENADOR', 'Erro na conferência: ' + (data.erro || 'Erro'));
+            }
+        } catch(err) {
+            adicionarLogTerminal('AGT-02 COORDENADOR', 'Erro ao conferir tarefa: ' + err.message);
+        }
+    }
+
+    async function solicitarCorrecaoTarefaPrompt(idTarefa) {
+        const apontamentos = prompt('Informe os apontamentos e correções necessárias para o especialista:');
+        if (!apontamentos || !apontamentos.trim()) return;
+
+        const token = sessionStorage.getItem('vide_jwt');
+        if (!token) {
+            adicionarLogTerminal('SEGURANÇA', 'Autentique-se com login douglas VideDouglas#2026.');
+            return;
+        }
+
+        adicionarLogTerminal('DIRETORIA', 'Solicitando correção na tarefa [' + idTarefa + ']: ' + apontamentos);
+        try {
+            const res = await fetch('/api/projetos/tarefa/conferir', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + token
+                },
+                body: JSON.stringify({
+                    idProjeto: projetoAtivoId,
+                    idTarefa,
+                    aprovado: false,
+                    parecer: 'Rejeição executiva para correções técnicas.',
+                    apontamentosCorrecao: apontamentos
+                })
+            });
+            const data = await res.json();
+            if (res.ok && data.sucesso) {
+                adicionarLogTerminal('AGT-02 COORDENADOR', 'Tarefa [' + idTarefa + '] retornada para EM_EXECUCAO com pendência registrada.');
+                await selecionarProjetoAtivo(projetoAtivoId);
+            } else {
+                adicionarLogTerminal('AGT-02 COORDENADOR', 'Erro ao solicitar correção: ' + (data.erro || 'Erro'));
+            }
+        } catch(err) {
+            adicionarLogTerminal('AGT-02 COORDENADOR', 'Erro: ' + err.message);
+        }
+    }
+
+    async function executarCorrecaoTarefaIndividual(idTarefa) {
+        if (!projetoAtivoId || !idTarefa) return;
+        const token = sessionStorage.getItem('vide_jwt');
+        if (!token) {
+            adicionarLogTerminal('SEGURANÇA', 'Autentique-se com login douglas VideDouglas#2026.');
+            return;
+        }
+
+        adicionarLogTerminal('ESPECIALISTA', 'Aplicando correções na tarefa [' + idTarefa + '] conforme apontamentos...');
+        try {
+            const res = await fetch('/api/projetos/tarefa/corrigir', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + token
+                },
+                body: JSON.stringify({
+                    idProjeto: projetoAtivoId,
+                    idTarefa,
+                    instrucoesCorrecao: 'Ajustes executados com conformidade restabelecida.'
+                })
+            });
+            const data = await res.json();
+            if (res.ok && data.sucesso) {
+                adicionarLogTerminal('AGT-02 COORDENADOR', 'Correção aplicada na tarefa [' + idTarefa + ']! Ressubmetida para AGUARDANDO_APROVACAO.');
+                await selecionarProjetoAtivo(projetoAtivoId);
+            } else {
+                adicionarLogTerminal('AGT-02 COORDENADOR', 'Erro ao aplicar correção: ' + (data.erro || 'Erro'));
+            }
+        } catch(err) {
+            adicionarLogTerminal('AGT-02 COORDENADOR', 'Erro: ' + err.message);
         }
     }
 

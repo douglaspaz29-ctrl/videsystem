@@ -52,28 +52,44 @@ function salvarProjeto(projeto) {
 
         db.inserirOuAtualizarCliente({ id: idCliente, nome: nomeCliente });
         db.inserirOuAtualizarProjeto({
-            id: projeto.id_projeto,
+            id: projeto.id_projeto || projeto.id,
             cliente_id: idCliente,
             id_demanda_origem: projeto.id_demanda_origem,
             solicitacao_original: projeto.solicitacao_original,
             situacao_projeto: projeto.situacao_projeto,
             autorizacao_status: projeto.autorizacao_comercial ? projeto.autorizacao_comercial.status : 'PENDENTE',
-            servicos_autorizados: projeto.autorizacao_comercial ? projeto.autorizacao_comercial.servicos_autorizados : [],
+            servicos_autorizados: projeto.autorizacao_comercial ? (projeto.autorizacao_comercial.servicos_autorizados || projeto.autorizacao_comercial.frentes_comerciais) : [],
             data_autorizacao: projeto.autorizacao_comercial ? projeto.autorizacao_comercial.data_autorizacao : null,
             observacao_autorizacao: projeto.autorizacao_comercial ? projeto.autorizacao_comercial.observacao : null,
-            prioridade: projeto.cronograma.prioridade || 'NORMAL'
+            prioridade: (projeto.cronograma && projeto.cronograma.prioridade) || 'NORMAL',
+            frentes_comerciais: projeto.frentes_comerciais || (projeto.autorizacao_comercial ? projeto.autorizacao_comercial.frentes_comerciais : []),
+            escopo_autorizado: projeto.escopo_autorizado || (projeto.autorizacao_comercial ? projeto.autorizacao_comercial.escopo_autorizado : null),
+            entregaveis: projeto.entregaveis || (projeto.autorizacao_comercial ? projeto.autorizacao_comercial.entregaveis : []),
+            limites_trabalho: projeto.limites_trabalho || (projeto.autorizacao_comercial ? projeto.autorizacao_comercial.limites_trabalho : null),
+            responsavel_aprovacao: projeto.responsavel_aprovacao || (projeto.autorizacao_comercial ? projeto.autorizacao_comercial.responsavel_aprovacao : null),
+            natureza_projeto: projeto.natureza_projeto || 'SIMULADO'
         });
 
         if (projeto.grafo_tarefas && Array.isArray(projeto.grafo_tarefas)) {
             projeto.grafo_tarefas.forEach(t => {
                 db.inserirOuAtualizarTarefa({
-                    id_tarefa: t.id_tarefa,
-                    projeto_id: projeto.id_projeto,
+                    id_tarefa: t.id_tarefa || t.id,
+                    id: t.id_tarefa || t.id,
+                    projeto_id: projeto.id_projeto || projeto.id,
+                    agente_id: t.agente_id,
                     especialista: t.especialista,
-                    titulo: t.titulo,
-                    descricao: t.descricao,
+                    titulo: t.titulo || t.titulo_tarefa,
+                    descricao: t.descricao || t.objetivo,
+                    objetivo: t.objetivo || t.descricao,
+                    entradas_necessarias: t.entradas_necessarias || [],
                     dependencias: t.dependencias || [],
+                    resultado_esperado: t.resultado_esperado,
+                    criterio_conclusao: t.criterio_conclusao || (t.criterios_aceite ? t.criterios_aceite.join('; ') : null),
                     criterios_aceite: t.criterios_aceite || [],
+                    evidencias_execucao: t.evidencias_execucao || [],
+                    historico_alteracoes: t.historico_alteracoes || t.historico_auditoria || [],
+                    bloqueio_motivo: t.bloqueio_motivo,
+                    apontamentos_correcao: t.apontamentos_correcao,
                     estado: t.estado
                 });
             });
@@ -219,8 +235,8 @@ function atualizarEstadoTarefa({ idProjeto, idTarefa, novoEstado, notaAuditoria 
         nota: notaAuditoria
     });
 
-    // Se a tarefa foi APROVADA, recalcula o grafo para liberar tarefas dependentes
-    if (novoEstado === 'APROVADA') {
+    // Se a tarefa foi APROVADA ou CONCLUIDO, recalcula o grafo para liberar tarefas dependentes
+    if (novoEstado === 'APROVADA' || novoEstado === 'CONCLUIDO') {
         recalcularGrafoDependencias(projeto);
     }
 
@@ -246,7 +262,7 @@ function atualizarEstadoTarefa({ idProjeto, idTarefa, novoEstado, notaAuditoria 
 }
 
 /**
- * Recalcula o grafo: tarefas que dependiam de tarefas aprovadas passam a PRONTA_PARA_EXECUCAO
+ * Recalcula o grafo: tarefas que dependiam de tarefas aprovadas/concluídas passam a EM_EXECUCAO ou PRONTA_PARA_EXECUCAO
  * @param {Object} projeto 
  */
 function recalcularGrafoDependencias(projeto) {
@@ -254,37 +270,53 @@ function recalcularGrafoDependencias(projeto) {
 
     projeto.grafo_tarefas.forEach(tarefa => {
         // Se a tarefa está bloqueada por dependência
-        if (tarefa.estado === 'BLOQUEADA_POR_DEPENDENCIA') {
-            const todasPredecessorasAprovadas = tarefa.dependencias.every(depId => {
-                const dep = projeto.grafo_tarefas.find(t => t.id_tarefa === depId);
-                return dep && dep.estado === 'APROVADA';
+        if (tarefa.estado === 'BLOQUEADA_POR_DEPENDENCIA' || tarefa.estado === 'BLOQUEADO') {
+            const todasPredecessorasAprovadas = (tarefa.dependencias || []).every(depId => {
+                const dep = projeto.grafo_tarefas.find(t => (t.id_tarefa === depId || t.id === depId));
+                return dep && (dep.estado === 'APROVADA' || dep.estado === 'CONCLUIDO');
             });
 
             if (todasPredecessorasAprovadas) {
-                tarefa.estado = 'PRONTA_PARA_EXECUCAO';
-                tarefa.estado_tarefa = 'PRONTA_PARA_EXECUCAO';
-                tarefa.historico_auditoria.push({
+                const estadoAnterior = tarefa.estado;
+                const proximoEstado = tarefa.estado === 'BLOQUEADO' ? 'EM_EXECUCAO' : 'PRONTA_PARA_EXECUCAO';
+                tarefa.estado = proximoEstado;
+                tarefa.estado_tarefa = proximoEstado;
+                tarefa.bloqueio_motivo = null;
+
+                if (!tarefa.historico_alteracoes) tarefa.historico_alteracoes = [];
+                tarefa.historico_alteracoes.push({
                     timestamp: new Date().toISOString(),
-                    autor: 'Sistema de Grafo (Coordenador)',
-                    estado_anterior: 'BLOQUEADA_POR_DEPENDENCIA',
-                    novo_estado: 'PRONTA_PARA_EXECUCAO',
+                    autor: 'Sistema de Grafo DAG (Coordenador)',
+                    estado_anterior: estadoAnterior,
+                    novo_estado: proximoEstado,
                     nota: 'Todas as tarefas predecessoras foram aprovadas. Liberada para início do especialista.'
                 });
+                tarefa.historico_auditoria = tarefa.historico_alteracoes;
             }
         }
     });
 }
 
 /**
- * Verifica se todas as tarefas foram aprovadas para marcar o projeto como pronto para homologação
+ * Verifica se todas as tarefas foram aprovadas/concluídas para marcar o projeto como concluído
  * @param {Object} projeto 
  */
 function verificarConclusaoProjeto(projeto) {
     if (!projeto.grafo_tarefas || projeto.grafo_tarefas.length === 0) return;
 
-    const todasAprovadas = projeto.grafo_tarefas.every(t => t.estado === 'APROVADA');
-    if (todasAprovadas && projeto.situacao_projeto !== 'CONCLUIDO') {
-        projeto.situacao_projeto = 'AGUARDANDO_HOMOLOGACAO_GESTAO';
+    const todasConcluidas = projeto.grafo_tarefas.every(t => t.estado === 'APROVADA' || t.estado === 'CONCLUIDO');
+    if (todasConcluidas && projeto.situacao_projeto !== 'CONCLUIDO') {
+        projeto.situacao_projeto = 'CONCLUIDO';
+        if (!projeto.registro_operacional) projeto.registro_operacional = [];
+        projeto.registro_operacional.push({
+            timestamp: new Date().toISOString(),
+            evento: `Projeto [${projeto.id_projeto || projeto.id}] concluído com sucesso. Todas as entregas homologadas.`,
+            detalhes: {
+                total_tarefas: projeto.grafo_tarefas.length,
+                situacao: 'CONCLUIDO'
+            }
+        });
+        projeto.historico_operacional = projeto.registro_operacional;
     }
 }
 
@@ -294,6 +326,7 @@ module.exports = {
     listarProjetos,
     atualizarEstadoTarefa,
     recalcularGrafoDependencias,
+    verificarConclusaoProjeto,
     registrarEvento,
     DIRETORIO_PROJETOS
 };

@@ -153,10 +153,40 @@ class BancoDadosRelacionalVIDE {
                 ('agente_07_inteligencia_comercial', 'Agente 07 — Inteligência Comercial', 'Auditoria de Funil, Motor de Objeções e BI', 'REGRAS_E_LLM', '1.0')
                 ON CONFLICT (id) DO NOTHING;
 
+                -- Migração 004: Sistema de Execução e Entrega de Serviços
+                ALTER TABLE projetos ADD COLUMN IF NOT EXISTS frentes_comerciais JSONB DEFAULT '[]'::jsonb;
+                ALTER TABLE projetos ADD COLUMN IF NOT EXISTS escopo_autorizado TEXT;
+                ALTER TABLE projetos ADD COLUMN IF NOT EXISTS entregaveis JSONB DEFAULT '[]'::jsonb;
+                ALTER TABLE projetos ADD COLUMN IF NOT EXISTS limites_trabalho TEXT;
+                ALTER TABLE projetos ADD COLUMN IF NOT EXISTS responsavel_aprovacao VARCHAR(255);
+                ALTER TABLE projetos ADD COLUMN IF NOT EXISTS natureza_projeto VARCHAR(32) DEFAULT 'SIMULADO';
+
+                ALTER TABLE tarefas ADD COLUMN IF NOT EXISTS objetivo TEXT;
+                ALTER TABLE tarefas ADD COLUMN IF NOT EXISTS entradas_necessarias JSONB DEFAULT '[]'::jsonb;
+                ALTER TABLE tarefas ADD COLUMN IF NOT EXISTS resultado_esperado TEXT;
+                ALTER TABLE tarefas ADD COLUMN IF NOT EXISTS criterio_conclusao TEXT;
+                ALTER TABLE tarefas ADD COLUMN IF NOT EXISTS evidencias_execucao JSONB DEFAULT '[]'::jsonb;
+                ALTER TABLE tarefas ADD COLUMN IF NOT EXISTS historico_alteracoes JSONB DEFAULT '[]'::jsonb;
+                ALTER TABLE tarefas ADD COLUMN IF NOT EXISTS bloqueio_motivo TEXT;
+                ALTER TABLE tarefas ADD COLUMN IF NOT EXISTS apontamentos_correcao TEXT;
+
+                CREATE TABLE IF NOT EXISTS auditoria_execucao_servicos (
+                    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+                    projeto_id VARCHAR(64) NOT NULL REFERENCES projetos(id) ON DELETE CASCADE,
+                    tarefa_id VARCHAR(64),
+                    evento VARCHAR(64) NOT NULL,
+                    estado_anterior VARCHAR(64),
+                    novo_estado VARCHAR(64) NOT NULL,
+                    autor VARCHAR(255) NOT NULL,
+                    detalhes JSONB DEFAULT '{}'::jsonb,
+                    criado_em TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
+                );
+
                 ALTER TABLE IF EXISTS clientes DISABLE ROW LEVEL SECURITY;
                 ALTER TABLE IF EXISTS projetos DISABLE ROW LEVEL SECURITY;
                 ALTER TABLE IF EXISTS tarefas DISABLE ROW LEVEL SECURITY;
                 ALTER TABLE IF EXISTS arquivos_armazenamento DISABLE ROW LEVEL SECURITY;
+                ALTER TABLE IF EXISTS auditoria_execucao_servicos DISABLE ROW LEVEL SECURITY;
             `);
             console.log('[VIDE_DB] DDL e agentes oficiais garantidos com sucesso no PostgreSQL remoto.');
         } catch (e) {
@@ -574,6 +604,12 @@ class BancoDadosRelacionalVIDE {
             data_autorizacao: dados.data_autorizacao || (dados.autorizacao_comercial ? dados.autorizacao_comercial.data_autorizacao : null) || existente.data_autorizacao || null,
             observacao_autorizacao: dados.observacao_autorizacao || (dados.autorizacao_comercial ? dados.autorizacao_comercial.observacao : null) || existente.observacao_autorizacao || null,
             prioridade: dados.prioridade || (dados.cronograma ? dados.cronograma.prioridade : null) || existente.prioridade || 'NORMAL',
+            frentes_comerciais: dados.frentes_comerciais || (dados.autorizacao_comercial ? dados.autorizacao_comercial.frentes_comerciais : null) || existente.frentes_comerciais || [],
+            escopo_autorizado: dados.escopo_autorizado || (dados.autorizacao_comercial ? dados.autorizacao_comercial.escopo_autorizado : null) || existente.escopo_autorizado || null,
+            entregaveis: dados.entregaveis || (dados.autorizacao_comercial ? dados.autorizacao_comercial.entregaveis : null) || existente.entregaveis || [],
+            limites_trabalho: dados.limites_trabalho || (dados.autorizacao_comercial ? dados.autorizacao_comercial.limites_trabalho : null) || existente.limites_trabalho || null,
+            responsavel_aprovacao: dados.responsavel_aprovacao || (dados.autorizacao_comercial ? dados.autorizacao_comercial.responsavel_aprovacao : null) || existente.responsavel_aprovacao || null,
+            natureza_projeto: dados.natureza_projeto || existente.natureza_projeto || 'SIMULADO',
             criado_em: existente.criado_em || new Date().toISOString(),
             atualizado_em: new Date().toISOString()
         };
@@ -591,8 +627,8 @@ class BancoDadosRelacionalVIDE {
 
             queryCli.then(() => {
                 return this.pgPool.query(`
-                    INSERT INTO projetos (id, cliente_id, id_demanda_origem, solicitacao_original, situacao_projeto, autorizacao_status, servicos_autorizados, data_autorizacao, observacao_autorizacao, prioridade, criado_em, atualizado_em)
-                    VALUES ($1, $2, $3, $4, $5, $6, $7::jsonb, $8, $9, $10, $11, $12)
+                    INSERT INTO projetos (id, cliente_id, id_demanda_origem, solicitacao_original, situacao_projeto, autorizacao_status, servicos_autorizados, data_autorizacao, observacao_autorizacao, prioridade, frentes_comerciais, escopo_autorizado, entregaveis, limites_trabalho, responsavel_aprovacao, natureza_projeto, criado_em, atualizado_em)
+                    VALUES ($1, $2, $3, $4, $5, $6, $7::jsonb, $8, $9, $10, $11::jsonb, $12, $13::jsonb, $14, $15, $16, $17, $18)
                     ON CONFLICT (id) DO UPDATE SET
                         situacao_projeto = EXCLUDED.situacao_projeto,
                         autorizacao_status = EXCLUDED.autorizacao_status,
@@ -600,6 +636,12 @@ class BancoDadosRelacionalVIDE {
                         data_autorizacao = EXCLUDED.data_autorizacao,
                         observacao_autorizacao = EXCLUDED.observacao_autorizacao,
                         prioridade = EXCLUDED.prioridade,
+                        frentes_comerciais = EXCLUDED.frentes_comerciais,
+                        escopo_autorizado = EXCLUDED.escopo_autorizado,
+                        entregaveis = EXCLUDED.entregaveis,
+                        limites_trabalho = EXCLUDED.limites_trabalho,
+                        responsavel_aprovacao = EXCLUDED.responsavel_aprovacao,
+                        natureza_projeto = EXCLUDED.natureza_projeto,
                         atualizado_em = EXCLUDED.atualizado_em
                 `, [
                     projeto.id,
@@ -612,6 +654,12 @@ class BancoDadosRelacionalVIDE {
                     projeto.data_autorizacao,
                     projeto.observacao_autorizacao,
                     projeto.prioridade,
+                    JSON.stringify(projeto.frentes_comerciais || []),
+                    projeto.escopo_autorizado,
+                    JSON.stringify(projeto.entregaveis || []),
+                    projeto.limites_trabalho,
+                    projeto.responsavel_aprovacao,
+                    projeto.natureza_projeto,
                     projeto.criado_em,
                     projeto.atualizado_em
                 ]);
@@ -638,14 +686,21 @@ class BancoDadosRelacionalVIDE {
             // 2. Garante Projeto
             const servicos = (projeto.autorizacao_comercial && projeto.autorizacao_comercial.servicos_autorizados) || projeto.servicos_autorizados || [];
             await this.pgPool.query(`
-                INSERT INTO projetos (id, cliente_id, id_demanda_origem, solicitacao_original, situacao_projeto, autorizacao_status, servicos_autorizados, data_autorizacao, observacao_autorizacao, prioridade, criado_em, atualizado_em)
-                VALUES ($1, $2, $3, $4, $5, $6, $7::jsonb, $8, $9, $10, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+                INSERT INTO projetos (id, cliente_id, id_demanda_origem, solicitacao_original, situacao_projeto, autorizacao_status, servicos_autorizados, data_autorizacao, observacao_autorizacao, prioridade, frentes_comerciais, escopo_autorizado, entregaveis, limites_trabalho, responsavel_aprovacao, natureza_projeto, criado_em, atualizado_em)
+                VALUES ($1, $2, $3, $4, $5, $6, $7::jsonb, $8, $9, $10, $11::jsonb, $12, $13::jsonb, $14, $15, $16, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
                 ON CONFLICT (id) DO UPDATE SET
                     situacao_projeto = EXCLUDED.situacao_projeto,
                     autorizacao_status = EXCLUDED.autorizacao_status,
                     servicos_autorizados = EXCLUDED.servicos_autorizados,
                     data_autorizacao = EXCLUDED.data_autorizacao,
                     observacao_autorizacao = EXCLUDED.observacao_autorizacao,
+                    prioridade = EXCLUDED.prioridade,
+                    frentes_comerciais = EXCLUDED.frentes_comerciais,
+                    escopo_autorizado = EXCLUDED.escopo_autorizado,
+                    entregaveis = EXCLUDED.entregaveis,
+                    limites_trabalho = EXCLUDED.limites_trabalho,
+                    responsavel_aprovacao = EXCLUDED.responsavel_aprovacao,
+                    natureza_projeto = EXCLUDED.natureza_projeto,
                     atualizado_em = CURRENT_TIMESTAMP
             `, [
                 idProjeto,
@@ -657,7 +712,13 @@ class BancoDadosRelacionalVIDE {
                 JSON.stringify(servicos),
                 (projeto.autorizacao_comercial && projeto.autorizacao_comercial.data_autorizacao) || null,
                 (projeto.autorizacao_comercial && projeto.autorizacao_comercial.observacao) || null,
-                (projeto.cronograma && projeto.cronograma.prioridade) || projeto.prioridade || 'NORMAL'
+                (projeto.cronograma && projeto.cronograma.prioridade) || projeto.prioridade || 'NORMAL',
+                JSON.stringify(projeto.frentes_comerciais || (projeto.autorizacao_comercial && projeto.autorizacao_comercial.frentes_comerciais) || []),
+                projeto.escopo_autorizado || (projeto.autorizacao_comercial && projeto.autorizacao_comercial.escopo_autorizado) || null,
+                JSON.stringify(projeto.entregaveis || (projeto.autorizacao_comercial && projeto.autorizacao_comercial.entregaveis) || []),
+                projeto.limites_trabalho || (projeto.autorizacao_comercial && projeto.autorizacao_comercial.limites_trabalho) || null,
+                projeto.responsavel_aprovacao || (projeto.autorizacao_comercial && projeto.autorizacao_comercial.responsavel_aprovacao) || null,
+                projeto.natureza_projeto || 'SIMULADO'
             ]);
 
             // 3. Garante Tarefas se houver
@@ -666,22 +727,42 @@ class BancoDadosRelacionalVIDE {
                     const idTarefa = t.id_tarefa || t.id;
                     const agenteId = resolverAgenteId(t.especialista, t.agente_id);
                     await this.pgPool.query(`
-                        INSERT INTO tarefas (id, projeto_id, agente_id, especialista, titulo, descricao, dependencias, criterios_aceite, estado, criado_em, atualizado_em)
-                        VALUES ($1, $2, $3, $4, $5, $6, $7::jsonb, $8::jsonb, $9, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+                        INSERT INTO tarefas (id, projeto_id, agente_id, especialista, titulo, descricao, dependencias, criterios_aceite, estado, objetivo, entradas_necessarias, resultado_esperado, criterio_conclusao, evidencias_execucao, historico_alteracoes, bloqueio_motivo, apontamentos_correcao, criado_em, atualizado_em)
+                        VALUES ($1, $2, $3, $4, $5, $6, $7::jsonb, $8::jsonb, $9, $10, $11::jsonb, $12, $13, $14::jsonb, $15::jsonb, $16, $17, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
                         ON CONFLICT (id) DO UPDATE SET
                             agente_id = EXCLUDED.agente_id,
+                            titulo = EXCLUDED.titulo,
+                            descricao = EXCLUDED.descricao,
+                            dependencias = EXCLUDED.dependencias,
+                            criterios_aceite = EXCLUDED.criterios_aceite,
                             estado = EXCLUDED.estado,
+                            objetivo = EXCLUDED.objetivo,
+                            entradas_necessarias = EXCLUDED.entradas_necessarias,
+                            resultado_esperado = EXCLUDED.resultado_esperado,
+                            criterio_conclusao = EXCLUDED.criterio_conclusao,
+                            evidencias_execucao = EXCLUDED.evidencias_execucao,
+                            historico_alteracoes = EXCLUDED.historico_alteracoes,
+                            bloqueio_motivo = EXCLUDED.bloqueio_motivo,
+                            apontamentos_correcao = EXCLUDED.apontamentos_correcao,
                             atualizado_em = CURRENT_TIMESTAMP
                     `, [
                         idTarefa,
                         idProjeto,
                         agenteId,
                         t.especialista || 'Especialista VIDE',
-                        t.titulo || 'Tarefa Especialista',
-                        t.descricao || '',
+                        t.titulo || t.titulo_tarefa || 'Tarefa Especialista',
+                        t.descricao || t.objetivo || '',
                         JSON.stringify(t.dependencias || []),
                         JSON.stringify(t.criterios_aceite || []),
-                        t.estado || 'BLOQUEADA_POR_DEPENDENCIA'
+                        t.estado || 'BLOQUEADO',
+                        t.objetivo || t.descricao || '',
+                        JSON.stringify(t.entradas_necessarias || []),
+                        t.resultado_esperado || '',
+                        t.criterio_conclusao || (t.criterios_aceite ? t.criterios_aceite.join('; ') : ''),
+                        JSON.stringify(t.evidencias_execucao || []),
+                        JSON.stringify(t.historico_alteracoes || t.historico_auditoria || []),
+                        t.bloqueio_motivo || null,
+                        t.apontamentos_correcao || null
                     ]);
                 }
             }
@@ -706,14 +787,25 @@ class BancoDadosRelacionalVIDE {
             const rTar = await this.pgPool.query('SELECT * FROM tarefas WHERE projeto_id = $1 ORDER BY criado_em ASC', [id]);
             const tarefas = rTar.rows.map(t => ({
                 id_tarefa: t.id,
+                id: t.id,
                 projeto_id: t.projeto_id,
                 agente_id: t.agente_id,
                 especialista: t.especialista,
                 titulo: t.titulo,
+                titulo_tarefa: t.titulo,
                 descricao: t.descricao,
+                objetivo: t.objetivo || t.descricao,
+                entradas_necessarias: typeof t.entradas_necessarias === 'string' ? JSON.parse(t.entradas_necessarias) : (t.entradas_necessarias || []),
+                resultado_esperado: t.resultado_esperado,
+                criterio_conclusao: t.criterio_conclusao,
                 dependencias: typeof t.dependencias === 'string' ? JSON.parse(t.dependencias) : (t.dependencias || []),
                 criterios_aceite: typeof t.criterios_aceite === 'string' ? JSON.parse(t.criterios_aceite) : (t.criterios_aceite || []),
+                evidencias_execucao: typeof t.evidencias_execucao === 'string' ? JSON.parse(t.evidencias_execucao) : (t.evidencias_execucao || []),
+                historico_alteracoes: typeof t.historico_alteracoes === 'string' ? JSON.parse(t.historico_alteracoes) : (t.historico_alteracoes || []),
+                bloqueio_motivo: t.bloqueio_motivo,
+                apontamentos_correcao: t.apontamentos_correcao,
                 estado: t.estado,
+                estado_tarefa: t.estado,
                 criado_em: t.criado_em ? new Date(t.criado_em).toISOString() : new Date().toISOString()
             }));
 
@@ -722,17 +814,39 @@ class BancoDadosRelacionalVIDE {
                 servicos = typeof p.servicos_autorizados === 'string' ? JSON.parse(p.servicos_autorizados) : (p.servicos_autorizados || []);
             } catch (_) {}
 
+            let frentes = [];
+            try {
+                frentes = typeof p.frentes_comerciais === 'string' ? JSON.parse(p.frentes_comerciais) : (p.frentes_comerciais || []);
+            } catch (_) {}
+
+            let entregaveis = [];
+            try {
+                entregaveis = typeof p.entregaveis === 'string' ? JSON.parse(p.entregaveis) : (p.entregaveis || []);
+            } catch (_) {}
+
             const projetoCompleto = {
                 id: p.id,
                 id_projeto: p.id,
                 cliente_id: p.cliente_id,
                 cliente: clienteNome,
+                empresa_contratante: clienteNome,
                 id_demanda_origem: p.id_demanda_origem,
                 solicitacao_original: p.solicitacao_original,
                 situacao_projeto: p.situacao_projeto,
+                frentes_comerciais: frentes,
+                escopo_autorizado: p.escopo_autorizado,
+                entregaveis: entregaveis,
+                limites_trabalho: p.limites_trabalho,
+                responsavel_aprovacao: p.responsavel_aprovacao,
+                natureza_projeto: p.natureza_projeto || 'SIMULADO',
                 autorizacao_comercial: {
                     status: p.autorizacao_status,
+                    frentes_comerciais: frentes,
                     servicos_autorizados: servicos,
+                    escopo_autorizado: p.escopo_autorizado,
+                    entregaveis: entregaveis,
+                    limites_trabalho: p.limites_trabalho,
+                    responsavel_aprovacao: p.responsavel_aprovacao,
                     data_autorizacao: p.data_autorizacao ? new Date(p.data_autorizacao).toISOString() : null,
                     observacao: p.observacao_autorizacao
                 },
@@ -844,9 +958,17 @@ class BancoDadosRelacionalVIDE {
             especialista: especialista,
             titulo: dados.titulo || existente.titulo || '',
             descricao: dados.descricao || existente.descricao || '',
+            objetivo: dados.objetivo || existente.objetivo || dados.descricao || '',
+            entradas_necessarias: dados.entradas_necessarias || existente.entradas_necessarias || [],
+            resultado_esperado: dados.resultado_esperado || existente.resultado_esperado || '',
+            criterio_conclusao: dados.criterio_conclusao || existente.criterio_conclusao || (dados.criterios_aceite ? dados.criterios_aceite.join('; ') : ''),
             dependencias: dados.dependencias || existente.dependencias || [],
             criterios_aceite: dados.criterios_aceite || existente.criterios_aceite || [],
-            estado: dados.estado || existente.estado || 'BLOQUEADA_POR_AUTORIZACAO',
+            evidencias_execucao: dados.evidencias_execucao || existente.evidencias_execucao || [],
+            historico_alteracoes: dados.historico_alteracoes || existente.historico_alteracoes || dados.historico_auditoria || [],
+            bloqueio_motivo: dados.bloqueio_motivo || existente.bloqueio_motivo || null,
+            apontamentos_correcao: dados.apontamentos_correcao || existente.apontamentos_correcao || null,
+            estado: dados.estado || existente.estado || 'BLOQUEADO',
             criado_em: existente.criado_em || new Date().toISOString(),
             atualizado_em: new Date().toISOString()
         };
@@ -856,14 +978,22 @@ class BancoDadosRelacionalVIDE {
 
         if (this.pgPool) {
             this.pgPool.query(`
-                INSERT INTO tarefas (id, projeto_id, agente_id, especialista, titulo, descricao, dependencias, criterios_aceite, estado, criado_em, atualizado_em)
-                VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
+                INSERT INTO tarefas (id, projeto_id, agente_id, especialista, titulo, descricao, dependencias, criterios_aceite, estado, objetivo, entradas_necessarias, resultado_esperado, criterio_conclusao, evidencias_execucao, historico_alteracoes, bloqueio_motivo, apontamentos_correcao, criado_em, atualizado_em)
+                VALUES ($1, $2, $3, $4, $5, $6, $7::jsonb, $8::jsonb, $9, $10, $11::jsonb, $12, $13, $14::jsonb, $15::jsonb, $16, $17, $18, $19)
                 ON CONFLICT (id) DO UPDATE SET
                     titulo = EXCLUDED.titulo,
                     descricao = EXCLUDED.descricao,
                     dependencias = EXCLUDED.dependencias,
                     criterios_aceite = EXCLUDED.criterios_aceite,
                     estado = EXCLUDED.estado,
+                    objetivo = EXCLUDED.objetivo,
+                    entradas_necessarias = EXCLUDED.entradas_necessarias,
+                    resultado_esperado = EXCLUDED.resultado_esperado,
+                    criterio_conclusao = EXCLUDED.criterio_conclusao,
+                    evidencias_execucao = EXCLUDED.evidencias_execucao,
+                    historico_alteracoes = EXCLUDED.historico_alteracoes,
+                    bloqueio_motivo = EXCLUDED.bloqueio_motivo,
+                    apontamentos_correcao = EXCLUDED.apontamentos_correcao,
                     atualizado_em = EXCLUDED.atualizado_em
             `, [
                 tarefa.id,
@@ -875,6 +1005,14 @@ class BancoDadosRelacionalVIDE {
                 JSON.stringify(tarefa.dependencias || []),
                 JSON.stringify(tarefa.criterios_aceite || []),
                 tarefa.estado,
+                tarefa.objetivo,
+                JSON.stringify(tarefa.entradas_necessarias || []),
+                tarefa.resultado_esperado,
+                tarefa.criterio_conclusao,
+                JSON.stringify(tarefa.evidencias_execucao || []),
+                JSON.stringify(tarefa.historico_alteracoes || []),
+                tarefa.bloqueio_motivo,
+                tarefa.apontamentos_correcao,
                 tarefa.criado_em,
                 tarefa.atualizado_em
             ]).catch(err => console.warn('[VIDE_DB_PG] Falha assíncrona ao sincronizar tarefa:', err.message));

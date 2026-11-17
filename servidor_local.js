@@ -44,6 +44,17 @@ const { servicoWebhooksSaida } = require(`${moduloAgentesDir}/servico_webhooks_s
 const { obterCatalogoCompleto } = require(`${moduloAgentesDir}/catalogo_solucoes_comerciais`);
 const { servicoMotorInteligencia } = require(`${moduloAgentesDir}/servico_motor_inteligencia`);
 const { servicoIngestaoComercial } = require(`${moduloAgentesDir}/servico_ingestao_comercial`);
+const {
+    FRENTES_COMERCIAIS,
+    ESTADOS_SISTEMA,
+    criarProjetoDemandaComercial,
+    autorizarProjetoComercialmente: autorizarProjetoSistemaExecucao,
+    verificarAutorizacaoEPredecessores,
+    executarTarefaProjeto,
+    avaliarEntregaTarefa,
+    executarCorrecaoTarefa,
+    obterDossieExecucaoProjeto
+} = require(`${moduloAgentesDir}/servico_execucao_servicos`);
 
 // Timestamp de cooldown para proteção de custos da API de IA
 let ultimaAuditoriaIaTimestamp = 0;
@@ -387,30 +398,38 @@ const servidor = http.createServer(async (req, res) => {
         return res.end(JSON.stringify({ sucesso: true, projetos: projetosCompletos }));
     }
 
-    // 1.1 POST /api/projetos/novo — Criação direta de novo projeto com briefing e triagem imediata (Autenticação e RBAC Obrigatórios)
+    // 1.1 POST /api/projetos/novo — Criação de novo projeto comercial da Equipe Digital (Autenticação e RBAC Obrigatórios)
     if (urlLimpa === '/api/projetos/novo' && req.method === 'POST') {
         const usuarioAutenticado = exigirAutenticacao(req, res, ['DIRETOR', 'DIRETORA', 'ADMIN', 'OPERADOR']);
         if (!usuarioAutenticado) return;
 
         try {
             const body = await lerCorpoJson(req);
-            const cliente = (body.cliente || 'Cliente Sem Nome').trim();
-            const solicitacao = (body.solicitacao || body.demanda || '').trim();
+            const cliente = (body.empresaContratante || body.empresa_contratante || body.cliente || 'Empresa Cliente Simulada').trim();
+            const solicitacao = (body.solicitacao || body.demanda || body.solicitacaoOriginal || '').trim();
             const briefing = (body.briefing || '').trim();
             const prazo = body.prazo || null;
+            const frentes = body.frentesComerciais || body.frentes_comerciais || (body.servicoContratado ? [body.servicoContratado] : null);
+            const limites = body.limitesTrabalho || body.limites_trabalho || 'Escopo restrito exclusivamente aos itens formalizados na proposta comercial.';
+            const entregaveis = body.entregaveis || body.entregaveisEstimados || [];
 
-            if (!solicitacao && !briefing) {
+            if (!solicitacao && !briefing && !frentes) {
                 res.writeHead(400, { 'Content-Type': 'application/json; charset=utf-8' });
-                return res.end(JSON.stringify({ sucesso: false, erro: 'Informe a solicitação ou o briefing do projeto.' }));
+                return res.end(JSON.stringify({ sucesso: false, erro: 'Informe a solicitação, o briefing ou as frentes comerciais do projeto.' }));
             }
 
-            const regTriagem = await processarTriagemComIA({
+            const projetoCriado = criarProjetoDemandaComercial({
+                empresaContratante: cliente,
+                clienteId: body.clienteId || body.cliente_id,
                 solicitacaoOriginal: solicitacao || briefing,
-                identificadorCenario: cliente,
-                prazoUrgenciaInformado: prazo
+                frentesComerciais: frentes,
+                escopoProposto: solicitacao || briefing,
+                entregaveisEstimados: entregaveis,
+                limitesTrabalho: limites,
+                prioridade: body.prioridade || 'NORMAL',
+                naturezaProjeto: 'SIMULADO'
             });
 
-            const projetoCriado = receberRegistroTriagem(regTriagem, { forcarPendente: true });
             if (briefing) {
                 projetoCriado.briefing_diretoria = briefing;
                 const nomeBriefing = `briefing_inicial_${Date.now()}.md`;
@@ -432,8 +451,7 @@ const servidor = http.createServer(async (req, res) => {
             return res.end(JSON.stringify({ 
                 sucesso: true, 
                 id_projeto: projetoCriado.id_projeto,
-                projeto: projetoCriado,
-                triagem: regTriagem
+                projeto: projetoCriado
             }));
         } catch (e) {
             res.writeHead(500, { 'Content-Type': 'application/json; charset=utf-8' });
@@ -670,7 +688,180 @@ const servidor = http.createServer(async (req, res) => {
         }));
     }
 
-    // 3. POST /api/webhook/triagem — Ingestão de mensagens (WhatsApp / Instagram / n8n)
+    // =========================================================================
+    // ROTAS DO SISTEMA DE EXECUÇÃO E ENTREGA DE SERVIÇOS (FRENTES, DAG & SUPERVISÃO)
+    // =========================================================================
+
+    // 2.2 POST /api/projetos/autorizar — Autorização comercial formal com delimitação de escopo, frentes, limites e entregáveis
+    if (urlLimpa === '/api/projetos/autorizar' && req.method === 'POST') {
+        const usuarioAutenticado = exigirAutenticacao(req, res, ['DIRETOR', 'DIRETORA', 'ADMIN', 'OPERADOR']);
+        if (!usuarioAutenticado) return;
+
+        try {
+            const body = await lerCorpoJson(req);
+            const idProjeto = body.idProjeto || body.id_projeto || body.id;
+            if (!idProjeto) {
+                res.writeHead(400, { 'Content-Type': 'application/json; charset=utf-8' });
+                return res.end(JSON.stringify({ sucesso: false, erro: 'ID do projeto obrigatório.' }));
+            }
+
+            const responsavel = body.responsavelAprovacao || body.responsavel_aprovacao || usuarioAutenticado.nome || 'Douglas Paz — Diretor Executivo';
+            const frentes = body.frentesComerciais || body.frentes_comerciais;
+            const escopo = body.escopoAutorizado || body.escopo_autorizado || body.servicoNome;
+            const entregaveis = body.entregaveis;
+            const limites = body.limitesTrabalho || body.limites_trabalho;
+            const obs = body.observacao;
+
+            const projetoAutorizado = autorizarProjetoSistemaExecucao({
+                idProjeto,
+                frentesComerciais: frentes,
+                escopoAutorizado: escopo,
+                entregaveis,
+                limitesTrabalho: limites,
+                responsavelAprovacao: responsavel,
+                observacao: obs
+            });
+
+            if (db.pgPool) await db.sincronizarProjetoCompletoPostgres(projetoAutorizado);
+
+            res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+            return res.end(JSON.stringify({
+                sucesso: true,
+                id_projeto: idProjeto,
+                projeto: projetoAutorizado,
+                autorizado_por: responsavel,
+                frentes: projetoAutorizado.frentes_comerciais,
+                total_tarefas: (projetoAutorizado.grafo_tarefas || []).length
+            }));
+        } catch (e) {
+            const status = e.message.includes('não encontrado') ? 404 : 400;
+            res.writeHead(status, { 'Content-Type': 'application/json; charset=utf-8' });
+            return res.end(JSON.stringify({ sucesso: false, erro: e.message }));
+        }
+    }
+
+    // 2.3 POST /api/projetos/tarefa/executar — Disparo de execução de tarefa pelo agente especialista
+    if (urlLimpa === '/api/projetos/tarefa/executar' && req.method === 'POST') {
+        const usuarioAutenticado = exigirAutenticacao(req, res, ['DIRETOR', 'DIRETORA', 'ADMIN', 'OPERADOR']);
+        if (!usuarioAutenticado) return;
+
+        try {
+            const body = await lerCorpoJson(req);
+            const idProjeto = body.idProjeto || body.id_projeto;
+            const idTarefa = body.idTarefa || body.id_tarefa;
+
+            if (!idProjeto || !idTarefa) {
+                res.writeHead(400, { 'Content-Type': 'application/json; charset=utf-8' });
+                return res.end(JSON.stringify({ sucesso: false, erro: 'idProjeto e idTarefa são obrigatórios.' }));
+            }
+
+            const resultado = executarTarefaProjeto({
+                idProjeto,
+                idTarefa,
+                inputsAdicionais: body.inputsAdicionais || {},
+                usuarioExecucao: usuarioAutenticado.nome || 'Operador VIDE'
+            });
+
+            if (db.pgPool && resultado.projeto) await db.sincronizarProjetoCompletoPostgres(resultado.projeto);
+
+            res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+            return res.end(JSON.stringify(resultado));
+        } catch (e) {
+            let status = 400;
+            if (e.message.includes('[BLOQUEIO_AUTORIZACAO_COMERCIAL]')) status = 403;
+            else if (e.message.includes('[BLOQUEIO_DEPENDENCIA]')) status = 422;
+            else if (e.message.includes('não encontrado')) status = 404;
+
+            res.writeHead(status, { 'Content-Type': 'application/json; charset=utf-8' });
+            return res.end(JSON.stringify({ sucesso: false, erro: e.message }));
+        }
+    }
+
+    // 2.4 POST /api/projetos/tarefa/conferir — Conferência humana: Aprovação ou Rejeição com solicitação de correção
+    if (urlLimpa === '/api/projetos/tarefa/conferir' && req.method === 'POST') {
+        const usuarioAutenticado = exigirAutenticacao(req, res, ['DIRETOR', 'DIRETORA', 'ADMIN', 'OPERADOR']);
+        if (!usuarioAutenticado) return;
+
+        try {
+            const body = await lerCorpoJson(req);
+            const idProjeto = body.idProjeto || body.id_projeto;
+            const idTarefa = body.idTarefa || body.id_tarefa;
+            const aprovado = body.aprovado === true || body.criteriosAtendidos === true;
+            const parecer = body.parecer || body.parecerCoordenador;
+            const apontamentos = body.apontamentosCorrecao || body.apontamentos_correcao;
+
+            if (!idProjeto || !idTarefa) {
+                res.writeHead(400, { 'Content-Type': 'application/json; charset=utf-8' });
+                return res.end(JSON.stringify({ sucesso: false, erro: 'idProjeto e idTarefa são obrigatórios.' }));
+            }
+
+            const resultado = avaliarEntregaTarefa({
+                idProjeto,
+                idTarefa,
+                aprovado,
+                parecer,
+                apontamentosCorrecao: apontamentos,
+                responsavelAvaliacao: usuarioAutenticado.nome || 'Douglas Paz — Diretor Executivo'
+            });
+
+            if (db.pgPool && resultado.projeto) await db.sincronizarProjetoCompletoPostgres(resultado.projeto);
+
+            res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+            return res.end(JSON.stringify(resultado));
+        } catch (e) {
+            res.writeHead(500, { 'Content-Type': 'application/json; charset=utf-8' });
+            return res.end(JSON.stringify({ sucesso: false, erro: e.message }));
+        }
+    }
+
+    // 2.5 POST /api/projetos/tarefa/corrigir — Reexecução de tarefa após apontamentos de correção
+    if (urlLimpa === '/api/projetos/tarefa/corrigir' && req.method === 'POST') {
+        const usuarioAutenticado = exigirAutenticacao(req, res, ['DIRETOR', 'DIRETORA', 'ADMIN', 'OPERADOR']);
+        if (!usuarioAutenticado) return;
+
+        try {
+            const body = await lerCorpoJson(req);
+            const idProjeto = body.idProjeto || body.id_projeto;
+            const idTarefa = body.idTarefa || body.id_tarefa;
+            const instrucoes = body.instrucoesCorrecao || body.instrucoes || 'Ajustes executados conforme parecer.';
+
+            if (!idProjeto || !idTarefa) {
+                res.writeHead(400, { 'Content-Type': 'application/json; charset=utf-8' });
+                return res.end(JSON.stringify({ sucesso: false, erro: 'idProjeto e idTarefa são obrigatórios.' }));
+            }
+
+            const resultado = executarCorrecaoTarefa({
+                idProjeto,
+                idTarefa,
+                instrucoesCorrecao: instrucoes,
+                usuarioExecucao: usuarioAutenticado.nome || 'Especialista em Correção'
+            });
+
+            if (db.pgPool && resultado.projeto) await db.sincronizarProjetoCompletoPostgres(resultado.projeto);
+
+            res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+            return res.end(JSON.stringify(resultado));
+        } catch (e) {
+            res.writeHead(500, { 'Content-Type': 'application/json; charset=utf-8' });
+            return res.end(JSON.stringify({ sucesso: false, erro: e.message }));
+        }
+    }
+
+    // 2.6 GET /api/projetos/:id/dossie — Dossiê completo e consolidado de execução do projeto
+    if (urlLimpa.startsWith('/api/projetos/') && urlLimpa.endsWith('/dossie') && req.method === 'GET') {
+        const usuarioAutenticado = exigirAutenticacao(req, res);
+        if (!usuarioAutenticado) return;
+
+        const idProjeto = decodeURIComponent(urlLimpa.replace('/api/projetos/', '').replace('/dossie', '').trim());
+        const dossie = obterDossieExecucaoProjeto(idProjeto);
+        if (!dossie) {
+            res.writeHead(404, { 'Content-Type': 'application/json; charset=utf-8' });
+            return res.end(JSON.stringify({ sucesso: false, erro: 'Projeto não encontrado.' }));
+        }
+
+        res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+        return res.end(JSON.stringify({ sucesso: true, dossie }));
+    }
     if (urlLimpa === '/api/webhook/triagem' && req.method === 'POST') {
         const ipOrigem = req.socket.remoteAddress || '127.0.0.1';
         if (!seguranca.verificarRateLimit(ipOrigem)) {

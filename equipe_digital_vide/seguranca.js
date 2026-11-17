@@ -144,6 +144,13 @@ class ServicoSeguranca {
     }
 
     /**
+     * Alias para gerarTokenSessao
+     */
+    gerarTokenJWT(payload, expiracaoSegundos = 86400) {
+        return this.gerarTokenSessao(payload, expiracaoSegundos);
+    }
+
+    /**
      * Valida token JWT assinado
      */
     validarToken(token) {

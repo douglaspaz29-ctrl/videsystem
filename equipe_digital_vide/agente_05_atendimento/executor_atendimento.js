@@ -49,8 +49,8 @@ function assumirTarefaAtendimento({ idProjeto, idTarefa }) {
     // 1.4. Verificação de Dependências no Grafo
     if (tarefa.dependencias && tarefa.dependencias.length > 0) {
         for (const depId of tarefa.dependencias) {
-            const depTarefa = projeto.grafo_tarefas.find(t => t.id_tarefa === depId);
-            if (!depTarefa || depTarefa.estado !== 'APROVADA') {
+            const depTarefa = projeto.grafo_tarefas.find(t => (t.id_tarefa === depId || t.id === depId));
+            if (!depTarefa || (depTarefa.estado !== 'APROVADA' && depTarefa.estado !== 'CONCLUIDO')) {
                 throw new Error(`[BLOQUEIO_DEPENDENCIA] Tarefa [${idTarefa}] está BLOQUEADA_POR_DEPENDENCIA. Aguardando aprovação prévia de [${depId}] (${depTarefa ? depTarefa.especialista : 'Desconhecida'}).`);
             }
         }
@@ -58,6 +58,7 @@ function assumirTarefaAtendimento({ idProjeto, idTarefa }) {
 
     // 1.5. Transiciona estado para EM_ANDAMENTO
     tarefa.estado = 'EM_ANDAMENTO';
+    if (!tarefa.historico_auditoria) tarefa.historico_auditoria = tarefa.historico_alteracoes || [];
     tarefa.historico_auditoria.push({
         timestamp: new Date().toISOString(),
         autor: 'Agente 05 — Atendimento e Vendas',
@@ -65,6 +66,7 @@ function assumirTarefaAtendimento({ idProjeto, idTarefa }) {
         novo_estado: 'EM_ANDAMENTO',
         nota: 'Tarefa assumida pelo especialista em Atendimento e Vendas. Iniciando mapeamento de jornada, roteiros e matriz de objeções.'
     });
+    tarefa.historico_alteracoes = tarefa.historico_auditoria;
 
     salvarProjeto(projeto);
     return { projeto, tarefa };
