@@ -3031,9 +3031,12 @@
                 headers,
                 body: JSON.stringify({
                     empresaId,
+                    formularMiv: true,
                     dadosNegocio: {
                         segmento,
                         observacaoDiretoria: obs,
+                        observacaoGargalo: obs,
+                        formularMiv: true,
                         avaliarSubdimensoesGestao: true
                     }
                 })

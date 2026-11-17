@@ -1158,11 +1158,57 @@ const servidor = http.createServer(async (req, res) => {
                 dadosNegocio
             });
 
+            let mivGerada = null;
+            if (body.formularMiv || dadosNegocio.formularMiv || dadosNegocio.observacaoGargalo) {
+                try {
+                    const scoresMap = diagResultado.scoresDimensoes || {};
+                    const listaDim = [
+                        { dim: 'COMUNICACAO', score: scoresMap.comunicacao ?? 50 },
+                        { dim: 'AQUISICAO', score: scoresMap.aquisicao ?? 50 },
+                        { dim: 'ATENDIMENTO', score: scoresMap.atendimento ?? 50 },
+                        { dim: 'PROCESSO_COMERCIAL', score: scoresMap.processo_comercial ?? 50 },
+                        { dim: 'CONVERSAO', score: scoresMap.conversao ?? 50 },
+                        { dim: 'ESTRUTURA_DIGITAL', score: scoresMap.estrutura_digital ?? 50 },
+                        { dim: 'GESTAO', score: (scoresMap.gestao && scoresMap.gestao.score_total) ?? 50 }
+                    ].sort((a, b) => a.score - b.score);
+                    const pior = listaDim[0] || { dim: 'CONVERSAO', score: 40 };
+
+                    const titGargalo = body.tituloGargalo || dadosNegocio.tituloGargalo || `Gargalo Crítico em ${pior.dim}`;
+                    const descGargalo = body.descricaoGargalo || dadosNegocio.descricaoGargalo || dadosNegocio.observacaoGargalo || `Diagnóstico 7D identificou pontuação crítica (${pior.score}/100) na dimensão ${pior.dim}.`;
+
+                    const gargalo = await servicoMotorInteligencia.cadastrarGargaloEPV({
+                        empresaId,
+                        diagnosticoId: diagResultado.diagnosticoId,
+                        dimensao: pior.dim,
+                        titulo: titGargalo,
+                        descricao: descGargalo,
+                        recorrencia: 0.85,
+                        abrangencia: 0.70,
+                        severidade: 0.90,
+                        esforco: 2,
+                        impactoFinanceiro: body.impactoFinanceiro || dadosNegocio.impactoFinanceiro || 15000.00
+                    });
+
+                    mivGerada = await servicoMotorInteligencia.formularRecomendacaoMIV({
+                        empresaId,
+                        gargaloId: gargalo.gargaloId,
+                        tituloMiv: body.tituloMiv || dadosNegocio.tituloMiv || `MIV: Intervenção Prioritária em ${pior.dim}`,
+                        acaoProposta: body.acaoProposta || dadosNegocio.acaoProposta || `Implantar protocolo de correção e automação para destravar receita na dimensão ${pior.dim}.`,
+                        justificativaMiv: `Elimina o principal gargalo comercial identificado na dimensão ${pior.dim}.`,
+                        justificativaEficaciaSuficiente: `Menor esforço viável com suficiência causal demonstrada no Diagnóstico 7D.`,
+                        produtoCatalogoVide: 'AUTOMACOES'
+                    });
+                } catch (errMiv) {
+                    console.error('[DIAGNOSTICO_7D] Erro ao formular MIV automática:', errMiv.message);
+                }
+            }
+
             res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
             return res.end(JSON.stringify({
                 sucesso: true,
                 empresaId,
-                diagnostico: diagResultado
+                diagnostico: diagResultado,
+                miv: mivGerada
             }));
         } catch (e) {
             res.writeHead(500, { 'Content-Type': 'application/json; charset=utf-8' });
@@ -1214,7 +1260,7 @@ const servidor = http.createServer(async (req, res) => {
                 return res.end(JSON.stringify({ sucesso: false, erro: `Canal inválido: ${canal}. Canais aceitos: ${canaisValidos.join(', ')}` }));
             }
 
-            const conteudoTexto = (body.conteudoTexto || (body.interacao && body.interacao.conteudoTexto) || '').trim();
+            const conteudoTexto = (body.conteudoTexto || body.conteudo || (body.interacao && (body.interacao.conteudoTexto || body.interacao.conteudo)) || '').trim();
             if (!conteudoTexto) {
                 res.writeHead(400, { 'Content-Type': 'application/json; charset=utf-8' });
                 return res.end(JSON.stringify({ sucesso: false, erro: 'conteudoTexto da interação não pode ser vazio.' }));
@@ -1222,7 +1268,7 @@ const servidor = http.createServer(async (req, res) => {
 
             const direcao = (body.direcao || (body.interacao && body.interacao.direcao) || 'ENTRANTE').toUpperCase();
             const sessaoExternaId = body.sessaoExternaId || (body.interacao && body.interacao.sessaoExternaId) || null;
-            const idExternoMensagem = body.idExternoMensagem || (body.interacao && body.interacao.idExternoMensagem) || null;
+            const idExternoMensagem = body.idExternoMensagem || body.identificadorExterno || (body.interacao && (body.interacao.idExternoMensagem || body.interacao.identificadorExterno)) || null;
 
             // Deduplicação Relacional de Interação
             if (idExternoMensagem || sessaoExternaId) {
@@ -1287,7 +1333,7 @@ const servidor = http.createServer(async (req, res) => {
                 id_externo_mensagem: idExternoMensagem,
                 ip_origem: req.socket.remoteAddress
             };
-            const eventos = body.eventos || [];
+            const eventos = body.eventos || body.eventosFunil || [];
 
             const resInteracao = await servicoMotorInteligencia.registrarInteracaoEEventos({
                 empresaId,
@@ -1303,11 +1349,18 @@ const servidor = http.createServer(async (req, res) => {
             // Grava Evidências Factuais (se fornecidas na ingestão)
             let evidenciasCriadas = [];
             if (Array.isArray(body.evidencias) && body.evidencias.length > 0) {
+                const listaEvidenciasNormalizada = body.evidencias.map(ev => ({
+                    tipoEvidencia: ev.tipoEvidencia || ev.tipo || 'OBJECAO_OU_DEMANDA',
+                    trechoFato: ev.trechoFato || ev.descricao || ev.trecho || '',
+                    contextoOrigem: ev.contextoOrigem || canal,
+                    grauConfiabilidade: ev.grauConfiabilidade || 1.00,
+                    registradoPor: ev.registradoPor || 'INGESTAO_REST'
+                }));
                 evidenciasCriadas = await servicoMotorInteligencia.isolarEvidencias({
                     empresaId,
                     contatoId,
                     interacaoId: resInteracao.interacaoId,
-                    listaEvidencias: body.evidencias
+                    listaEvidencias: listaEvidenciasNormalizada
                 });
             }
 
