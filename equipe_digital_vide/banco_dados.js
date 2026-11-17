@@ -225,17 +225,43 @@ class BancoDadosRelacionalVIDE {
                     servicos = typeof row.servicos_autorizados === 'string' ? JSON.parse(row.servicos_autorizados) : (row.servicos_autorizados || []);
                 } catch (_) {}
 
+                let frentes = [];
+                try {
+                    frentes = typeof row.frentes_comerciais === 'string' ? JSON.parse(row.frentes_comerciais) : (row.frentes_comerciais || servicos || []);
+                } catch (_) {}
+
+                let entregaveis = [];
+                try {
+                    entregaveis = typeof row.entregaveis === 'string' ? JSON.parse(row.entregaveis) : (row.entregaveis || []);
+                } catch (_) {}
+
+                const clienteObj = this.tabelas.clientes.get(row.cliente_id);
+                const clienteNome = clienteObj ? clienteObj.nome : row.cliente_id;
+
                 const prjObj = {
                     id: row.id,
                     id_projeto: row.id,
                     cliente_id: row.cliente_id,
+                    cliente: clienteNome,
+                    empresa_contratante: clienteNome,
                     id_demanda_origem: row.id_demanda_origem,
                     solicitacao_original: row.solicitacao_original,
                     situacao_projeto: row.situacao_projeto,
                     autorizacao_status: row.autorizacao_status,
+                    frentes_comerciais: frentes,
+                    escopo_autorizado: row.escopo_autorizado,
+                    entregaveis: entregaveis,
+                    limites_trabalho: row.limites_trabalho,
+                    responsavel_aprovacao: row.responsavel_aprovacao,
+                    natureza_projeto: row.natureza_projeto || 'SIMULADO',
                     autorizacao_comercial: {
                         status: row.autorizacao_status,
                         servicos_autorizados: servicos,
+                        frentes_comerciais: frentes,
+                        escopo_autorizado: row.escopo_autorizado,
+                        entregaveis: entregaveis,
+                        limites_trabalho: row.limites_trabalho,
+                        responsavel_aprovacao: row.responsavel_aprovacao,
                         data_autorizacao: row.data_autorizacao ? new Date(row.data_autorizacao).toISOString() : null,
                         observacao: row.observacao_autorizacao
                     },
@@ -243,16 +269,62 @@ class BancoDadosRelacionalVIDE {
                         prioridade: row.prioridade || 'NORMAL',
                         criado_em: row.criado_em ? new Date(row.criado_em).toISOString() : new Date().toISOString(),
                         atualizado_em: row.atualizado_em ? new Date(row.atualizado_em).toISOString() : new Date().toISOString()
-                    }
+                    },
+                    grafo_tarefas: []
                 };
 
                 this.tabelas.projetos.set(row.id, prjObj);
+            }
 
+            // 3. Tarefas
+            const rTar = await this.pgPool.query('SELECT * FROM tarefas');
+            for (const row of rTar.rows) {
+                let dependencias = [];
+                let criterios = [];
+                let entradas = [];
+                let evidencias = [];
+                let historico = [];
                 try {
-                    const pastaProjs = path.join(__dirname, 'dados_persistencia', 'projetos');
-                    if (!fs.existsSync(pastaProjs)) fs.mkdirSync(pastaProjs, { recursive: true });
-                    const arqProj = path.join(pastaProjs, `${row.id}.json`);
-                    fs.writeFileSync(arqProj, JSON.stringify(prjObj, null, 2), 'utf-8');
+                    dependencias = typeof row.dependencias === 'string' ? JSON.parse(row.dependencias) : (row.dependencias || []);
+                    criterios = typeof row.criterios_aceite === 'string' ? JSON.parse(row.criterios_aceite) : (row.criterios_aceite || []);
+                    entradas = typeof row.entradas_necessarias === 'string' ? JSON.parse(row.entradas_necessarias) : (row.entradas_necessarias || []);
+                    evidencias = typeof row.evidencias_execucao === 'string' ? JSON.parse(row.evidencias_execucao) : (row.evidencias_execucao || []);
+                    historico = typeof row.historico_alteracoes === 'string' ? JSON.parse(row.historico_alteracoes) : (row.historico_alteracoes || []);
+                } catch (_) {}
+
+                this.tabelas.tarefas.set(row.id, {
+                    id: row.id,
+                    id_tarefa: row.id,
+                    projeto_id: row.projeto_id,
+                    agente_id: row.agente_id,
+                    especialista: row.especialista,
+                    titulo: row.titulo,
+                    descricao: row.descricao,
+                    objetivo: row.objetivo || row.descricao,
+                    entradas_necessarias: entradas,
+                    resultado_esperado: row.resultado_esperado,
+                    criterio_conclusao: row.criterio_conclusao,
+                    dependencias: dependencias,
+                    criterios_aceite: criterios,
+                    evidencias_execucao: evidencias,
+                    historico_alteracoes: historico,
+                    bloqueio_motivo: row.bloqueio_motivo,
+                    apontamentos_correcao: row.apontamentos_correcao,
+                    estado: row.estado,
+                    criado_em: row.criado_em ? new Date(row.criado_em).toISOString() : new Date().toISOString(),
+                    atualizado_em: row.atualizado_em ? new Date(row.atualizado_em).toISOString() : new Date().toISOString()
+                });
+            }
+
+            // Associa tarefas aos projetos e persiste arquivos JSON completos em disco
+            const pastaProjs = path.join(__dirname, 'dados_persistencia', 'projetos');
+            if (!fs.existsSync(pastaProjs)) fs.mkdirSync(pastaProjs, { recursive: true });
+
+            for (const [projId, prj] of this.tabelas.projetos) {
+                prj.grafo_tarefas = this.listarTarefasPorProjeto(projId);
+                try {
+                    const arqProj = path.join(pastaProjs, `${projId}.json`);
+                    fs.writeFileSync(arqProj, JSON.stringify(prj, null, 2), 'utf-8');
                 } catch (_) {}
             }
 
@@ -264,40 +336,14 @@ class BancoDadosRelacionalVIDE {
                 const listaIndice = Array.from(this.tabelas.projetos.values()).map(p => ({
                     id_projeto: p.id,
                     cliente_id: p.cliente_id,
-                    cliente: p.cliente_id,
+                    cliente: p.cliente || p.cliente_id,
                     situacao_projeto: p.situacao_projeto,
-                    total_tarefas: 0,
+                    total_tarefas: (p.grafo_tarefas || []).length,
                     autorizado: p.autorizacao_status === 'AUTORIZADO',
                     atualizado_em: p.cronograma ? p.cronograma.atualizado_em : new Date().toISOString()
                 }));
                 fs.writeFileSync(arqIndice, JSON.stringify({ projetos: listaIndice, atualizado_em: new Date().toISOString() }, null, 2), 'utf-8');
             } catch (_) {}
-
-            // 3. Tarefas
-            const rTar = await this.pgPool.query('SELECT * FROM tarefas');
-            for (const row of rTar.rows) {
-                let dependencias = [];
-                let criterios = [];
-                try {
-                    dependencias = typeof row.dependencias === 'string' ? JSON.parse(row.dependencias) : (row.dependencias || []);
-                    criterios = typeof row.criterios_aceite === 'string' ? JSON.parse(row.criterios_aceite) : (row.criterios_aceite || []);
-                } catch (_) {}
-
-                this.tabelas.tarefas.set(row.id, {
-                    id: row.id,
-                    id_tarefa: row.id,
-                    projeto_id: row.projeto_id,
-                    agente_id: row.agente_id,
-                    especialista: row.especialista,
-                    titulo: row.titulo,
-                    descricao: row.descricao,
-                    dependencias: dependencias,
-                    criterios_aceite: criterios,
-                    estado: row.estado,
-                    criado_em: row.criado_em ? new Date(row.criado_em).toISOString() : new Date().toISOString(),
-                    atualizado_em: row.atualizado_em ? new Date(row.atualizado_em).toISOString() : new Date().toISOString()
-                });
-            }
 
             // 4. Entregas
             const rEnt = await this.pgPool.query('SELECT * FROM entregas');
@@ -891,16 +937,35 @@ class BancoDadosRelacionalVIDE {
         const tarefas = this.listarTarefasPorProjeto(p.id);
         const eventos = this.listarEventosPorProjeto(p.id);
 
+        const frentes = p.frentes_comerciais || (p.servicos_autorizados || []);
+        const escopo = p.escopo_autorizado || null;
+        const entregaveis = p.entregaveis || [];
+        const limites = p.limites_trabalho || null;
+        const responsavel = p.responsavel_aprovacao || null;
+
         return {
             id_projeto: p.id,
+            id: p.id,
             id_demanda_origem: p.id_demanda_origem,
             cliente_id: p.cliente_id,
             cliente: cliente ? cliente.nome : p.cliente_id,
+            empresa_contratante: cliente ? cliente.nome : p.cliente_id,
             solicitacao_original: p.solicitacao_original,
             situacao_projeto: p.situacao_projeto,
+            frentes_comerciais: frentes,
+            escopo_autorizado: escopo,
+            entregaveis: entregaveis,
+            limites_trabalho: limites,
+            responsavel_aprovacao: responsavel,
+            natureza_projeto: p.natureza_projeto || 'SIMULADO',
             autorizacao_comercial: {
-                status: p.autorizacao_status,
-                servicos_autorizados: p.servicos_autorizados,
+                status: p.autorizacao_status || (p.autorizacao_comercial ? p.autorizacao_comercial.status : 'PENDENTE'),
+                servicos_autorizados: p.servicos_autorizados || frentes,
+                frentes_comerciais: frentes,
+                escopo_autorizado: escopo,
+                entregaveis: entregaveis,
+                limites_trabalho: limites,
+                responsavel_aprovacao: responsavel,
                 data_autorizacao: p.data_autorizacao,
                 observacao: p.observacao_autorizacao
             },
@@ -1028,11 +1093,21 @@ class BancoDadosRelacionalVIDE {
                 const entrega = this.obterEntregaPorTarefa(t.id);
                 tarefas.push({
                     id_tarefa: t.id,
+                    id: t.id,
+                    agente_id: t.agente_id,
                     especialista: t.especialista,
                     titulo: t.titulo,
                     descricao: t.descricao,
-                    dependencias: t.dependencias,
-                    criterios_aceite: t.criterios_aceite,
+                    objetivo: t.objetivo || t.descricao,
+                    entradas_necessarias: t.entradas_necessarias || [],
+                    resultado_esperado: t.resultado_esperado,
+                    criterio_conclusao: t.criterio_conclusao,
+                    dependencias: t.dependencias || [],
+                    criterios_aceite: t.criterios_aceite || [],
+                    evidencias_execucao: t.evidencias_execucao || [],
+                    historico_alteracoes: t.historico_alteracoes || [],
+                    bloqueio_motivo: t.bloqueio_motivo,
+                    apontamentos_correcao: t.apontamentos_correcao,
                     estado: t.estado,
                     entrega: entrega ? entrega.dados : null,
                     historico_auditoria: this.listarEventosPorTarefa(t.id)

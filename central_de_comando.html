@@ -2762,7 +2762,7 @@
 
             const elCatTag = document.getElementById('proj-catalogo-tag');
             if (elCatTag) {
-                const frentesLista = p.frentes_comerciais || [];
+                const frentesLista = (p.frentes_comerciais && p.frentes_comerciais.length > 0) ? p.frentes_comerciais : ((p.autorizacao_comercial && (p.autorizacao_comercial.frentes_comerciais || p.autorizacao_comercial.servicos_autorizados)) || []);
                 let tagsHtml = frentesLista.map(f => {
                     let nome = f.replace(/_/g, ' ');
                     if (f === 'PRESENCA_COMERCIAL') nome = 'Presença Comercial';

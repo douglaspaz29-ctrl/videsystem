@@ -559,7 +559,13 @@ const servidor = http.createServer(async (req, res) => {
 
         const idProjeto = decodeURIComponent(urlLimpa.replace('/api/projetos/', '').replace('/detalhes', ''));
         let projeto = obterProjetoPorId(idProjeto);
-        if (!projeto && db.pgPool) projeto = await db.obterProjetoDoPostgres(idProjeto);
+        if ((!projeto || !projeto.grafo_tarefas || projeto.grafo_tarefas.length === 0) && db.pgPool) {
+            const pPg = await db.obterProjetoDoPostgres(idProjeto);
+            if (pPg) {
+                projeto = pPg;
+                salvarProjeto(projeto);
+            }
+        }
         if (!projeto) {
             res.writeHead(404, { 'Content-Type': 'application/json; charset=utf-8' });
             return res.end(JSON.stringify({ sucesso: false, erro: 'Projeto não encontrado.' }));
@@ -603,8 +609,12 @@ const servidor = http.createServer(async (req, res) => {
 
         const idProjeto = decodeURIComponent(urlLimpa.replace('/api/projetos/', ''));
         let projeto = obterProjetoPorId(idProjeto);
-        if (!projeto && db.pgPool) {
-            projeto = await db.obterProjetoDoPostgres(idProjeto);
+        if ((!projeto || !projeto.grafo_tarefas || projeto.grafo_tarefas.length === 0) && db.pgPool) {
+            const pPg = await db.obterProjetoDoPostgres(idProjeto);
+            if (pPg) {
+                projeto = pPg;
+                salvarProjeto(projeto);
+            }
         }
         if (!projeto && db.pgPool) {
             try {
