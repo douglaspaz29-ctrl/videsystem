@@ -597,7 +597,7 @@ const servidor = http.createServer(async (req, res) => {
     }
 
     // 2. GET /api/projetos/:id — Retorna detalhes de um projeto específico com fallback direto no PostgreSQL (Autenticação Obrigatória)
-    if (urlLimpa.startsWith('/api/projetos/') && !urlLimpa.includes('/arquivos') && !urlLimpa.includes('/detalhes') && !urlLimpa.includes('/anexos') && !urlLimpa.includes('/diagnostico') && req.method === 'GET') {
+    if (urlLimpa.startsWith('/api/projetos/') && !urlLimpa.includes('/arquivos') && !urlLimpa.includes('/detalhes') && !urlLimpa.includes('/anexos') && !urlLimpa.includes('/diagnostico') && !urlLimpa.includes('/dossie') && req.method === 'GET') {
         const usuarioAutenticado = exigirAutenticacao(req, res);
         if (!usuarioAutenticado) return;
 
@@ -786,7 +786,7 @@ const servidor = http.createServer(async (req, res) => {
             const body = await lerCorpoJson(req);
             const idProjeto = body.idProjeto || body.id_projeto;
             const idTarefa = body.idTarefa || body.id_tarefa;
-            const aprovado = body.aprovado === true || body.criteriosAtendidos === true;
+            const aprovado = body.aprovado === true || body.criteriosAtendidos === true || (typeof body.decisao === 'string' && (body.decisao.toUpperCase() === 'APROVADA' || body.decisao.toUpperCase() === 'APROVADO'));
             const parecer = body.parecer || body.parecerCoordenador;
             const apontamentos = body.apontamentosCorrecao || body.apontamentos_correcao;
 
@@ -853,7 +853,14 @@ const servidor = http.createServer(async (req, res) => {
         if (!usuarioAutenticado) return;
 
         const idProjeto = decodeURIComponent(urlLimpa.replace('/api/projetos/', '').replace('/dossie', '').trim());
-        const dossie = obterDossieExecucaoProjeto(idProjeto);
+        let dossie = obterDossieExecucaoProjeto(idProjeto);
+        if (!dossie && db.pgPool) {
+            const projPg = await db.obterProjetoDoPostgres(idProjeto);
+            if (projPg) {
+                salvarProjeto(projPg);
+                dossie = obterDossieExecucaoProjeto(idProjeto);
+            }
+        }
         if (!dossie) {
             res.writeHead(404, { 'Content-Type': 'application/json; charset=utf-8' });
             return res.end(JSON.stringify({ sucesso: false, erro: 'Projeto não encontrado.' }));
