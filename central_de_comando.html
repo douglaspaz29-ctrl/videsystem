@@ -1184,6 +1184,10 @@
         </div>
 
         <div class="cockpit-header-actions">
+            <a href="#secao-ingestao-dados" class="btn-black-outline" style="border-color: rgba(16, 185, 129, 0.4);">
+                <i class="fas fa-file-import" style="color: #10B981;"></i>
+                <span>Ingestão de Dados</span>
+            </a>
             <a href="#secao-motor-inteligencia" class="btn-black-outline" style="border-color: rgba(0, 229, 255, 0.4);">
                 <i class="fas fa-brain" style="color: var(--cyan-core);"></i>
                 <span>Motor 7D & MIV</span>
@@ -1373,6 +1377,83 @@
          * SEÇÃO: CATÁLOGO OFICIAL DE SOLUÇÕES COMERCIAIS (v1.0)
          * ===================================================================== -->
         
+        <!-- =====================================================================
+         * SEÇÃO: CAMADA DE INGESTÃO DE DADOS COMERCIAIS // MULTI-FONTE (v2.2)
+         * ===================================================================== -->
+        <section class="cockpit-cluster-section" id="secao-ingestao-dados" style="border-top: 1px solid rgba(16, 185, 129, 0.35);">
+            <div class="cluster-head-row" style="margin-bottom: 24px;">
+                <div>
+                    <div style="font-family: var(--font-mono); font-size: 11px; font-weight: 800; color: #10B981; letter-spacing: 0.12em;">
+                        PIPELINE MULTI-FONTE // INGESTÃO & PREPARAÇÃO DE DADOS (v2.2)
+                    </div>
+                    <h2 style="font-size: 24px; font-weight: 800; text-transform: uppercase; margin-top: 4px; color: #FFFFFF;">
+                        Central de Ingestão de Dados Comerciais
+                    </h2>
+                    <p style="font-size: 13px; color: var(--text-muted); margin-top: 4px; max-width: 820px;">
+                        Recepção unificada, validação semântica e deduplicação de dados de vendas, interações, contatos e retenção (CSV, XLSX, Formulários e APIs). Alimenta o Motor 7D com dados factuais preservando a natureza de cada registro.
+                    </p>
+                </div>
+                <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <span style="font-family: var(--font-mono); font-size: 11px; color: #94A3B8;">EMPRESA:</span>
+                        <select id="ingestao-empresa-select" onchange="trocarEmpresaIngestao(this.value)" class="input-dark-field" style="padding: 8px 12px; font-size: 12px; max-width: 220px;">
+                            <option value="">Carregando empresas...</option>
+                        </select>
+                    </div>
+                    <button onclick="carregarLotesIngestao()" class="btn-blue-action" style="padding: 10px 16px; font-size: 12px;">
+                        <i class="fas fa-arrows-rotate"></i>
+                        <span>Atualizar Lotes</span>
+                    </button>
+                    <button onclick="abrirModalNovaIngestao()" class="btn-black-outline" style="padding: 10px 16px; font-size: 12px; border-color: rgba(16, 185, 129, 0.5); color: #10B981;">
+                        <i class="fas fa-cloud-arrow-up"></i>
+                        <span>Nova Ingestão de Dados</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Bento Bar de Métricas de Ingestão -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; margin-bottom: 24px;">
+                <div style="background: #080C14; border: 1px solid rgba(255,255,255,0.07); border-radius: var(--radius-card); padding: 14px 18px;">
+                    <div style="font-family: var(--font-mono); font-size: 10px; color: #64748B; font-weight: 800;">LOTES PROCESSADOS</div>
+                    <div id="ingestao-metric-lotes" style="font-family: var(--font-headline); font-size: 24px; font-weight: 800; color: #FFF; margin-top: 4px;">--</div>
+                    <div style="font-size: 11px; color: #94A3B8;">Histórico multiempresa</div>
+                </div>
+                <div style="background: #080C14; border: 1px solid rgba(255,255,255,0.07); border-radius: var(--radius-card); padding: 14px 18px;">
+                    <div style="font-family: var(--font-mono); font-size: 10px; color: #64748B; font-weight: 800;">REGISTROS VÁLIDOS</div>
+                    <div id="ingestao-metric-validos" style="font-family: var(--font-headline); font-size: 24px; font-weight: 800; color: #10B981; margin-top: 4px;">--</div>
+                    <div style="font-size: 11px; color: #94A3B8;">Aptos para o Motor 7D</div>
+                </div>
+                <div style="background: #080C14; border: 1px solid rgba(255,255,255,0.07); border-radius: var(--radius-card); padding: 14px 18px;">
+                    <div style="font-family: var(--font-mono); font-size: 10px; color: #64748B; font-weight: 800;">DUPLICADOS BARRADOS</div>
+                    <div id="ingestao-metric-duplicados" style="font-family: var(--font-headline); font-size: 24px; font-weight: 800; color: #F59E0B; margin-top: 4px;">--</div>
+                    <div style="font-size: 11px; color: #94A3B8;">Deduplicação SHA-256</div>
+                </div>
+                <div style="background: #080C14; border: 1px solid rgba(255,255,255,0.07); border-radius: var(--radius-card); padding: 14px 18px;">
+                    <div style="font-family: var(--font-mono); font-size: 10px; color: #64748B; font-weight: 800;">ALERTAS & INCONSISTÊNCIAS</div>
+                    <div id="ingestao-metric-alertas" style="font-family: var(--font-headline); font-size: 24px; font-weight: 800; color: #EC4899; margin-top: 4px;">--</div>
+                    <div style="font-size: 11px; color: #94A3B8;">Campos ausentes rastreados</div>
+                </div>
+            </div>
+
+            <!-- Grade de Lotes Recentes -->
+            <div style="margin-bottom: 24px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <i class="fas fa-boxes-stacked" style="color: #10B981;"></i>
+                        <h3 style="font-size: 16px; font-weight: 800; color: #FFF; text-transform: uppercase;">
+                            Lotes de Ingestão e Status de Preparação
+                        </h3>
+                    </div>
+                </div>
+                <div id="ingestao-lotes-container" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 16px;">
+                    <!-- Cards de Lotes via JS -->
+                    <div style="padding: 24px; background: #0A0F1D; border: 1px dashed rgba(255,255,255,0.15); border-radius: var(--radius-card); text-align: center; color: var(--text-muted); font-size: 13px;">
+                        Carregando lotes de ingestão...
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- =====================================================================
          * SEÇÃO: MOTOR DE INTELIGÊNCIA COMERCIAL (v2.2) — DIAGNÓSTICO 7D & MIV
          * ===================================================================== -->
@@ -1990,6 +2071,162 @@
                         <button type="submit" class="btn-blue-action" style="background: linear-gradient(135deg, #10B981, #059669);"><i class="fas fa-save"></i> Registrar Aprendizado</button>
                     </div>
                 </form>
+            </div>
+        </div>
+
+        <!-- =====================================================================
+         * MODAL: NOVA INGESTÃO DE DADOS COMERCIAIS (MULTI-FONTE)
+         * ===================================================================== -->
+        <div id="modal-nova-ingestao" class="modal-overlay" style="display: none;">
+            <div class="modal-card-box" style="max-width: 720px;">
+                <div class="modal-header">
+                    <div>
+                        <div style="font-family: var(--font-mono); font-size: 10px; color: #10B981; font-weight: 800;">
+                            PIPELINE MULTI-FONTE // ENTRADA DE DADOS
+                        </div>
+                        <h3 style="font-size: 18px; font-weight: 800; color: #FFF; margin-top: 2px;">
+                            Nova Ingestão de Dados Comerciais
+                        </h3>
+                    </div>
+                    <button onclick="fecharModalNovaIngestao()" class="btn-close-modal"><i class="fas fa-xmark"></i></button>
+                </div>
+
+                <div style="padding: 16px 24px 0 24px; display: flex; gap: 8px; border-bottom: 1px solid rgba(255,255,255,0.08);">
+                    <button id="tab-btn-arquivo" type="button" onclick="alternarAbaIngestao('ARQUIVO')" class="btn-black-outline" style="border-color: #10B981; color: #10B981; font-size: 12px; padding: 6px 14px;">
+                        <i class="fas fa-file-csv"></i> Arquivo (CSV / XLSX)
+                    </button>
+                    <button id="tab-btn-manual" type="button" onclick="alternarAbaIngestao('MANUAL')" class="btn-black-outline" style="border-color: rgba(255,255,255,0.15); color: #94A3B8; font-size: 12px; padding: 6px 14px;">
+                        <i class="fas fa-code"></i> Entrada JSON / Manual
+                    </button>
+                </div>
+
+                <form onsubmit="submeterNovaIngestao(event)" style="padding: 20px 24px; display: flex; flex-direction: column; gap: 14px;">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                        <div>
+                            <label class="modal-label">Empresa Destino:</label>
+                            <select id="modal-ingestao-empresa" class="input-dark-field" required></select>
+                        </div>
+                        <div>
+                            <label class="modal-label">Natureza Epistemológica:</label>
+                            <select id="modal-ingestao-natureza" class="input-dark-field" required>
+                                <option value="IMPORTADO">IMPORTADO (Dados reais históricos)</option>
+                                <option value="SIMULADO">SIMULADO (Testes analíticos / Benchmarks)</option>
+                                <option value="OPERACIONAL_VERIFICADO">OPERACIONAL_VERIFICADO (Canais ao vivo)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                        <div>
+                            <label class="modal-label">Fonte de Origem:</label>
+                            <select id="modal-ingestao-fonte" class="input-dark-field" required>
+                                <option value="IMPORTACAO_CSV">Planilha CSV / TSV</option>
+                                <option value="IMPORTACAO_XLSX">Planilha Excel (XLSX)</option>
+                                <option value="FORMULARIO_ESTRUTURADO">Formulário Estruturado</option>
+                                <option value="CADASTRO_MANUAL">Cadastro Manual de Registros</option>
+                                <option value="HISTORICO_OPORTUNIDADES">Histórico de Oportunidades / Funil</option>
+                                <option value="VENDAS_ORCAMENTOS">Histórico de Vendas & Fechamentos</option>
+                                <option value="RELATORIO_RETENCAO">Relatório de Retenção & Recompra</option>
+                                <option value="PRODUTOS_SERVICOS">Catálogo de Produtos & Serviços</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="modal-label">Classificação do Esquema:</label>
+                            <select id="modal-ingestao-tipo" class="input-dark-field">
+                                <option value="">Auto-detectar (Recomendado)</option>
+                                <option value="CONTATO">Contatos e Leads</option>
+                                <option value="INTERACAO">Interações e Conversas</option>
+                                <option value="OPORTUNIDADE_ORCAMENTO">Oportunidades e Orçamentos</option>
+                                <option value="VENDA">Vendas Fechadas e Pagamentos</option>
+                                <option value="METRICA_RETENCAO">Métricas de Retenção e Recompra</option>
+                                <option value="PRODUTO_SERVICO">Produtos e Serviços</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Aba 1: Upload Arquivo -->
+                    <div id="aba-conteudo-arquivo">
+                        <label class="modal-label">Selecione ou arraste o arquivo (.csv, .tsv, .xlsx):</label>
+                        <div id="dropzone-arquivo-ingestao" style="border: 2px dashed rgba(16, 185, 129, 0.4); border-radius: var(--radius-card); padding: 24px; text-align: center; background: rgba(16, 185, 129, 0.03); cursor: pointer;" onclick="document.getElementById('input-arquivo-real').click()">
+                            <i class="fas fa-file-arrow-up" style="font-size: 28px; color: #10B981; margin-bottom: 8px;"></i>
+                            <div style="font-size: 13px; color: #FFF; font-weight: 700;" id="label-arquivo-selecionado">Clique para selecionar ou arraste o arquivo aqui</div>
+                            <div style="font-size: 11px; color: #94A3B8; margin-top: 4px;">Suporta CSV, TSV e XLSX (Leitura nativa e descompressão ZIP)</div>
+                            <input type="file" id="input-arquivo-real" accept=".csv,.tsv,.xlsx,.txt" style="display: none;" onchange="aoSelecionarArquivoIngestao(event)">
+                        </div>
+                    </div>
+
+                    <!-- Aba 2: Manual / JSON -->
+                    <div id="aba-conteudo-manual" style="display: none;">
+                        <label class="modal-label">Carga JSON (Array de Objetos ou Registro Individual):</label>
+                        <textarea id="modal-ingestao-json-textarea" class="input-dark-field" rows="6" style="font-family: var(--font-mono); font-size: 12px;" placeholder='[&#10;  { "nome": "Cliente Exemplo", "telefone": "11988887777", "valor": 1500, "status": "FECHADO" }&#10;]'></textarea>
+                    </div>
+
+                    <div id="modal-ingestao-alerta-erro" style="display: none; padding: 10px 14px; background: rgba(239, 68, 68, 0.15); border: 1px solid #EF4444; border-radius: 6px; color: #FCA5A5; font-size: 12px;"></div>
+
+                    <div style="display: flex; justify-content: flex-end; gap: 12px; margin-top: 6px;">
+                        <button type="button" onclick="fecharModalNovaIngestao()" class="btn-black-outline">Cancelar</button>
+                        <button id="btn-submit-ingestao" type="submit" class="btn-blue-action" style="background: linear-gradient(135deg, #10B981, #059669);">
+                            <i class="fas fa-play"></i> Iniciar Ingestão & Validação
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- =====================================================================
+         * MODAL: INSPEÇÃO DETALHADA DO LOTE DE INGESTÃO
+         * ===================================================================== -->
+        <div id="modal-inspecionar-lote" class="modal-overlay" style="display: none;">
+            <div class="modal-card-box" style="max-width: 860px; max-height: 85vh; display: flex; flex-direction: column;">
+                <div class="modal-header">
+                    <div>
+                        <div style="font-family: var(--font-mono); font-size: 10px; color: #10B981; font-weight: 800;">
+                            AUDITORIA & RASTREABILIDADE DE DADOS COMERCIAIS
+                        </div>
+                        <h3 id="modal-inspecionar-titulo" style="font-size: 18px; font-weight: 800; color: #FFF; margin-top: 2px;">
+                            Detalhes do Lote de Ingestão
+                        </h3>
+                    </div>
+                    <button onclick="fecharModalInspecionarLote()" class="btn-close-modal"><i class="fas fa-xmark"></i></button>
+                </div>
+
+                <div style="padding: 18px 24px; overflow-y: auto; flex: 1;">
+                    <!-- Sumário do Lote -->
+                    <div id="modal-inspecionar-sumario" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 20px;"></div>
+
+                    <!-- Botão de Ação Rápida -->
+                    <div style="display: flex; justify-content: space-between; align-items: center; background: rgba(0, 229, 255, 0.05); border: 1px solid rgba(0, 229, 255, 0.2); border-radius: var(--radius-card); padding: 12px 16px; margin-bottom: 20px;">
+                        <div>
+                            <div style="font-size: 13px; font-weight: 800; color: #FFF;">Alimentar Motor de Inteligência Comercial</div>
+                            <div style="font-size: 11px; color: var(--text-muted);">Consolida contatos, interações e evidências factuais gerando Diagnóstico 7D e MIVs.</div>
+                        </div>
+                        <button id="btn-processar-lote-modal" onclick="executarProcessamentoMotorModal()" class="btn-blue-action" style="padding: 8px 16px; font-size: 12px;">
+                            <i class="fas fa-bolt"></i> Processar no Motor
+                        </button>
+                    </div>
+
+                    <div style="font-family: var(--font-mono); font-size: 11px; color: #94A3B8; font-weight: 800; margin-bottom: 8px; text-transform: uppercase;">
+                        Registros Estagiados (<span id="modal-inspecionar-total-itens">0</span> itens)
+                    </div>
+                    <div id="modal-inspecionar-tabela-container" style="border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; overflow-x: auto; background: #080C14;">
+                        <table style="width: 100%; border-collapse: collapse; font-size: 12px; text-align: left;">
+                            <thead>
+                                <tr style="border-bottom: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.02);">
+                                    <th style="padding: 10px 12px; font-family: var(--font-mono); color: #64748B;">TIPO</th>
+                                    <th style="padding: 10px 12px; font-family: var(--font-mono); color: #64748B;">IDENTIFICADOR / DADOS</th>
+                                    <th style="padding: 10px 12px; font-family: var(--font-mono); color: #64748B;">STATUS</th>
+                                    <th style="padding: 10px 12px; font-family: var(--font-mono); color: #64748B;">INCONSISTÊNCIAS / NOTAS</th>
+                                    <th style="padding: 10px 12px; font-family: var(--font-mono); color: #64748B;">FINGERPRINT</th>
+                                </tr>
+                            </thead>
+                            <tbody id="modal-inspecionar-itens-tbody"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div style="padding: 14px 24px; border-top: 1px solid rgba(255,255,255,0.08); display: flex; justify-content: flex-end;">
+                    <button type="button" onclick="fecharModalInspecionarLote()" class="btn-black-outline">Fechar</button>
+                </div>
             </div>
         </div>
 
@@ -2701,6 +2938,8 @@
                 listaEmpresasMotor = data.empresas || [];
                 const sel = document.getElementById('motor-empresa-select');
                 const selModal = document.getElementById('modal-diag-empresa');
+                const selIngestao = document.getElementById('ingestao-empresa-select');
+                const selModalIngestao = document.getElementById('modal-ingestao-empresa');
                 if (sel) {
                     sel.innerHTML = '';
                     listaEmpresasMotor.forEach(e => {
@@ -2708,6 +2947,15 @@
                         opt.value = e.id;
                         opt.textContent = e.nome_fantasia + ' (' + (e.segmento || 'Geral') + ')';
                         sel.appendChild(opt);
+                    });
+                }
+                if (selIngestao) {
+                    selIngestao.innerHTML = '';
+                    listaEmpresasMotor.forEach(e => {
+                        const opt = document.createElement('option');
+                        opt.value = e.id;
+                        opt.textContent = e.nome_fantasia + ' (' + (e.segmento || 'Geral') + ')';
+                        selIngestao.appendChild(opt);
                     });
                 }
                 if (selModal) {
@@ -2719,9 +2967,19 @@
                         selModal.appendChild(opt);
                     });
                 }
+                if (selModalIngestao) {
+                    selModalIngestao.innerHTML = '';
+                    listaEmpresasMotor.forEach(e => {
+                        const opt = document.createElement('option');
+                        opt.value = e.id;
+                        opt.textContent = e.nome_fantasia;
+                        selModalIngestao.appendChild(opt);
+                    });
+                }
                 if (listaEmpresasMotor.length > 0) {
                     empresaMotorAtivaId = listaEmpresasMotor[0].id;
                     await carregarDossieMotorAtivo();
+                    await carregarLotesIngestao();
                 }
             }
         } catch (e) {
@@ -2732,7 +2990,10 @@
     async function trocarEmpresaMotor(empresaId) {
         if (!empresaId) return;
         empresaMotorAtivaId = empresaId;
+        const selIngestao = document.getElementById('ingestao-empresa-select');
+        if (selIngestao && selIngestao.value !== empresaId) selIngestao.value = empresaId;
         await carregarDossieMotorAtivo();
+        await carregarLotesIngestao();
     }
 
     async function carregarDossieMotorAtivo() {
@@ -3393,6 +3654,454 @@
         } catch(err) {
             adicionarLogTerminal('AGT-07 INTELIGÊNCIA', 'Erro na requisição: ' + err.message);
         }
+    }
+
+    // =========================================================================
+    // FUNÇÕES DA CENTRAL DE INGESTÃO DE DADOS COMERCIAIS (MULTI-FONTE)
+    // =========================================================================
+    let abaIngestaoAtiva = 'ARQUIVO';
+    let arquivoIngestaoSelecionado = null;
+    let loteInspecionadoAtualId = null;
+
+    async function trocarEmpresaIngestao(empresaId) {
+        if (!empresaId) return;
+        empresaMotorAtivaId = empresaId;
+        const selMotor = document.getElementById('motor-empresa-select');
+        if (selMotor && selMotor.value !== empresaId) selMotor.value = empresaId;
+        await carregarLotesIngestao();
+        await carregarDossieMotorAtivo();
+    }
+
+    async function carregarLotesIngestao() {
+        if (!empresaMotorAtivaId) return;
+        const token = sessionStorage.getItem('vide_jwt');
+        const headers = token ? { 'Authorization': 'Bearer ' + token } : {};
+
+        try {
+            const res = await fetch('/api/motor/ingestao/lotes/' + empresaMotorAtivaId, { headers });
+            if (!res.ok) return;
+
+            const data = await res.json();
+            const lotes = data.lotes || [];
+
+            // Atualiza Bento métricas de ingestão
+            let totalValidos = 0;
+            let totalDuplicados = 0;
+            let totalAlertas = 0;
+
+            lotes.forEach(l => {
+                totalValidos += (l.registros_validos || 0);
+                totalDuplicados += (l.registros_duplicados || 0);
+                totalAlertas += (l.registros_inconsistentes || 0) + (l.registros_rejeitados || 0);
+            });
+
+            const mTot = document.getElementById('ingestao-metric-lotes');
+            const mVal = document.getElementById('ingestao-metric-validos');
+            const mDup = document.getElementById('ingestao-metric-duplicados');
+            const mAlt = document.getElementById('ingestao-metric-alertas');
+
+            if (mTot) mTot.textContent = lotes.length;
+            if (mVal) mVal.textContent = totalValidos;
+            if (mDup) mDup.textContent = totalDuplicados;
+            if (mAlt) mAlt.textContent = totalAlertas;
+
+            // Renderiza Cards
+            const container = document.getElementById('ingestao-lotes-container');
+            if (!container) return;
+
+            if (lotes.length === 0) {
+                container.innerHTML = `
+                    <div style="grid-column: 1 / -1; padding: 28px; background: #0A0F1D; border: 1px dashed rgba(255,255,255,0.15); border-radius: var(--radius-card); text-align: center; color: var(--text-muted); font-size: 13px;">
+                        <i class="fas fa-file-circle-question" style="font-size: 24px; color: #64748B; margin-bottom: 8px;"></i>
+                        <div>Nenhum lote comercial importado ainda para esta empresa.</div>
+                        <div style="margin-top: 8px;">
+                            <button onclick="abrirModalNovaIngestao()" class="btn-blue-action" style="padding: 6px 14px; font-size: 11px;">
+                                Fazer Primeira Ingestão
+                            </button>
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = lotes.map(l => {
+                const dataFormatada = l.criado_em ? new Date(l.criado_em).toLocaleString('pt-BR') : '--';
+                const statusCor = l.status_processamento === 'PROCESSADO' ? '#10B981' 
+                    : l.status_processamento === 'PROCESSADO_COM_ALERTAS' ? '#F59E0B' : '#EF4444';
+                const naturezaCor = l.natureza_dado === 'OPERACIONAL_VERIFICADO' ? '#00E5FF' 
+                    : l.natureza_dado === 'IMPORTADO' ? '#10B981' : '#F59E0B';
+
+                const resumo = typeof l.resumo_processamento === 'object' && l.resumo_processamento ? l.resumo_processamento : {};
+                const taxaQualidade = resumo.taxaQualidadePercentual !== undefined ? resumo.taxaQualidadePercentual + '%' : '--';
+
+                return `
+                    <div style="background: #080C14; border: 1px solid rgba(255,255,255,0.08); border-radius: var(--radius-card); padding: 18px; display: flex; flex-direction: column; justify-content: space-between;">
+                        <div>
+                            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;">
+                                <div style="font-family: var(--font-mono); font-size: 11px; color: #94A3B8; font-weight: 800;">
+                                    LOTE #${l.id.substring(0, 8)}
+                                </div>
+                                <div style="display: flex; gap: 6px;">
+                                    <span style="font-family: var(--font-mono); font-size: 9px; padding: 2px 6px; border-radius: 4px; background: rgba(255,255,255,0.05); color: ${naturezaCor}; border: 1px solid ${naturezaCor}44; font-weight: 800;">
+                                        ${l.natureza_dado}
+                                    </span>
+                                    <span style="font-family: var(--font-mono); font-size: 9px; padding: 2px 6px; border-radius: 4px; background: rgba(255,255,255,0.05); color: ${statusCor}; border: 1px solid ${statusCor}44; font-weight: 800;">
+                                        ${l.status_processamento}
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div style="font-size: 14px; font-weight: 800; color: #FFF; margin-bottom: 2px;">
+                                ${l.nome_arquivo || l.fonte_origem}
+                            </div>
+                            <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 12px;">
+                                Fonte: ${l.fonte_origem} • ${dataFormatada}
+                            </div>
+
+                            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; background: #0A0F1D; padding: 10px; border-radius: 6px; margin-bottom: 14px; text-align: center;">
+                                <div>
+                                    <div style="font-size: 9px; color: #64748B; font-family: var(--font-mono);">TOTAL</div>
+                                    <div style="font-size: 14px; font-weight: 800; color: #FFF;">${l.total_registros || 0}</div>
+                                </div>
+                                <div>
+                                    <div style="font-size: 9px; color: #10B981; font-family: var(--font-mono);">VÁLIDOS</div>
+                                    <div style="font-size: 14px; font-weight: 800; color: #10B981;">${l.registros_validos || 0}</div>
+                                </div>
+                                <div>
+                                    <div style="font-size: 9px; color: #F59E0B; font-family: var(--font-mono);">DUPLIC.</div>
+                                    <div style="font-size: 14px; font-weight: 800; color: #F59E0B;">${l.registros_duplicados || 0}</div>
+                                </div>
+                                <div>
+                                    <div style="font-size: 9px; color: #EC4899; font-family: var(--font-mono);">ALERTAS</div>
+                                    <div style="font-size: 14px; font-weight: 800; color: #EC4899;">${(l.registros_inconsistentes || 0) + (l.registros_rejeitados || 0)}</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="display: flex; gap: 8px; justify-content: flex-end; border-top: 1px solid rgba(255,255,255,0.06); padding-top: 12px;">
+                            <button onclick="abrirModalInspecionarLote('${l.id}')" class="btn-black-outline" style="padding: 6px 12px; font-size: 11px;">
+                                <i class="fas fa-eye"></i> Inspecionar
+                            </button>
+                            <button onclick="dispararProcessamentoLoteNoMotor('${l.id}')" class="btn-blue-action" style="padding: 6px 12px; font-size: 11px;">
+                                <i class="fas fa-bolt"></i> Alimentar Motor
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+        } catch (e) {
+            console.warn('[INGESTAO_UI] Falha ao carregar lotes:', e.message);
+        }
+    }
+
+    function abrirModalNovaIngestao() {
+        const modal = document.getElementById('modal-nova-ingestao');
+        const alerta = document.getElementById('modal-ingestao-alerta-erro');
+        if (alerta) alerta.style.display = 'none';
+
+        const selEmp = document.getElementById('modal-ingestao-empresa');
+        if (selEmp && empresaMotorAtivaId) {
+            selEmp.value = empresaMotorAtivaId;
+        }
+
+        arquivoIngestaoSelecionado = null;
+        const lbl = document.getElementById('label-arquivo-selecionado');
+        if (lbl) lbl.textContent = 'Clique para selecionar ou arraste o arquivo aqui';
+        const fileInput = document.getElementById('input-arquivo-real');
+        if (fileInput) fileInput.value = '';
+
+        alternarAbaIngestao('ARQUIVO');
+        if (modal) modal.style.display = 'flex';
+    }
+
+    function fecharModalNovaIngestao() {
+        const modal = document.getElementById('modal-nova-ingestao');
+        if (modal) modal.style.display = 'none';
+    }
+
+    function alternarAbaIngestao(aba) {
+        abaIngestaoAtiva = aba;
+        const btnArq = document.getElementById('tab-btn-arquivo');
+        const btnMan = document.getElementById('tab-btn-manual');
+        const cntArq = document.getElementById('aba-conteudo-arquivo');
+        const cntMan = document.getElementById('aba-conteudo-manual');
+
+        if (aba === 'ARQUIVO') {
+            if (btnArq) { btnArq.style.borderColor = '#10B981'; btnArq.style.color = '#10B981'; }
+            if (btnMan) { btnMan.style.borderColor = 'rgba(255,255,255,0.15)'; btnMan.style.color = '#94A3B8'; }
+            if (cntArq) cntArq.style.display = 'block';
+            if (cntMan) cntMan.style.display = 'none';
+        } else {
+            if (btnMan) { btnMan.style.borderColor = '#10B981'; btnMan.style.color = '#10B981'; }
+            if (btnArq) { btnArq.style.borderColor = 'rgba(255,255,255,0.15)'; btnArq.style.color = '#94A3B8'; }
+            if (cntMan) cntMan.style.display = 'block';
+            if (cntArq) cntArq.style.display = 'none';
+        }
+    }
+
+    function aoSelecionarArquivoIngestao(e) {
+        const f = e.target.files && e.target.files[0];
+        if (!f) return;
+        arquivoIngestaoSelecionado = f;
+        const lbl = document.getElementById('label-arquivo-selecionado');
+        if (lbl) lbl.textContent = `Arquivo: ${f.name} (${(f.size / 1024).toFixed(1)} KB)`;
+
+        // Ajusta fonte de origem de acordo com extensão
+        const ext = f.name.split('.').pop().toLowerCase();
+        const selFonte = document.getElementById('modal-ingestao-fonte');
+        if (selFonte) {
+            if (ext === 'xlsx') selFonte.value = 'IMPORTACAO_XLSX';
+            else if (ext === 'csv' || ext === 'tsv' || ext === 'txt') selFonte.value = 'IMPORTACAO_CSV';
+        }
+    }
+
+    async function submeterNovaIngestao(e) {
+        e.preventDefault();
+        const token = sessionStorage.getItem('vide_jwt');
+        if (!token) {
+            alert('Autentique-se na Central de Comando antes de realizar ingestão.');
+            return;
+        }
+
+        const empresaId = document.getElementById('modal-ingestao-empresa').value || empresaMotorAtivaId;
+        const fonteOrigem = document.getElementById('modal-ingestao-fonte').value;
+        const naturezaDado = document.getElementById('modal-ingestao-natureza').value;
+        const tipoExplicitado = document.getElementById('modal-ingestao-tipo').value || null;
+        const alerta = document.getElementById('modal-ingestao-alerta-erro');
+        const btn = document.getElementById('btn-submit-ingestao');
+
+        if (btn) {
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processando...';
+        }
+        if (alerta) alerta.style.display = 'none';
+
+        try {
+            let cargaFinal = null;
+            let nomeArquivoFinal = null;
+
+            if (abaIngestaoAtiva === 'ARQUIVO') {
+                if (!arquivoIngestaoSelecionado) {
+                    throw new Error('Nenhum arquivo foi selecionado para upload.');
+                }
+                nomeArquivoFinal = arquivoIngestaoSelecionado.name;
+                const ext = nomeArquivoFinal.split('.').pop().toLowerCase();
+
+                if (ext === 'xlsx') {
+                    // Leitura como ArrayBuffer convertido em Base64
+                    const buf = await arquivoIngestaoSelecionado.arrayBuffer();
+                    let binary = '';
+                    const bytes = new Uint8Array(buf);
+                    for (let i = 0; i < bytes.byteLength; i++) {
+                        binary += String.fromCharCode(bytes[i]);
+                    }
+                    cargaFinal = btoa(binary);
+                } else {
+                    // CSV / TSV / Texto
+                    cargaFinal = await arquivoIngestaoSelecionado.text();
+                }
+            } else {
+                // Entrada Manual JSON
+                const textoJson = document.getElementById('modal-ingestao-json-textarea').value.trim();
+                if (!textoJson) {
+                    throw new Error('Insira o payload JSON para ingestão manual.');
+                }
+                try {
+                    cargaFinal = JSON.parse(textoJson);
+                } catch (pe) {
+                    throw new Error('Formato JSON inválido: ' + pe.message);
+                }
+                nomeArquivoFinal = 'entrada_manual.json';
+            }
+
+            adicionarLogTerminal('INGESTÃO COMERCIAL', `Iniciando processamento de lote [${fonteOrigem}] para empresa...`);
+
+            const res = await fetch('/api/motor/ingestao/lote', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + token
+                },
+                body: JSON.stringify({
+                    empresaId,
+                    fonteOrigem,
+                    nomeArquivo: nomeArquivoFinal,
+                    carga: cargaFinal,
+                    tipoExplicitado,
+                    naturezaDado
+                })
+            });
+
+            const data = await res.json();
+            if (res.ok && data.sucesso) {
+                adicionarLogTerminal('INGESTÃO COMERCIAL', `LOTE CONCLUÍDO! Total: ${data.totalRegistros} | Válidos: ${data.registrosValidos} | Duplicados: ${data.registrosDuplicados} | Alertas: ${data.registrosInconsistentes}`);
+                fecharModalNovaIngestao();
+                await carregarLotesIngestao();
+
+                if (confirm(`Lote processado com sucesso!\n\nTotal: ${data.totalRegistros}\nVálidos: ${data.registrosValidos}\nDuplicados: ${data.registrosDuplicados}\n\nDeseja disparar imediatamente a análise no Motor de Inteligência Comercial?`)) {
+                    await dispararProcessamentoLoteNoMotor(data.loteId);
+                }
+            } else {
+                throw new Error(data.erro || 'Falha no processamento do lote.');
+            }
+
+        } catch (err) {
+            if (alerta) {
+                alerta.textContent = err.message;
+                alerta.style.display = 'block';
+            }
+            adicionarLogTerminal('INGESTÃO ERRO', err.message);
+        } finally {
+            if (btn) {
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-play"></i> Iniciar Ingestão & Validação';
+            }
+        }
+    }
+
+    async function dispararProcessamentoLoteNoMotor(loteId) {
+        if (!empresaMotorAtivaId || !loteId) return;
+        const token = sessionStorage.getItem('vide_jwt');
+        if (!token) {
+            alert('Autentique-se antes de alimentar o Motor.');
+            return;
+        }
+
+        adicionarLogTerminal('MOTOR 7D & MIV', `Alimentando Motor com dados estagiados do Lote #${loteId.substring(0,8)}...`);
+
+        try {
+            const res = await fetch('/api/motor/ingestao/processar-motor', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + token
+                },
+                body: JSON.stringify({
+                    empresaId: empresaMotorAtivaId,
+                    loteId
+                })
+            });
+
+            const data = await res.json();
+            if (res.ok && data.sucesso) {
+                if (data.informacaoInsuficiente) {
+                    adicionarLogTerminal('MOTOR 7D ALERTA', `INFORMACAO_INSUFICIENTE: ${data.motivo}`);
+                    alert(`Alerta Epistemológico: Informação Insuficiente.\n${data.motivo}`);
+                } else {
+                    adicionarLogTerminal('MOTOR 7D', `MOTOR ALIMENTADO! Itens: ${data.itensProcessados} | Contatos: ${data.contatosCriadosOuVinculados} | Evidências: ${data.evidenciasCriadas}`);
+                    alert(`Motor 7D alimentado com sucesso!\n\nItens Processados: ${data.itensProcessados}\nContatos Vinculados: ${data.contatosCriadosOuVinculados}\nEvidências Fatuais: ${data.evidenciasCriadas}\nNovo Índice de Saúde: ${Math.round(data.diagnostico7D?.scoreGeral || 0)} pts.`);
+                    await carregarDossieMotorAtivo();
+                    await carregarLotesIngestao();
+                }
+            } else {
+                adicionarLogTerminal('MOTOR ERRO', 'Falha ao processar no motor: ' + (data.erro || 'Erro'));
+                alert('Erro ao alimentar o motor: ' + (data.erro || 'Erro desconhecido'));
+            }
+        } catch (e) {
+            adicionarLogTerminal('MOTOR ERRO', 'Erro de conexão: ' + e.message);
+        }
+    }
+
+    async function abrirModalInspecionarLote(loteId) {
+        if (!empresaMotorAtivaId || !loteId) return;
+        const modal = document.getElementById('modal-inspecionar-lote');
+        const tit = document.getElementById('modal-inspecionar-titulo');
+        const sumario = document.getElementById('modal-inspecionar-sumario');
+        const tbody = document.getElementById('modal-inspecionar-itens-tbody');
+        const countSpan = document.getElementById('modal-inspecionar-total-itens');
+
+        loteInspecionadoAtualId = loteId;
+        if (modal) modal.style.display = 'flex';
+        if (tit) tit.textContent = `Lote #${loteId.substring(0, 8)} — Auditoria de Registros`;
+        if (sumario) sumario.innerHTML = '<div style="color: #94A3B8; font-size: 12px;">Carregando lote do PostgreSQL...</div>';
+        if (tbody) tbody.innerHTML = '<tr><td colspan="5" style="padding: 18px; text-align: center; color: #64748B;">Carregando registros...</td></tr>';
+
+        const token = sessionStorage.getItem('vide_jwt');
+        const headers = token ? { 'Authorization': 'Bearer ' + token } : {};
+
+        try {
+            const res = await fetch(`/api/motor/ingestao/lote/${loteId}?empresaId=${empresaMotorAtivaId}`, { headers });
+            if (!res.ok) throw new Error('Não foi possível obter detalhes do lote.');
+
+            const data = await res.json();
+            const lote = data.lote;
+            const itens = data.itens || [];
+
+            if (countSpan) countSpan.textContent = itens.length;
+
+            if (sumario) {
+                sumario.innerHTML = `
+                    <div style="background: #0A0F1D; padding: 12px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.06);">
+                        <div style="font-size: 10px; color: #64748B; font-family: var(--font-mono);">FONTE & ARQUIVO</div>
+                        <div style="font-size: 13px; font-weight: 800; color: #FFF; margin-top: 2px;">${lote.nome_arquivo || lote.fonte_origem}</div>
+                    </div>
+                    <div style="background: #0A0F1D; padding: 12px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.06);">
+                        <div style="font-size: 10px; color: #64748B; font-family: var(--font-mono);">NATUREZA DO DADO</div>
+                        <div style="font-size: 13px; font-weight: 800; color: #00E5FF; margin-top: 2px;">${lote.natureza_dado}</div>
+                    </div>
+                    <div style="background: #0A0F1D; padding: 12px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.06);">
+                        <div style="font-size: 10px; color: #64748B; font-family: var(--font-mono);">VÁLIDOS / TOTAL</div>
+                        <div style="font-size: 13px; font-weight: 800; color: #10B981; margin-top: 2px;">${lote.registros_validos} / ${lote.total_registros}</div>
+                    </div>
+                    <div style="background: #0A0F1D; padding: 12px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.06);">
+                        <div style="font-size: 10px; color: #64748B; font-family: var(--font-mono);">STATUS PROCESSAMENTO</div>
+                        <div style="font-size: 13px; font-weight: 800; color: #F59E0B; margin-top: 2px;">${lote.status_processamento}</div>
+                    </div>
+                `;
+            }
+
+            if (tbody) {
+                if (itens.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="5" style="padding: 18px; text-align: center; color: #64748B;">Nenhum item estagiado encontrado neste lote.</td></tr>';
+                } else {
+                    tbody.innerHTML = itens.map(it => {
+                        const norm = typeof it.dados_normalizados === 'object' && it.dados_normalizados ? it.dados_normalizados : {};
+                        const statusBadgeCor = it.status_validacao === 'VALIDO' ? '#10B981'
+                            : it.status_validacao === 'DUPLICADO' ? '#F59E0B'
+                            : it.status_validacao === 'INCONSISTENTE' ? '#EC4899' : '#EF4444';
+
+                        const dadosResumo = norm.nome || norm.conteudo_texto || norm.valor || norm.sku || JSON.stringify(norm).substring(0, 45);
+
+                        return `
+                            <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+                                <td style="padding: 10px 12px; font-family: var(--font-mono); font-size: 11px; color: #94A3B8;">${it.tipo_registro}</td>
+                                <td style="padding: 10px 12px; color: #FFF; font-weight: 600;">
+                                    <div>${dadosResumo}</div>
+                                    ${norm.telefone || norm.email ? `<div style="font-size: 10px; color: #64748B;">${[norm.telefone, norm.email].filter(Boolean).join(' • ')}</div>` : ''}
+                                </td>
+                                <td style="padding: 10px 12px;">
+                                    <span style="font-family: var(--font-mono); font-size: 10px; padding: 2px 6px; border-radius: 4px; background: rgba(255,255,255,0.05); color: ${statusBadgeCor}; border: 1px solid ${statusBadgeCor}44;">
+                                        ${it.status_validacao}
+                                    </span>
+                                </td>
+                                <td style="padding: 10px 12px; font-size: 11px; color: ${it.motivo_inconsistencia ? '#FCA5A5' : '#64748B'};">
+                                    ${it.motivo_inconsistencia || 'Consistente'}
+                                </td>
+                                <td style="padding: 10px 12px; font-family: var(--font-mono); font-size: 10px; color: #64748B;">
+                                    ${(it.fingerprint_hash || '').substring(0, 12)}...
+                                </td>
+                            </tr>
+                        `;
+                    }).join('');
+                }
+            }
+
+        } catch (e) {
+            if (sumario) sumario.innerHTML = `<div style="color: #EF4444;">Erro ao carregar dados do lote: ${e.message}</div>`;
+        }
+    }
+
+    function fecharModalInspecionarLote() {
+        const modal = document.getElementById('modal-inspecionar-lote');
+        if (modal) modal.style.display = 'none';
+        loteInspecionadoAtualId = null;
+    }
+
+    async function executarProcessamentoMotorModal() {
+        if (!loteInspecionadoAtualId) return;
+        fecharModalInspecionarLote();
+        await dispararProcessamentoLoteNoMotor(loteInspecionadoAtualId);
     }
 
 

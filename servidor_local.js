@@ -43,6 +43,7 @@ const { iaService } = require(`${moduloAgentesDir}/ia_service`);
 const { servicoWebhooksSaida } = require(`${moduloAgentesDir}/servico_webhooks_saida`);
 const { obterCatalogoCompleto } = require(`${moduloAgentesDir}/catalogo_solucoes_comerciais`);
 const { servicoMotorInteligencia } = require(`${moduloAgentesDir}/servico_motor_inteligencia`);
+const { servicoIngestaoComercial } = require(`${moduloAgentesDir}/servico_ingestao_comercial`);
 
 // Timestamp de cooldown para proteção de custos da API de IA
 let ultimaAuditoriaIaTimestamp = 0;
@@ -1801,6 +1802,171 @@ const servidor = http.createServer(async (req, res) => {
                 total: aprendizados.length,
                 aprendizados
             }));
+        } catch (e) {
+            res.writeHead(500, { 'Content-Type': 'application/json; charset=utf-8' });
+            return res.end(JSON.stringify({ sucesso: false, erro: e.message }));
+        }
+    }
+
+    // 7.9 POST /api/motor/ingestao/lote — Ingestão de Lote Comercial Multi-Fonte (CSV, XLSX, Form, APIs)
+    if (urlLimpa === '/api/motor/ingestao/lote' && req.method === 'POST') {
+        const auth = seguranca.autenticarRequisicao(req);
+        if (!auth.autenticado) {
+            res.writeHead(401, { 'Content-Type': 'application/json; charset=utf-8' });
+            return res.end(JSON.stringify({ sucesso: false, erro: 'Autenticação obrigatória para ingestão de dados comerciais.' }));
+        }
+
+        try {
+            const corpo = await lerCorpoJson(req);
+            const usuario = auth.usuario;
+            let empresaIdEfetivo = corpo.empresaId;
+
+            if (usuario.clienteId && usuario.papel !== 'DIRETOR' && usuario.papel !== 'DIRETORA' && usuario.papel !== 'ADMIN') {
+                if (corpo.empresaId && corpo.empresaId !== usuario.clienteId) {
+                    res.writeHead(403, { 'Content-Type': 'application/json; charset=utf-8' });
+                    return res.end(JSON.stringify({ sucesso: false, erro: 'Acesso negado: Ingestão restrita à própria empresa do usuário autenticado.' }));
+                }
+                empresaIdEfetivo = usuario.clienteId;
+            }
+
+            if (!empresaIdEfetivo) {
+                res.writeHead(400, { 'Content-Type': 'application/json; charset=utf-8' });
+                return res.end(JSON.stringify({ sucesso: false, erro: 'empresaId é obrigatório no corpo da requisição.' }));
+            }
+
+            if (corpo.carga === undefined || corpo.carga === null) {
+                res.writeHead(400, { 'Content-Type': 'application/json; charset=utf-8' });
+                return res.end(JSON.stringify({ sucesso: false, erro: 'Campo "carga" é obrigatório para ingestão comercial.' }));
+            }
+
+            const resultado = await servicoIngestaoComercial.ingestarLoteComercial({
+                empresaId: empresaIdEfetivo,
+                fonteOrigem: corpo.fonteOrigem || 'IMPORTACAO_CSV',
+                nomeArquivo: corpo.nomeArquivo || null,
+                carga: corpo.carga,
+                tipoExplicitado: corpo.tipoExplicitado || null,
+                naturezaDado: corpo.naturezaDado || 'IMPORTADO',
+                metadadosAdicionais: corpo.metadadosAdicionais || {}
+            });
+
+            res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+            return res.end(JSON.stringify(resultado));
+        } catch (e) {
+            res.writeHead(500, { 'Content-Type': 'application/json; charset=utf-8' });
+            return res.end(JSON.stringify({ sucesso: false, erro: e.message }));
+        }
+    }
+
+    // 7.10 GET /api/motor/ingestao/lotes/:empresaId — Histórico de Lotes de Ingestão da Empresa
+    if (urlLimpa.startsWith('/api/motor/ingestao/lotes/') && req.method === 'GET') {
+        const auth = seguranca.autenticarRequisicao(req);
+        if (!auth.autenticado) {
+            res.writeHead(401, { 'Content-Type': 'application/json; charset=utf-8' });
+            return res.end(JSON.stringify({ sucesso: false, erro: 'Autenticação obrigatória para consultar lotes de ingestão.' }));
+        }
+
+        const empresaIdParam = decodeURIComponent(urlLimpa.replace('/api/motor/ingestao/lotes/', '').trim());
+        const usuario = auth.usuario;
+        let empresaIdEfetivo = empresaIdParam;
+
+        if (usuario.clienteId && usuario.papel !== 'DIRETOR' && usuario.papel !== 'DIRETORA' && usuario.papel !== 'ADMIN') {
+            if (empresaIdParam && empresaIdParam !== usuario.clienteId) {
+                res.writeHead(403, { 'Content-Type': 'application/json; charset=utf-8' });
+                return res.end(JSON.stringify({ sucesso: false, erro: 'Acesso negado: Tentativa de violação multiempresa.' }));
+            }
+            empresaIdEfetivo = usuario.clienteId;
+        }
+
+        if (!empresaIdEfetivo) {
+            res.writeHead(400, { 'Content-Type': 'application/json; charset=utf-8' });
+            return res.end(JSON.stringify({ sucesso: false, erro: 'empresaId é obrigatório na URL.' }));
+        }
+
+        try {
+            const lotes = await servicoIngestaoComercial.listarLotesPorEmpresa(empresaIdEfetivo);
+            res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+            return res.end(JSON.stringify({
+                sucesso: true,
+                empresaId: empresaIdEfetivo,
+                total: lotes.length,
+                lotes
+            }));
+        } catch (e) {
+            res.writeHead(500, { 'Content-Type': 'application/json; charset=utf-8' });
+            return res.end(JSON.stringify({ sucesso: false, erro: e.message }));
+        }
+    }
+
+    // 7.11 GET /api/motor/ingestao/lote/:loteId — Detalhes do Lote e Itens Estagiados
+    if (urlLimpa.startsWith('/api/motor/ingestao/lote/') && req.method === 'GET') {
+        const auth = seguranca.autenticarRequisicao(req);
+        if (!auth.autenticado) {
+            res.writeHead(401, { 'Content-Type': 'application/json; charset=utf-8' });
+            return res.end(JSON.stringify({ sucesso: false, erro: 'Autenticação obrigatória para consultar detalhes do lote.' }));
+        }
+
+        const loteId = decodeURIComponent(urlLimpa.replace('/api/motor/ingestao/lote/', '').trim());
+        const usuario = auth.usuario;
+        const queryParams = new URL(req.url, `http://${req.headers.host || 'localhost'}`).searchParams;
+        let empresaIdEfetivo = queryParams.get('empresaId') || usuario.clienteId;
+
+        if (usuario.clienteId && usuario.papel !== 'DIRETOR' && usuario.papel !== 'DIRETORA' && usuario.papel !== 'ADMIN') {
+            empresaIdEfetivo = usuario.clienteId;
+        }
+
+        if (!empresaIdEfetivo) {
+            res.writeHead(400, { 'Content-Type': 'application/json; charset=utf-8' });
+            return res.end(JSON.stringify({ sucesso: false, erro: 'empresaId é obrigatório via query param (?empresaId=...) ou token.' }));
+        }
+
+        try {
+            const detalhes = await servicoIngestaoComercial.obterDetalhesLote(empresaIdEfetivo, loteId);
+            if (!detalhes) {
+                res.writeHead(404, { 'Content-Type': 'application/json; charset=utf-8' });
+                return res.end(JSON.stringify({ sucesso: false, erro: 'Lote de ingestão não encontrado para esta empresa.' }));
+            }
+            res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+            return res.end(JSON.stringify({ sucesso: true, ...detalhes }));
+        } catch (e) {
+            res.writeHead(500, { 'Content-Type': 'application/json; charset=utf-8' });
+            return res.end(JSON.stringify({ sucesso: false, erro: e.message }));
+        }
+    }
+
+    // 7.12 POST /api/motor/ingestao/processar-motor — Disparo do Pipeline Analítico a partir do Lote
+    if (urlLimpa === '/api/motor/ingestao/processar-motor' && req.method === 'POST') {
+        const auth = seguranca.autenticarRequisicao(req);
+        if (!auth.autenticado) {
+            res.writeHead(401, { 'Content-Type': 'application/json; charset=utf-8' });
+            return res.end(JSON.stringify({ sucesso: false, erro: 'Autenticação obrigatória para processar lote no motor.' }));
+        }
+
+        try {
+            const corpo = await lerCorpoJson(req);
+            const usuario = auth.usuario;
+            let empresaIdEfetivo = corpo.empresaId;
+
+            if (usuario.clienteId && usuario.papel !== 'DIRETOR' && usuario.papel !== 'DIRETORA' && usuario.papel !== 'ADMIN') {
+                if (corpo.empresaId && corpo.empresaId !== usuario.clienteId) {
+                    res.writeHead(403, { 'Content-Type': 'application/json; charset=utf-8' });
+                    return res.end(JSON.stringify({ sucesso: false, erro: 'Acesso negado: Tentativa de violação multiempresa.' }));
+                }
+                empresaIdEfetivo = usuario.clienteId;
+            }
+
+            if (!empresaIdEfetivo || !corpo.loteId) {
+                res.writeHead(400, { 'Content-Type': 'application/json; charset=utf-8' });
+                return res.end(JSON.stringify({ sucesso: false, erro: 'empresaId e loteId são obrigatórios no corpo da requisição.' }));
+            }
+
+            const resultado = await servicoIngestaoComercial.processarLoteNoMotor({
+                empresaId: empresaIdEfetivo,
+                loteId: corpo.loteId,
+                dadosOperacionaisComplementares: corpo.dadosOperacionaisComplementares || {}
+            });
+
+            res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+            return res.end(JSON.stringify(resultado));
         } catch (e) {
             res.writeHead(500, { 'Content-Type': 'application/json; charset=utf-8' });
             return res.end(JSON.stringify({ sucesso: false, erro: e.message }));
