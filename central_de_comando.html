@@ -1533,6 +1533,26 @@
                     <!-- MIV Cards com Botão de Aprovação e Inspeção Relacional via JS -->
                 </div>
             </div>
+
+            <!-- Bloco 5: Feedback Loop & Aprendizado Contínuo MIV -->
+            <div style="margin-top: 24px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+                    <div>
+                        <div style="font-family: var(--font-mono); font-size: 10px; font-weight: 800; color: #10B981;">FEEDBACK LOOP & APRENDIZADO ACUMULADO</div>
+                        <h3 style="font-size: 18px; font-weight: 800; color: #FFF; text-transform: uppercase;">
+                            Avaliação de Eficácia de MIVs (Antes vs Depois)
+                        </h3>
+                    </div>
+                    <button onclick="abrirModalNovaAvaliacaoMIV()" class="btn-black-outline" style="padding: 8px 14px; font-size: 12px; border-color: rgba(16, 185, 129, 0.4); color: #10B981;">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Registrar Aprendizado MIV</span>
+                    </button>
+                </div>
+
+                <div id="motor-aprendizados-cards-container" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 16px;">
+                    <!-- Aprendizados Cards via JS -->
+                </div>
+            </div>
         </section>
 
 
@@ -1906,6 +1926,68 @@
                     <div style="display: flex; justify-content: flex-end; gap: 12px; margin-top: 10px;">
                         <button type="button" onclick="fecharModalNovoDiagnostico7D()" class="btn-black-outline">Cancelar</button>
                         <button type="submit" class="btn-blue-action"><i class="fas fa-play"></i> Rodar Diagnóstico 7D</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Modal Registrar Aprendizado MIV (Feedback Loop) -->
+        <div id="modal-avaliar-aprendizado-miv" class="modal-overlay" style="display: none;">
+            <div class="modal-card-box" style="max-width: 650px;">
+                <div class="modal-header">
+                    <div>
+                        <div style="font-family: var(--font-mono); font-size: 10px; color: #10B981; font-weight: 800;">FEEDBACK LOOP // APRENDIZADO ACUMULADO</div>
+                        <h3 style="font-size: 18px; font-weight: 800; color: #FFF; margin-top: 2px;">Avaliação de Eficácia de MIV</h3>
+                    </div>
+                    <button onclick="fecharModalNovaAvaliacaoMIV()" class="btn-close-modal"><i class="fas fa-xmark"></i></button>
+                </div>
+                <form onsubmit="submeterAvaliacaoAprendizadoMIV(event)" style="padding: 24px; display: flex; flex-direction: column; gap: 12px;">
+                    <div>
+                        <label class="modal-label">Recomendação MIV:</label>
+                        <select id="modal-aprend-miv-id" class="input-dark-field" required></select>
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px;">
+                        <div>
+                            <label class="modal-label">Baseline (Antes):</label>
+                            <input type="number" step="0.1" id="modal-aprend-baseline" class="input-dark-field" placeholder="Ex: 20.0" required>
+                        </div>
+                        <div>
+                            <label class="modal-label">Pós-Intervenção:</label>
+                            <input type="number" step="0.1" id="modal-aprend-pos" class="input-dark-field" placeholder="Ex: 48.5" required>
+                        </div>
+                        <div>
+                            <label class="modal-label">Unidade:</label>
+                            <input type="text" id="modal-aprend-unidade" class="input-dark-field" value="%" required>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="modal-label">Status da Avaliação de Eficácia:</label>
+                        <select id="modal-aprend-status" class="input-dark-field" required>
+                            <option value="SUCESSO_CONFIRMADO">SUCESSO_CONFIRMADO (Meta atingida ou superada)</option>
+                            <option value="SEM_EFEITO_OBSERVADO">SEM_EFEITO_OBSERVADO (Indicador inalterado)</option>
+                            <option value="PIORA_DETECTADA">PIORA_DETECTADA (Indicador regrediu)</option>
+                            <option value="INCONCLUSIVO">INCONCLUSIVO (Dados insuficientes / ruído externo)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="modal-label">Resultado Empírico Observado:</label>
+                        <textarea id="modal-aprend-resultado" class="input-dark-field" rows="2" placeholder="Descreva os dados numéricos e comportamentais verificados após a intervenção..." required></textarea>
+                    </div>
+                    <div>
+                        <label class="modal-label">Gap (Esperado vs Realizado):</label>
+                        <input type="text" id="modal-aprend-gap" class="input-dark-field" placeholder="Ex: Superou a meta em 8.5 p.p. sem atrito de conversão.">
+                    </div>
+                    <div>
+                        <label class="modal-label">Aprendizado Consolidado da VIDE:</label>
+                        <textarea id="modal-aprend-consolidado" class="input-dark-field" rows="2" placeholder="O que o sistema comercial aprendeu com esta intervenção..." required></textarea>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <input type="checkbox" id="modal-aprend-nova-investigacao" style="accent-color: #00E5FF;">
+                        <label for="modal-aprend-nova-investigacao" style="font-size: 12px; color: #94A3B8;">Necessidade de nova investigação ou revisão de hipótese causal?</label>
+                    </div>
+                    <div style="display: flex; justify-content: flex-end; gap: 12px; margin-top: 10px;">
+                        <button type="button" onclick="fecharModalNovaAvaliacaoMIV()" class="btn-black-outline">Cancelar</button>
+                        <button type="submit" class="btn-blue-action" style="background: linear-gradient(135deg, #10B981, #059669);"><i class="fas fa-save"></i> Registrar Aprendizado</button>
                     </div>
                 </form>
             </div>
@@ -2710,8 +2792,11 @@
         // 4. Renderizar Recomendações MIV
         renderizarCardsMIV(dossie.recomendacoesMIV || []);
 
-        // 5. Epistemologia Tripartite
+        // 5. Epistemologia Tripartite (Fatos, Padrões, Hipóteses)
         renderizarTripartite(dossie);
+
+        // 6. Feedback Loop & Aprendizados MIV
+        renderizarAprendizadosMIV(dossie.aprendizadosMIV || []);
     }
 
     function renderizarCards7D(diag) {
@@ -2899,37 +2984,252 @@
         const elP = document.getElementById('tripartite-padroes-list');
         const elH = document.getElementById('tripartite-hipoteses-list');
 
+        // 1. Fatos Factuais (Evidências Granulares)
         if (elF) {
-            elF.innerHTML = `
-                <div style="font-size: 12px; color: #F1F5F9; background: rgba(0,229,255,0.04); padding: 8px 10px; border-radius: 6px; border-left: 3px solid #00E5FF;">
-                    <div style="font-family: var(--font-mono); font-size: 9px; color: #00E5FF;">WHATSAPP INBOUND • CONFIABILIDADE 100%</div>
-                    <div style="margin-top: 4px;">"Cliente silenciou 45 minutos após receber tabela de preços em PDF sem fotos ou ancoragem."</div>
-                </div>
-                <div style="font-size: 12px; color: #F1F5F9; background: rgba(0,229,255,0.04); padding: 8px 10px; border-radius: 6px; border-left: 3px solid #00E5FF;">
-                    <div style="font-family: var(--font-mono); font-size: 9px; color: #00E5FF;">INSTAGRAM DIRECT • CONFIABILIDADE 100%</div>
-                    <div style="margin-top: 4px;">"Tempo médio de primeira resposta no direct excedeu 3 horas e 40 minutos em horário comercial."</div>
-                </div>
-            `;
+            const fatos = dossie.fatosEvidencias || [];
+            if (fatos.length > 0) {
+                elF.innerHTML = fatos.map(f => `
+                    <div style="font-size: 12px; color: #F1F5F9; background: rgba(0,229,255,0.04); padding: 8px 10px; border-radius: 6px; border-left: 3px solid #00E5FF;">
+                        <div style="font-family: var(--font-mono); font-size: 9px; color: #00E5FF;">
+                            ${(f.tipo_evidencia || 'EVIDÊNCIA').toUpperCase()} • ${f.contexto_origem || 'CANAL DIRETO'} • CONFIABILIDADE ${Math.round((f.grau_confiabilidade || 1) * 100)}%
+                        </div>
+                        <div style="margin-top: 4px;">"${f.trecho_fato}"</div>
+                    </div>
+                `).join('');
+            } else {
+                elF.innerHTML = `
+                    <div style="font-size: 12px; color: #94A3B8; font-style: italic; padding: 8px 0;">
+                        Nenhuma evidência factual ingestada ainda.
+                    </div>
+                `;
+            }
         }
 
+        // 2. Padrões Comportamentais (com Rigor Epistemológico)
         if (elP) {
-            elP.innerHTML = `
-                <div style="font-size: 12px; color: #F1F5F9; background: rgba(245,158,11,0.04); padding: 8px 10px; border-radius: 6px; border-left: 3px solid #F59E0B;">
-                    <div style="font-family: var(--font-mono); font-size: 9px; color: #F59E0B;">PADRÃO RECORRENTE • FREQ: 8 OCORRÊNCIAS</div>
-                    <div style="margin-top: 4px; font-weight: 700;">Abandono Imediato Pós-Envio de PDF</div>
-                    <div style="font-size: 11px; color: #94A3B8; margin-top: 2px;">Leads deixam de responder após receber arquivo estático sem qualificação prévia.</div>
-                </div>
-            `;
+            const padroes = dossie.padroesComportamentais || [];
+            if (padroes.length > 0) {
+                elP.innerHTML = padroes.map(p => {
+                    const isIsolada = p.tipo_classificacao === 'OCORRENCIA_ISOLADA' || Number(p.frequencia_ocorrencia) <= 1;
+                    const corBorda = isIsolada ? '#64748B' : (p.grau_confianca === 'ALTO' ? '#10B981' : '#F59E0B');
+                    const badgeText = isIsolada ? 'OCORRÊNCIA ISOLADA (AMOSTRA = 1)' : `PADRÃO CONFIRMADO • FREQ: ${p.frequencia_ocorrencia}x`;
+                    return `
+                        <div style="font-size: 12px; color: #F1F5F9; background: rgba(245,158,11,0.04); padding: 8px 10px; border-radius: 6px; border-left: 3px solid ${corBorda};">
+                            <div style="font-family: var(--font-mono); font-size: 9px; color: ${corBorda};">
+                                ${badgeText} • CONFIANÇA ${p.grau_confianca || 'MEDIA'}
+                            </div>
+                            <div style="margin-top: 4px; font-weight: 700;">${p.titulo}</div>
+                            <div style="font-size: 11px; color: #94A3B8; margin-top: 2px;">${p.descricao_padrao}</div>
+                            ${p.limitacoes_analise ? `<div style="font-size: 10px; color: #F59E0B; margin-top: 4px; font-family: var(--font-mono);"><i class="fas fa-triangle-exclamation"></i> ${p.limitacoes_analise}</div>` : ''}
+                        </div>
+                    `;
+                }).join('');
+            } else {
+                elP.innerHTML = `
+                    <div style="font-size: 12px; color: #94A3B8; font-style: italic; padding: 8px 0;">
+                        Nenhum padrão identificado ainda.
+                    </div>
+                `;
+            }
         }
 
+        // 3. Hipóteses Causais (com Epistemologia e Conflito de Evidências)
         if (elH) {
-            elH.innerHTML = `
-                <div style="font-size: 12px; color: #F1F5F9; background: rgba(16,185,129,0.04); padding: 8px 10px; border-radius: 6px; border-left: 3px solid #10B981;">
-                    <div style="font-family: var(--font-mono); font-size: 9px; color: #10B981;">HIPÓTESE CAUSAL • CONFIANÇA 85%</div>
-                    <div style="margin-top: 4px; font-weight: 700;">Causa-Raiz: Falta de Ancoragem e Perguntas de Filtro</div>
-                    <div style="font-size: 11px; color: #94A3B8; margin-top: 2px;">Se a equipe enviar perguntas de diagnóstico antes do preço, o silêncio pós-preço reduzirá em 40%.</div>
+            const hipoteses = dossie.hipotesesCausais || [];
+            if (hipoteses.length > 0) {
+                elH.innerHTML = hipoteses.map(h => {
+                    const isConflito = h.tipo_investigacao === 'INFORMACAO_INSUFICIENTE' || h.status_validacao === 'CONFLITO_EVIDENCIAS';
+                    const isValidado = h.tipo_investigacao === 'CAUSA_CONFIRMADA' || h.status_validacao === 'VALIDADO_EMPIRICAMENTE';
+                    const cor = isConflito ? '#EF4444' : (isValidado ? '#00E5FF' : '#10B981');
+                    const tag = isConflito ? 'INFORMAÇÃO INSUFICIENTE (CONFLITO)' : (isValidado ? 'CAUSA CONFIRMADA' : 'HIPÓTESE CAUSAL');
+
+                    return `
+                        <div style="font-size: 12px; color: #F1F5F9; background: rgba(16,185,129,0.04); padding: 8px 10px; border-radius: 6px; border-left: 3px solid ${cor};">
+                            <div style="font-family: var(--font-mono); font-size: 9px; color: ${cor};">
+                                ${tag} • STATUS: ${h.status_validacao || 'EM_ANALISE'} • CONFIANÇA ${Math.round((h.nivel_confianca || 0.7) * 100)}%
+                            </div>
+                            <div style="margin-top: 4px; font-weight: 700;">${h.enunciado_hipotese}</div>
+                            <div style="font-size: 11px; color: #94A3B8; margin-top: 2px;"><b>Causa Provável:</b> ${h.causa_raiz_provavel}</div>
+                            ${h.evidencias_conflitantes ? `<div style="font-size: 10px; color: #EF4444; margin-top: 4px; font-family: var(--font-mono);"><i class="fas fa-circle-exclamation"></i> Evidência conflitante: ${h.evidencias_conflitantes}</div>` : ''}
+                        </div>
+                    `;
+                }).join('');
+            } else {
+                elH.innerHTML = `
+                    <div style="font-size: 12px; color: #94A3B8; font-style: italic; padding: 8px 0;">
+                        Nenhuma hipótese causal formulada ainda.
+                    </div>
+                `;
+            }
+        }
+    }
+
+    function renderizarAprendizadosMIV(aprendizados) {
+        const container = document.getElementById('motor-aprendizados-cards-container');
+        if (!container) return;
+
+        if (!aprendizados || aprendizados.length === 0) {
+            container.innerHTML = `
+                <div style="color: #64748B; font-size: 13px; grid-column: 1/-1; background: rgba(255,255,255,0.02); padding: 16px; border-radius: 8px; border: 1px dashed rgba(255,255,255,0.08);">
+                    Nenhuma avaliação empírica de MIV registrada para esta empresa. Conforme as intervenções forem aplicadas, registre o baseline vs pós-intervenção para alimentar o aprendizado contínuo da VIDE.
                 </div>
             `;
+            return;
+        }
+
+        let html = '';
+        aprendizados.forEach(a => {
+            const coresStatus = {
+                'SUCESSO_CONFIRMADO': { cor: '#10B981', bg: 'rgba(16,185,129,0.1)', icone: 'fa-circle-check', label: 'SUCESSO CONFIRMADO' },
+                'SEM_EFEITO_OBSERVADO': { cor: '#F59E0B', bg: 'rgba(245,158,11,0.1)', icone: 'fa-circle-pause', label: 'SEM EFEITO OBSERVADO' },
+                'PIORA_DETECTADA': { cor: '#EF4444', bg: 'rgba(239,68,68,0.1)', icone: 'fa-circle-exclamation', label: 'PIORA DETECTADA' },
+                'INCONCLUSIVO': { cor: '#94A3B8', bg: 'rgba(148,163,184,0.1)', icone: 'fa-circle-question', label: 'INCONCLUSIVO' }
+            };
+            const cfg = coresStatus[a.status_aprendizado] || { cor: '#00E5FF', bg: 'rgba(0,229,255,0.1)', icone: 'fa-info-circle', label: a.status_aprendizado };
+
+            const delta = (a.indicador_pos !== null && a.indicador_baseline !== null) 
+                ? (Number(a.indicador_pos) - Number(a.indicador_baseline)).toFixed(1) 
+                : null;
+
+            html += `
+                <div class="miv-card" style="border-left: 3px solid ${cfg.cor};">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 8px;">
+                        <span style="font-family: var(--font-mono); font-size: 10px; font-weight: 800; color: ${cfg.cor}; background: ${cfg.bg}; padding: 3px 8px; border-radius: 4px;">
+                            <i class="fas ${cfg.icone}"></i> ${cfg.label}
+                        </span>
+                        <span style="font-family: var(--font-mono); font-size: 10px; color: #64748B;">${new Date(a.registrado_em).toLocaleDateString('pt-BR')}</span>
+                    </div>
+
+                    <h4 style="font-family: var(--font-headline); font-size: 15px; font-weight: 800; color: #FFF; margin-top: 8px;">
+                        ${a.titulo_miv || 'Intervenção MIV'}
+                    </h4>
+
+                    <div style="display: flex; align-items: center; justify-content: space-around; background: rgba(0,0,0,0.3); padding: 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.06); margin: 6px 0;">
+                        <div style="text-align: center;">
+                            <div style="font-family: var(--font-mono); font-size: 9px; color: #94A3B8;">BASELINE</div>
+                            <div style="font-size: 16px; font-weight: 800; color: #FFF;">${a.indicador_baseline !== null ? a.indicador_baseline + a.unidade_medida : 'N/A'}</div>
+                        </div>
+                        <i class="fas fa-arrow-right" style="color: ${cfg.cor}; font-size: 12px;"></i>
+                        <div style="text-align: center;">
+                            <div style="font-family: var(--font-mono); font-size: 9px; color: #94A3B8;">PÓS-INTERVENÇÃO</div>
+                            <div style="font-size: 16px; font-weight: 800; color: ${cfg.cor};">${a.indicador_pos !== null ? a.indicador_pos + a.unidade_medida : 'N/A'}</div>
+                        </div>
+                        ${delta !== null ? `
+                            <div style="text-align: center; border-left: 1px solid rgba(255,255,255,0.08); padding-left: 10px;">
+                                <div style="font-family: var(--font-mono); font-size: 9px; color: #94A3B8;">DELTA</div>
+                                <div style="font-size: 14px; font-weight: 800; color: ${Number(delta) >= 0 ? '#10B981' : '#EF4444'};">
+                                    ${Number(delta) >= 0 ? '+' : ''}${delta}${a.unidade_medida}
+                                </div>
+                            </div>
+                        ` : ''}
+                    </div>
+
+                    <div style="font-size: 12px; color: var(--text-silver);">
+                        <b>Resultado Observado:</b> ${a.resultado_observado}
+                    </div>
+
+                    <div style="font-size: 11px; color: #94A3B8; background: rgba(255,255,255,0.02); padding: 8px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.04);">
+                        <b style="color: #00E5FF; font-family: var(--font-mono); font-size: 10px;">APRENDIZADO CONSOLIDADO:</b>
+                        <p style="margin-top: 3px;">${a.aprendizados_consolidados}</p>
+                    </div>
+
+                    ${a.gap_esperado_vs_realizado ? `
+                        <div style="font-size: 11px; color: #F59E0B;">
+                            <b>Gap (Esperado vs Real):</b> ${a.gap_esperado_vs_realizado}
+                        </div>
+                    ` : ''}
+
+                    ${a.necessidade_nova_investigacao ? `
+                        <div style="font-family: var(--font-mono); font-size: 10px; color: #EF4444; background: rgba(239,68,68,0.08); padding: 4px 8px; border-radius: 4px; display: inline-flex; align-items: center; gap: 6px;">
+                            <i class="fas fa-rotate"></i> Nova Investigação Desencadeada
+                        </div>
+                    ` : ''}
+                </div>
+            `;
+        });
+
+        container.innerHTML = html;
+    }
+
+    function abrirModalNovaAvaliacaoMIV() {
+        const modal = document.getElementById('modal-avaliar-aprendizado-miv');
+        const sel = document.getElementById('modal-aprend-miv-id');
+        if (!modal || !sel) return;
+
+        sel.innerHTML = '';
+        if (dossieAtivo && dossieAtivo.recomendacoesMIV && dossieAtivo.recomendacoesMIV.length > 0) {
+            dossieAtivo.recomendacoesMIV.forEach(m => {
+                const opt = document.createElement('option');
+                opt.value = m.id;
+                opt.textContent = m.titulo_miv + ' [' + m.status_aprovacao + ']';
+                sel.appendChild(opt);
+            });
+        } else {
+            const opt = document.createElement('option');
+            opt.value = '';
+            opt.textContent = 'Nenhuma recomendação MIV cadastrada para esta empresa';
+            sel.appendChild(opt);
+        }
+
+        modal.style.display = 'flex';
+    }
+
+    function fecharModalNovaAvaliacaoMIV() {
+        const modal = document.getElementById('modal-avaliar-aprendizado-miv');
+        if (modal) modal.style.display = 'none';
+    }
+
+    async function submeterAvaliacaoAprendizadoMIV(e) {
+        e.preventDefault();
+        const mivId = document.getElementById('modal-aprend-miv-id').value;
+        const baseline = parseFloat(document.getElementById('modal-aprend-baseline').value);
+        const pos = parseFloat(document.getElementById('modal-aprend-pos').value);
+        const unidade = document.getElementById('modal-aprend-unidade').value;
+        const status = document.getElementById('modal-aprend-status').value;
+        const resultado = document.getElementById('modal-aprend-resultado').value;
+        const gap = document.getElementById('modal-aprend-gap').value;
+        const consolidado = document.getElementById('modal-aprend-consolidado').value;
+        const novaInvestigacao = document.getElementById('modal-aprend-nova-investigacao').checked;
+
+        if (!empresaMotorAtivaId || !mivId) {
+            alert('Selecione uma empresa e uma MIV válida.');
+            return;
+        }
+
+        const token = sessionStorage.getItem('vide_jwt');
+        const headers = {
+            'Content-Type': 'application/json',
+            ...(token ? { 'Authorization': 'Bearer ' + token } : {})
+        };
+
+        try {
+            const res = await fetch('/api/motor/aprendizado/avaliar', {
+                method: 'POST',
+                headers,
+                body: JSON.stringify({
+                    empresaId: empresaMotorAtivaId,
+                    mivId,
+                    indicadorBaseline: baseline,
+                    indicadorPos: pos,
+                    unidadeMedida: unidade,
+                    resultadoObservado: resultado,
+                    statusAprendizado: status,
+                    gapEsperadoVsRealizado: gap,
+                    aprendizadosConsolidados: consolidado,
+                    necessidadeNovaInvestigacao: novaInvestigacao
+                })
+            });
+
+            const data = await res.json();
+            if (res.ok && data.sucesso) {
+                adicionarLogTerminal('MOTOR APRENDIZADO', 'Avaliação de eficácia registrada com sucesso! Status: ' + status);
+                fecharModalNovaAvaliacaoMIV();
+                await carregarDossieMotorAtivo();
+            } else {
+                adicionarLogTerminal('MOTOR APRENDIZADO', 'Falha ao registrar aprendizado: ' + (data.erro || 'Erro'));
+            }
+        } catch (err) {
+            adicionarLogTerminal('MOTOR APRENDIZADO', 'Erro de conexão: ' + err.message);
         }
     }
 

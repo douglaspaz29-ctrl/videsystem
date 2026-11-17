@@ -936,6 +936,8 @@ async function executarCicloMotorInteligencia({ idProjeto, empresaId, dadosOpera
 
     // 3. Mineração de Padrões e Hipóteses Causais
     let padraoMinerado = null;
+    let investigacaoCausal = null;
+
     if (todasEvidenciasIds.length > 0) {
         padraoMinerado = await servicoMotorInteligencia.minerarPadraoEHipoteses({
             empresaId,
@@ -944,15 +946,30 @@ async function executarCicloMotorInteligencia({ idProjeto, empresaId, dadosOpera
             descricaoPadrao: 'Leads cessam resposta nos primeiros minutos após receberem valores sem prévia demonstração de autoridade.',
             frequencia: todasEvidenciasIds.length,
             evidenciasIds: todasEvidenciasIds,
+            periodoInicio: new Date(Date.now() - 30 * 86400000).toISOString(),
+            periodoFim: new Date().toISOString(),
+            contextoSegmento: dadosOperacionais.segmento || 'Comércio & Serviços',
             hipotese: {
                 enunciado: 'A revelação antecipada do preço numérico gera choque e quebra a percepção de valor.',
                 causaRaiz: 'Falta de roteiro consultivo em 3 etapas e ausência de prova social antes do orçamento.',
                 nivelConfianca: 0.88
             }
         });
+
+        // Investigação causal explícita com método e rigor epistemológico
+        investigacaoCausal = await servicoMotorInteligencia.investigarCausaRaiz({
+            empresaId,
+            padraoId: padraoMinerado.padraoId,
+            enunciadoHipotese: 'A ausência de ancoragem perceptual prévia amplifica a barreira cognitiva ao preço informado.',
+            causaRaizProvavel: 'Fluxo comercial direto sem diagnóstico preliminar nem apresentação de autoridade institucional.',
+            nivelConfianca: 0.88,
+            tipoInvestigacao: 'HIPOTESE_CAUSAL',
+            evidenciasIds: todasEvidenciasIds,
+            metodoInvestigacao: 'AUDITORIA_CRONOLOGICA_MENSAGENS_WHATSAPP'
+        });
     }
 
-    // 4. Identificação do Gargalo Crítico com Cálculo EPV
+    // 4. Identificação do Gargalo Crítico com Cálculo EPV e Matriz Multidimensional
     const gargalo = await servicoMotorInteligencia.cadastrarGargaloEPV({
         empresaId,
         diagnosticoId: diag7D.diagnosticoId,
@@ -964,17 +981,26 @@ async function executarCicloMotorInteligencia({ idProjeto, empresaId, dadosOpera
         abrangencia: 0.70,
         severidade: 0.90,
         esforco: 2, // Ajuste de processo e copy
+        urgenciaOperacional: 'ALTA',
+        metodoAfericaoResultado: 'Taxa de resposta e conversão imediata no canal WhatsApp',
+        confiancaAnalitica: 'ALTA',
         evidenciasIds: todasEvidenciasIds
     });
 
-    // 5. Formulação da Menor Intervenção Viável (MIV) com Eficácia Suficiente
+    // 5. Formulação da Menor Intervenção Viável (MIV) com 10 atributos obrigatórios
     const miv = await servicoMotorInteligencia.formularRecomendacaoMIV({
         empresaId,
         gargaloId: gargalo.gargaloId,
+        hipoteseId: investigacaoCausal ? investigacaoCausal.hipoteseId : (padraoMinerado ? padraoMinerado.hipoteseId : null),
         tituloMiv: 'MIV 1: Roteiro de Qualificação em 3 Etapas com Ancoragem Parcelada',
         acaoProposta: 'Implementar script com 3 perguntas de sondagem e áudio de acolhimento antes de informar valores.',
         justificativaMiv: 'Reduz o choque de preço e aumenta a taxa de resposta imediata em até 40%.',
         justificativaEficaciaSuficiente: 'Intervenção ataca diretamente a causa-raiz identificada pelas evidências (choque de valor) com esforço cirúrgico sem necessidade de software novo.',
+        resultadoEsperado: 'Redução do abandono pós-preço em 40% e elevação da taxa de resposta ativa para 60%.',
+        indicadorAvaliacao: 'Taxa de resposta ativa pós-apresentação de preço (%)',
+        janelaObservacaoDias: 14,
+        criterioSucesso: 'Taxa de resposta no WhatsApp superior a 50% após 14 dias de implantação.',
+        grauConfianca: 'ALTO',
         produtoCatalogoVide: 'AUTOMACOES'
     });
 
@@ -988,10 +1014,42 @@ async function executarCicloMotorInteligencia({ idProjeto, empresaId, dadosOpera
         diagnostico7D: diag7D,
         conversasProcessadas: resultadosConversas.length,
         padraoMinerado,
+        investigacaoCausal,
         gargaloEPV: gargalo,
         recomendacaoMIV: miv,
         dossie
     };
+}
+
+/**
+ * 7. FUNÇÃO 7: Avaliação Contínua e Feedback Loop de MIV (Agente 07)
+ */
+async function avaliarImpactoMIV({
+    empresaId,
+    mivId,
+    indicadorBaseline,
+    indicadorPos,
+    unidadeMedida = '%',
+    resultadoObservado,
+    statusAprendizado,
+    gapEsperadoVsRealizado = null,
+    aprendizadosConsolidados,
+    necessidadeNovaInvestigacao = false,
+    hipoteseRevisada = null
+}) {
+    return await servicoMotorInteligencia.registrarAvaliacaoAprendizadoMIV({
+        empresaId,
+        mivId,
+        indicadorBaseline,
+        indicadorPos,
+        unidadeMedida,
+        resultadoObservado,
+        statusAprendizado,
+        gapEsperadoVsRealizado,
+        aprendizadosConsolidados,
+        necessidadeNovaInvestigacao,
+        hipoteseRevisada
+    });
 }
 
 module.exports = {
@@ -1001,5 +1059,6 @@ module.exports = {
     submeterEntregaParaCoordenador,
     executarCicloCompletoInteligencia,
     gerarDiagnosticoComIA,
-    executarCicloMotorInteligencia
+    executarCicloMotorInteligencia,
+    avaliarImpactoMIV
 };

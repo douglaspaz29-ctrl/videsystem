@@ -1665,6 +1665,148 @@ const servidor = http.createServer(async (req, res) => {
         }
     }
 
+    // 7.6 POST /api/motor/investigacao-causal — Investigação Causal Formal com Rigor Epistemológico
+    if (urlLimpa === '/api/motor/investigacao-causal' && req.method === 'POST') {
+        const auth = seguranca.autenticarRequisicao(req);
+        if (!auth.autenticado) {
+            res.writeHead(401, { 'Content-Type': 'application/json; charset=utf-8' });
+            return res.end(JSON.stringify({ sucesso: false, erro: 'Autenticação obrigatória para submeter investigação causal.' }));
+        }
+
+        try {
+            const body = await lerCorpoJson(req);
+            const usuario = auth.usuario;
+            let empresaId = body.empresaId;
+
+            if (usuario.clienteId && usuario.papel !== 'DIRETOR' && usuario.papel !== 'DIRETORA' && usuario.papel !== 'ADMIN') {
+                if (empresaId && empresaId !== usuario.clienteId) {
+                    res.writeHead(403, { 'Content-Type': 'application/json; charset=utf-8' });
+                    return res.end(JSON.stringify({ sucesso: false, erro: 'Acesso negado: Tentativa de violação multiempresa.' }));
+                }
+                empresaId = usuario.clienteId;
+            }
+
+            if (!empresaId || !body.enunciadoHipotese) {
+                res.writeHead(400, { 'Content-Type': 'application/json; charset=utf-8' });
+                return res.end(JSON.stringify({ sucesso: false, erro: 'empresaId e enunciadoHipotese são obrigatórios.' }));
+            }
+
+            const resultado = await servicoMotorInteligencia.investigarCausaRaiz({
+                empresaId,
+                padraoId: body.padraoId || null,
+                enunciadoHipotese: body.enunciadoHipotese,
+                causaRaizProvavel: body.causaRaizProvavel || 'Causa raiz sob apuração',
+                nivelConfianca: body.nivelConfianca || 0.75,
+                tipoInvestigacao: body.tipoInvestigacao || 'HIPOTESE_CAUSAL',
+                evidenciasIds: body.evidenciasIds || [],
+                evidenciasConflitantes: body.evidenciasConflitantes || null,
+                metodoInvestigacao: body.metodoInvestigacao || 'ANÁLISE_CONVERSACIONAL_E_FUNIL'
+            });
+
+            res.writeHead(201, { 'Content-Type': 'application/json; charset=utf-8' });
+            return res.end(JSON.stringify({
+                sucesso: true,
+                empresaId,
+                investigacao: resultado
+            }));
+        } catch (e) {
+            res.writeHead(500, { 'Content-Type': 'application/json; charset=utf-8' });
+            return res.end(JSON.stringify({ sucesso: false, erro: e.message }));
+        }
+    }
+
+    // 7.7 POST /api/motor/aprendizado/avaliar — Registro de Feedback Loop e Aprendizado Contínuo MIV
+    if (urlLimpa === '/api/motor/aprendizado/avaliar' && req.method === 'POST') {
+        const auth = seguranca.autenticarRequisicao(req);
+        if (!auth.autenticado) {
+            res.writeHead(401, { 'Content-Type': 'application/json; charset=utf-8' });
+            return res.end(JSON.stringify({ sucesso: false, erro: 'Autenticação obrigatória para avaliar aprendizados MIV.' }));
+        }
+
+        try {
+            const body = await lerCorpoJson(req);
+            const usuario = auth.usuario;
+            let empresaId = body.empresaId;
+
+            if (usuario.clienteId && usuario.papel !== 'DIRETOR' && usuario.papel !== 'DIRETORA' && usuario.papel !== 'ADMIN') {
+                if (empresaId && empresaId !== usuario.clienteId) {
+                    res.writeHead(403, { 'Content-Type': 'application/json; charset=utf-8' });
+                    return res.end(JSON.stringify({ sucesso: false, erro: 'Acesso negado: Tentativa de violação multiempresa.' }));
+                }
+                empresaId = usuario.clienteId;
+            }
+
+            if (!empresaId || !body.mivId || !body.statusAprendizado || !body.resultadoObservado) {
+                res.writeHead(400, { 'Content-Type': 'application/json; charset=utf-8' });
+                return res.end(JSON.stringify({ sucesso: false, erro: 'empresaId, mivId, statusAprendizado e resultadoObservado são campos obrigatórios.' }));
+            }
+
+            const aprendizado = await servicoMotorInteligencia.registrarAvaliacaoAprendizadoMIV({
+                empresaId,
+                mivId: body.mivId,
+                indicadorBaseline: body.indicadorBaseline !== undefined ? body.indicadorBaseline : null,
+                indicadorPos: body.indicadorPos !== undefined ? body.indicadorPos : null,
+                unidadeMedida: body.unidadeMedida || '%',
+                resultadoObservado: body.resultadoObservado,
+                statusAprendizado: body.statusAprendizado,
+                gapEsperadoVsRealizado: body.gapEsperadoVsRealizado || null,
+                aprendizadosConsolidados: body.aprendizadosConsolidados || 'Aprendizado registrado para evolução contínua da inteligência comercial.',
+                necessidadeNovaInvestigacao: Boolean(body.necessidadeNovaInvestigacao),
+                hipoteseRevisada: body.hipoteseRevisada || null
+            });
+
+            res.writeHead(201, { 'Content-Type': 'application/json; charset=utf-8' });
+            return res.end(JSON.stringify({
+                sucesso: true,
+                empresaId,
+                aprendizado
+            }));
+        } catch (e) {
+            res.writeHead(500, { 'Content-Type': 'application/json; charset=utf-8' });
+            return res.end(JSON.stringify({ sucesso: false, erro: e.message }));
+        }
+    }
+
+    // 7.8 GET /api/motor/aprendizados/:empresaId — Histórico de Aprendizados da Empresa
+    if (urlLimpa.startsWith('/api/motor/aprendizados/') && req.method === 'GET') {
+        const auth = seguranca.autenticarRequisicao(req);
+        if (!auth.autenticado) {
+            res.writeHead(401, { 'Content-Type': 'application/json; charset=utf-8' });
+            return res.end(JSON.stringify({ sucesso: false, erro: 'Autenticação obrigatória para consultar aprendizados.' }));
+        }
+
+        const empresaIdParam = decodeURIComponent(urlLimpa.replace('/api/motor/aprendizados/', '').trim());
+        const usuario = auth.usuario;
+        let empresaIdEfetivo = empresaIdParam;
+
+        if (usuario.clienteId && usuario.papel !== 'DIRETOR' && usuario.papel !== 'DIRETORA' && usuario.papel !== 'ADMIN') {
+            if (empresaIdParam && empresaIdParam !== usuario.clienteId) {
+                res.writeHead(403, { 'Content-Type': 'application/json; charset=utf-8' });
+                return res.end(JSON.stringify({ sucesso: false, erro: 'Acesso negado: Tentativa de violação multiempresa.' }));
+            }
+            empresaIdEfetivo = usuario.clienteId;
+        }
+
+        if (!empresaIdEfetivo) {
+            res.writeHead(400, { 'Content-Type': 'application/json; charset=utf-8' });
+            return res.end(JSON.stringify({ sucesso: false, erro: 'empresaId é obrigatório na URL.' }));
+        }
+
+        try {
+            const aprendizados = await servicoMotorInteligencia.listarAprendizadosEmpresa(empresaIdEfetivo);
+            res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+            return res.end(JSON.stringify({
+                sucesso: true,
+                empresaId: empresaIdEfetivo,
+                total: aprendizados.length,
+                aprendizados
+            }));
+        } catch (e) {
+            res.writeHead(500, { 'Content-Type': 'application/json; charset=utf-8' });
+            return res.end(JSON.stringify({ sucesso: false, erro: e.message }));
+        }
+    }
+
     // =========================================================================
     // REDIRECIONAMENTOS DE NAVEGAÇÃO INTELIGENTES
     // =========================================================================

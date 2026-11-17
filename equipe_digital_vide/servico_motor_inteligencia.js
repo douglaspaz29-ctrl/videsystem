@@ -73,6 +73,79 @@ class ServicoMotorInteligenciaVIDE {
         }
     }
 
+    /**
+     * Garante de forma idempotente que as colunas e tabelas da evolução v2.2 estejam disponíveis
+     */
+    async garantirEstruturaEvolucao(client) {
+        await client.query(`
+            ALTER TABLE padroes_comportamentais 
+                ADD COLUMN IF NOT EXISTS periodo_inicio TIMESTAMPTZ,
+                ADD COLUMN IF NOT EXISTS periodo_fim TIMESTAMPTZ,
+                ADD COLUMN IF NOT EXISTS contexto_segmento VARCHAR(128),
+                ADD COLUMN IF NOT EXISTS grau_confianca VARCHAR(16) DEFAULT 'MEDIO',
+                ADD COLUMN IF NOT EXISTS limitacoes_analise TEXT,
+                ADD COLUMN IF NOT EXISTS tipo_classificacao VARCHAR(32) DEFAULT 'PADRAO_CONFIRMADO';
+
+            ALTER TABLE hipoteses_causais
+                ADD COLUMN IF NOT EXISTS tipo_investigacao VARCHAR(32) DEFAULT 'HIPOTESE_CAUSAL',
+                ADD COLUMN IF NOT EXISTS evidencias_conflitantes TEXT,
+                ADD COLUMN IF NOT EXISTS metodo_investigacao TEXT,
+                ADD COLUMN IF NOT EXISTS status_validacao VARCHAR(32) DEFAULT 'EM_ANALISE';
+
+            ALTER TABLE gargalos_comerciais
+                ADD COLUMN IF NOT EXISTS urgencia_operacional VARCHAR(16) DEFAULT 'MEDIA',
+                ADD COLUMN IF NOT EXISTS metodo_afericao_resultado TEXT,
+                ADD COLUMN IF NOT EXISTS confianca_analitica VARCHAR(16) DEFAULT 'MEDIA';
+
+            ALTER TABLE recomendacoes_miv
+                ADD COLUMN IF NOT EXISTS hipotese_id UUID,
+                ADD COLUMN IF NOT EXISTS resultado_esperado TEXT,
+                ADD COLUMN IF NOT EXISTS indicador_avaliacao VARCHAR(128),
+                ADD COLUMN IF NOT EXISTS janela_observacao_dias INT DEFAULT 14,
+                ADD COLUMN IF NOT EXISTS criterio_sucesso TEXT,
+                ADD COLUMN IF NOT EXISTS grau_confianca VARCHAR(16) DEFAULT 'ALTO';
+
+            CREATE TABLE IF NOT EXISTS aprendizados_miv (
+                id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+                empresa_id UUID NOT NULL,
+                miv_id UUID NOT NULL,
+                data_implementacao TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                indicador_baseline NUMERIC(12,2),
+                indicador_pos NUMERIC(12,2),
+                unidade_medida VARCHAR(32) DEFAULT '%',
+                resultado_observado TEXT NOT NULL,
+                status_aprendizado VARCHAR(32) NOT NULL,
+                gap_esperado_vs_realizado TEXT,
+                aprendizados_consolidados TEXT NOT NULL,
+                necessidade_nova_investigacao BOOLEAN DEFAULT FALSE,
+                hipotese_revisada TEXT,
+                registrado_em TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
+                CONSTRAINT uq_aprendizados_empresa_id UNIQUE (empresa_id, id),
+                CONSTRAINT fk_aprendizado_miv FOREIGN KEY (empresa_id, miv_id) 
+                    REFERENCES recomendacoes_miv(empresa_id, id) ON DELETE RESTRICT
+            );
+
+            CREATE INDEX IF NOT EXISTS idx_aprendizados_empresa ON aprendizados_miv(empresa_id, registrado_em DESC);
+            CREATE INDEX IF NOT EXISTS idx_aprendizados_miv ON aprendizados_miv(miv_id);
+
+            ALTER TABLE aprendizados_miv ENABLE ROW LEVEL SECURITY;
+
+            DO $$
+            BEGIN
+                IF NOT EXISTS (
+                    SELECT 1 FROM pg_policies 
+                    WHERE schemaname = 'public' 
+                    AND tablename = 'aprendizados_miv' 
+                    AND policyname = 'p_isolation_aprendizados_miv'
+                ) THEN
+                    CREATE POLICY p_isolation_aprendizados_miv ON aprendizados_miv 
+                        FOR ALL 
+                        USING (empresa_id = current_setting('vide.current_empresa_id', true)::uuid);
+                END IF;
+            END $$;
+        `);
+    }
+
     // =========================================================================
     // 1. GESTÃO DE TENANTS E IDENTIDADES DE CONTATO (MINIMIZAÇÃO LGPD)
     // =========================================================================
@@ -186,16 +259,45 @@ class ServicoMotorInteligenciaVIDE {
     }
 
     /**
-     * Minera padrões comportamentais e formula hipóteses causais com base em evidências
+     * Minera padrões comportamentais e formula hipóteses causais com base em evidências.
+     * Aplica guardrail epistemológico estrito: frequência = 1 é classificada como OCORRÊNCIA_ISOLADA.
      */
-    async minerarPadraoEHipoteses({ empresaId, categoria, tituloPadrao, descricaoPadrao, frequencia = 1, evidenciasIds = [], hipotese = null }) {
+    async minerarPadraoEHipoteses({
+        empresaId,
+        categoria,
+        tituloPadrao,
+        descricaoPadrao,
+        frequencia = 1,
+        evidenciasIds = [],
+        hipotese = null,
+        periodoInicio = null,
+        periodoFim = null,
+        contextoSegmento = null,
+        limitacoesAnalise = null
+    }) {
         return await this.comTenant(empresaId, async (client) => {
-            // 1. Padrão Comportamental
+            await this.garantirEstruturaEvolucao(client);
+
+            // Guardrail Epistemológico: Não elevar ocorrência única a padrão
+            const isIsolada = Number(frequencia) <= 1;
+            const tipoClassificacao = isIsolada ? 'OCORRENCIA_ISOLADA' : 'PADRAO_CONFIRMADO';
+            const grauConfianca = isIsolada ? 'BAIXO' : (Number(frequencia) >= 4 ? 'ALTO' : 'MEDIO');
+            const limitacoesEfetivas = limitacoesAnalise || (isIsolada 
+                ? 'Amostra insuficiente (ocorrência única). Recorrência não comprovada — classificado como ocorrência isolada para evitar falsa correlação.' 
+                : null);
+
+            // 1. Padrão Comportamental / Ocorrência
             const resPadrao = await client.query(`
-                INSERT INTO padroes_comportamentais (empresa_id, categoria_padrao, titulo, descricao_padrao, frequencia_ocorrencia)
-                VALUES ($1, $2, $3, $4, $5)
-                RETURNING id;
-            `, [empresaId, categoria, tituloPadrao, descricaoPadrao, frequencia]);
+                INSERT INTO padroes_comportamentais (
+                    empresa_id, categoria_padrao, titulo, descricao_padrao, frequencia_ocorrencia,
+                    periodo_inicio, periodo_fim, contexto_segmento, grau_confianca, limitacoes_analise, tipo_classificacao
+                )
+                VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
+                RETURNING id, tipo_classificacao, grau_confianca, limitacoes_analise;
+            `, [
+                empresaId, categoria, tituloPadrao, descricaoPadrao, frequencia,
+                periodoInicio, periodoFim, contextoSegmento, grauConfianca, limitacoesEfetivas, tipoClassificacao
+            ]);
             const padraoId = resPadrao.rows[0].id;
 
             // 2. Vínculo Relacional: Padrões <-> Evidências
@@ -211,10 +313,17 @@ class ServicoMotorInteligenciaVIDE {
             let hipoteseId = null;
             if (hipotese) {
                 const resHip = await client.query(`
-                    INSERT INTO hipoteses_causais (empresa_id, padrao_id, enunciado_hipotese, causa_raiz_provavel, nivel_confianca)
-                    VALUES ($1, $2, $3, $4, $5)
+                    INSERT INTO hipoteses_causais (
+                        empresa_id, padrao_id, enunciado_hipotese, causa_raiz_provavel,
+                        nivel_confianca, tipo_investigacao, status_validacao
+                    )
+                    VALUES ($1, $2, $3, $4, $5, $6, 'EM_ANALISE')
                     RETURNING id;
-                `, [empresaId, padraoId, hipotese.enunciado, hipotese.causaRaiz, hipotese.nivelConfianca || 0.75]);
+                `, [
+                    empresaId, padraoId, hipotese.enunciado, hipotese.causaRaiz,
+                    hipotese.nivelConfianca || (isIsolada ? 0.35 : 0.75),
+                    isIsolada ? 'HIPOTESE_PRELIMINAR' : 'HIPOTESE_CAUSAL'
+                ]);
                 hipoteseId = resHip.rows[0].id;
 
                 for (const evId of evidenciasIds) {
@@ -226,7 +335,80 @@ class ServicoMotorInteligenciaVIDE {
                 }
             }
 
-            return { padraoId, hipoteseId };
+            return {
+                padraoId,
+                hipoteseId,
+                tipoClassificacao: resPadrao.rows[0].tipo_classificacao,
+                grauConfianca: resPadrao.rows[0].grau_confianca,
+                limitacoesAnalise: resPadrao.rows[0].limitacoes_analise
+            };
+        });
+    }
+
+    /**
+     * Realiza investigação causal formal com rigor epistemológico.
+     * Separa expressamente:
+     * - FATO_OBSERVADO: dado bruto/evidência constatada
+     * - PADRAO_IDENTIFICADO: recorrência estatística em múltiplas conversas
+     * - HIPOTESE_CAUSAL: inferência fundamentada sujeita a teste
+     * - CAUSA_CONFIRMADA: hipótese empiricamente validada via intervenção
+     * - INFORMACAO_INSUFICIENTE: quando os dados são conflitantes ou inconclusivos
+     */
+    async investigarCausaRaiz({
+        empresaId,
+        padraoId,
+        enunciadoHipotese,
+        causaRaizProvavel,
+        nivelConfianca = 0.75,
+        tipoInvestigacao = 'HIPOTESE_CAUSAL',
+        evidenciasIds = [],
+        evidenciasConflitantes = null,
+        metodoInvestigacao = 'ANÁLISE_CONVERSACIONAL_E_FUNIL'
+    }) {
+        return await this.comTenant(empresaId, async (client) => {
+            await this.garantirEstruturaEvolucao(client);
+
+            let tipoEfetivo = tipoInvestigacao;
+            let statusValidacao = 'EM_ANALISE';
+
+            if (evidenciasConflitantes && evidenciasConflitantes.length > 0) {
+                tipoEfetivo = 'INFORMACAO_INSUFICIENTE';
+                statusValidacao = 'CONFLITO_EVIDENCIAS';
+            } else if (tipoInvestigacao === 'CAUSA_CONFIRMADA') {
+                statusValidacao = 'VALIDADO_EMPIRICAMENTE';
+            }
+
+            const resHip = await client.query(`
+                INSERT INTO hipoteses_causais (
+                    empresa_id, padrao_id, enunciado_hipotese, causa_raiz_provavel,
+                    nivel_confianca, tipo_investigacao, evidencias_conflitantes,
+                    metodo_investigacao, status_validacao
+                )
+                VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+                RETURNING id, tipo_investigacao, status_validacao, nivel_confianca, criado_em;
+            `, [
+                empresaId, padraoId, enunciadoHipotese, causaRaizProvavel,
+                nivelConfianca, tipoEfetivo,
+                evidenciasConflitantes ? (typeof evidenciasConflitantes === 'string' ? evidenciasConflitantes : JSON.stringify(evidenciasConflitantes)) : null,
+                metodoInvestigacao, statusValidacao
+            ]);
+
+            const hipoteseId = resHip.rows[0].id;
+
+            for (const evId of evidenciasIds) {
+                await client.query(`
+                    INSERT INTO hipoteses_evidencias_rel (empresa_id, hipotese_id, evidencia_id)
+                    VALUES ($1, $2, $3)
+                    ON CONFLICT (hipotese_id, evidencia_id) DO NOTHING;
+                `, [empresaId, hipoteseId, evId]);
+            }
+
+            return {
+                hipoteseId,
+                tipoInvestigacao: resHip.rows[0].tipo_investigacao,
+                statusValidacao: resHip.rows[0].status_validacao,
+                nivelConfianca: parseFloat(resHip.rows[0].nivel_confianca)
+            };
         });
     }
 
@@ -409,6 +591,7 @@ class ServicoMotorInteligenciaVIDE {
     /**
      * Cadastra gargalo com cálculo do Score EPV na coluna gerada pelo PostgreSQL.
      * Documenta critérios e registra a versão da fórmula utilizada (Ajuste 2).
+     * Enriquecido com Matriz Multidimensional: Urgência Operacional e Confiança Analítica.
      */
     async cadastrarGargaloEPV({
         empresaId,
@@ -424,24 +607,45 @@ class ServicoMotorInteligenciaVIDE {
         abrangencia,  // 0.0 a 1.0
         severidade,   // 0.0 a 1.0
         esforco,      // 1 a 5
+        urgenciaOperacional = 'MEDIA', // 'CRITICA' | 'ALTA' | 'MEDIA' | 'BAIXA'
+        metodoAfericaoResultado = null,
+        confiancaAnalitica = 'MEDIA',   // 'ALTA' | 'MEDIA' | 'BAIXA'
         evidenciasIds = []
     }) {
         const dimReal = dimensao || dimensaoAfetada;
         const titReal = titulo || tituloGargalo;
         const descReal = descricao || descricaoGargalo;
         return await this.comTenant(empresaId, async (client) => {
+            await this.garantirEstruturaEvolucao(client);
+
             // Inserção no PostgreSQL que computa nativamente o epv_score STORED
             const resGargalo = await client.query(`
                 INSERT INTO gargalos_comerciais (
                     empresa_id, diagnostico_id, dimensao_afetada, titulo_gargalo, descricao_detalhada,
-                    impacto_financeiro_estimado, recorrencia_score, abrangencia_score, severidade_score, esforco_estimado
+                    impacto_financeiro_estimado, recorrencia_score, abrangencia_score, severidade_score, esforco_estimado,
+                    urgencia_operacional, metodo_afericao_resultado, confianca_analitica
                 )
-                VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
-                RETURNING id, epv_score, criado_em;
-            `, [empresaId, diagnosticoId, dimReal, titReal, descReal, impactoFinanceiro, recorrencia, abrangencia, severidade, esforco]);
+                VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)
+                RETURNING id, epv_score, urgencia_operacional, confianca_analitica, criado_em;
+            `, [
+                empresaId, diagnosticoId, dimReal, titReal, descReal,
+                impactoFinanceiro, recorrencia, abrangencia, severidade, esforco,
+                urgenciaOperacional, metodoAfericaoResultado, confiancaAnalitica
+            ]);
 
             const gargaloId = resGargalo.rows[0].id;
             const epvCalculado = parseFloat(resGargalo.rows[0].epv_score);
+
+            // Matriz Multidimensional:
+            // Multiplicador de urgência: CRITICA (1.5), ALTA (1.25), MEDIA (1.0), BAIXA (0.8)
+            const pesosUrgencia = { CRITICA: 1.5, ALTA: 1.25, MEDIA: 1.0, BAIXA: 0.8 };
+            const pesoUrg = pesosUrgencia[urgenciaOperacional] || 1.0;
+
+            // Fator de confiança: ALTA (1.0), MEDIA (0.9), BAIXA (0.75)
+            const fatoresConfianca = { ALTA: 1.0, MEDIA: 0.9, BAIXA: 0.75 };
+            const fatorConf = fatoresConfianca[confiancaAnalitica] || 0.9;
+
+            const scoreComposto = Math.round(epvCalculado * pesoUrg * fatorConf * 100) / 100;
 
             // Relacionamento relacional de evidências vinculadas
             for (const evId of evidenciasIds) {
@@ -455,6 +659,9 @@ class ServicoMotorInteligenciaVIDE {
             return {
                 gargaloId,
                 epvScore: epvCalculado,
+                scorePriorizacaoComposto: scoreComposto,
+                urgenciaOperacional,
+                confiancaAnalitica,
                 versaoFormula: this.versaoFormulaEPV,
                 variaveis: { recorrencia, abrangencia, severidade, esforco, impactoFinanceiro }
             };
@@ -462,31 +669,50 @@ class ServicoMotorInteligenciaVIDE {
     }
 
     /**
-     * Formula Recomendação de Menor Intervenção Viável (MIV) com Princípio de Eficácia Suficiente (Ajuste 3).
-     * Não favorece intervenções de baixo esforço se forem incapazes de solucionar o gargalo.
+     * Formula Recomendação de Menor Intervenção Viável (MIV) com 10 atributos obrigatórios:
+     * 1. problema (gargaloId / título)
+     * 2. evidencias (lista de evidências)
+     * 3. hipotese (hipoteseId / causa raiz)
+     * 4. acao (acaoProposta)
+     * 5. resultadoEsperado (meta quantitativa/qualitativa)
+     * 6. indicadorAvaliacao (métrica a monitorar)
+     * 7. janelaObservacaoDias (prazo em dias)
+     * 8. criterioSucesso (condição de êxito)
+     * 9. grauConfianca (ALTO / MEDIO / BAIXO)
+     * 10. aprovacaoExecutivaObrigatoria (AGUARDANDO_DIRETORIA)
      */
     async formularRecomendacaoMIV({
         empresaId,
         gargaloId,
+        hipoteseId = null,
         tituloMiv,
         acaoProposta,
         justificativaMiv,
-        justificativaEficaciaSuficiente, // Fundamentação de que esta é a menor ação EFICAZ
+        justificativaEficaciaSuficiente = 'Intervenção proporcional e cirúrgica com eficácia suficiente demonstrada.',
+        resultadoEsperado = 'Aumento da taxa de conversão e redução do abandono imediato.',
+        indicadorAvaliacao = 'Taxa de resposta pós-preço (%)',
+        janelaObservacaoDias = 14,
+        criterioSucesso = 'Elevação de pelo menos 25% na métrica-alvo na janela de aferição.',
+        grauConfianca = 'ALTO',
         produtoCatalogoVide = 'AUTOMACOES'
     }) {
         return await this.comTenant(empresaId, async (client) => {
+            await this.garantirEstruturaEvolucao(client);
+
             // 1. Registra a recomendação sempre em AGUARDANDO_DIRETORIA
             const resMiv = await client.query(`
                 INSERT INTO recomendacoes_miv (
-                    empresa_id, gargalo_id, titulo_miv, acao_proposta, justificativa_miv,
-                    produto_catalogo_vide, status_aprovacao
+                    empresa_id, gargalo_id, hipotese_id, titulo_miv, acao_proposta, justificativa_miv,
+                    produto_catalogo_vide, status_aprovacao, resultado_esperado, indicador_avaliacao,
+                    janela_observacao_dias, criterio_sucesso, grau_confianca
                 )
-                VALUES ($1, $2, $3, $4, $5, $6, 'AGUARDANDO_DIRETORIA')
-                RETURNING id, status_aprovacao, criado_em;
+                VALUES ($1, $2, $3, $4, $5, $6, $7, 'AGUARDANDO_DIRETORIA', $8, $9, $10, $11, $12)
+                RETURNING id, status_aprovacao, criado_em, resultado_esperado, indicador_avaliacao, janela_observacao_dias, criterio_sucesso, grau_confianca;
             `, [
-                empresaId, gargaloId, tituloMiv, acaoProposta,
+                empresaId, gargaloId, hipoteseId, tituloMiv, acaoProposta,
                 `${justificativaMiv} | Princípio da Eficácia Suficiente: ${justificativaEficaciaSuficiente}`,
-                produtoCatalogoVide
+                produtoCatalogoVide,
+                resultadoEsperado, indicadorAvaliacao, janelaObservacaoDias, criterioSucesso, grauConfianca
             ]);
 
             const recomendacaoId = resMiv.rows[0].id;
@@ -494,16 +720,28 @@ class ServicoMotorInteligenciaVIDE {
             // 2. Registra na trilha de auditoria append-only
             await client.query(`
                 INSERT INTO trilha_auditoria_seguranca (empresa_id, usuario_ou_agente, acao_executada, entidade_alvo, entidade_id, detalhes_seguranca)
-                VALUES ($1, 'MOTOR_INTELIGENCIA', 'MIV_FORMULADA', 'recomendacoes_miv', $2, $3);
+                VALUES ($1, 'MOTOR_INTELIGENCIA', 'MIV_FORMULADA_10_ATRIBUTOS', 'recomendacoes_miv', $2, $3);
             `, [
                 empresaId, recomendacaoId,
-                JSON.stringify({ gargaloId, produtoCatalogoVide, status: 'AGUARDANDO_DIRETORIA' })
+                JSON.stringify({
+                    gargaloId,
+                    hipoteseId,
+                    produtoCatalogoVide,
+                    status: 'AGUARDANDO_DIRETORIA',
+                    indicador: indicadorAvaliacao,
+                    janelaDias: janelaObservacaoDias
+                })
             ]);
 
             return {
                 recomendacaoId,
                 status: resMiv.rows[0].status_aprovacao,
-                criadoEm: resMiv.rows[0].criado_em
+                criadoEm: resMiv.rows[0].criado_em,
+                resultadoEsperado: resMiv.rows[0].resultado_esperado,
+                indicadorAvaliacao: resMiv.rows[0].indicador_avaliacao,
+                janelaObservacaoDias: resMiv.rows[0].janela_observacao_dias,
+                criterioSucesso: resMiv.rows[0].criterio_sucesso,
+                grauConfianca: resMiv.rows[0].grau_confianca
             };
         });
     }
@@ -540,7 +778,86 @@ class ServicoMotorInteligenciaVIDE {
     }
 
     // =========================================================================
-    // 5. RASTREABILIDADE RELACIONAL & DOSSIÊ ANALÍTICO
+    // 5. APRENDIZADO CONTÍNUO & LOOP DE FEEDBACK (MIV)
+    // =========================================================================
+
+    /**
+     * Registra o resultado empírico pós-implementação de uma intervenção MIV.
+     * Compara baseline vs pós, documenta gap, aprendizados e status de eficácia:
+     * - SUCESSO_CONFIRMADO: meta atingida ou superada
+     * - SEM_EFEITO_OBSERVADO: métrica permaneceu inalterada
+     * - PIORA_DETECTADA: indicador regrediu
+     * - INCONCLUSIVO: dados externos ou ruído impediram aferição clara
+     */
+    async registrarAvaliacaoAprendizadoMIV({
+        empresaId,
+        mivId,
+        indicadorBaseline,
+        indicadorPos,
+        unidadeMedida = '%',
+        resultadoObservado,
+        statusAprendizado,
+        gapEsperadoVsRealizado = null,
+        aprendizadosConsolidados,
+        necessidadeNovaInvestigacao = false,
+        hipoteseRevisada = null
+    }) {
+        const statusValidos = ['SUCESSO_CONFIRMADO', 'SEM_EFEITO_OBSERVADO', 'PIORA_DETECTADA', 'INCONCLUSIVO'];
+        if (!statusValidos.includes(statusAprendizado)) {
+            throw new Error(`[APRENDIZADO_MIV] Status [${statusAprendizado}] inválido. Opções válidas: ${statusValidos.join(', ')}`);
+        }
+
+        return await this.comTenant(empresaId, async (client) => {
+            await this.garantirEstruturaEvolucao(client);
+
+            const res = await client.query(`
+                INSERT INTO aprendizados_miv (
+                    empresa_id, miv_id, indicador_baseline, indicador_pos, unidade_medida,
+                    resultado_observado, status_aprendizado, gap_esperado_vs_realizado,
+                    aprendizados_consolidados, necessidade_nova_investigacao, hipotese_revisada
+                )
+                VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
+                RETURNING *;
+            `, [
+                empresaId, mivId, indicadorBaseline, indicadorPos, unidadeMedida,
+                resultadoObservado, statusAprendizado, gapEsperadoVsRealizado,
+                aprendizadosConsolidados, necessidadeNovaInvestigacao, hipoteseRevisada
+            ]);
+
+            const aprendizado = res.rows[0];
+
+            // Trilha de auditoria
+            await client.query(`
+                INSERT INTO trilha_auditoria_seguranca (empresa_id, usuario_ou_agente, acao_executada, entidade_alvo, entidade_id, detalhes_seguranca)
+                VALUES ($1, 'MOTOR_INTELIGENCIA', 'MIV_APRENDIZADO_REGISTRADO', 'aprendizados_miv', $2, $3);
+            `, [
+                empresaId, aprendizado.id,
+                JSON.stringify({ mivId, statusAprendizado, delta: (Number(indicadorPos) - Number(indicadorBaseline)) })
+            ]);
+
+            return aprendizado;
+        });
+    }
+
+    /**
+     * Lista histórico de aprendizados contínuos da empresa com RLS
+     */
+    async listarAprendizadosEmpresa(empresaId) {
+        return await this.comTenant(empresaId, async (client) => {
+            await this.garantirEstruturaEvolucao(client);
+            const res = await client.query(`
+                SELECT a.*, r.titulo_miv, r.produto_catalogo_vide, r.resultado_esperado
+                FROM aprendizados_miv a
+                JOIN recomendacoes_miv r ON r.empresa_id = a.empresa_id AND r.id = a.miv_id
+                WHERE a.empresa_id = $1
+                ORDER BY a.registrado_em DESC;
+            `, [empresaId]);
+            return res.rows;
+        });
+    }
+
+    // =========================================================================
+    // 6. RASTREABILIDADE RELACIONAL & DOSSIÊ ANALÍTICO
     // =========================================================================
 
     /**
@@ -595,6 +912,8 @@ class ServicoMotorInteligenciaVIDE {
      */
     async obterDossieConsolidado(empresaId) {
         return await this.comTenant(empresaId, async (client) => {
+            await this.garantirEstruturaEvolucao(client);
+
             // 1. Diagnóstico 7D mais recente
             const resDiag = await client.query(`
                 SELECT * FROM diagnosticos_crescimento 
@@ -625,12 +944,51 @@ class ServicoMotorInteligenciaVIDE {
                     (SELECT COUNT(*) FROM padroes_comportamentais WHERE empresa_id = $1) AS total_padroes;
             `, [empresaId]);
 
+            // 5. Fatos Factualmente Isolados (Evidências diretas)
+            const resFatos = await client.query(`
+                SELECT id, tipo_evidencia, trecho_fato, contexto_origem, grau_confiabilidade, criado_em
+                FROM evidencias_comerciais
+                WHERE empresa_id = $1
+                ORDER BY criado_em DESC LIMIT 10;
+            `, [empresaId]);
+
+            // 6. Padrões Comportamentais com rigor epistemológico
+            const resPadroes = await client.query(`
+                SELECT id, categoria_padrao, titulo, descricao_padrao, frequencia_ocorrencia,
+                       grau_confianca, tipo_classificacao, limitacoes_analise, detectado_em
+                FROM padroes_comportamentais
+                WHERE empresa_id = $1
+                ORDER BY frequencia_ocorrencia DESC, detectado_em DESC LIMIT 10;
+            `, [empresaId]);
+
+            // 7. Hipóteses Causais e Status de Validação
+            const resHipoteses = await client.query(`
+                SELECT id, padrao_id, enunciado_hipotese, causa_raiz_provavel, nivel_confianca,
+                       tipo_investigacao, status_validacao, evidencias_conflitantes, criado_em
+                FROM hipoteses_causais
+                WHERE empresa_id = $1
+                ORDER BY nivel_confianca DESC, criado_em DESC LIMIT 10;
+            `, [empresaId]);
+
+            // 8. Aprendizados e Feedback Loops MIV
+            const resAprendizados = await client.query(`
+                SELECT a.*, r.titulo_miv
+                FROM aprendizados_miv a
+                JOIN recomendacoes_miv r ON r.empresa_id = a.empresa_id AND r.id = a.miv_id
+                WHERE a.empresa_id = $1
+                ORDER BY a.registrado_em DESC LIMIT 10;
+            `, [empresaId]);
+
             return {
                 empresaId,
                 metricasGerais: resMetricas.rows[0],
                 diagnosticoMaisRecente: resDiag.rows[0] || null,
                 gargalosPriorizadosEPV: resGargalos.rows,
-                recomendacoesMIV: resMiv.rows
+                recomendacoesMIV: resMiv.rows,
+                fatosEvidencias: resFatos.rows,
+                padroesComportamentais: resPadroes.rows,
+                hipotesesCausais: resHipoteses.rows,
+                aprendizadosMIV: resAprendizados.rows
             };
         });
     }
