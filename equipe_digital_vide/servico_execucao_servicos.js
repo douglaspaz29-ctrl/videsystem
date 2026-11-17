@@ -945,9 +945,11 @@ function obterDossieExecucaoProjeto(idProjeto) {
     return {
         id_projeto: projeto.id_projeto || projeto.id,
         empresa_contratante: projeto.empresa_contratante || projeto.cliente,
+        cliente: projeto.cliente || projeto.empresa_contratante,
         cliente_id: projeto.cliente_id,
         frentes_comerciais: projeto.frentes_comerciais || [],
         situacao_projeto: projeto.situacao_projeto,
+        situacao: projeto.situacao_projeto,
         progresso_percentual: progressoPercent,
         autorizacao_comercial: {
             status: projeto.autorizacao_comercial?.status || 'PENDENTE',
@@ -965,6 +967,12 @@ function obterDossieExecucaoProjeto(idProjeto) {
             bloqueadas,
             em_execucao: tarefas.filter(t => t.estado === ESTADOS_SISTEMA.EM_EXECUCAO).length
         },
+        metricas_execucao: {
+            total_tarefas: totalTarefas,
+            tarefas_concluidas: concluidas,
+            percentual_conclusao: progressoPercent
+        },
+        arquivos_produzidos: storageService.listarArquivosProjeto(idProjeto),
         grafo_tarefas: tarefas.map(t => ({
             id_tarefa: t.id_tarefa || t.id,
             agente_responsavel: t.especialista,
@@ -982,7 +990,8 @@ function obterDossieExecucaoProjeto(idProjeto) {
             total_evidencias: (t.evidencias_execucao || []).length,
             historico_alteracoes: t.historico_alteracoes || t.historico_auditoria || []
         })),
-        historico_auditoria: projeto.registro_operacional || projeto.historico_operacional || []
+        historico_auditoria: projeto.registro_operacional || projeto.historico_operacional || [],
+        historico_operacional: projeto.registro_operacional || projeto.historico_operacional || []
     };
 }
 

@@ -55,6 +55,7 @@ function receberRegistroTriagem(registroTriagem, opcoes = {}) {
         cliente: registroTriagem.cenario || registroTriagem.cliente,
         solicitacao_original: registroTriagem.solicitacaoOriginal,
         situacao_projeto: situacaoProjetoInicial,
+        natureza_projeto: 'SIMULADO',
         solucao_catalogo: registroTriagem.catalogo_solucoes || classificarNoCatalogo(registroTriagem.solicitacaoOriginal || ''),
         autorizacao_comercial: {
             status: statusAutorizacao,
