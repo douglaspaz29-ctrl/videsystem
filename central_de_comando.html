@@ -127,17 +127,24 @@
         }
 
         .exec-brand-logo {
-            width: 36px;
-            height: 36px;
-            background: linear-gradient(135deg, rgba(0, 229, 255, 0.2), rgba(37, 99, 235, 0.3));
-            border: 1px solid var(--cyan-core);
+            width: 38px;
+            height: 38px;
+            background: #000000;
+            border: 1px solid rgba(56, 189, 248, 0.35);
             border-radius: 9px;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 0 15px rgba(0, 229, 255, 0.3);
-            color: var(--cyan-core);
-            font-size: 16px;
+            box-shadow: 0 0 16px rgba(56, 189, 248, 0.25);
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .exec-brand-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
         }
 
         .exec-brand-info h1 {
@@ -1465,10 +1472,11 @@
         }
 
         .avancado-subtab-btn.active {
-            background: rgba(0, 229, 255, 0.1);
-            border-color: var(--cyan-core);
-            color: var(--cyan-core);
+            background: linear-gradient(135deg, #0284C7 0%, #2563EB 100%) !important;
+            border-color: rgba(255, 255, 255, 0.25) !important;
+            color: #FFFFFF !important;
             font-weight: 700;
+            box-shadow: 0 4px 16px rgba(2, 132, 199, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3);
         }
 
         .avancado-pane {
@@ -1644,6 +1652,122 @@
             transform: translateY(-3px);
             border-color: rgba(56, 189, 248, 0.3);
             box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.7), 0 0 20px rgba(56, 189, 248, 0.1);
+        }
+
+        
+        /* Avatar com Foto Real dos Especialistas */
+        .avatar-photo-badge {
+            position: relative;
+            border-radius: 50%;
+            overflow: visible;
+            flex-shrink: 0;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+        }
+
+        .avatar-photo-badge img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            display: block;
+            border: 2px solid rgba(255, 255, 255, 0.15);
+            transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .avatar-photo-badge:hover img {
+            transform: scale(1.06);
+            border-color: rgba(56, 189, 248, 0.6);
+            box-shadow: 0 0 14px rgba(56, 189, 248, 0.35);
+        }
+
+        .avatar-photo-badge .online-indicator-dot {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 11px;
+            height: 11px;
+            background: #10B981;
+            border: 2px solid #0F172A;
+            border-radius: 50%;
+            box-shadow: 0 0 8px #10B981;
+            z-index: 2;
+        }
+
+        /* Botões Luxury da Área Avançada (Padrão Awwwards / Linear) */
+        .btn-luxury-outline-cyan {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(14, 165, 233, 0.08);
+            color: #38BDF8;
+            font-family: var(--font-headline);
+            font-size: 13px;
+            font-weight: 700;
+            padding: 10px 20px;
+            border-radius: 10px;
+            border: 1px solid rgba(56, 189, 248, 0.35);
+            cursor: pointer;
+            backdrop-filter: blur(8px);
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .btn-luxury-outline-cyan:hover {
+            background: rgba(14, 165, 233, 0.18);
+            color: #FFFFFF;
+            border-color: rgba(56, 189, 248, 0.65);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(14, 165, 233, 0.3);
+        }
+
+        .btn-luxury-emerald {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(135deg, #059669 0%, #10B981 100%);
+            color: #FFFFFF;
+            font-family: var(--font-headline);
+            font-size: 13px;
+            font-weight: 700;
+            padding: 10px 20px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            cursor: pointer;
+            box-shadow: 0 4px 14px rgba(16, 185, 129, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .btn-luxury-emerald:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 22px rgba(16, 185, 129, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+            filter: brightness(1.08);
+        }
+
+        .btn-luxury-outline-emerald {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(16, 185, 129, 0.08);
+            color: #10B981;
+            font-family: var(--font-headline);
+            font-size: 13px;
+            font-weight: 700;
+            padding: 10px 20px;
+            border-radius: 10px;
+            border: 1px solid rgba(16, 185, 129, 0.35);
+            cursor: pointer;
+            backdrop-filter: blur(8px);
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .btn-luxury-outline-emerald:hover {
+            background: rgba(16, 185, 129, 0.18);
+            color: #FFFFFF;
+            border-color: rgba(16, 185, 129, 0.65);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.3);
         }
 
         /* Avatar de Iniciais para Pessoas Reais */
@@ -1853,7 +1977,7 @@
     <div id="lockscreen-privado" style="display: none; position: fixed; inset: 0; background: radial-gradient(circle at 50% 30%, rgba(30, 58, 138, 0.25) 0%, rgba(10, 13, 20, 0.98) 70%); backdrop-filter: blur(28px); -webkit-backdrop-filter: blur(28px); z-index: 100000; align-items: center; justify-content: center; padding: 24px;">
         <div class="luxury-card" style="max-width: 460px; width: 100%; padding: 44px 40px; box-shadow: 0 35px 80px -20px rgba(0, 0, 0, 0.85), 0 0 50px rgba(37, 99, 235, 0.15); text-align: left; border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 20px;">
             <div style="display: inline-flex; align-items: center; gap: 8px; padding: 5px 14px; background: rgba(56, 189, 248, 0.1); border: 1px solid rgba(56, 189, 248, 0.25); border-radius: 999px; margin-bottom: 22px;">
-                <div style="width: 7px; height: 7px; border-radius: 50%; background: #38BDF8; box-shadow: 0 0 10px #38BDF8;"></div>
+                <img src="logo_vide.jpg" alt="Logo VIDE" style="width: 18px; height: 18px; object-fit: contain; border-radius: 4px; box-shadow: 0 0 8px rgba(56, 189, 248, 0.4);">
                 <span style="font-size: 11px; font-weight: 700; color: #38BDF8; letter-spacing: 0.06em; text-transform: uppercase;">Governança Executiva VIDE</span>
             </div>
 
@@ -1890,7 +2014,7 @@
     <header class="exec-topbar">
         <div class="exec-brand" onclick="alternarAbaPrincipal('inicio')">
             <div class="exec-brand-logo">
-                <i class="fas fa-layer-group"></i>
+                <img src="logo_vide.jpg" alt="Logo Oficial VIDE">
             </div>
             <div class="exec-brand-info">
                 <h1>VIDE <span style="color: #60A5FA; font-size: 12px; font-weight: 600; padding: 2px 8px; background: rgba(37, 99, 235, 0.15); border-radius: 6px; margin-left: 6px;">Central Executiva</span></h1>
@@ -2301,15 +2425,15 @@
             </div>
 
             <!-- Sub-abas da Área Avançada -->
-            <div class="avancado-subtabs luxury-card" style="padding: 6px; display: inline-flex; gap: 8px; margin-bottom: 28px; border-radius: 12px; background: rgba(10, 13, 20, 0.7);">
-                <button class="avancado-subtab-btn active" id="subtab-btn-motor" onclick="alternarSubAbaAvancada('motor')" style="border-radius: 8px; padding: 10px 18px; font-weight: 700; transition: all 0.25s ease;">
-                    <i class="fas fa-chart-pie" style="margin-right: 6px;"></i> Motor de Inteligência 7D
+            <div class="avancado-subtabs luxury-card" style="padding: 6px; display: inline-flex; gap: 8px; margin-bottom: 28px; border-radius: 999px; background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.1); box-shadow: 0 10px 30px -10px rgba(0,0,0,0.6);">
+                <button class="avancado-subtab-btn active" id="subtab-btn-motor" onclick="alternarSubAbaAvancada('motor')" style="border-radius: 999px; padding: 10px 22px; font-weight: 700; font-size: 13.5px; transition: all 0.25s ease; display: inline-flex; align-items: center; gap: 8px;">
+                    <i class="fas fa-chart-pie" style="font-size: 14px;"></i> Motor de Inteligência 7D
                 </button>
-                <button class="avancado-subtab-btn" id="subtab-btn-ingestao" onclick="alternarSubAbaAvancada('ingestao')" style="border-radius: 8px; padding: 10px 18px; font-weight: 700; transition: all 0.25s ease;">
-                    <i class="fas fa-database" style="margin-right: 6px;"></i> Importação de Dados Comerciais
+                <button class="avancado-subtab-btn" id="subtab-btn-ingestao" onclick="alternarSubAbaAvancada('ingestao')" style="border-radius: 999px; padding: 10px 22px; font-weight: 700; font-size: 13.5px; transition: all 0.25s ease; display: inline-flex; align-items: center; gap: 8px;">
+                    <i class="fas fa-database" style="font-size: 14px;"></i> Ingestão de Dados Comerciais
                 </button>
-                <button class="avancado-subtab-btn" id="subtab-btn-telemetria" onclick="alternarSubAbaAvancada('telemetria')" style="border-radius: 8px; padding: 10px 18px; font-weight: 700; transition: all 0.25s ease;">
-                    <i class="fas fa-server" style="margin-right: 6px;"></i> Saúde do Sistema & Telemetria
+                <button class="avancado-subtab-btn" id="subtab-btn-telemetria" onclick="alternarSubAbaAvancada('telemetria')" style="border-radius: 999px; padding: 10px 22px; font-weight: 700; font-size: 13.5px; transition: all 0.25s ease; display: inline-flex; align-items: center; gap: 8px;">
+                    <i class="fas fa-server" style="font-size: 14px;"></i> Saúde do Sistema & Telemetria
                 </button>
             </div>
 
@@ -3180,6 +3304,7 @@
         "primeiro_nome": "Gabriel",
         "genero": "M",
         "iniciais": "GR",
+        "foto": "assets/avatars/gabriel_rocha.jpg",
         "papel": "Coordenador Geral & Estrategista",
         "icone": "fa-diagram-project",
         "cor": "#3B82F6",
@@ -3201,6 +3326,7 @@
         "primeiro_nome": "Lucas",
         "genero": "M",
         "iniciais": "LF",
+        "foto": "assets/avatars/lucas_fontana.jpg",
         "papel": "Triagem Comercial & Qualificação",
         "icone": "fa-filter",
         "cor": "#0EA5E9",
@@ -3221,6 +3347,7 @@
         "primeiro_nome": "Helena",
         "genero": "F",
         "iniciais": "HP",
+        "foto": "assets/avatars/helena_prado.jpg",
         "papel": "Diretora de Arte & Brand Designer",
         "icone": "fa-palette",
         "cor": "#EC4899",
@@ -3241,6 +3368,7 @@
         "primeiro_nome": "Rafael",
         "genero": "M",
         "iniciais": "RD",
+        "foto": "assets/avatars/rafael_duarte.jpg",
         "papel": "Engenheiro & Desenvolvedor Web",
         "icone": "fa-code",
         "cor": "#2563EB",
@@ -3261,6 +3389,7 @@
         "primeiro_nome": "Camila",
         "genero": "F",
         "iniciais": "CS",
+        "foto": "assets/avatars/camila_silveira.jpg",
         "papel": "Especialista em Atendimento & Vendas WhatsApp",
         "icone": "fa-comments",
         "cor": "#10B981",
@@ -3281,6 +3410,7 @@
         "primeiro_nome": "Thiago",
         "genero": "M",
         "iniciais": "TM",
+        "foto": "assets/avatars/thiago_meireles.jpg",
         "papel": "Engenheiro de Automações & Processos",
         "icone": "fa-gears",
         "cor": "#F59E0B",
@@ -3301,6 +3431,7 @@
         "primeiro_nome": "Matheus",
         "genero": "M",
         "iniciais": "MB",
+        "foto": "assets/avatars/matheus_barreto.jpg",
         "papel": "Inteligência Comercial & Growth 7D",
         "icone": "fa-chart-line",
         "cor": "#8B5CF6",
@@ -3380,8 +3511,8 @@
         container.innerHTML = CATALOGO_EQUIPE.map(ag => `
             <div class="mini-agent-card luxury-card reveal-on-scroll" onclick="irParaChatComAgente('${ag.id}')" style="cursor: pointer;">
                 <div class="mini-agent-info" style="display: flex; align-items: center; gap: 12px;">
-                    <div class="avatar-initials-badge" style="width: 40px; height: 40px; font-size: 14px; background: ${ag.cor}22; color: ${ag.cor}; border: 1.5px solid ${ag.cor}55;">
-                        ${ag.iniciais}
+                    <div class="avatar-photo-badge" style="width: 44px; height: 44px;">
+                        <img src="${ag.foto}" alt="${ag.nome}">
                         <div class="online-indicator-dot"></div>
                     </div>
                     <div class="mini-agent-text">
@@ -3406,9 +3537,9 @@
         container.innerHTML = CATALOGO_EQUIPE.map(ag => `
             <div class="team-agent-card luxury-card reveal-on-scroll">
                 <div class="team-card-top" style="display: flex; align-items: center; gap: 16px;">
-                    <div class="avatar-initials-badge" style="width: 52px; height: 52px; font-size: 18px; background: ${ag.cor}22; color: ${ag.cor}; border: 2px solid ${ag.cor}66;">
-                        ${ag.iniciais}
-                        <div class="online-indicator-dot" style="width: 12px; height: 12px;"></div>
+                    <div class="avatar-photo-badge" style="width: 58px; height: 58px;">
+                        <img src="${ag.foto}" alt="${ag.nome}">
+                        <div class="online-indicator-dot" style="width: 13px; height: 13px;"></div>
                     </div>
                     <div class="team-card-title-wrap">
                         <h3 style="font-size: 19px; font-weight: 800; color: #FFF; letter-spacing: -0.01em;">${ag.nome}</h3>
@@ -3468,10 +3599,10 @@
         const elName = document.getElementById('chat-active-name');
         const elRole = document.getElementById('chat-active-role');
         if (elAvatar) {
-            elAvatar.style.background = `${agente.cor}25`;
-            elAvatar.style.color = agente.cor;
-            elAvatar.style.border = `1.5px solid ${agente.cor}66`;
-            elAvatar.innerHTML = `<span style="font-family: var(--font-headline); font-weight: 800; font-size: 15px;">${agente.iniciais}</span>`;
+            elAvatar.style.background = 'transparent';
+            elAvatar.style.border = 'none';
+            elAvatar.style.padding = '0';
+            elAvatar.innerHTML = `<div class="avatar-photo-badge" style="width: 44px; height: 44px;"><img src="${agente.foto}" alt="${agente.nome}"><div class="online-indicator-dot"></div></div>`;
         }
         if (elName) {
             elName.innerHTML = `${agente.nome} <span style="font-family: var(--font-mono); font-size: 10px; color: var(--green-emerald); font-weight: 700; background: rgba(16,185,129,0.12); border: 1px solid rgba(16,185,129,0.3); padding: 2px 7px; border-radius: 4px; margin-left: 8px;">Online</span>`;
@@ -3503,8 +3634,8 @@
             const isActive = ag.id === agenteChatAtivoId;
             return `
                 <div class="chat-agent-item ${isActive ? 'active' : ''}" onclick="selecionarAgenteChat('${ag.id}')" style="border-radius: 12px; transition: all 0.2s ease; padding: 10px 12px; margin-bottom: 4px;">
-                    <div class="avatar-initials-badge" style="width: 38px; height: 38px; font-size: 13px; background: ${ag.cor}22; color: ${ag.cor}; border: 1.5px solid ${ag.cor}55;">
-                        ${ag.iniciais}
+                    <div class="avatar-photo-badge" style="width: 40px; height: 40px;">
+                        <img src="${ag.foto}" alt="${ag.nome}">
                         <div class="online-indicator-dot" style="width: 9px; height: 9px;"></div>
                     </div>
                     <div class="chat-agent-details" style="margin-left: 10px;">
@@ -3569,8 +3700,10 @@
             const textoHtml = formatarMarkdownBasico(m.texto);
             return `
                 <div class="chat-bubble-row ${isUser ? 'user-row' : 'agent-row'}">
-                    <div class="chat-bubble-avatar" style="background: ${isUser ? '#2563EB' : agente.cor + '25'}; color: ${isUser ? '#FFF' : agente.cor};">
-                        <i class="fas ${isUser ? 'fa-user-tie' : agente.icone}"></i>
+                    <div class="chat-bubble-avatar" style="overflow: hidden; padding: 0; background: transparent; border: none;">
+                        ${isUser 
+                            ? '<div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #2563EB, #1D4ED8); color: #FFF; border-radius: 50%;"><i class="fas fa-user-tie"></i></div>' 
+                            : `<img src="${agente.foto}" alt="${agente.nome}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%; border: 1.5px solid rgba(255,255,255,0.2);">`}
                     </div>
                     <div class="chat-bubble-content">
                         <div class="bubble-meta">
@@ -4530,8 +4663,8 @@
                         return `
                             <div class="pipeline-step-card luxury-card ${cardStatusClass} reveal-on-scroll">
                                 <div style="display: flex; align-items: flex-start; gap: 16px; flex: 1;">
-                                    <div class="avatar-initials-badge" style="width: 44px; height: 44px; font-size: 15px; background: ${esp.cor}22; color: ${esp.cor}; border: 1.5px solid ${esp.cor}55; margin-top: 2px;">
-                                        ${esp.iniciais}
+                                    <div class="avatar-photo-badge" style="width: 46px; height: 46px; margin-top: 2px;">
+                                        <img src="${esp.foto || 'assets/avatars/gabriel_rocha.jpg'}" alt="${esp.nome}">
                                         <div class="online-indicator-dot" style="width: 10px; height: 10px;"></div>
                                     </div>
                                     <div style="flex: 1;">
