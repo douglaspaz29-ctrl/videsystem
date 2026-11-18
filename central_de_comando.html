@@ -53,13 +53,17 @@
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: var(--font-body) !important;
         }
 
         body, button, input, textarea, select, span, p, div, label, a, h1, h2, h3, h4, h5, h6 {
-            font-family: var(--font-body) !important;
+            font-family: var(--font-body);
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
+        }
+
+        i, i::before, i::after, .fa, .fas, .far, .fab, .fa-solid {
+            font-family: "Font Awesome 6 Free", "Font Awesome 6 Brands" !important;
+            font-weight: 900;
         }
 
         h1, h2, h3, h4, .brand-title, .exec-section-header h2, .modal-header h3 {
@@ -159,10 +163,10 @@
         .exec-nav-tabs {
             display: flex;
             align-items: center;
-            gap: 6px;
-            background: rgba(11, 16, 29, 0.7);
-            padding: 4px 6px;
-            border-radius: 10px;
+            gap: 4px;
+            background: rgba(17, 24, 39, 0.7);
+            padding: 3px 5px;
+            border-radius: 8px;
             border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
@@ -171,14 +175,14 @@
             border: 1px solid transparent;
             color: #94A3B8;
             font-family: var(--font-body);
-            font-size: 12.5px;
+            font-size: 12px;
             font-weight: 600;
-            padding: 7px 11px;
+            padding: 6px 10px;
             border-radius: 8px;
             cursor: pointer;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
             transition: all 0.2s ease;
             white-space: nowrap;
         }
@@ -737,10 +741,10 @@
          * ===================================================================== */
         .chat-workspace {
             display: grid;
-            grid-template-columns: 310px 1fr;
-            gap: 20px;
-            height: calc(100vh - 140px);
-            min-height: 650px;
+            grid-template-columns: 290px 1fr;
+            gap: 16px;
+            height: calc(100vh - 120px);
+            min-height: 580px;
         }
 
         .chat-sidebar {
