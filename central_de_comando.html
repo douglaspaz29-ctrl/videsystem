@@ -2599,6 +2599,159 @@ select, .input-dark-field, .proj-selector-dropdown {
     background: rgba(255, 255, 255, 0.04);
 }
 
+
+/* SURGICAL AUDIT FIXES: BALANCED TEAM GRID, SELECT ARROW RESET & MOBILE CHAT */
+
+/* Balanced Team Grid — No Orphan Cards */
+.team-cards-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 22px !important;
+    margin-top: 14px !important;
+}
+@media (min-width: 1200px) {
+    .team-cards-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+    }
+}
+@media (max-width: 900px) {
+    .team-cards-grid {
+        grid-template-columns: 1fr !important;
+    }
+}
+/* Gabriel Rocha (1st card) spans full width as Executive Leader Hero */
+.team-cards-grid > .team-agent-card:first-child {
+    grid-column: 1 / -1 !important;
+    background: linear-gradient(135deg, rgba(14, 30, 65, 0.85) 0%, rgba(9, 14, 26, 0.95) 100%) !important;
+    border: 1px solid rgba(0, 210, 255, 0.35) !important;
+    box-shadow: 0 12px 36px rgba(0, 210, 255, 0.08) !important;
+}
+
+
+/* Strict Select Arrow Reset */
+select, 
+select.input-dark-field, 
+select.proj-selector-dropdown,
+#select-projeto-ativo,
+#motor-empresa-select,
+#ingestao-empresa-select,
+#modal-diag-empresa,
+#modal-ingestao-empresa {
+    -webkit-appearance: none !important;
+    -moz-appearance: none !important;
+    appearance: none !important;
+    background-color: rgba(10, 14, 24, 0.9) !important;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2300D2FF' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E") !important;
+    background-repeat: no-repeat !important;
+    background-position: calc(100% - 14px) center !important;
+    background-size: 14px !important;
+    padding-right: 42px !important;
+    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+    border-radius: 8px !important;
+    color: #FFFFFF !important;
+    font-weight: 600 !important;
+    cursor: pointer !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+}
+select::-ms-expand {
+    display: none !important;
+}
+#motor-empresa-select, #ingestao-empresa-select {
+    max-width: 340px !important;
+    min-width: 220px !important;
+}
+
+
+/* Mobile Chat Master Layout */
+@media (max-width: 1024px) {
+    .chat-layout {
+        display: flex !important;
+        flex-direction: column !important;
+        height: calc(100vh - 135px) !important;
+        max-height: calc(100vh - 135px) !important;
+        overflow: hidden !important;
+    }
+    .chat-sidebar {
+        width: 100% !important;
+        min-width: 100% !important;
+        height: 60px !important;
+        max-height: 60px !important;
+        padding: 6px 12px !important;
+        border-right: none !important;
+        border-bottom: 1px solid var(--border-subtle) !important;
+        background: rgba(11, 14, 23, 0.95) !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: center !important;
+        overflow: hidden !important;
+    }
+    .chat-sidebar .chat-sidebar-header {
+        display: none !important;
+    }
+    .chat-agents-list, #chat-sidebar-agents-container {
+        display: flex !important;
+        flex-direction: row !important;
+        overflow-x: auto !important;
+        overflow-y: hidden !important;
+        gap: 10px !important;
+        width: 100% !important;
+        white-space: nowrap !important;
+        padding: 4px 2px !important;
+        -webkit-overflow-scrolling: touch !important;
+    }
+    .chat-agents-list::-webkit-scrollbar {
+        display: none !important;
+    }
+    .chat-agent-item {
+        flex-shrink: 0 !important;
+        padding: 3px 5px !important;
+        border-radius: 50% !important;
+        width: 44px !important;
+        height: 44px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        background: transparent !important;
+        border: none !important;
+        cursor: pointer !important;
+    }
+    .chat-agent-item.active {
+        background: rgba(0, 210, 255, 0.2) !important;
+        box-shadow: 0 0 12px rgba(0, 210, 255, 0.4) !important;
+    }
+    .chat-agent-item .chat-agent-details {
+        display: none !important;
+    }
+    .chat-agent-item .avatar-photo-badge {
+        width: 38px !important;
+        height: 38px !important;
+        margin: 0 !important;
+    }
+    .chat-main {
+        flex: 1 !important;
+        display: flex !important;
+        flex-direction: column !important;
+        height: calc(100% - 60px) !important;
+        overflow: hidden !important;
+    }
+    .chat-messages, #chat-messages-feed {
+        flex: 1 !important;
+        overflow-y: auto !important;
+        padding: 14px 12px !important;
+        -webkit-overflow-scrolling: touch !important;
+    }
+    .chat-input-bar {
+        position: sticky !important;
+        bottom: 0 !important;
+        background: rgba(11, 14, 23, 0.96) !important;
+        backdrop-filter: blur(16px) !important;
+        padding: 10px 12px 14px !important;
+        border-top: 1px solid var(--border-subtle) !important;
+        z-index: 20 !important;
+    }
+}
+
 </style>
 </head>
 <body>
@@ -3028,7 +3181,7 @@ select, .input-dark-field, .proj-selector-dropdown {
                     <span style="font-family: var(--font-headline); font-size: 12px; font-weight: 700; color: #94A3B8; text-transform: uppercase; white-space: nowrap;">
                         <i class="fas fa-folder-open" style="color: #38BDF8; margin-right: 6px;"></i> Projeto Ativo:
                     </span>
-                    <select id="select-projeto-ativo" class="proj-selector-dropdown" onchange="selecionarProjetoAtivo(this.value)" style="background: rgba(10, 13, 20, 0.85); border: 1px solid rgba(255, 255, 255, 0.12); color: #FFF; font-weight: 600; border-radius: 8px; padding: 10px 14px; width: 100%;">
+                    <select id="select-projeto-ativo" class="proj-selector-dropdown" onchange="selecionarProjetoAtivo(this.value)" style="padding: 10px 14px; width: 100%;">
                         <option value="">Carregando projetos da VIDE...</option>
                     </select>
                 </div>
@@ -3244,7 +3397,7 @@ select, .input-dark-field, .proj-selector-dropdown {
                 <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
                     <div style="display: flex; align-items: center; gap: 8px;">
                         <span style="font-family: var(--font-mono); font-size: 11px; color: #94A3B8;">EMPRESA:</span>
-                        <select id="motor-empresa-select" onchange="trocarEmpresaMotor(this.value)" class="input-dark-field" style="padding: 8px 12px; font-size: 12px; max-width: 220px;">
+                        <select id="motor-empresa-select" onchange="trocarEmpresaMotor(this.value)" class="input-dark-field" style="padding: 8px 12px; font-size: 12px;">
                             <option value="">Carregando empresas...</option>
                         </select>
                     </div>
