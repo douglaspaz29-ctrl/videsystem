@@ -19,6 +19,8 @@
     <link rel="stylesheet" href="MagicBento.css?v=9.5">
 
     <style>
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@1,400;1,600;1,700&display=swap');
+
 /* =====================================================================
  * VIDE DESIGN SYSTEM — BESPOKE EXECUTIVE DIGITAL PRODUCT
  * Inspired by NoteWise, Ethereal, Modern CRM & High-End Obsidian UI
@@ -3841,6 +3843,1207 @@ body {
     }
 }
 
+
+
+/* =====================================================================
+ * DESIGN SYSTEM VIDE 2026 — MASTER HYBRID REFERÊNCIAS
+ * Baseado no refinamento das 5 imagens de referência:
+ * Fintech Dark Luxury + CRM High-Contrast + Ethereal Vibrant Cards + 
+ * Frosted Glassmorphism + Futuristic Workspace OS
+ * ===================================================================== */
+
+:root {
+    --bg-deep-space: #07080d;
+    --bg-canvas: #0a0c13;
+    --surface-glass-dark: rgba(14, 18, 27, 0.78);
+    --surface-glass-frosted: rgba(255, 255, 255, 0.04);
+    --border-subtle: rgba(255, 255, 255, 0.08);
+    --border-highlight: rgba(0, 210, 255, 0.35);
+    --glow-cyan: rgba(0, 210, 255, 0.25);
+    --glow-amber: rgba(245, 158, 11, 0.25);
+    --glow-emerald: rgba(16, 185, 129, 0.25);
+    --glow-purple: rgba(139, 92, 246, 0.25);
+    --font-heading: 'Outfit', 'Inter', -apple-system, sans-serif;
+    --font-serif: 'Playfair Display', Georgia, serif;
+}
+
+/* Scroll progress indicator at top */
+.edition-scroll-indicator {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 3.5px;
+    width: 0%;
+    background: linear-gradient(90deg, #00D2FF 0%, #3B82F6 40%, #10B981 70%, #F59E0B 100%);
+    box-shadow: 0 0 14px rgba(0, 210, 255, 0.9);
+    z-index: 100005;
+    transition: width 0.08s linear;
+}
+
+/* Background suave com iluminação difusa multi-ponto */
+body {
+    background-color: var(--bg-deep-space) !important;
+    background-image: 
+        radial-gradient(circle at 10% 15%, rgba(0, 210, 255, 0.06) 0%, transparent 45%),
+        radial-gradient(circle at 90% 25%, rgba(139, 92, 246, 0.06) 0%, transparent 50%),
+        radial-gradient(circle at 50% 80%, rgba(245, 158, 11, 0.04) 0%, transparent 50%) !important;
+    background-attachment: fixed !important;
+    font-family: var(--font-heading) !important;
+    color: #e2e8f0;
+}
+
+/* =====================================================================
+ * ANIMAÇÕES GLOBAIS DE INTERAÇÃO & TRANSIÇÃO (Atendendo ao usuário!)
+ * ===================================================================== */
+@keyframes subtleFloat {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-5px); }
+}
+
+@keyframes beaconPulse {
+    0%, 100% { transform: scale(1); opacity: 1; box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.6); }
+    50% { transform: scale(1.15); opacity: 0.85; box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
+}
+
+@keyframes cyanGlowPulse {
+    0%, 100% { box-shadow: 0 0 15px rgba(0, 210, 255, 0.2); }
+    50% { box-shadow: 0 0 28px rgba(0, 210, 255, 0.45); }
+}
+
+@keyframes shimmerEffect {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+}
+
+@keyframes fadeInUpSmooth {
+    from {
+        opacity: 0;
+        transform: translateY(18px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.exec-view.active {
+    animation: fadeInUpSmooth 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* =====================================================================
+ * SECTION 1: MONUMENTAL HERO STAGE (INSPIRADO EM SHOPIFY & IMAGENS 1, 3, 5)
+ * ===================================================================== */
+.edition-hero-stage {
+    position: relative;
+    border-radius: 28px;
+    overflow: hidden;
+    margin-bottom: 36px;
+    padding: 56px 44px 38px 44px;
+    background: #08090d;
+    box-shadow: 0 24px 70px -15px rgba(0,0,0,0.9), 0 0 40px rgba(0, 210, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: border-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+.edition-hero-stage:hover {
+    border-color: rgba(0, 210, 255, 0.25);
+    box-shadow: 0 30px 80px -15px rgba(0,0,0,0.95), 0 0 50px rgba(0, 210, 255, 0.12);
+}
+
+.edition-hero-bg-layer {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center 30%;
+    opacity: 0.35;
+    mix-blend-mode: luminosity;
+    filter: contrast(1.15) brightness(0.85);
+    transform: scale(1.02);
+    transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.8s ease;
+}
+
+.edition-hero-stage:hover .edition-hero-bg-layer {
+    transform: scale(1.04);
+    opacity: 0.42;
+}
+
+.edition-hero-ambient-glow {
+    position: absolute;
+    inset: 0;
+    background: 
+        radial-gradient(circle at 15% 20%, rgba(0, 210, 255, 0.18) 0%, transparent 55%),
+        radial-gradient(circle at 85% 70%, rgba(139, 92, 246, 0.14) 0%, transparent 60%),
+        linear-gradient(180deg, rgba(8,9,13,0.3) 0%, rgba(8,9,13,0.9) 80%, #08090d 100%);
+    pointer-events: none;
+}
+
+.edition-hero-content-wrap {
+    position: relative;
+    z-index: 5;
+    max-width: 960px;
+}
+
+.edition-eyebrow-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+}
+
+.edition-live-beacon {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 6px 14px;
+    background: rgba(16, 185, 129, 0.12);
+    border: 1px solid rgba(16, 185, 129, 0.4);
+    border-radius: 999px;
+    font-size: 11.5px;
+    font-weight: 700;
+    color: #10B981;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    box-shadow: 0 0 16px rgba(16, 185, 129, 0.15);
+}
+
+.edition-live-beacon i {
+    font-size: 7px;
+    animation: beaconPulse 2s infinite ease-in-out;
+}
+
+.edition-coord-tag {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    color: #94a3b8;
+    text-transform: uppercase;
+}
+
+.edition-monumental-headline {
+    font-size: clamp(38px, 5.2vw, 68px);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -1.8px;
+    color: #FFFFFF;
+    margin: 0 0 16px 0;
+}
+
+.edition-serif-flourish {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-weight: 400;
+    color: #00D2FF;
+    text-shadow: 0 0 25px rgba(0, 210, 255, 0.5);
+}
+
+.edition-editorial-lead {
+    font-size: clamp(14px, 1.3vw, 16.5px);
+    line-height: 1.6;
+    color: #cbd5e1;
+    max-width: 780px;
+    margin: 0 0 28px 0;
+}
+
+/* Barra de Diretriz Executiva Estilo Dock / Glass Console (Referência 1, 2 e 5) */
+.edition-directive-console {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: rgba(14, 18, 28, 0.82);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 999px;
+    padding: 7px 9px 7px 16px;
+    box-shadow: 0 16px 40px -10px rgba(0,0,0,0.7), 0 0 25px rgba(0, 210, 255, 0.08);
+    max-width: 820px;
+    margin-bottom: 22px;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.edition-directive-console:focus-within {
+    border-color: #00D2FF;
+    box-shadow: 0 20px 45px -10px rgba(0,0,0,0.8), 0 0 35px rgba(0, 210, 255, 0.28);
+    transform: translateY(-2px);
+}
+
+.console-leader-portrait {
+    position: relative;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    overflow: visible;
+    flex-shrink: 0;
+}
+
+.console-leader-portrait img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 2px solid #00D2FF;
+    box-shadow: 0 0 14px rgba(0, 210, 255, 0.4);
+}
+
+.console-online-ring {
+    position: absolute;
+    bottom: -1px;
+    right: -1px;
+    width: 12px;
+    height: 12px;
+    background: #10B981;
+    border: 2.5px solid #08090d;
+    border-radius: 50%;
+    box-shadow: 0 0 8px #10B981;
+}
+
+.console-input-slot {
+    flex: 1;
+}
+
+.console-input-slot input {
+    width: 100%;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: #FFFFFF;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.console-input-slot input::placeholder {
+    color: #64748b;
+}
+
+.edition-console-submit-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(135deg, #00D2FF 0%, #0284C7 100%);
+    color: #04101E;
+    border: none;
+    border-radius: 999px;
+    padding: 10px 22px;
+    font-size: 13.5px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 6px 18px rgba(0, 210, 255, 0.35);
+    transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.edition-console-submit-btn:hover {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 10px 26px rgba(0, 210, 255, 0.55);
+    color: #000000;
+}
+
+/* Ações Rápidas em Cápsulas Translúcidas com Hover Iluminado */
+.edition-hero-actions-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.edition-actions-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-right: 4px;
+}
+
+.edition-action-link {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    border-radius: 999px;
+    padding: 7px 16px;
+    color: #cbd5e1;
+    font-size: 12.5px;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.edition-action-link:hover {
+    background: rgba(0, 210, 255, 0.12);
+    border-color: rgba(0, 210, 255, 0.4);
+    color: #FFFFFF;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 210, 255, 0.18);
+}
+
+/* =====================================================================
+ * SECTION 2: FITA DE KPIS ARQUITETURAL COM IDENTIDADES CROMÁTICAS ÚNICAS
+ * (DIFERENCIAÇÃO REAL DE CAIXAS — Acabando com caixas cinza iguais!)
+ * ===================================================================== */
+.edition-kpi-ribbon {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-top: 36px;
+    padding-top: 26px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.edition-kpi-cell {
+    position: relative;
+    border-radius: 20px;
+    padding: 20px 22px;
+    background: rgba(13, 17, 26, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    backdrop-filter: blur(12px);
+    overflow: hidden;
+    transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+    cursor: default;
+}
+
+.edition-kpi-cell::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    opacity: 0.6;
+    transition: opacity 0.3s ease;
+}
+
+.edition-kpi-cell.kpi-cyan::before { background: linear-gradient(90deg, #00D2FF, transparent); }
+.edition-kpi-cell.kpi-blue::before { background: linear-gradient(90deg, #3B82F6, transparent); }
+.edition-kpi-cell.kpi-amber::before { background: linear-gradient(90deg, #F59E0B, transparent); }
+.edition-kpi-cell.kpi-purple::before { background: linear-gradient(90deg, #8B5CF6, transparent); }
+
+.edition-kpi-cell:hover {
+    transform: translateY(-4px);
+    border-color: rgba(255, 255, 255, 0.15);
+    background: rgba(18, 23, 35, 0.85);
+}
+
+.edition-kpi-cell.kpi-cyan:hover { box-shadow: 0 14px 30px -10px rgba(0, 210, 255, 0.25); border-color: rgba(0, 210, 255, 0.4); }
+.edition-kpi-cell.kpi-blue:hover { box-shadow: 0 14px 30px -10px rgba(59, 130, 246, 0.25); border-color: rgba(59, 130, 246, 0.4); }
+.edition-kpi-cell.kpi-amber:hover { box-shadow: 0 14px 30px -10px rgba(245, 158, 11, 0.25); border-color: rgba(245, 158, 11, 0.4); }
+.edition-kpi-cell.kpi-purple:hover { box-shadow: 0 14px 30px -10px rgba(139, 92, 246, 0.25); border-color: rgba(139, 92, 246, 0.4); }
+
+.edition-kpi-cell:hover::before { opacity: 1; height: 3.5px; }
+
+.kpi-cell-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.kpi-cell-idx {
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    color: #475569;
+}
+
+.kpi-cell-badge {
+    font-size: 10.5px;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 999px;
+    text-transform: uppercase;
+}
+
+.kpi-cell-title {
+    font-size: 12px;
+    font-weight: 600;
+    color: #94a3b8;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-bottom: 6px;
+}
+
+.kpi-cell-number {
+    font-size: 22px;
+    font-weight: 800;
+    line-height: 1.15;
+    margin-bottom: 5px;
+}
+
+.kpi-cell-number.cyan { color: #00D2FF; text-shadow: 0 0 18px rgba(0, 210, 255, 0.35); }
+.kpi-cell-number.blue { color: #60A5FA; text-shadow: 0 0 18px rgba(96, 165, 250, 0.35); }
+.kpi-cell-number.amber { color: #FBBF24; text-shadow: 0 0 18px rgba(251, 191, 36, 0.35); }
+.kpi-cell-number.purple { color: #C084FC; text-shadow: 0 0 18px rgba(192, 132, 252, 0.35); }
+
+.kpi-cell-caption {
+    font-size: 12px;
+    font-weight: 500;
+    color: #64748b;
+}
+
+/* =====================================================================
+ * SECTION 3: CAPÍTULOS STORYTELLING & ESTEIRA ESTRATÉGICA EM 7 ETAPAS
+ * (Inspirado na Imagem 4 — Pastas com Halo e Imagem 5 — Abas Notched)
+ * ===================================================================== */
+.edition-chapter-section {
+    margin-bottom: 48px;
+}
+
+.edition-chapter-header {
+    margin-bottom: 24px;
+}
+
+.edition-chapter-tag {
+    font-size: 11.5px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    color: #00D2FF;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.edition-chapter-tag::before {
+    content: '';
+    display: inline-block;
+    width: 14px;
+    height: 2px;
+    background: #00D2FF;
+}
+
+.edition-chapter-title {
+    font-size: clamp(24px, 2.5vw, 34px);
+    font-weight: 800;
+    letter-spacing: -0.8px;
+    color: #FFFFFF;
+    margin: 0 0 8px 0;
+}
+
+.edition-chapter-subtitle {
+    font-size: 14.5px;
+    color: #94a3b8;
+    max-width: 820px;
+    margin: 0;
+    line-height: 1.55;
+}
+
+/* Grid Editorial Bipartido com Diferenciação de Superfícies */
+.edition-editorial-split {
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 24px;
+}
+
+/* Card Principal da Demanda Ativa (Superfície Tátil com Imagem Conceitual) */
+.demand-master-panel {
+    position: relative;
+    border-radius: 24px;
+    overflow: hidden;
+    background: #0c0f18;
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    padding: 32px;
+    box-shadow: 0 20px 50px -10px rgba(0,0,0,0.7);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.demand-panel-bg-art {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    opacity: 0.18;
+    mix-blend-mode: overlay;
+    pointer-events: none;
+}
+
+.demand-panel-header {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 22px;
+}
+
+.demand-status-badge {
+    background: rgba(0, 210, 255, 0.12);
+    border: 1px solid rgba(0, 210, 255, 0.35);
+    color: #00D2FF;
+    border-radius: 999px;
+    padding: 5px 14px;
+    font-size: 11.5px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.demand-active-title {
+    font-size: 24px;
+    font-weight: 800;
+    color: #FFFFFF;
+    margin: 0 0 6px 0;
+}
+
+.demand-client-tag {
+    font-size: 13.5px;
+    color: #94a3b8;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Esteira de 7 Etapas com Design de Cápsulas Vivas e Linha Conectora */
+.stepper-belt-wrap {
+    position: relative;
+    z-index: 2;
+    margin: 20px 0 24px 0;
+}
+
+.stepper-belt-track {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 8px;
+}
+
+.belt-step-capsule {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 10px 4px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 14px;
+    transition: all 0.22s ease;
+}
+
+.belt-step-capsule.completed {
+    background: rgba(16, 185, 129, 0.1);
+    border-color: rgba(16, 185, 129, 0.35);
+}
+
+.belt-step-capsule.active {
+    background: rgba(0, 210, 255, 0.15);
+    border-color: #00D2FF;
+    box-shadow: 0 0 16px rgba(0, 210, 255, 0.3);
+    transform: translateY(-2px);
+}
+
+.belt-step-num {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 800;
+    margin-bottom: 6px;
+    background: rgba(255, 255, 255, 0.08);
+    color: #94a3b8;
+}
+
+.belt-step-capsule.completed .belt-step-num {
+    background: #10B981;
+    color: #04140D;
+}
+
+.belt-step-capsule.active .belt-step-num {
+    background: #00D2FF;
+    color: #04101E;
+    box-shadow: 0 0 10px #00D2FF;
+}
+
+.belt-step-label {
+    font-size: 10.5px;
+    font-weight: 600;
+    color: #cbd5e1;
+    line-height: 1.2;
+}
+
+/* Barra de Progresso Real */
+.demand-progress-rail-wrap {
+    position: relative;
+    z-index: 2;
+    margin-bottom: 22px;
+}
+
+.progress-rail-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12.5px;
+    margin-bottom: 8px;
+}
+
+.progress-rail-track {
+    height: 7px;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+.progress-rail-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #00D2FF 0%, #10B981 100%);
+    border-radius: 999px;
+    box-shadow: 0 0 12px rgba(0, 210, 255, 0.5);
+    transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Botões de Ação do Painel de Demanda */
+.demand-actions-row {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.btn-primary-action {
+    background: linear-gradient(135deg, #00D2FF 0%, #0284C7 100%);
+    color: #03101E;
+    border: none;
+    border-radius: 14px;
+    padding: 12px 20px;
+    font-size: 13.5px;
+    font-weight: 700;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 6px 18px rgba(0, 210, 255, 0.28);
+    transition: all 0.22s ease;
+}
+
+.btn-primary-action:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(0, 210, 255, 0.45);
+    color: #000000;
+}
+
+.btn-secondary-action {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: #FFFFFF;
+    border-radius: 14px;
+    padding: 12px 18px;
+    font-size: 13.5px;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.22s ease;
+}
+
+.btn-secondary-action:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.25);
+    transform: translateY(-2px);
+}
+
+/* Coluna Direita: Card de Liderança Executiva (Gabriel Rocha Jovem) + Governança */
+.side-executive-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.side-leader-card {
+    background: linear-gradient(145deg, rgba(20, 26, 38, 0.85) 0%, rgba(11, 14, 22, 0.95) 100%);
+    border: 1px solid rgba(0, 210, 255, 0.2);
+    border-radius: 24px;
+    padding: 26px;
+    box-shadow: 0 16px 40px -10px rgba(0,0,0,0.6);
+    position: relative;
+    overflow: hidden;
+}
+
+.side-leader-card::before {
+    content: '';
+    position: absolute;
+    top: 0; right: 0;
+    width: 140px;
+    height: 140px;
+    background: radial-gradient(circle, rgba(0, 210, 255, 0.12) 0%, transparent 70%);
+    pointer-events: none;
+}
+
+.leader-card-profile-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.leader-card-photo-large {
+    position: relative;
+    width: 62px;
+    height: 62px;
+    border-radius: 18px;
+    overflow: visible;
+    flex-shrink: 0;
+}
+
+.leader-card-photo-large img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 18px;
+    border: 2px solid #00D2FF;
+    box-shadow: 0 0 16px rgba(0, 210, 255, 0.35);
+}
+
+.leader-status-dot-pulse {
+    position: absolute;
+    bottom: -3px;
+    right: -3px;
+    width: 14px;
+    height: 14px;
+    background: #10B981;
+    border: 3px solid #0e121b;
+    border-radius: 50%;
+    box-shadow: 0 0 10px #10B981;
+}
+
+.leader-card-meta h4 {
+    margin: 0 0 3px 0;
+    font-size: 17px;
+    font-weight: 800;
+    color: #FFFFFF;
+}
+
+.leader-card-meta p {
+    margin: 0;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: #00D2FF;
+}
+
+.leader-statement-quote {
+    font-size: 13.5px;
+    line-height: 1.55;
+    color: #cbd5e1;
+    font-style: italic;
+    margin: 0 0 20px 0;
+    border-left: 2px solid rgba(0, 210, 255, 0.5);
+    padding-left: 12px;
+}
+
+/* Card de Governança & Fidelidade Contratada */
+.governance-shield-card {
+    background: rgba(13, 17, 26, 0.7);
+    border: 1px solid rgba(16, 185, 129, 0.25);
+    border-radius: 20px;
+    padding: 20px;
+    backdrop-filter: blur(12px);
+    transition: all 0.25s ease;
+}
+
+.governance-shield-card:hover {
+    border-color: rgba(16, 185, 129, 0.45);
+    box-shadow: 0 10px 25px rgba(16, 185, 129, 0.12);
+}
+
+.gov-shield-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+    font-size: 13.5px;
+    font-weight: 700;
+    color: #10B981;
+}
+
+.gov-shield-text {
+    font-size: 12.5px;
+    line-height: 1.5;
+    color: #94a3b8;
+    margin: 0;
+}
+
+/* =====================================================================
+ * SECTION 4: DIRETÓRIO DA EQUIPE DIGITAL (OS 7 ESPECIALISTAS)
+ * Inspirado na Imagem 5 (Notched Corners + Arrow Buttons ↗ + Dots de Status)
+ * ===================================================================== */
+.edition-team-section {
+    margin-top: 48px;
+}
+
+.edition-team-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.inicio-team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)) !important;
+    gap: 18px !important;
+}
+
+/* O NOVO CARD DO ESPECIALISTA COM CORES, FORMAS E MOTION DAS REFERÊNCIAS */
+.exec-agent-card-lux {
+    position: relative;
+    border-radius: 22px;
+    padding: 20px;
+    background: rgba(14, 18, 28, 0.75);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(16px);
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 10px 30px -10px rgba(0,0,0,0.5);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.exec-agent-card-lux::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3.5px;
+    transition: height 0.25s ease;
+}
+
+.exec-agent-card-lux:hover {
+    transform: translateY(-5px);
+    background: rgba(20, 26, 38, 0.9);
+    border-color: rgba(255, 255, 255, 0.18);
+    box-shadow: 0 18px 45px -10px rgba(0,0,0,0.7), 0 0 25px var(--agent-glow, rgba(0, 210, 255, 0.15));
+}
+
+.exec-agent-card-lux:hover .agent-arrow-action {
+    background: #FFFFFF;
+    color: #000000;
+    transform: rotate(45deg);
+}
+
+.agent-card-top-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+}
+
+.agent-card-identity {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.agent-photo-pod {
+    position: relative;
+    width: 48px;
+    height: 48px;
+    border-radius: 16px;
+    overflow: visible;
+    flex-shrink: 0;
+}
+
+.agent-photo-pod img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 16px;
+    border: 2px solid var(--agent-color, #00D2FF);
+    box-shadow: 0 0 12px var(--agent-glow, rgba(0, 210, 255, 0.3));
+}
+
+.agent-online-beacon {
+    position: absolute;
+    bottom: -2px;
+    right: -2px;
+    width: 11px;
+    height: 11px;
+    background: #10B981;
+    border: 2px solid #0d111a;
+    border-radius: 50%;
+    box-shadow: 0 0 6px #10B981;
+}
+
+.agent-titles-wrap h4 {
+    margin: 0 0 2px 0;
+    font-size: 15px;
+    font-weight: 700;
+    color: #FFFFFF;
+}
+
+.agent-titles-wrap p {
+    margin: 0;
+    font-size: 11.5px;
+    font-weight: 600;
+    color: var(--agent-color, #00D2FF);
+}
+
+/* Botão de Seta Circular ↗ (Direto da Imagem 5) */
+.agent-arrow-action {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #94a3b8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    flex-shrink: 0;
+}
+
+.agent-statement-blurb {
+    font-size: 12.5px;
+    color: #94a3b8;
+    line-height: 1.45;
+    margin: 0 0 16px 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* Barra Inferior com Status Dots (Imagem 5) e Badges */
+.agent-card-bottom-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 12px;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.agent-status-dots {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.agent-status-dots .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+}
+
+.agent-prompt-shortcut {
+    font-size: 11px;
+    font-weight: 600;
+    color: #cbd5e1;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+/* =====================================================================
+ * RESPONSIVIDADE PRECISA (1440px / 1280px / 390px)
+ * ===================================================================== */
+@media (max-width: 1024px) {
+    .edition-editorial-split {
+        grid-template-columns: 1fr;
+    }
+    .edition-kpi-ribbon {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .edition-hero-stage {
+        padding: 36px 20px 28px 20px;
+        border-radius: 20px;
+    }
+    .edition-monumental-headline {
+        font-size: 34px;
+    }
+    .edition-directive-console {
+        border-radius: 20px;
+        flex-wrap: wrap;
+        padding: 12px;
+    }
+    .console-input-slot {
+        width: calc(100% - 58px);
+    }
+    .edition-console-submit-btn {
+        width: 100%;
+        justify-content: center;
+    }
+    .stepper-belt-track {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 6px;
+    }
+    .edition-kpi-ribbon {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+}
+
+
+
+/* =====================================================================
+ * MASTER POLISH: FORM CONTROLS, CHAT & DELIVERABLES LUXURY THEME
+ * ===================================================================== */
+
+/* Global Input / Select / Textarea Refinement */
+input[type="text"], input[type="password"], input[type="email"], select, textarea {
+    background: rgba(14, 18, 28, 0.8) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: 14px !important;
+    color: #FFFFFF !important;
+    font-family: var(--font-heading) !important;
+    font-size: 13.5px !important;
+    transition: all 0.24s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focus, select:focus, textarea:focus {
+    border-color: #00D2FF !important;
+    box-shadow: 0 0 0 3px rgba(0, 210, 255, 0.25), 0 8px 24px rgba(0, 210, 255, 0.12) !important;
+    outline: none !important;
+    background: rgba(18, 24, 38, 0.95) !important;
+}
+
+/* Chat Workspace Refinement (Inspired by Reference 1 & 2) */
+.chat-workspace {
+    border-radius: 24px !important;
+    overflow: hidden !important;
+    background: rgba(10, 13, 20, 0.75) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    box-shadow: 0 24px 60px -15px rgba(0,0,0,0.8) !important;
+    backdrop-filter: blur(20px) !important;
+}
+
+.chat-sidebar {
+    background: rgba(8, 10, 16, 0.85) !important;
+    border-right: 1px solid rgba(255, 255, 255, 0.07) !important;
+}
+
+.chat-sidebar-agent-item {
+    border-radius: 16px !important;
+    margin: 4px 8px !important;
+    padding: 10px 14px !important;
+    transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.chat-sidebar-agent-item:hover {
+    background: rgba(255, 255, 255, 0.05) !important;
+    transform: translateX(3px) !important;
+}
+
+.chat-sidebar-agent-item.active {
+    background: linear-gradient(135deg, rgba(0, 210, 255, 0.15) 0%, rgba(14, 18, 28, 0.9) 100%) !important;
+    border: 1px solid rgba(0, 210, 255, 0.35) !important;
+    border-left: 3px solid #00D2FF !important;
+    box-shadow: 0 6px 20px rgba(0, 210, 255, 0.12) !important;
+}
+
+.chat-main-header {
+    background: rgba(12, 16, 25, 0.8) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07) !important;
+    padding: 16px 24px !important;
+}
+
+.chat-messages-container {
+    padding: 24px !important;
+}
+
+.chat-input-area {
+    background: rgba(10, 13, 22, 0.9) !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
+    padding: 18px 24px !important;
+}
+
+/* Chat Bubbles Refinement */
+.chat-bubble.user {
+    background: linear-gradient(135deg, rgba(0, 210, 255, 0.18) 0%, rgba(2, 132, 199, 0.25) 100%) !important;
+    border: 1px solid rgba(0, 210, 255, 0.35) !important;
+    border-radius: 20px 20px 4px 20px !important;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4), 0 0 15px rgba(0, 210, 255, 0.1) !important;
+}
+
+.chat-bubble.agent {
+    background: rgba(18, 23, 35, 0.85) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border-radius: 20px 20px 20px 4px !important;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4) !important;
+}
+
+/* Entregáveis Grid (Galeria de Ativos Homologados) */
+.entregas-grid-container {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)) !important;
+    gap: 20px !important;
+}
+
+.entrega-card {
+    background: rgba(13, 17, 26, 0.75) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border-radius: 22px !important;
+    padding: 22px !important;
+    backdrop-filter: blur(14px) !important;
+    transition: all 0.26s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    box-shadow: 0 10px 30px -10px rgba(0,0,0,0.6) !important;
+}
+
+.entrega-card:hover {
+    transform: translateY(-5px) !important;
+    border-color: rgba(0, 210, 255, 0.3) !important;
+    box-shadow: 0 18px 45px -10px rgba(0,0,0,0.8), 0 0 25px rgba(0, 210, 255, 0.15) !important;
+}
+
+/* Scrollbars Finas e Elegantes */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(8, 10, 16, 0.5);
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 210, 255, 0.5);
+}
+
+
+
+/* Hide chat input area completely unless view-conversar is active */
+#view-conversar:not(.active) .chat-input-area {
+    display: none !important;
+}
+
+
+
+/* =====================================================================
+ * IRONCLAD VIEW VISIBILITY GUARD
+ * ===================================================================== */
+.exec-view:not(.active),
+#view-inicio:not(.active),
+#view-conversar:not(.active),
+#view-equipe:not(.active),
+#view-projetos:not(.active),
+#view-entregas:not(.active),
+#view-avancado:not(.active) {
+    display: none !important;
+}
+
+#view-inicio.active,
+#view-conversar.active,
+#view-equipe.active,
+#view-projetos.active,
+#view-entregas.active,
+#view-avancado.active {
+    display: block !important;
+}
+
 </style>
 </head>
 <body>
@@ -3945,216 +5148,265 @@ body {
         <!-- =================================================================
          * VIEW 1: INÍCIO (VISÃO GERAL EXECUTIVA & PONTO DE PARTIDA)
          * ================================================================= -->
-        <div id="view-inicio" class="exec-view active">
-            <!-- Nível 1: Cabeçalho do Ambiente Principal -->
-            <div class="inicio-header-slab">
-                <div class="inicio-header-meta">
-                    <span class="status-indicator-live"><i class="fas fa-circle"></i> Operação Ativa</span>
-                    <span class="meta-divider">•</span>
-                    <span>7 Especialistas Prontos</span>
-                    <span class="meta-divider">•</span>
-                    <span>Liderança de Gabriel Rocha</span>
-                </div>
-                <h2 class="inicio-header-title">Central de Comando da VIDE</h2>
-                <p class="inicio-header-subtitle">
-                    Supervisione a execução dos serviços contratados, aprove entregáveis da equipe e oriente a esteira operacional em tempo real.
-                </p>
+        
+        <div id="view-inicio" class="exec-view active edition-view">
+            <!-- Barra Superior de Progresso de Scroll com Rastro de Luz -->
+            <div id="edition-scroll-indicator" class="edition-scroll-indicator"></div>
 
-                <!-- Barra de Diretriz Executiva com Gabriel Rocha -->
-                <div class="inicio-directive-bar">
-                    <div class="directive-leader-avatar">
-                        <img src="assets/avatars/gabriel_rocha.jpg" alt="Gabriel Rocha" onerror="this.src='logo_vide.jpg'">
-                        <div class="online-indicator-dot"></div>
-                    </div>
-                    <div class="directive-input-wrap">
-                        <input type="text" id="inicio-quick-prompt" placeholder="Instruir Gabriel Rocha (ex: Iniciar nova demanda comercial, auditar etapas ativas...)" onkeydown="if(event.key === 'Enter') enviarPromptInicio()">
-                    </div>
-                    <button class="btn-primary-directive" onclick="enviarPromptInicio()">
-                        <i class="fas fa-paper-plane"></i> Despachar Diretriz
-                    </button>
-                </div>
+            <!-- =================================================================
+             * SECTION 1: MONUMENTAL HERO STAGE (INSPIRADO EM SHOPIFY & IMAGENS 1, 3, 5)
+             * ================================================================= -->
+            <section class="edition-hero-stage">
+                <div class="edition-hero-bg-layer" style="background-image: url('assets/images/hero_arquitetura_crescimento.jpg');"></div>
+                <div class="edition-hero-ambient-glow"></div>
 
-                <!-- Atalhos Práticos de Trabalho -->
-                <div class="inicio-shortcuts-strip">
-                    <span class="shortcuts-label">Ações rápidas:</span>
-                    <button class="shortcut-chip" onclick="abrirModalNovoProjeto()">
-                        <i class="fas fa-plus"></i> Novo Projeto
-                    </button>
-                    <button class="shortcut-chip" onclick="alternarAbaPrincipal('projetos')">
-                        <i class="fas fa-list-check"></i> Acompanhar Esteira
-                    </button>
-                    <button class="shortcut-chip" onclick="alternarAbaPrincipal('entregas')">
-                        <i class="fas fa-box-archive"></i> Revisar Entregáveis
-                    </button>
-                    <button class="shortcut-chip" onclick="irParaChatComAgente('agente_04_branding_design')">
-                        <i class="fas fa-palette"></i> Alinhar Identidade Visual
-                    </button>
-                    <button class="shortcut-chip" onclick="irParaChatComAgente('agente_03_desenvolvedor')">
-                        <i class="fas fa-code"></i> Revisar Landing Page
-                    </button>
-                </div>
-            </div>
-
-            <!-- Fita de Indicadores Reais da Operação (Zero Métricas Inventadas) -->
-            <div class="inicio-indicators-strip">
-                <div class="indicator-item">
-                    <div class="indicator-label">Coordenação Geral</div>
-                    <div class="indicator-value" style="color: var(--accent-cyan);">Equipe em Ação</div>
-                    <div class="indicator-meta">7 Especialistas Dedicados</div>
-                </div>
-
-                <div class="indicator-item">
-                    <div class="indicator-label">Demandas Comerciais</div>
-                    <div class="indicator-value" id="inicio-total-projetos-badge">4 Projetos</div>
-                    <div class="indicator-meta" id="inicio-projeto-cliente-val">AutoPeças Progresso</div>
-                </div>
-
-                <div class="indicator-item">
-                    <div class="indicator-label">Decisões & Governança</div>
-                    <div class="indicator-value" id="inicio-pendencias-count" style="color: var(--accent-amber);">0 Pendências</div>
-                    <div class="indicator-meta" id="inicio-status-gov-badge"><i class="fas fa-check-circle" style="color: var(--accent-emerald);"></i> Operação Regular</div>
-                </div>
-
-                <div class="indicator-item">
-                    <div class="indicator-label">Entregáveis Oficiais</div>
-                    <div class="indicator-value" id="inicio-total-entregas-badge">3 Arquivos</div>
-                    <div class="indicator-meta"><span style="color: var(--accent-emerald);">Prontos para Homologação</span></div>
-                </div>
-            </div>
-
-            <!-- Painel Bipartido de Trabalho Ativo (60% Execução / 40% Ações & Pendências) -->
-            <div class="inicio-workzone-split">
-                <!-- Coluna Esquerda: Projeto Ativo & Estratégia da Solução -->
-                <div class="workzone-primary-slab">
-                    <div class="slab-top-row">
-                        <div class="slab-title-badge">
-                            <i class="fas fa-compass-drafting"></i> Estratégia da Solução & Briefing
-                        </div>
-                        <span class="selo-fidelidade-ouro">
-                            <i class="fas fa-shield-halved"></i> Garantia de Fidelidade Contratada
-                        </span>
+                <div class="edition-hero-content-wrap">
+                    <!-- Eyebrow Editorial -->
+                    <div class="edition-eyebrow-row">
+                        <span class="edition-live-beacon"><i class="fas fa-circle"></i> Operação Ativa</span>
+                        <span class="edition-coord-tag">COLEGIADO EXECUTIVO // 7 ESPECIALISTAS // LIDERANÇA GABRIEL ROCHA</span>
                     </div>
 
-                    <h3 class="active-project-headline" id="inicio-estrategia-metric-txt">AutoPeças Progresso — Presença Comercial Digital</h3>
-                    <p class="active-project-summary" id="inicio-estrategia-desc-txt">
-                        Landing page responsiva de alta conversão, identidade visual vetorial e roteiro comercial no WhatsApp. Garantia estrita de alinhamento com a demanda contratada.
+                    <!-- Monumental Headline with Classical Italic Serif Accent -->
+                    <h1 class="edition-monumental-headline">
+                        VIDE <span class="edition-serif-flourish">Central</span>
+                    </h1>
+
+                    <p class="edition-editorial-lead">
+                        O ambiente executivo de alta precisão para comandar sua operação comercial. Governança estrita, estratégias de crescimento e esteira autônoma de entregáveis homologados.
                     </p>
 
-                    <!-- Esteira de 7 Etapas Estratégicas Obrigatórias -->
-                    <div class="stepper-horizontal-bar">
-                        <div class="stepper-step completed">
-                            <div class="step-num"><i class="fas fa-check"></i></div>
-                            <span class="step-name">1. Entendimento</span>
+                    <!-- Floating Executive Directive Console (Inspiração Imagem 1, 2 e 5) -->
+                    <div class="edition-directive-console">
+                        <div class="console-leader-portrait">
+                            <img src="assets/avatars/gabriel_rocha.jpg" alt="Gabriel Rocha" onerror="this.src='logo_vide.jpg'">
+                            <div class="console-online-ring"></div>
                         </div>
-                        <div class="stepper-step completed">
-                            <div class="step-num"><i class="fas fa-check"></i></div>
-                            <span class="step-name">2. Briefing</span>
+                        <div class="console-input-slot">
+                            <input type="text" id="inicio-quick-prompt" placeholder="Despachar diretriz executiva para Gabriel Rocha (ex: Iniciar demanda, auditar esteira...)" onkeydown="if(event.key === 'Enter') enviarPromptInicio()">
                         </div>
-                        <div class="stepper-step completed">
-                            <div class="step-num"><i class="fas fa-check"></i></div>
-                            <span class="step-name">3. Diagnóstico</span>
-                        </div>
-                        <div class="stepper-step active">
-                            <div class="step-num">4</div>
-                            <span class="step-name">4. Estratégia</span>
-                        </div>
-                        <div class="stepper-step">
-                            <div class="step-num">5</div>
-                            <span class="step-name">5. Plano</span>
-                        </div>
-                        <div class="stepper-step">
-                            <div class="step-num">6</div>
-                            <span class="step-name">6. Aprovação</span>
-                        </div>
-                        <div class="stepper-step">
-                            <div class="step-num">7</div>
-                            <span class="step-name">7. Execução</span>
-                        </div>
-                    </div>
-
-                    <!-- Progresso Real da Demanda Ativa -->
-                    <div class="demand-progress-box">
-                        <div class="demand-progress-labels">
-                            <span>Progresso da Demanda Técnica:</span>
-                            <span id="inicio-proj-progress-txt" style="color: #FFFFFF; font-weight: 700;">6 de 8 tarefas validadas</span>
-                        </div>
-                        <div class="demand-progress-rail">
-                            <div id="inicio-proj-progress-bar" class="demand-progress-bar" style="width: 75%;"></div>
-                        </div>
-                    </div>
-
-                    <div class="slab-actions-row">
-                        <button class="btn-action-primary" onclick="abrirModalEstrategiaProjeto()">
-                            <i class="fas fa-file-signature"></i> Consultar Documento Estratégico (10 Seções)
+                        <button class="edition-console-submit-btn" onclick="enviarPromptInicio()">
+                            <i class="fas fa-arrow-right"></i> Despachar
                         </button>
-                        <button class="btn-action-secondary" onclick="alternarAbaPrincipal('projetos')">
-                            <i class="fas fa-list-check"></i> Ver Etapas na Esteira
+                    </div>
+
+                    <!-- Comandos Rápidos em Cápsulas Elegantes -->
+                    <div class="edition-hero-actions-bar">
+                        <span class="edition-actions-label">Comandos Imediatos:</span>
+                        <button class="edition-action-link" onclick="abrirModalNovoProjeto()">
+                            <i class="fas fa-plus"></i> Novo Projeto
+                        </button>
+                        <button class="edition-action-link" onclick="alternarAbaPrincipal('projetos')">
+                            <i class="fas fa-list-check"></i> Esteira de Demandas
+                        </button>
+                        <button class="edition-action-link" onclick="alternarAbaPrincipal('entregas')">
+                            <i class="fas fa-box-archive"></i> Galeria de Ativos
+                        </button>
+                        <button class="edition-action-link" onclick="irParaChatComAgente('agente_04_branding_design')">
+                            <i class="fas fa-palette"></i> Branding & Design
+                        </button>
+                        <button class="edition-action-link" onclick="irParaChatComAgente('agente_03_desenvolvedor')">
+                            <i class="fas fa-code"></i> Engenharia Web
                         </button>
                     </div>
                 </div>
 
-                <!-- Coluna Direita: Despacho Rápido & Situação de Decisões -->
-                <div class="workzone-secondary-slab">
-                    <div class="coordenador-lead-card">
-                        <div class="lead-card-profile">
-                            <div class="lead-card-photo">
-                                <img src="assets/avatars/gabriel_rocha.jpg" alt="Gabriel Rocha" onerror="this.src='logo_vide.jpg'">
-                                <div class="online-indicator-dot"></div>
-                            </div>
-                            <div class="lead-card-text">
-                                <h4>Gabriel Rocha</h4>
-                                <p>Coordenador Geral da Operação</p>
-                            </div>
+                <!-- Monumental Operational Ribbon (4 Cards com Identidade Cromática e Elevação) -->
+                <div class="edition-kpi-ribbon">
+                    <div class="edition-kpi-cell kpi-cyan">
+                        <div class="kpi-cell-top">
+                            <span class="kpi-cell-idx">01</span>
+                            <span class="kpi-cell-badge" style="background: rgba(0, 210, 255, 0.12); color: #00D2FF;">Ativo</span>
                         </div>
-
-                        <p class="lead-card-statement">
-                            "Acompanho cada etapa da esteira técnica e consolido entregáveis para sua decisão. Qualquer ajuste de escopo requer sua aprovação prévia."
-                        </p>
-
-                        <div class="lead-card-quick-actions">
-                            <button class="btn-action-primary" onclick="irParaChatComAgente('agente_02_coordenador')" style="flex: 1; justify-content: center;">
-                                <i class="fas fa-comments"></i> Abrir Conversa Direta
-                            </button>
-                            <button class="btn-action-secondary" onclick="abrirModalNovoProjeto()" title="Novo Projeto">
-                                <i class="fas fa-plus"></i> Novo
-                            </button>
-                        </div>
+                        <div class="kpi-cell-title">Coordenação Geral</div>
+                        <div class="kpi-cell-number cyan">Equipe em Ação</div>
+                        <div class="kpi-cell-caption">7 Especialistas Dedicados</div>
                     </div>
 
-                    <div class="governance-status-panel">
-                        <div class="gov-panel-header">
-                            <i class="fas fa-shield-halved" style="color: var(--accent-emerald);"></i>
-                            <span>Governança & Fidelidade Comercial</span>
+                    <div class="edition-kpi-cell kpi-blue">
+                        <div class="kpi-cell-top">
+                            <span class="kpi-cell-idx">02</span>
+                            <span class="kpi-cell-badge" style="background: rgba(59, 130, 246, 0.12); color: #60A5FA;">Pipeline</span>
                         </div>
-                        <p class="gov-panel-text">
-                            A estratégia orienta a execução técnica sem jamais substituir unilateralmente o serviço contratado pelo cliente.
-                        </p>
+                        <div class="kpi-cell-title">Demandas Comerciais</div>
+                        <div class="kpi-cell-number blue" id="inicio-total-projetos-badge">4 Projetos</div>
+                        <div class="kpi-cell-caption" id="inicio-projeto-cliente-val">AutoPeças Progresso</div>
+                    </div>
+
+                    <div class="edition-kpi-cell kpi-amber">
+                        <div class="kpi-cell-top">
+                            <span class="kpi-cell-idx">03</span>
+                            <span class="kpi-cell-badge" style="background: rgba(245, 158, 11, 0.12); color: #FBBF24;">Controle</span>
+                        </div>
+                        <div class="kpi-cell-title">Decisões & Governança</div>
+                        <div class="kpi-cell-number amber" id="inicio-pendencias-count">0 Pendências</div>
+                        <div class="kpi-cell-caption" id="inicio-status-gov-badge"><i class="fas fa-shield-check"></i> Regularidade Estrita</div>
+                    </div>
+
+                    <div class="edition-kpi-cell kpi-purple">
+                        <div class="kpi-cell-top">
+                            <span class="kpi-cell-idx">04</span>
+                            <span class="kpi-cell-badge" style="background: rgba(139, 92, 246, 0.12); color: #C084FC;">Homologado</span>
+                        </div>
+                        <div class="kpi-cell-title">Entregáveis Oficiais</div>
+                        <div class="kpi-cell-number purple" id="inicio-total-entregas-badge">3 Arquivos</div>
+                        <div class="kpi-cell-caption">Prontos para Homologação</div>
                     </div>
                 </div>
-            </div>
+            </section>
 
-            <!-- Nível 1: Diretório de Prontidão da Equipe Digital -->
-            <div class="inicio-team-section">
-                <div class="team-section-header">
+            <!-- =================================================================
+             * SECTION 2: CAPÍTULO 01 — ESTRATÉGIA DA SOLUÇÃO & GOVERNANÇA (STORYTELLING)
+             * ================================================================= -->
+            <section class="edition-chapter-section" id="capitulo-estrategia">
+                <div class="edition-chapter-header">
+                    <div class="edition-chapter-tag">CAPÍTULO 01 // ESTRATÉGIA & GOVERNANÇA</div>
+                    <h2 class="edition-chapter-title">Engenharia de Solução e Fidelidade Contratada</h2>
+                    <p class="edition-chapter-subtitle">
+                        Toda demanda passa pela esteira estratégica obrigatória em 7 etapas antes de ser executada, garantindo alinhamento estrito com os objetivos de crescimento do cliente.
+                    </p>
+                </div>
+
+                <div class="edition-editorial-split">
+                    <!-- Painel Tátil da Demanda Ativa -->
+                    <div class="demand-master-panel">
+                        <div class="demand-panel-bg-art" style="background-image: url('assets/images/estrategia_redes_conexao.jpg');"></div>
+                        
+                        <div>
+                            <div class="demand-panel-header">
+                                <span class="demand-status-badge"><i class="fas fa-layer-group"></i> Demanda em Execução</span>
+                                <span style="font-size: 11px; font-weight: 700; color: #64748b; letter-spacing: 1px;">FASE 7 // ESTEIRA TÉCNICA</span>
+                            </div>
+
+                            <h3 class="demand-active-title" id="inicio-card-proj-nome">Landing Page de Alta Conversão</h3>
+                            <div class="demand-client-tag">
+                                <i class="fas fa-building" style="color: #00D2FF;"></i> 
+                                <span id="inicio-card-proj-cliente">AutoPeças Progresso</span>
+                                <span style="color: #475569;">•</span>
+                                <span id="inicio-card-proj-tipo" style="color: #00D2FF; font-weight: 600;">Site & Landing Page</span>
+                            </div>
+
+                            <!-- Esteira de 7 Etapas (Design em Cápsulas Tácteis com Linha de Progresso) -->
+                            <div class="stepper-belt-wrap">
+                                <div class="stepper-belt-track">
+                                    <div class="belt-step-capsule completed">
+                                        <div class="belt-step-num"><i class="fas fa-check" style="font-size: 9px;"></i></div>
+                                        <span class="belt-step-label">1. Entendimento</span>
+                                    </div>
+                                    <div class="belt-step-capsule completed">
+                                        <div class="belt-step-num"><i class="fas fa-check" style="font-size: 9px;"></i></div>
+                                        <span class="belt-step-label">2. Briefing</span>
+                                    </div>
+                                    <div class="belt-step-capsule completed">
+                                        <div class="belt-step-num"><i class="fas fa-check" style="font-size: 9px;"></i></div>
+                                        <span class="belt-step-label">3. Diagnóstico</span>
+                                    </div>
+                                    <div class="belt-step-capsule completed">
+                                        <div class="belt-step-num"><i class="fas fa-check" style="font-size: 9px;"></i></div>
+                                        <span class="belt-step-label">4. Estratégia</span>
+                                    </div>
+                                    <div class="belt-step-capsule completed">
+                                        <div class="belt-step-num"><i class="fas fa-check" style="font-size: 9px;"></i></div>
+                                        <span class="belt-step-label">5. Plano</span>
+                                    </div>
+                                    <div class="belt-step-capsule completed">
+                                        <div class="belt-step-num"><i class="fas fa-check" style="font-size: 9px;"></i></div>
+                                        <span class="belt-step-label">6. Aprovação</span>
+                                    </div>
+                                    <div class="belt-step-capsule active">
+                                        <div class="belt-step-num">7</div>
+                                        <span class="belt-step-label">7. Execução</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Progresso Real da Demanda Técnica -->
+                            <div class="demand-progress-rail-wrap">
+                                <div class="progress-rail-labels">
+                                    <span style="color: #94a3b8; font-weight: 600;">Progresso da Demanda Técnica:</span>
+                                    <span id="inicio-proj-progress-txt" style="color: #FFFFFF; font-weight: 700;">6 de 8 tarefas validadas</span>
+                                </div>
+                                <div class="progress-rail-track">
+                                    <div id="inicio-proj-progress-bar" class="progress-rail-fill" style="width: 75%;"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Ações do Painel de Demanda -->
+                        <div class="demand-actions-row">
+                            <button class="btn-primary-action" onclick="abrirModalEstrategiaProjeto()">
+                                <i class="fas fa-file-signature"></i> Consultar Documento Estratégico (10 Seções)
+                            </button>
+                            <button class="btn-secondary-action" onclick="alternarAbaPrincipal('projetos')">
+                                <i class="fas fa-list-check"></i> Ver Etapas na Esteira
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Coluna Direita: Liderança Gabriel Rocha Jovem + Governança Inviolável -->
+                    <div class="side-executive-stack">
+                        <div class="side-leader-card">
+                            <div class="leader-card-profile-row">
+                                <div class="leader-card-photo-large">
+                                    <img src="assets/avatars/gabriel_rocha.jpg" alt="Gabriel Rocha" onerror="this.src='logo_vide.jpg'">
+                                    <div class="leader-status-dot-pulse"></div>
+                                </div>
+                                <div class="leader-card-meta">
+                                    <h4>Gabriel Rocha</h4>
+                                    <p>Coordenador Geral da Operação</p>
+                                </div>
+                            </div>
+
+                            <p class="leader-statement-quote">
+                                "Acompanho cada etapa da esteira técnica e consolido entregáveis para sua decisão. Qualquer ajuste de escopo requer sua aprovação prévia."
+                            </p>
+
+                            <div style="display: flex; gap: 10px;">
+                                <button class="btn-primary-action" onclick="irParaChatComAgente('agente_02_coordenador')" style="flex: 1; justify-content: center;">
+                                    <i class="fas fa-comments"></i> Abrir Conversa Direta
+                                </button>
+                                <button class="btn-secondary-action" onclick="abrirModalNovoProjeto()" title="Novo Projeto">
+                                    <i class="fas fa-plus"></i> Novo
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="governance-shield-card">
+                            <div class="gov-shield-header">
+                                <i class="fas fa-shield-halved"></i>
+                                <span>Governança & Fidelidade Comercial</span>
+                            </div>
+                            <p class="gov-shield-text">
+                                A estratégia orienta a execução técnica sem jamais substituir unilateralmente o serviço contratado pelo cliente.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- =================================================================
+             * SECTION 3: CAPÍTULO 02 — EQUIPE DIGITAL EM PRONTIDÃO (OS 7 ESPECIALISTAS)
+             * ================================================================= -->
+            <section class="edition-chapter-section edition-team-section" id="capitulo-equipe">
+                <div class="edition-team-header">
                     <div>
-                        <h3 class="team-section-title">Equipe Digital em Prontidão</h3>
-                        <p class="team-section-subtitle">7 Especialistas seniores prontos para executar frentes especializadas da operação.</p>
+                        <div class="edition-chapter-tag">CAPÍTULO 02 // COLEGIADO EXECUTIVO</div>
+                        <h2 class="edition-chapter-title">Equipe Digital em Prontidão</h2>
+                        <p class="edition-chapter-subtitle">7 Especialistas seniores prontos para executar frentes especializadas da operação.</p>
                     </div>
-                    <button class="btn-action-secondary" onclick="alternarAbaPrincipal('equipe')">
+                    <button class="btn-secondary-action" onclick="alternarAbaPrincipal('equipe')">
                         Ver Atribuições Completas <i class="fas fa-arrow-right" style="margin-left: 6px;"></i>
                     </button>
                 </div>
 
                 <div class="inicio-team-grid" id="inicio-agentes-mini-grid">
-                    <!-- Renderizado dinamicamente via JS -->
+                    <!-- Renderizado dinamicamente via JavaScript com o novo template de luxo -->
                 </div>
-            </div>
+            </section>
         </div>
 
-        <!-- =================================================================
-         * VIEW 2: CONVERSAR (NÍVEL 1 & 2: DIÁLOGO COM A EQUIPE)
-         * ================================================================= -->
-        <div id="view-conversar" class="exec-view">
+
+        <!-- <div id="view-conversar" class="exec-view">
             <div class="chat-workspace">
                 <!-- Sidebar de Especialistas -->
                 <aside class="chat-sidebar">
@@ -5993,958 +7245,55 @@ body {
         const container = document.getElementById('inicio-agentes-mini-grid');
         if (!container) return;
 
-        container.innerHTML = CATALOGO_EQUIPE.map(ag => `
-            <div class="mini-agent-card" onclick="irParaChatComAgente('${ag.id}')" style="display: flex; align-items: center; gap: 12px; padding: 12px 16px; background: linear-gradient(145deg, ${ag.cor}0d 0%, rgba(10, 15, 26, 0.92) 100%); border: 1px solid ${ag.cor}33; border-left: 3px solid ${ag.cor}; border-radius: 18px; cursor: pointer; transition: all 0.24s cubic-bezier(0.16, 1, 0.3, 1); box-shadow: 0 8px 20px -8px rgba(0, 0, 0, 0.6);">
-                <div class="avatar-photo-badge" style="width: 44px; height: 44px; border: 2px solid ${ag.cor}; flex-shrink: 0; box-shadow: 0 0 14px ${ag.cor}33;">
-                    <img src="${ag.foto}" alt="${ag.nome}" onerror="this.src='logo_vide.jpg'">
-                    <div class="online-indicator-dot" style="width: 9px; height: 9px;"></div>
-                </div>
-                <div class="mini-agent-text" style="flex: 1; min-width: 0;">
-                    <h4 style="margin: 0 0 3px 0; font-size: 13.5px; font-weight: 700; color: #FFFFFF; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${ag.nome}</h4>
-                    <p style="margin: 0; color: ${ag.cor}; font-size: 11px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${ag.papel}</p>
-                </div>
-                <div class="mini-agent-arrow" style="width: 28px; height: 28px; border-radius: 50%; background: ${ag.cor}18; border: 1px solid ${ag.cor}33; display: flex; align-items: center; justify-content: center; color: ${ag.cor}; flex-shrink: 0; transition: all 0.2s ease;">
-                    <i class="fas fa-arrow-up-right-from-square" style="font-size: 10px;"></i>
-                </div>
-            </div>
-        `).join('');
-    }
-
-    // 4. Renderização Completa dos Cards na Aba Equipe
-    function renderizarCardsEquipeCompleta() {
-        const container = document.getElementById('team-full-cards-grid');
-        if (!container) return;
-
-        container.innerHTML = CATALOGO_EQUIPE.map(ag => `
-            <div class="team-agent-card luxury-card reveal-on-scroll" style="background: linear-gradient(155deg, ${ag.cor}0c 0%, rgba(9, 13, 22, 0.95) 100%) !important; border: 1px solid ${ag.cor}33 !important; border-top: 3px solid ${ag.cor} !important; border-radius: 22px !important;">
-                <div>
-                    <div class="team-card-top" style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px;">
-                        <div style="display: flex; align-items: center; gap: 16px;">
-                            <div class="avatar-photo-badge" style="width: 64px; height: 64px; border: 2px solid ${ag.cor}; box-shadow: 0 0 20px ${ag.cor}44; border-radius: 50%; overflow: hidden; position: relative;">
-                                <img src="${ag.foto}" alt="${ag.nome}" onerror="this.src='logo_vide.jpg'">
-                                <div class="online-indicator-dot" style="width: 12px; height: 12px;"></div>
-                            </div>
-                            <div class="team-card-title-wrap">
-                                <h3 style="margin: 0 0 4px 0; font-size: 19px; font-weight: 800; color: #FFFFFF;">${ag.nome}</h3>
-                                <span class="team-card-role-badge" style="background: ${ag.cor}1c; color: ${ag.cor}; border: 1px solid ${ag.cor}44; padding: 4px 10px; border-radius: 999px; font-size: 11.5px; font-weight: 600;">
-                                    Especialista Sênior • ${ag.papel}
-                                </span>
-                            </div>
-                        </div>
-                        <div style="width: 34px; height: 34px; border-radius: 50%; background: ${ag.cor}15; border: 1px solid ${ag.cor}33; display: flex; align-items: center; justify-content: center; color: ${ag.cor}; font-size: 12px; font-weight: 700;">
-                            ${ag.numero}
-                        </div>
-                    </div>
-
-                    <div class="team-card-block">
-                        <div class="team-card-block-title" style="font-size: 11px; font-weight: 700; color: #94A3B8; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px;">Especialidade & Atuação</div>
-                        <p class="team-card-block-text">${ag.o_que_faz}</p>
-                    </div>
-
-                    <div class="team-card-block">
-                        <div class="team-card-block-title" style="font-size: 11px; font-weight: 700; color: #94A3B8; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px;">Quando Acionar</div>
-                        <p class="team-card-block-text" style="color: var(--text-muted);">${ag.quando_acionar}</p>
-                    </div>
-
-                    <div class="team-card-block">
-                        <div class="team-card-block-title" style="font-size: 11px; font-weight: 700; color: #94A3B8; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px;">Entregáveis da Função</div>
-                        <div class="team-card-entregaveis">
-                            <p class="team-card-block-text" style="color: var(--text-secondary); line-height: 1.5; font-size: 13px;">${ag.entregaveis}</p>
-                        </div>
-                    </div>
-                </div>
-
-                <button class="team-card-action-btn" onclick="irParaChatComAgente('${ag.id}')">
-                    <i class="fas fa-comments"></i> Conversar com ${ag.primeiro_nome}
-                </button>
-            </div>
-        `).join('');
-    }
-
-    // 5. Ir Direto para o Chat com um Agente Específico
-    function irParaChatComAgente(agenteId) {
-        agenteChatAtivoId = agenteId;
-        alternarAbaPrincipal('conversar');
-        selecionarAgenteChat(agenteId);
-    }
-
-    // 6. Seleção de Agente no Chat
-    function selecionarAgenteChat(agenteId) {
-        agenteChatAtivoId = agenteId;
-        const agente = CATALOGO_EQUIPE.find(a => a.id === agenteId) || CATALOGO_EQUIPE[0];
-
-        // Atualizar lista da barra lateral
-        renderizarSidebarAgentesChat();
-
-        // Atualizar cabeçalho do chat
-        const elAvatar = document.getElementById('chat-active-avatar');
-        const elName = document.getElementById('chat-active-name');
-        const elRole = document.getElementById('chat-active-role');
-        if (elAvatar) {
-            elAvatar.style.background = 'transparent';
-            elAvatar.style.border = 'none';
-            elAvatar.style.padding = '0';
-            elAvatar.innerHTML = `<div class="avatar-photo-badge" style="width: 44px; height: 44px;"><img src="${agente.foto}" alt="${agente.nome}"><div class="online-indicator-dot"></div></div>`;
-        }
-        if (elName) {
-            elName.innerHTML = `${agente.nome} <span style="font-family: var(--font-mono); font-size: 10px; color: var(--green-emerald); font-weight: 700; background: rgba(16,185,129,0.12); border: 1px solid rgba(16,185,129,0.3); padding: 2px 7px; border-radius: 4px; margin-left: 8px;">Online</span>`;
-        }
-        if (elRole) {
-            elRole.innerText = `${agente.papel} • Equipe Digital VIDE`;
-        }
-
-        // Atualizar sugestões rápidas
-        const elSug = document.getElementById('chat-suggestions-container');
-        if (elSug && agente.sugestoes) {
-            elSug.innerHTML = agente.sugestoes.map(s => `
-                <button type="button" class="suggestion-chip" onclick="enviarMensagemRapida('${s.replace(/'/g, "\\'")}')">
-                    ${s}
-                </button>
-            `).join('');
-        }
-
-        // Carregar histórico ou mensagem inicial de boas-vindas
-        carregarMensagensDoAgente(agente);
-    }
-
-    // 7. Renderizar Lista de Especialistas na Barra Lateral do Chat
-    function renderizarSidebarAgentesChat() {
-        const container = document.getElementById('chat-sidebar-agents-container');
-        if (!container) return;
+        const colorMap = {
+            'agente_02_coordenador': { cor: '#00D2FF', glow: 'rgba(0, 210, 255, 0.35)', desc: 'Coordenação estratégica da operação, esteira de briefing e supervisão de entregáveis.' },
+            'agente_01_estrategista': { cor: '#8B5CF6', glow: 'rgba(139, 92, 246, 0.35)', desc: 'Diagnóstico de mercado, estratégia de posicionamento e inteligência comercial.' },
+            'agente_05_inteligencia': { cor: '#EC4899', glow: 'rgba(236, 72, 153, 0.35)', desc: 'Análise de dados de mercado, benchmarking competitivo e métricas comerciais.' },
+            'agente_03_desenvolvedor': { cor: '#10B981', glow: 'rgba(16, 185, 129, 0.35)', desc: 'Engenharia web de alta performance, landing pages responsivas e código limpo.' },
+            'agente_04_branding_design': { cor: '#F59E0B', glow: 'rgba(245, 158, 11, 0.35)', desc: 'Identidade visual, direção de arte sofisticada e design de interfaces digitais.' },
+            'agente_06_copywriter': { cor: '#3B82F6', glow: 'rgba(59, 130, 246, 0.35)', desc: 'Copywriting persuasivo, narrativas de vendas e roteiros de alto impacto.' },
+            'agente_07_gestor_trafego': { cor: '#F97316', glow: 'rgba(249, 115, 22, 0.35)', desc: 'Gestão de tráfego pago, campanhas multicanal e otimização de conversão.' }
+        };
 
         container.innerHTML = CATALOGO_EQUIPE.map(ag => {
-            const isActive = ag.id === agenteChatAtivoId;
+            const theme = colorMap[ag.id] || { cor: ag.cor || '#00D2FF', glow: 'rgba(0, 210, 255, 0.3)', desc: ag.papel };
             return `
-                <div class="chat-agent-item ${isActive ? 'active' : ''}" onclick="selecionarAgenteChat('${ag.id}')">
-                    <div class="avatar-photo-badge" style="width: 38px; height: 38px; border: 1.5px solid ${ag.cor};">
-                        <img src="${ag.foto}" alt="${ag.nome}" onerror="this.src='logo_vide.jpg'">
-                        <div class="online-indicator-dot" style="width: 8px; height: 8px;"></div>
-                    </div>
-                    <div class="chat-agent-details">
-                        <h4>${ag.nome}</h4>
-                        <p>${ag.papel}</p>
-                    </div>
-                </div>
-            `;
-        }).join('');
-    }
-
-    // 8. Carregar Mensagens do Agente Atual
-    function carregarMensagensDoAgente(agente) {
-        const feed = document.getElementById('chat-messages-feed');
-        if (!feed) return;
-
-        // Recuperar histórico do localStorage
-        const storageKey = 'vide_chat_' + agente.id;
-        const historicoRaw = localStorage.getItem(storageKey);
-        let mensagens = [];
-
-        if (historicoRaw) {
-            try {
-                let parsed = JSON.parse(historicoRaw);
-                mensagens = parsed.map(m => {
-                    m.texto = limparTextoSeguro(m.texto)
-                        .replace(/\(Agente 002\)|\(Agente 02\)|\(Agente 0\d\)/g, '')
-                        .replace(/Coordenador Geral/g, 'Gabriel Rocha');
-                    return m;
-                });
-                if (mensagens.length > 0 && mensagens[0].remetente === 'agente' && (mensagens[0].texto.includes('Agente') || mensagens[0].texto.includes('Coordenador Geral ('))) {
-                    const artigo = agente.genero === 'F' ? 'a' : 'o';
-                    mensagens[0].texto = `Olá, Douglas! Sou ${artigo} **${agente.nome}**, ${agente.papel} da sua Equipe Executiva na VIDE.\n\nMinha disciplina executiva: **${agente.o_que_faz}**\n\nComo posso direcionar ou apoiar você agora?`;
-                    localStorage.setItem(storageKey, JSON.stringify(mensagens));
-                }
-            } catch (_) {}
-        }
-
-        if (mensagens.length === 0) {
-            // Mensagem de apresentação inicial do agente
-            const artigo = agente.genero === 'F' ? 'a' : 'o';
-            mensagens = [
-                {
-                    remetente: 'agente',
-                    texto: `Olá, Douglas! Sou ${artigo} **${agente.nome}**, ${agente.papel} da sua Equipe Executiva na VIDE.\n\nMinha disciplina executiva: **${agente.o_que_faz}**\n\nComo posso direcionar ou apoiar você agora?`,
-                    timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-                }
-            ];
-            localStorage.setItem(storageKey, JSON.stringify(mensagens));
-        }
-
-        renderizarFeedMensagens(mensagens, agente);
-    }
-
-    // Renderizar Feed HTML das Mensagens
-    function renderizarFeedMensagens(mensagens, agente) {
-        const feed = document.getElementById('chat-messages-feed');
-        if (!feed) return;
-
-        feed.innerHTML = mensagens.map(m => {
-            const isUser = m.remetente === 'user';
-            const textoHtml = formatarMarkdownBasico(m.texto);
-            return `
-                <div class="chat-bubble-row ${isUser ? 'user-row' : 'agent-row'}">
-                    <div class="chat-bubble-avatar" style="overflow: hidden; padding: 0; background: transparent; border: none;">
-                        ${isUser 
-                            ? '<div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #2563EB, #1D4ED8); color: #FFF; border-radius: 50%;"><i class="fas fa-user-tie"></i></div>' 
-                            : `<img src="${agente.foto}" alt="${agente.nome}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%; border: 1.5px solid rgba(255,255,255,0.2);">`}
-                    </div>
-                    <div class="chat-bubble-content">
-                        <div class="bubble-meta">
-                            <span>${isUser ? 'Douglas Paz • Diretor' : agente.nome}</span>
-                            <span>•</span>
-                            <span>${m.timestamp || '--:--'}</span>
+            <div class="exec-agent-card-lux" onclick="irParaChatComAgente('${ag.id}')" style="--agent-color: ${theme.cor}; --agent-glow: ${theme.glow};">
+                <div style="position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, ${theme.cor}, transparent);"></div>
+                
+                <div>
+                    <div class="agent-card-top-row">
+                        <div class="agent-card-identity">
+                            <div class="agent-photo-pod">
+                                <img src="${ag.foto}" alt="${ag.nome}" onerror="this.src='logo_vide.jpg'">
+                                <div class="agent-online-beacon"></div>
+                            </div>
+                            <div class="agent-titles-wrap">
+                                <h4>${ag.nome}</h4>
+                                <p style="color: ${theme.cor};">${ag.papel}</p>
+                            </div>
                         </div>
-                        <div class="bubble-text">${textoHtml}</div>
+                        <div class="agent-arrow-action" title="Abrir Chat Imediato">
+                            <i class="fas fa-arrow-up-right"></i>
+                        </div>
                     </div>
+
+                    <p class="agent-statement-blurb">${theme.desc}</p>
                 </div>
-            `;
-        }).join('');
 
-        feed.scrollTop = feed.scrollHeight;
-    }
-
-    // Formatação leve de markdown (negrito, quebras de linha e listas)
-    function formatarMarkdownBasico(txt) {
-        if (!txt) return '';
-        let out = txt
-            .replace(/&/g, '&amp;')
-            .replace(/</g, '&lt;')
-            .replace(/>/g, '&gt;');
-
-        // Negrito
-        out = out.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-        // Código inline
-        out = out.replace(/`([^`]+)`/g, '<code>$1</code>');
-        // Quebras de linha duplas viram parágrafos
-        const linhas = out.split('\n');
-        let htmlFinal = '';
-        let emLista = false;
-
-        for (let l of linhas) {
-            let trim = l.trim();
-            if (trim.startsWith('- ') || trim.startsWith('* ')) {
-                if (!emLista) {
-                    htmlFinal += '<ul>';
-                    emLista = true;
-                }
-                htmlFinal += `<li>${trim.substring(2)}</li>`;
-            } else {
-                if (emLista) {
-                    htmlFinal += '</ul>';
-                    emLista = false;
-                }
-                if (trim.length > 0) {
-                    htmlFinal += `<p>${trim}</p>`;
-                }
-            }
-        }
-        if (emLista) htmlFinal += '</ul>';
-        return htmlFinal;
-    }
-
-    // Enviar mensagem rápida de sugestão
-    function enviarMensagemRapida(texto) {
-        const input = document.getElementById('chat-input-textarea');
-        if (input) {
-            input.value = texto;
-            enviarMensagemChat(new Event('submit'));
-        }
-    }
-
-    // Tratamento de teclas no input
-    function tratarTeclasChat(e) {
-        if (e.key === 'Enter' && !e.shiftKey) {
-            e.preventDefault();
-            enviarMensagemChat(e);
-        }
-    }
-
-    // 9. Envio de Mensagem no Chat para o Especialista
-    async function enviarMensagemChat(e) {
-        if (e && e.preventDefault) e.preventDefault();
-        const input = document.getElementById('chat-input-textarea');
-        if (!input) return;
-        const texto = input.value.trim();
-        if (!texto) return;
-
-        input.value = '';
-        const agente = CATALOGO_EQUIPE.find(a => a.id === agenteChatAtivoId) || CATALOGO_EQUIPE[0];
-        const storageKey = 'vide_chat_' + agente.id;
-        const timestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-
-        // Adicionar mensagem do usuário
-        let historico = JSON.parse(localStorage.getItem(storageKey) || '[]');
-        historico.push({ remetente: 'user', texto, timestamp });
-        localStorage.setItem(storageKey, JSON.stringify(historico));
-        renderizarFeedMensagens(historico, agente);
-
-        // Feedback de digitando
-        const feed = document.getElementById('chat-messages-feed');
-        const typingId = 'typing-bubble-temp';
-        feed.innerHTML += `
-            <div id="${typingId}" class="chat-bubble-row agent-row">
-                <div class="chat-bubble-avatar" style="background: ${agente.cor}25; color: ${agente.cor};">
-                    <i class="fas ${agente.icone}"></i>
-                </div>
-                <div class="chat-bubble-content" style="color: #94A3B8; font-style: italic;">
-                    <i class="fas fa-circle-notch fa-spin"></i> ${agente.nome} está analisando sua solicitação...
+                <div class="agent-card-bottom-bar">
+                    <div class="agent-status-dots">
+                        <span class="dot" style="background: ${theme.cor};"></span>
+                        <span class="dot" style="background: rgba(255,255,255,0.2);"></span>
+                        <span class="dot" style="background: rgba(255,255,255,0.2);"></span>
+                    </div>
+                    <div class="agent-prompt-shortcut">
+                        <span>Iniciar Conversa</span> <i class="fas fa-chevron-right" style="font-size: 9px; color: ${theme.cor};"></i>
+                    </div>
                 </div>
             </div>
-        `;
-        feed.scrollTop = feed.scrollHeight;
-
-        try {
-            const token = sessionStorage.getItem('vide_jwt') || localStorage.getItem('token_auth_cockpit');
-            const res = await fetch('/api/chat/mensagem', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': token ? ('Bearer ' + token) : ''
-                },
-                body: JSON.stringify({
-                    agenteId: agente.id,
-                    mensagem: texto,
-                    idProjeto: window.projetoAtivoId || null
-                })
-            });
-
-            const data = await res.json();
-            const tempEl = document.getElementById(typingId);
-            if (tempEl) tempEl.remove();
-
-            if (data.sucesso) {
-                const respostaTexto = data.resposta || data.parecer || 'Solicitação processada com sucesso pela equipe.';
-                historico.push({
-                    remetente: 'agente',
-                    texto: respostaTexto,
-                    timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-                });
-                localStorage.setItem(storageKey, JSON.stringify(historico));
-                renderizarFeedMensagens(historico, agente);
-
-                // Se gerou novo projeto ou executou esteira, recarrega projetos
-                if (data.novoProjetoId) {
-                    carregarProjetosSelect();
-                }
-            } else {
-                throw new Error(data.erro || 'Não foi possível obter resposta.');
-            }
-        } catch (err) {
-            const tempEl = document.getElementById(typingId);
-            if (tempEl) tempEl.remove();
-
-            historico.push({
-                remetente: 'agente',
-                texto: `⚠️ Aviso operacional: ${err.message}`,
-                timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-            });
-            localStorage.setItem(storageKey, JSON.stringify(historico));
-            renderizarFeedMensagens(historico, agente);
-        }
-    }
-
-    // Limpar conversa com o agente atual
-    function limparHistoricoChat() {
-        if (!confirm('Deseja limpar as mensagens salvas desta conversa com o especialista?')) return;
-        const agente = CATALOGO_EQUIPE.find(a => a.id === agenteChatAtivoId) || CATALOGO_EQUIPE[0];
-        localStorage.removeItem('vide_chat_' + agente.id);
-        carregarMensagensDoAgente(agente);
-    }
-
-    // 10. Enviar Prompt do Hero da Tela Início
-    function enviarPromptInicio() {
-        const input = document.getElementById('inicio-quick-prompt');
-        if (!input || !input.value.trim()) return;
-        const texto = input.value.trim();
-        input.value = '';
-
-        // Direciona para o Coordenador Geral na aba Conversar
-        irParaChatComAgente('agente_02_coordenador');
-        const chatInput = document.getElementById('chat-input-textarea');
-        if (chatInput) {
-            chatInput.value = texto;
-            enviarMensagemChat(new Event('submit'));
-        }
-    }
-
-    // 11. Atualizar Resumos do Início com base nos Projetos Reais
-    async function atualizarResumosInicio() {
-        try {
-            const token = sessionStorage.getItem('vide_jwt') || localStorage.getItem('token_auth_cockpit');
-            const res = await fetch('/api/projetos', {
-                headers: token ? { 'Authorization': 'Bearer ' + token } : {}
-            });
-            const data = await res.json();
-            if (data.sucesso && data.projetos) {
-                const total = data.projetos.length;
-                const badgeTotal = document.getElementById('inicio-total-projetos-badge');
-                if (badgeTotal) badgeTotal.innerText = total + ' Ativos';
-
-                // Buscar projeto ativo atual
-                const ativo = data.projetos.find(p => p.id === window.projetoAtivoId) || data.projetos[0];
-                if (ativo) {
-                    window.projetoAtivoId = ativo.id || ativo.id_projeto;
-                    carregarDocumentoEstrategicoProjeto(ativo.id || ativo.id_projeto);
-                    const elCli = document.getElementById('inicio-projeto-cliente-val');
-                    const elEsc = document.getElementById('inicio-projeto-escopo-val');
-                    if (elCli) elCli.innerText = limparTextoSeguro((ativo.cliente || ativo.empresa_contratante || 'AutoPeças Progresso').replace(/\[SIMULADO\]/gi, '').trim());
-                    if (elEsc) elEsc.innerText = limparTextoSeguro(ativo.solicitacao_original || 'Estruturação de presença digital e roteiro de vendas');
-
-                    // Calcular progresso baseado nas tarefas do DAG
-                    const tarefas = ativo.grafo_tarefas || [];
-                    const concluidas = tarefas.filter(t => t.estado === 'CONCLUIDA' || t.estado === 'APROVADA').length;
-                    const percent = tarefas.length > 0 ? Math.round((concluidas / tarefas.length) * 100) : 0;
-
-                    const elBar = document.getElementById('inicio-proj-progress-bar');
-                    const elTxt = document.getElementById('inicio-proj-progress-txt');
-                    if (elBar) elBar.style.width = percent + '%';
-                    if (elTxt) elTxt.innerText = `${concluidas} de ${tarefas.length} etapas concluídas (${percent}%)`;
-
-                    // Verificar se aguarda autorização
-                    const aguardaAut = ativo.autorizacao_status === 'AGUARDANDO_AUTORIZACAO' || ativo.situacao_projeto === 'AGUARDANDO_AUTORIZACAO';
-                    const elPendCount = document.getElementById('inicio-pendencias-count');
-                    const elGovDesc = document.getElementById('inicio-gov-desc-txt');
-                    const elGovAlert = document.getElementById('inicio-gov-alert-container');
-                    const elGovBadge = document.getElementById('inicio-status-gov-badge');
-
-                    if (aguardaAut) {
-                        if (elPendCount) elPendCount.innerText = '1 Decisão Pendente';
-                        if (elGovDesc) elGovDesc.innerText = 'Este projeto necessita de sua autorização formal para liberar os especialistas.';
-                        if (elGovBadge) {
-                            elGovBadge.innerText = 'Ação Necessária';
-                            elGovBadge.style.color = '#F59E0B';
-                        }
-                        if (elGovAlert) {
-                            elGovAlert.innerHTML = `
-                                <div class="gov-alert-banner">
-                                    <div class="gov-alert-info">
-                                        <i class="fas fa-triangle-exclamation"></i>
-                                        <div class="gov-alert-text">
-                                            <h4>Autorização Comercial Requerida</h4>
-                                            <p>${limparTextoSeguro(ativo.cliente || ativo.empresa_contratante)}: Projeto estruturado aguarda sua aprovação.</p>
-                                        </div>
-                                    </div>
-                                    <button class="btn-gov-autorizar" onclick="abrirModalAutorizarProjeto()">
-                                        <i class="fas fa-signature"></i> Autorizar Agora
-                                    </button>
-                                </div>
-                            `;
-                        }
-                    } else {
-                        if (elPendCount) {
-                            elPendCount.innerText = '0 Pendências';
-                            elPendCount.style.color = 'var(--green-emerald)';
-                        }
-                        if (elGovDesc) elGovDesc.innerText = 'Todas as etapas autorizadas. Equipe digital executando normalmente.';
-                        if (elGovAlert) elGovAlert.innerHTML = '';
-                    }
-
-                    // Atualizar entregas
-                    const totalEntregas = (ativo.entregaveis || []).length;
-                    const elTotEnt = document.getElementById('inicio-total-entregas-badge');
-                    if (elTotEnt) elTotEnt.innerText = totalEntregas + ' Arquivos';
-
-                    // Atualizar chip de contexto no chat
-                    const chipProj = document.getElementById('chat-context-projeto-txt');
-                    if (chipProj) chipProj.innerText = 'Projeto: ' + (ativo.cliente || ativo.empresa_contratante);
-                }
-            }
-        } catch (_) {}
-    }
-
-    // 12. Renderização da Galeria de Entregas
-    function renderizarGaleriaEntregas() {
-        const container = document.getElementById('galeria-entregas-grid');
-        if (!container) return;
-
-        const prj = window.dadosProjetoAtivo ? (window.dadosProjetoAtivo.projeto || window.dadosProjetoAtivo) : null;
-        const entregaveis = (prj && prj.entregaveis && prj.entregaveis.length > 0) ? prj.entregaveis : [
-            {
-                tipo: 'site_oficial',
-                titulo: 'Landing Page & Site Comercial',
-                descricao: 'Página web completa em HTML5, CSS e JavaScript responsivo para celular com botão de WhatsApp integrado.',
-                icone: 'fa-globe',
-                cor: '#2563EB',
-                arquivo: 'site_oficial/index.html',
-                status: 'Homologado • Pronto para Visualização'
-            },
-            {
-                tipo: 'branding',
-                titulo: 'Guia de Marca Interativo & Logotipo SVG',
-                descricao: 'Paleta de cores com contraste acessível, tokens de design em CSS e logotipo vetorial.',
-                icone: 'fa-palette',
-                cor: '#EC4899',
-                arquivo: 'branding/guia_marca_interativo.html',
-                status: 'Homologado • Visual e Vetores Prontos'
-            },
-            {
-                tipo: 'atendimento',
-                titulo: 'Roteiros de Atendimento WhatsApp & Simulador',
-                descricao: 'Roteiro de abordagem rápida, matriz de contorno das 5 maiores objeções e simulador interativo de chat.',
-                icone: 'fa-comments',
-                cor: '#10B981',
-                arquivo: 'atendimento/simulador_chat_atendimento.html',
-                status: 'Homologado • Roteiros Validados'
-            },
-            {
-                tipo: 'automacao',
-                titulo: 'Fluxo n8n & Painel de Automações',
-                descricao: 'Fluxo visual de integração para captura de leads e monitoramento de conversão em tempo real.',
-                icone: 'fa-gears',
-                cor: '#F59E0B',
-                arquivo: 'automacao/painel_monitor_automacao.html',
-                status: 'Homologado • Configuração Pronta'
-            },
-            {
-                tipo: 'inteligencia',
-                titulo: 'Dashboard Executivo & Análise 7D',
-                descricao: 'Painel gerencial de indicadores comerciais, taxas de conversão e plano de melhorias.',
-                icone: 'fa-chart-line',
-                cor: '#8B5CF6',
-                arquivo: 'inteligencia/dashboard_executivo_inteligencia.html',
-                status: 'Homologado • Indicadores Prontos'
-            }
-        ];
-
-        container.innerHTML = entregaveis.map(ent => {
-            const caminhoBase = prj ? `/equipe_digital_vide/entregas_clientes/${prj.id}/${ent.arquivo || ''}` : '#';
-            return `
-                <div class="entrega-card luxury-card" style="background: linear-gradient(155deg, ${ent.cor || '#00E5FF'}0d 0%, rgba(9, 13, 22, 0.96) 100%) !important; border: 1px solid ${ent.cor || '#00E5FF'}33 !important; border-top: 3px solid ${ent.cor || '#00E5FF'} !important; border-radius: 22px !important; box-shadow: 0 12px 30px -10px rgba(0,0,0,0.6) !important; padding: 24px !important;">
-                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;">
-                        <div class="entrega-icon-type" style="width: 46px; height: 46px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 18px; background: ${ent.cor || '#00E5FF'}20; color: ${ent.cor || '#00E5FF'}; border: 1px solid ${ent.cor || '#00E5FF'}44; box-shadow: 0 0 16px ${ent.cor || '#00E5FF'}28;">
-                            <i class="fas ${ent.icone || 'fa-file-lines'}"></i>
-                        </div>
-                        <span style="font-size: 11px; font-weight: 700; color: ${ent.cor || '#00E5FF'}; background: ${ent.cor || '#00E5FF'}18; border: 1px solid ${ent.cor || '#00E5FF'}33; padding: 3px 10px; border-radius: 999px;">
-                            Homologado
-                        </span>
-                    </div>
-                    <h3 style="font-size: 17px; font-weight: 800; color: #FFFFFF; margin: 0 0 8px 0; letter-spacing: -0.01em;">${ent.titulo}</h3>
-                    <p style="font-size: 13px; color: #94A3B8; line-height: 1.55; margin: 0 0 16px 0; min-height: 40px;">${ent.descricao}</p>
-                    <div style="font-size: 11.5px; font-weight: 600; color: #10B981; display: flex; align-items: center; gap: 6px; margin-bottom: 18px;">
-                        <i class="fas fa-circle-check"></i> ${ent.status || 'Ativo Homologado'}
-                    </div>
-
-                    <div class="entrega-card-actions">
-                        <button class="btn-brand-cyan" onclick="visualizarEntregavelModal('${caminhoBase}', '${ent.titulo}')" style="padding: 7px 12px; font-size: 12px;">
-                            <i class="fas fa-eye"></i> Visualizar na Central
-                        </button>
-                        <a href="${caminhoBase}" target="_blank" class="btn-outline-subtle" style="padding: 7px 12px; font-size: 12px; text-decoration: none;">
-                            <i class="fas fa-arrow-up-right-from-square"></i> Abrir Direto
-                        </a>
-                    </div>
-                </div>
             `;
         }).join('');
-    }
-
-    // 13. Abrir e Fechar Modal Visualizador de Entregáveis
-    function visualizarEntregavelModal(url, titulo) {
-        const modal = document.getElementById('modal-visualizador-entregavel');
-        const iframe = document.getElementById('modal-vis-iframe');
-        const tit = document.getElementById('modal-vis-titulo');
-        const link = document.getElementById('modal-vis-link-externo');
-        if (!modal || !iframe) return;
-
-        tit.innerText = titulo || 'Pré-Visualização do Entregável';
-        
-        // Se a URL for inválida ou não houver arquivo real gerado ainda
-        if (!url || url === '#' || url.includes('/undefined/') || url.endsWith('/')) {
-            iframe.style.display = 'none';
-            let placeholder = document.getElementById('modal-vis-placeholder');
-            if (!placeholder) {
-                placeholder = document.createElement('div');
-                placeholder.id = 'modal-vis-placeholder';
-                placeholder.style.cssText = 'height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; background: #070B14; color: #FFF; padding: 40px; text-align: center;';
-                iframe.parentNode.appendChild(placeholder);
-            }
-            placeholder.style.display = 'flex';
-            placeholder.innerHTML = '<div style="width: 60px; height: 60px; border-radius: 14px; background: rgba(0,229,255,0.1); border: 1px solid rgba(0,229,255,0.3); display: flex; align-items: center; justify-content: center; font-size: 26px; color: #00E5FF; margin-bottom: 20px;"><i class="fas fa-file-shield"></i></div>' +
-                '<h3 style="font-family: var(--font-headline); font-size: 20px; font-weight: 800; margin-bottom: 8px;">' + (titulo || 'Entregável Homologado') + '</h3>' +
-                '<p style="font-size: 14px; color: #94A3B8; max-width: 500px; line-height: 1.5; margin-bottom: 24px;">Este ativo foi estruturado pela Equipe Digital da VIDE e encontra-se registrado no repositório de entregas do projeto ativo.</p>' +
-                '<button onclick="fecharModalVisualizadorEntregavel()" class="btn-brand-cyan" style="padding: 10px 20px;"><i class="fas fa-check"></i> Fechar Pré-Visualização</button>';
-            if (link) link.style.display = 'none';
-        } else {
-            const placeholder = document.getElementById('modal-vis-placeholder');
-            if (placeholder) placeholder.style.display = 'none';
-            iframe.style.display = 'block';
-            iframe.src = url;
-            if (link) {
-                link.href = url;
-                link.style.display = 'inline-flex';
-            }
-        }
-        modal.style.display = 'flex';
-    }
-
-    function fecharModalVisualizadorEntregavel() {
-        const modal = document.getElementById('modal-visualizador-entregavel');
-        const iframe = document.getElementById('modal-vis-iframe');
-        if (iframe) iframe.src = '';
-        if (modal) modal.style.display = 'none';
-    }
-
-    // 14. Inicialização ao carregar a página
-    document.addEventListener('DOMContentLoaded', () => {
-        renderizarMiniCardsEquipeInicio();
-        renderizarCardsEquipeCompleta();
-        renderizarSidebarAgentesChat();
-        selecionarAgenteChat('agente_02_coordenador');
-
-        // Verificar autenticação prévia
-        const authOk = verificarAutenticacaoCockpit();
-        if (authOk) {
-            atualizarResumosInicio();
-            if (typeof carregarTelemetriaReal === 'function') carregarTelemetriaReal();
-            if (typeof carregarProjetosSelect === 'function') carregarProjetosSelect();
-            if (typeof carregarEmpresasMotor === 'function') carregarEmpresasMotor();
-        }
-    });
-    </script>
-
-    <!-- Script Original com as 57 Funções do Backend & Modais -->
-    <script>
-    
-    async function carregarTelemetriaReal() {
-        try {
-            const res = await fetch('/api/status/infraestrutura');
-            if (res.ok) {
-                const data = await res.json();
-                if (data.servidor && data.servidor.status) {
-                    const elStatus = document.getElementById('servidor-status-val');
-                    if (elStatus) elStatus.textContent = data.servidor.status;
-                }
-                const bco = (data.banco_de_dados && data.banco_de_dados.modo_operação) || 'POSTGRESQL_REMOTO_ATIVO';
-                adicionarLogTerminal('Matheus Barreto (Telemetria)', 'Telemetria ao vivo: ' + bco + ' operacional.');
-                if (data.integrações && data.integrações.inteligencia_artificial) {
-                    const iaInfo = data.integrações.inteligencia_artificial;
-                    const iaStatusTexto = iaInfo.ia_generativa_ativa 
-                        ? `IA Generativa Ativa [${iaInfo.provedor} / ${iaInfo.modelo}]` 
-                        : `Motor Cognitivo Local Ativo [${iaInfo.modelo}]`;
-                    adicionarLogTerminal('Gabriel Rocha (Coordenação)', 'Inteligência Artificial: ' + iaStatusTexto);
-                }
-            }
-        } catch(e) {
-            adicionarLogTerminal('SISTEMA', 'Telemetria local ativa em modo simulado.');
-        }
-
-        try {
-            const token = sessionStorage.getItem('vide_jwt');
-            const headers = token ? { 'Authorization': 'Bearer ' + token } : {};
-            const resPrj = await fetch('/api/projetos', { headers });
-            if (resPrj.ok) {
-                const prjs = await resPrj.json();
-                const total = Array.isArray(prjs) ? prjs.length : (prjs.total || 0);
-                const elPrj = document.getElementById('projetos-auditados-val');
-                if (elPrj && total > 0) {
-                    elPrj.textContent = total + ' ATIVOS';
-                }
-            }
-        } catch(e) {}
-    }
-
-    async function enviarComandoTerminal(e) {
-        e.preventDefault();
-        const input = document.getElementById('terminal-input');
-        const cmd = input.value.trim();
-        if (!cmd) return;
-
-        adicionarLogTerminal('DIRETOR DOUGLAS', cmd);
-        input.value = '';
-
-        const parts = cmd.split(' ');
-        const acao = parts[0].toLowerCase();
-
-        // 1. Comando AJUDA / HELP
-        if (acao === 'ajuda' || acao === 'help') {
-            adicionarLogTerminal('Gabriel Rocha (Coordenação)', 'Comandos do Cockpit: [demanda <texto>], [status], [ia], [ia auditar], [projetos], [aprovar <id>], [executar <id>], [auditar <id>], [webhook <url>], [login <usr> <pwd>], [limpar] ou diretriz executiva livre.');
-            return;
-        }
-
-        // 2. Comando LIMPAR / CLEAR
-        if (acao === 'limpar' || acao === 'clear') {
-            const feed = document.getElementById('terminal-feed');
-            if (feed) feed.innerHTML = '';
-            adicionarLogTerminal('SISTEMA', 'Console limpo. Cockpit pronto para novas diretrizes.');
-            return;
-        }
-
-        // 3. Comando LOGIN <usuario> <senha>
-        if (acao === 'login') {
-            const usuario = parts[1];
-            const senha = parts[2];
-            if (!usuario || !senha) {
-                adicionarLogTerminal('SEGURANÇA', 'Sintaxe: login <usuario> <senha>');
-                return;
-            }
-            try {
-                const res = await fetch('/api/auth/login', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ usuario, senha })
-                });
-                const data = await res.json();
-                if (res.ok && data.token) {
-                    sessionStorage.setItem('vide_jwt', data.token);
-                    adicionarLogTerminal('SEGURANÇA', 'Autenticação bem-sucedida. Sessão autorizada para [' + data.usuario + '] (Papel: ' + data.papel + '). Token armazenado.');
-                } else {
-                    adicionarLogTerminal('SEGURANÇA', 'Falha na autenticação: ' + (data.erro || 'Credenciais inválidas.'));
-                }
-            } catch(err) {
-                adicionarLogTerminal('SEGURANÇA', 'Erro de conexão ao autenticar: ' + err.message);
-            }
-            return;
-        }
-
-        // 4. Comando STATUS
-        if (acao === 'status') {
-            try {
-                const res = await fetch('/api/status/infraestrutura');
-                const data = await res.json();
-                adicionarLogTerminal('Matheus Barreto (Telemetria)', 'Servidor: ' + data.servidor.status + ' | Ambiente: ' + data.ambiente + ' | Banco: ' + data.banco_de_dados.modo_operação + ' | Storage: ' + data.armazenamento.tipo);
-            } catch(err) {
-                adicionarLogTerminal('Matheus Barreto (Telemetria)', 'Erro ao consultar infraestrutura: ' + err.message);
-            }
-            return;
-        }
-
-        // 5. Comando PROJETOS
-        if (acao === 'projetos' || acao === 'listar') {
-            try {
-                const token = sessionStorage.getItem('vide_jwt');
-                const headers = token ? { 'Authorization': 'Bearer ' + token } : {};
-                const res = await fetch('/api/projetos', { headers });
-                const prjs = await res.json();
-                if (Array.isArray(prjs) && prjs.length > 0) {
-                    const resumo = prjs.slice(0, 5).map(p => (p.id || p.id_projeto) + ' (' + (p.status || p.fase || 'EM_ANDAMENTO') + ')').join(' | ');
-                    adicionarLogTerminal('Gabriel Rocha (Coordenação)', 'Projetos registrados (' + prjs.length + '): ' + resumo);
-                } else {
-                    adicionarLogTerminal('Gabriel Rocha (Coordenação)', 'Nenhum projeto em esteira no momento.');
-                }
-            } catch(err) {
-                adicionarLogTerminal('Gabriel Rocha (Coordenação)', 'Erro ao listar projetos: ' + err.message);
-            }
-            return;
-        }
-
-        // 5.1 Comando DEMANDA <texto> ou LEAD <texto> — Ingestão direta via Cockpit
-        if (acao === 'demanda' || acao === 'lead' || acao === 'triagem') {
-            const textoDemanda = cmd.substring(acao.length).trim();
-            if (!textoDemanda) {
-                adicionarLogTerminal('Lucas Fontana (Triagem)', 'Sintaxe: demanda <descreva a necessidade do cliente>');
-                return;
-            }
-            try {
-                adicionarLogTerminal('Lucas Fontana (Triagem)', 'Ingerindo e classificando demanda comercial...');
-                const res = await fetch('/api/webhook/triagem', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        solicitacao: textoDemanda,
-                        cliente: 'Diretoria VIDE (Central de Operações)'
-                    })
-                });
-                const data = await res.json();
-                if (res.ok && data.id_projeto) {
-                    adicionarLogTerminal('Lucas Fontana (Triagem)', 'Demanda classificada com sucesso! ID: ' + (data.id_demanda || 'N/A') + ' | Diagnóstico: ' + (data.resultado?.triagem?.servicoSolicitado || 'Tripartite'));
-                    adicionarLogTerminal('Gabriel Rocha (Coordenação)', 'Projeto [' + data.id_projeto + '] registrado no Coordenador Geral. Situação: AGUARDANDO_AUTORIZACAO_COMERCIAL (Bloqueio estrito de especialistas até autorização da Diretoria).');
-                    adicionarLogTerminal('Douglas Paz (Diretor Executivo)', 'Para liberar e disparar os 7 especialistas, execute: aprovar ' + data.id_projeto);
-                    carregarTelemetriaReal();
-        carregarEmpresasMotor();
-        carregarProjetosSelect();
-                } else {
-                    adicionarLogTerminal('Lucas Fontana (Triagem)', 'Erro ao processar demanda: ' + (data.erro || 'Falha desconhecida'));
-                }
-            } catch(err) {
-                adicionarLogTerminal('Lucas Fontana (Triagem)', 'Erro de conexão: ' + err.message);
-            }
-            return;
-        }
-
-        // 5.2 Comando EXECUTAR <id_projeto> ou ESTEIRA <id_projeto>
-        if (acao === 'executar' || acao === 'esteira') {
-            const id_projeto = parts[1];
-            if (!id_projeto) {
-                adicionarLogTerminal('Gabriel Rocha (Coordenação)', 'Sintaxe: executar <ID_PROJETO>');
-                return;
-            }
-            const token = sessionStorage.getItem('vide_jwt');
-            if (!token) {
-                adicionarLogTerminal('SEGURANÇA', 'Erro 401: Ação restrita à Diretoria. Execute primeiro: login <usuario> <senha>');
-                return;
-            }
-            try {
-                adicionarLogTerminal('Gabriel Rocha (Coordenação)', 'Disparando esteira completa dos especialistas para [' + id_projeto + ']...');
-                const res = await fetch('/api/coordenador/executar-esteira', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + token
-                    },
-                    body: JSON.stringify({ id_projeto })
-                });
-                const data = await res.json();
-                if (res.ok) {
-                    adicionarLogTerminal('Gabriel Rocha (Coordenação)', 'Esteira concluída com sucesso! ' + (data.entregaveis?.length || 0) + ' tarefas especializadas executadas.');
-                    carregarTelemetriaReal();
-                } else {
-                    adicionarLogTerminal('Gabriel Rocha (Coordenação)', 'Falha na execução: ' + (data.erro || 'Erro não especificado'));
-                }
-            } catch(err) {
-                adicionarLogTerminal('Gabriel Rocha (Coordenação)', 'Erro na execução: ' + err.message);
-            }
-            return;
-        }
-
-        // 5.3 Comando AUDITAR <id_projeto> ou ARQUIVOS <id_projeto>
-        if (acao === 'auditar' || acao === 'arquivos') {
-            const id_projeto = parts[1];
-            if (!id_projeto) {
-                adicionarLogTerminal('Matheus Barreto (Telemetria)', 'Sintaxe: auditar <ID_PROJETO>');
-                return;
-            }
-            const token = sessionStorage.getItem('vide_jwt');
-            const headers = token ? { 'Authorization': 'Bearer ' + token } : {};
-            try {
-                const res = await fetch('/api/projetos/' + id_projeto + '/arquivos', { headers });
-                const data = await res.json();
-                if (res.ok) {
-                    const totalPg = data.total_arquivos_postgresql || 0;
-                    const arqs = data.arquivos || data.arquivos_em_disco || [];
-                    adicionarLogTerminal('Matheus Barreto (Telemetria)', 'Auditoria [' + id_projeto + ']: ' + arqs.length + ' arquivos em disco | ' + totalPg + ' persistidos no PostgreSQL durável.');
-                    if (arqs.length > 0) {
-                        const lista = arqs.slice(0, 4).map(a => typeof a === 'string' ? a : a.nome_arquivo).join(', ');
-                        adicionarLogTerminal('Matheus Barreto (Telemetria)', 'Entregáveis auditados: ' + lista + ' (+ ' + (arqs.length - 4) + ' adicionais)');
-                    }
-                } else {
-                    adicionarLogTerminal('Matheus Barreto (Telemetria)', 'Falha ao auditar: ' + (data.erro || 'Erro não especificado'));
-                }
-            } catch(err) {
-                adicionarLogTerminal('Matheus Barreto (Telemetria)', 'Erro ao auditar: ' + err.message);
-            }
-            return;
-        }
-
-        // 6. Comando APROVAR <id_projeto>
-        if (acao === 'aprovar') {
-            const id_projeto = parts[1];
-            if (!id_projeto) {
-                adicionarLogTerminal('Gabriel Rocha (Coordenação)', 'Sintaxe: aprovar <ID_PROJETO>');
-                return;
-            }
-            const token = sessionStorage.getItem('vide_jwt');
-            if (!token) {
-                adicionarLogTerminal('SEGURANÇA', 'Erro 401: Ação restrita à Diretoria. Execute primeiro: login <usuario> <senha>');
-                return;
-            }
-            try {
-                const res = await fetch('/api/coordenador/aprovar-projeto', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + token
-                    },
-                    body: JSON.stringify({ id_projeto })
-                });
-                const data = await res.json();
-                if (res.ok) {
-                    adicionarLogTerminal('Gabriel Rocha (Coordenação)', 'Projeto [' + id_projeto + '] homologado e aprovado pela Diretoria! Grafo de tarefas ativado.');
-                    if (Array.isArray(data.entregaveis) && data.entregaveis.length > 0) {
-                        data.entregaveis.forEach(ent => {
-                            adicionarLogTerminal('ESPECIALISTA', '✓ ' + ent.especialista + ': Ativos gerados e conferidos pelo Coordenador Geral.');
-                        });
-                        adicionarLogTerminal('Gabriel Rocha (Coordenação)', 'Projeto [' + id_projeto + '] atingiu AGUARDANDO_HOMOLOGACAO_GESTAO com 100% dos critérios validados!');
-                    }
-                    carregarTelemetriaReal();
-                } else {
-                    adicionarLogTerminal('Gabriel Rocha (Coordenação)', 'Falha ao aprovar projeto: ' + (data.erro || 'Erro não especificado'));
-                }
-            } catch(err) {
-                adicionarLogTerminal('Gabriel Rocha (Coordenação)', 'Erro na comunicação de aprovação: ' + err.message);
-            }
-            return;
-        }
-
-        // 7. Qualquer outra instrução vai para o endpoint de instrução
-        try {
-            const token = sessionStorage.getItem('vide_jwt');
-            const headers = { 'Content-Type': 'application/json' };
-            if (token) headers['Authorization'] = 'Bearer ' + token;
-
-            const res = await fetch('/api/coordenador/instrucao', {
-                method: 'POST',
-                headers,
-                body: JSON.stringify({ instrucao: cmd })
-            });
-            if (res.ok) {
-                const data = await res.json();
-                adicionarLogTerminal('Gabriel Rocha (Coordenação)', data.parecer || 'Diretriz recebida e distribuída na esteira de tarefas.');
-            } else {
-                adicionarLogTerminal('Gabriel Rocha (Coordenação)', 'Comando executado com sucesso: parâmetros comerciais homologados.');
-            }
-        } catch(err) {
-            adicionarLogTerminal('Gabriel Rocha (Coordenação)', 'Comando assimilado pelo Coordenador Geral. Roadmap operacional alinhado.');
-        }
-    }
-
-    
-    // =========================================================================
-    // FUNÇÕES DA CENTRAL DE COMANDO: GESTÃO DE PROJETOS & ALIMENTAÇÃO DA EQUIPE
-    // =========================================================================
-    let projetoAtivoId = null;
-    let dadosProjetoAtivo = null;
-
-    function abrirModalNovoProjeto() {
-        const m = document.getElementById('modal-novo-projeto');
-        if (m) m.style.display = 'flex';
-    }
-
-    function fecharModalNovoProjeto() {
-        const m = document.getElementById('modal-novo-projeto');
-        if (m) m.style.display = 'none';
-    }
-
-    async function salvarNovoProjetoModal(e) {
-        e.preventDefault();
-        const cliente = document.getElementById('modal-cliente').value.trim();
-        const solicitacao = document.getElementById('modal-solicitacao').value.trim();
-        const briefing = document.getElementById('modal-briefing').value.trim();
-        const prazo = document.getElementById('modal-prazo').value.trim();
-
-        const frentes = [];
-        if (document.getElementById('modal-frente-presenca')?.checked) frentes.push('PRESENCA_COMERCIAL');
-        if (document.getElementById('modal-frente-sistema')?.checked) frentes.push('SISTEMA_COMERCIAL');
-        if (document.getElementById('modal-frente-intel')?.checked) frentes.push('INTELIGENCIA_OTIMIZACAO');
-        const limites = (document.getElementById('modal-limites')?.value || '').trim();
-
-        try {
-            adicionarLogTerminal('Douglas Paz (Diretor Executivo)', 'Criando novo projeto para [' + cliente + ']...');
-            const token = sessionStorage.getItem('vide_jwt');
-            const headers = { 'Content-Type': 'application/json' };
-            if (token) headers['Authorization'] = 'Bearer ' + token;
-            const res = await fetch('/api/projetos/novo', {
-                method: 'POST',
-                headers,
-                body: JSON.stringify({ 
-                    empresaContratante: cliente,
-                    cliente, 
-                    solicitacao, 
-                    briefing, 
-                    prazo, 
-                    frentesComerciais: frentes, 
-                    limitesTrabalho: limites 
-                })
-            });
-            const data = await res.json();
-            if (res.ok && data.id_projeto) {
-                adicionarLogTerminal('Gabriel Rocha (Coordenação)', 'Projeto [' + data.id_projeto + '] registrado! Situação: AGUARDANDO_AUTORIZACAO_COMERCIAL (Bloqueio estrito mantido).');
-                fecharModalNovoProjeto();
-                await carregarProjetosSelect();
-                selecionarProjetoAtivo(data.id_projeto);
-            } else {
-                adicionarLogTerminal('Gabriel Rocha (Coordenação)', 'Erro ao criar projeto: ' + (data.erro || 'Falha'));
-            }
-        } catch(err) {
-            adicionarLogTerminal('Gabriel Rocha (Coordenação)', 'Erro na criação do projeto: ' + err.message);
-        }
     }
 
     async function carregarProjetosSelect() {
