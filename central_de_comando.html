@@ -1804,6 +1804,35 @@ select, .input-dark-field, .proj-selector-dropdown {
     }
 }
 
+
+/* Fix avatar size in chat bubbles */
+.chat-bubble-row {
+    display: flex !important;
+    gap: 12px !important;
+    align-items: flex-start !important;
+}
+.chat-bubble-row.user-row {
+    flex-direction: row-reverse !important;
+}
+.chat-bubble-avatar {
+    width: 36px !important;
+    height: 36px !important;
+    min-width: 36px !important;
+    min-height: 36px !important;
+    max-width: 36px !important;
+    max-height: 36px !important;
+    border-radius: 50% !important;
+    overflow: hidden !important;
+    flex-shrink: 0 !important;
+}
+.chat-bubble-avatar img {
+    width: 36px !important;
+    height: 36px !important;
+    object-fit: cover !important;
+    border-radius: 50% !important;
+    display: block !important;
+}
+
 </style>
 </head>
 <body>
