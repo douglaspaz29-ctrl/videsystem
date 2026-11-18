@@ -1734,7 +1734,7 @@ select, .input-dark-field, .proj-selector-dropdown {
 /* =====================================================================
  * RESPONSIVIDADE PRECISA: NOTEBOOK (<= 1366px e 1280px)
  * ===================================================================== */
-@media (max-width: 1366px) {
+@media (max-width: 1180px) {
     .exec-topbar {
         padding: 0 12px !important;
         gap: 8px !important;
@@ -3292,6 +3292,37 @@ select.proj-selector-dropdown,
     }
 }
 
+
+
+/* Active Stepper Step Contrast */
+.stepper-step.active .step-num,
+.stepper-step.active .stepper-circle {
+    background: #00D2FF !important;
+    color: #07090E !important;
+    font-weight: 800 !important;
+    border: 2px solid #00D2FF !important;
+    box-shadow: 0 0 12px rgba(0, 210, 255, 0.5) !important;
+}
+
+/* Solid Topbar Backdrop */
+.exec-topbar {
+    background: rgba(9, 11, 16, 0.95) !important;
+    backdrop-filter: blur(24px) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+
+/* Mini Agent Card Hover */
+.mini-agent-card:hover {
+    border-color: rgba(0, 210, 255, 0.35) !important;
+    background: rgba(18, 26, 44, 0.85) !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4) !important;
+}
+.mini-agent-card:hover .mini-agent-arrow {
+    background: rgba(0, 210, 255, 0.2) !important;
+    color: #00D2FF !important;
+}
+
 </style>
 </head>
 <body>
@@ -4830,7 +4861,7 @@ select.proj-selector-dropdown,
 
         // Atualiza também o Card de Início
         const elInicioMetric = document.getElementById('inicio-estrategia-metric-txt');
-        if (elInicioMetric) elInicioMetric.textContent = servico;
+        if (elInicioMetric) elInicioMetric.textContent = (servico || 'Presença Comercial Digital').replace(/PRESENCA_COMERCIAL/gi, 'Presença Comercial Digital');
         const elInicioDesc = document.getElementById('inicio-estrategia-desc-txt');
         if (elInicioDesc) elInicioDesc.textContent = isAprovado ? 'Estratégia homologada. Especialistas em execução conforme diretrizes.' : 'Aguardando sua validação executiva antes do início das entregas técnicas.';
         const elInicioBadge = document.getElementById('inicio-estrategia-status-badge');
@@ -5422,20 +5453,18 @@ select.proj-selector-dropdown,
         if (!container) return;
 
         container.innerHTML = CATALOGO_EQUIPE.map(ag => `
-            <div class="mini-agent-card" onclick="irParaChatComAgente('${ag.id}')">
-                <div class="mini-agent-info">
-                    <div class="avatar-photo-badge" style="width: 44px; height: 44px; border: 2px solid ${ag.cor}; box-shadow: 0 0 12px ${ag.cor}44;">
-                        <img src="${ag.foto}" alt="${ag.nome}" onerror="this.src='logo_vide.jpg'">
-                        <div class="online-indicator-dot" style="width: 9px; height: 9px;"></div>
-                    </div>
-                    <div class="mini-agent-text">
-                        <h4>${ag.nome}</h4>
-                        <p style="color: ${ag.cor}; font-size: 11px; font-weight: 600;">${ag.papel}</p>
-                    </div>
+            <div class="mini-agent-card" onclick="irParaChatComAgente('${ag.id}')" style="display: flex; align-items: center; gap: 12px; padding: 12px 16px; background: rgba(14, 19, 32, 0.7); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); cursor: pointer; transition: all 0.22s ease;">
+                <div class="avatar-photo-badge" style="width: 42px; height: 42px; border: 1.5px solid ${ag.cor}; flex-shrink: 0;">
+                    <img src="${ag.foto}" alt="${ag.nome}" onerror="this.src='logo_vide.jpg'">
+                    <div class="online-indicator-dot" style="width: 8px; height: 8px;"></div>
                 </div>
-                <button class="mini-agent-btn">
-                    Falar com ${ag.primeiro_nome} <i class="fas fa-arrow-right" style="margin-left: 4px; font-size: 10px;"></i>
-                </button>
+                <div class="mini-agent-text" style="flex: 1; min-width: 0;">
+                    <h4 style="margin: 0 0 2px 0; font-size: 13.5px; font-weight: 700; color: #FFFFFF; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${ag.nome}</h4>
+                    <p style="margin: 0; color: ${ag.cor}; font-size: 11px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${ag.papel}</p>
+                </div>
+                <div class="mini-agent-arrow" style="width: 26px; height: 26px; border-radius: 50%; background: rgba(255,255,255,0.06); display: flex; align-items: center; justify-content: center; color: var(--text-muted); flex-shrink: 0;">
+                    <i class="fas fa-chevron-right" style="font-size: 10px;"></i>
+                </div>
             </div>
         `).join('');
     }
@@ -5811,7 +5840,7 @@ select.proj-selector-dropdown,
                     carregarDocumentoEstrategicoProjeto(ativo.id || ativo.id_projeto);
                     const elCli = document.getElementById('inicio-projeto-cliente-val');
                     const elEsc = document.getElementById('inicio-projeto-escopo-val');
-                    if (elCli) elCli.innerText = limparTextoSeguro(ativo.cliente || ativo.empresa_contratante || 'Padaria Real');
+                    if (elCli) elCli.innerText = limparTextoSeguro((ativo.cliente || ativo.empresa_contratante || 'AutoPeças Progresso').replace(/\[SIMULADO\]/gi, '').trim());
                     if (elEsc) elEsc.innerText = limparTextoSeguro(ativo.solicitacao_original || 'Estruturação de presença digital e roteiro de vendas');
 
                     // Calcular progresso baseado nas tarefas do DAG
