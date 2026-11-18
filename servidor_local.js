@@ -149,7 +149,7 @@ function executarEsteiraCompletaEspecialistas(idProjeto) {
     if (!projeto) throw new Error('Projeto ' + idProjeto + ' não encontrado.');
 
     const resultados = [];
-    if (projeto.autorizacao_comercial?.status !== 'AUTORIZADO') {
+    if (projeto.autorizacao_comercial?.status !== 'AUTORIZADO' && projeto.autorizacao_status !== 'AUTORIZADO') {
         autorizarProjetoComercialmente(idProjeto, 'Homologação e Ativação Operacional Integrada');
     }
 
@@ -159,110 +159,51 @@ function executarEsteiraCompletaEspecialistas(idProjeto) {
     for (let passada = 1; passada <= 5; passada++) {
         let executouNestaPassada = false;
         prjAtual = obterProjetoPorId(idProjeto);
+        const tarefas = prjAtual.grafo_tarefas || [];
 
-        // 1. Estrategista
-        const tskEstrategista = (prjAtual.grafo_tarefas || []).find(t => 
-            (t.especialista === 'Estrategista' || (t.especialista || '').toLowerCase().includes('estrateg')) && 
-            t.estado === 'PRONTA_PARA_EXECUCAO'
-        );
-        if (tskEstrategista) {
-            prjAtual = conferirEntrega({
-                idProjeto,
-                idTarefa: tskEstrategista.id_tarefa,
-                entregaSubmetida: {
-                    posicionamento: 'Posicionamento e Proposta de Valor Aprovados',
-                    mapa_arquitetura: 'Pipeline Tripartite VIDE Ativada'
-                },
-                criteriosAtendidos: true,
-                parecerCoordenador: 'Homologação estratégica aprovada pela Diretoria VIDE.'
+        // Identifica tarefas prontas para execução (EM_EXECUCAO ou PRONTA_PARA_EXECUCAO) cujas dependências já foram concluídas
+        const tarefasProntas = tarefas.filter(t => {
+            const estadoValido = (t.estado === 'EM_EXECUCAO' || t.estado === 'PRONTA_PARA_EXECUCAO');
+            if (!estadoValido) return false;
+            if (!t.dependencias || t.dependencias.length === 0) return true;
+            return t.dependencias.every(depId => {
+                const dep = tarefas.find(d => (d.id_tarefa || d.id) === depId);
+                return dep && (dep.estado === 'CONCLUIDO' || dep.estado === 'APROVADA');
             });
-            resultados.push({ especialista: 'Estrategista', tarefa: tskEstrategista.id_tarefa, status: 'APROVADA' });
-            executouNestaPassada = true;
-            prjAtual = obterProjetoPorId(idProjeto);
-        }
+        });
 
-        // 2. Branding & Design (Agente 04)
-        const tskBranding = (prjAtual.grafo_tarefas || []).find(t => 
-            ((t.especialista || '').toLowerCase().includes('branding') || (t.especialista || '').toLowerCase().includes('design')) && 
-            t.estado === 'PRONTA_PARA_EXECUCAO'
-        );
-        if (tskBranding) {
+        for (const tsk of tarefasProntas) {
             try {
-                const ciclo = executarCicloCompletoBranding({ idProjeto, idTarefa: tskBranding.id_tarefa });
-                resultados.push({ especialista: 'Branding e Design', tarefa: tskBranding.id_tarefa, arquivos: ciclo.dadosEntrega?.arquivosCriados || [] });
+                const resExec = executarTarefaProjeto({
+                    idProjeto,
+                    idTarefa: tsk.id_tarefa || tsk.id,
+                    usuarioExecucao: 'Coordenador Geral (Esteira Automática)'
+                });
+                resultados.push({
+                    especialista: tsk.especialista,
+                    tarefa: tsk.id_tarefa || tsk.id,
+                    arquivos: resExec.arquivos || [],
+                    estado: resExec.estado || 'AGUARDANDO_APROVACAO'
+                });
                 executouNestaPassada = true;
-                prjAtual = obterProjetoPorId(idProjeto);
-            } catch(e) {
-                console.warn('[ESTEIRA] Branding aviso: ' + e.message);
-            }
-        }
-
-        // 3. Desenvolvedor Web (Agente 03)
-        const tskDev = (prjAtual.grafo_tarefas || []).find(t => 
-            ((t.especialista || '').toLowerCase().includes('desenvolv') || (t.especialista || '').toLowerCase().includes('web')) && 
-            t.estado === 'PRONTA_PARA_EXECUCAO'
-        );
-        if (tskDev) {
-            try {
-                const ciclo = executarCicloCompletoDesenvolvedor({ idProjeto, idTarefa: tskDev.id_tarefa });
-                resultados.push({ especialista: 'Desenvolvedor', tarefa: tskDev.id_tarefa, arquivos: ciclo.dadosEntrega?.arquivosCriados || [] });
-                executouNestaPassada = true;
-                prjAtual = obterProjetoPorId(idProjeto);
-            } catch(e) {
-                console.warn('[ESTEIRA] Dev aviso: ' + e.message);
-            }
-        }
-
-        // 4. Atendimento & Vendas (Agente 05)
-        const tskAtend = (prjAtual.grafo_tarefas || []).find(t => 
-            (t.especialista || '').toLowerCase().includes('atend') && 
-            t.estado === 'PRONTA_PARA_EXECUCAO'
-        );
-        if (tskAtend) {
-            try {
-                const ciclo = executarCicloCompletoAtendimento({ idProjeto, idTarefa: tskAtend.id_tarefa });
-                resultados.push({ especialista: 'Atendimento', tarefa: tskAtend.id_tarefa, arquivos: ciclo.dadosEntrega?.arquivosCriados || [] });
-                executouNestaPassada = true;
-                prjAtual = obterProjetoPorId(idProjeto);
-            } catch(e) {
-                console.warn('[ESTEIRA] Atendimento aviso: ' + e.message);
-            }
-        }
-
-        // 5. Automação & Integrações (Agente 06)
-        const tskAuto = (prjAtual.grafo_tarefas || []).find(t => 
-            (t.especialista || '').toLowerCase().includes('auto') && 
-            t.estado === 'PRONTA_PARA_EXECUCAO'
-        );
-        if (tskAuto) {
-            try {
-                const ciclo = executarCicloCompletoAutomacao({ idProjeto, idTarefa: tskAuto.id_tarefa });
-                resultados.push({ especialista: 'Automação', tarefa: tskAuto.id_tarefa, arquivos: ciclo.dadosEntrega?.arquivosCriados || [] });
-                executouNestaPassada = true;
-                prjAtual = obterProjetoPorId(idProjeto);
-            } catch(e) {
-                console.warn('[ESTEIRA] Automação aviso: ' + e.message);
-            }
-        }
-
-        // 6. Inteligência Comercial (Agente 07)
-        const tskIntel = (prjAtual.grafo_tarefas || []).find(t => 
-            (t.especialista || '').toLowerCase().includes('intel') && 
-            t.estado === 'PRONTA_PARA_EXECUCAO'
-        );
-        if (tskIntel) {
-            try {
-                const ciclo = executarCicloCompletoInteligencia({ idProjeto, idTarefa: tskIntel.id_tarefa });
-                resultados.push({ especialista: 'Inteligência Comercial', tarefa: tskIntel.id_tarefa, arquivos: ciclo.dadosEntrega?.arquivosCriados || [] });
-                executouNestaPassada = true;
-                prjAtual = obterProjetoPorId(idProjeto);
-            } catch(e) {
-                console.warn('[ESTEIRA] Inteligência aviso: ' + e.message);
+            } catch (eTsk) {
+                console.warn(`[ESTEIRA] Aviso ao executar ${tsk.id_tarefa || tsk.id}: ${eTsk.message}`);
             }
         }
 
         if (!executouNestaPassada) break;
     }
+
+    try {
+        servicoWebhooksSaida.dispararEvento('esteira_concluida', {
+            id_projeto: idProjeto,
+            total_entregaveis: resultados.length,
+            entregaveis: resultados
+        });
+    } catch (_) {}
+
+    return resultados;
+}
 
     try {
         servicoWebhooksSaida.dispararEvento('esteira_concluida', {
@@ -2236,6 +2177,12 @@ const servidor = http.createServer(async (req, res) => {
             if (!fs.existsSync(caminhoArquivo)) {
                 caminhoArquivo = path.join(DIRETORIO_RAIZ, '02_PAINEL_E_FERRAMENTA_INTERNA', rel);
             }
+        } else if (urlLimpa.startsWith('/assets/')) {
+            const rel = urlLimpa.replace('/assets/', '');
+            caminhoArquivo = path.join(DIRETORIO_RAIZ, rel);
+        } else if (urlLimpa.startsWith('/js/')) {
+            const rel = urlLimpa.replace('/js/', '');
+            caminhoArquivo = path.join(DIRETORIO_RAIZ, rel);
         }
     }
 

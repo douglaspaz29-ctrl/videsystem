@@ -202,6 +202,8 @@ function autorizarProjetoComercialmente(params) {
         data_autorizacao: new Date().toISOString(),
         observacao: obs
     };
+    projeto.autorizado = true;
+    projeto.autorizacao_status = ESTADOS_SISTEMA.AUTORIZADO;
 
     projeto.frentes_comerciais = frentes;
     projeto.escopo_autorizado = escopo;
