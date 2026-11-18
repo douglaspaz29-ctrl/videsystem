@@ -44,6 +44,45 @@ const { servicoWebhooksSaida } = require(`${moduloAgentesDir}/servico_webhooks_s
 const { obterCatalogoCompleto } = require(`${moduloAgentesDir}/catalogo_solucoes_comerciais`);
 const { servicoMotorInteligencia } = require(`${moduloAgentesDir}/servico_motor_inteligencia`);
 const { servicoIngestaoComercial } = require(`${moduloAgentesDir}/servico_ingestao_comercial`);
+const { sistemaBriefingEstrategico, ESTRUTURAS_BRIEFING, identificarEspecialidadeServico } = require(`${moduloAgentesDir}/sistema_briefing_estrategico`);
+
+function garantirDocumentoEstrategicoProjeto(projeto) {
+    if (!projeto) return null;
+    const frentes = projeto.frentes_comerciais || [];
+    const servicoPrincipal = projeto.servico_contratado || (frentes.length > 0 ? frentes[0] : (projeto.solicitacao_original || 'Sites & Landing Pages'));
+    const clienteNome = projeto.empresa_contratante || projeto.cliente || 'Empresa Cliente';
+
+    let modificado = false;
+    if (!projeto.briefing_estrategico) {
+        projeto.briefing_estrategico = sistemaBriefingEstrategico.iniciarBriefingDemanda({
+            demandaOriginal: projeto.solicitacao_original || 'Demanda comercial cadastrada',
+            servicoContratado: servicoPrincipal,
+            cliente: clienteNome
+        });
+        modificado = true;
+    }
+
+    if (!projeto.documento_estrategico) {
+        projeto.documento_estrategico = sistemaBriefingEstrategico.sintetizarDocumentoEstrategico({
+            idProjeto: projeto.id_projeto || projeto.id,
+            cliente: clienteNome,
+            solicitacaoOriginal: projeto.solicitacao_original || 'Demanda comercial cadastrada',
+            servicoContratado: servicoPrincipal,
+            respostasBriefing: projeto.briefing_estrategico?.respostas_coletadas || {}
+        });
+        if (projeto.situacao_projeto === 'EM_EXECUCAO' || projeto.situacao_projeto === 'CONCLUIDO') {
+            projeto.documento_estrategico.status_aprovacao = 'HOMOLOGADO_DIRETORIA';
+            projeto.documento_estrategico.aprovado_por = projeto.responsavel_aprovacao || 'Douglas Paz — Diretor Executivo';
+            projeto.documento_estrategico.data_aprovacao = projeto.autorizacao_comercial?.data_autorizacao || new Date().toISOString();
+        }
+        modificado = true;
+    }
+
+    if (modificado) {
+        try { salvarProjeto(projeto); } catch (_) {}
+    }
+    return projeto;
+}
 const {
     FRENTES_COMERCIAIS,
     ESTADOS_SISTEMA,
@@ -709,8 +748,218 @@ const servidor = http.createServer(async (req, res) => {
         }));
     }
 
-    // 2. GET /api/projetos/:id — Retorna detalhes de um projeto específico com fallback direto no PostgreSQL (Autenticação Obrigatória)
-    if (urlLimpa.startsWith('/api/projetos/') && !urlLimpa.includes('/arquivos') && !urlLimpa.includes('/detalhes') && !urlLimpa.includes('/anexos') && !urlLimpa.includes('/diagnostico') && !urlLimpa.includes('/dossie') && req.method === 'GET') {
+        // =========================================================================
+    // ROTAS DO SISTEMA DE BRIEFING E ESTRATÉGIA DA SOLUÇÃO (ETAPA MANDATÓRIA)
+    // =========================================================================
+
+    // 1.5 GET /api/projetos/:id/briefing — Obtém estrutura de perguntas e respostas do briefing
+    if (urlLimpa.startsWith('/api/projetos/') && urlLimpa.endsWith('/briefing') && req.method === 'GET') {
+        const usuarioAutenticado = exigirAutenticacao(req, res);
+        if (!usuarioAutenticado) return;
+
+        const idProjeto = decodeURIComponent(urlLimpa.replace('/api/projetos/', '').replace('/briefing', '').trim());
+        let projeto = obterProjetoPorId(idProjeto);
+        if (!projeto && db.pgPool) projeto = await db.obterProjetoDoPostgres(idProjeto);
+        if (!projeto) {
+            res.writeHead(404, { 'Content-Type': 'application/json; charset=utf-8' });
+            return res.end(JSON.stringify({ sucesso: false, erro: 'Projeto não encontrado' }));
+        }
+
+        garantirDocumentoEstrategicoProjeto(projeto);
+
+        res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+        return res.end(JSON.stringify({
+            sucesso: true,
+            id_projeto: idProjeto,
+            briefing: projeto.briefing_estrategico,
+            documento_estrategico: projeto.documento_estrategico
+        }));
+    }
+
+    // 1.6 POST /api/projetos/:id/briefing/responder — Coleta respostas progressivas e sintetiza documento estratégico
+    if (urlLimpa.startsWith('/api/projetos/') && urlLimpa.endsWith('/briefing/responder') && req.method === 'POST') {
+        const usuarioAutenticado = exigirAutenticacao(req, res, ['DIRETOR', 'DIRETORA', 'ADMIN', 'OPERADOR']);
+        if (!usuarioAutenticado) return;
+
+        const idProjeto = decodeURIComponent(urlLimpa.replace('/api/projetos/', '').replace('/briefing/responder', '').trim());
+        let projeto = obterProjetoPorId(idProjeto);
+        if (!projeto && db.pgPool) projeto = await db.obterProjetoDoPostgres(idProjeto);
+        if (!projeto) {
+            res.writeHead(404, { 'Content-Type': 'application/json; charset=utf-8' });
+            return res.end(JSON.stringify({ sucesso: false, erro: 'Projeto não encontrado' }));
+        }
+
+        try {
+            const body = await lerCorpoJson(req);
+            garantirDocumentoEstrategicoProjeto(projeto);
+
+            const respostasNovas = body.respostas || {};
+            if (!projeto.briefing_estrategico.respostas_coletadas) {
+                projeto.briefing_estrategico.respostas_coletadas = {};
+            }
+            Object.assign(projeto.briefing_estrategico.respostas_coletadas, respostasNovas);
+            projeto.briefing_estrategico.etapa_atual = 'ESTRATEGIA_SINTETIZADA';
+            projeto.briefing_estrategico.status = 'AGUARDANDO_APROVACAO_DIRETORIA';
+
+            // Sintetiza / atualiza documento estratégico com fidelidade estrita
+            const servicoPrincipal = projeto.servico_contratado || (projeto.frentes_comerciais?.[0]) || 'Sites & Landing Pages';
+            const novoDoc = sistemaBriefingEstrategico.sintetizarDocumentoEstrategico({
+                idProjeto: projeto.id_projeto || projeto.id,
+                cliente: projeto.empresa_contratante || projeto.cliente,
+                solicitacaoOriginal: projeto.solicitacao_original,
+                servicoContratado: servicoPrincipal,
+                respostasBriefing: projeto.briefing_estrategico.respostas_coletadas,
+                contextoExtra: body.contextoExtra || ''
+            });
+
+            projeto.documento_estrategico = novoDoc;
+            projeto.briefing_estrategico.documento_estrategico = novoDoc;
+
+            salvarProjeto(projeto);
+            if (db.pgPool) await db.sincronizarProjetoCompletoPostgres(projeto);
+
+            res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+            return res.end(JSON.stringify({
+                sucesso: true,
+                id_projeto: idProjeto,
+                briefing: projeto.briefing_estrategico,
+                documento_estrategico: projeto.documento_estrategico
+            }));
+        } catch (e) {
+            res.writeHead(500, { 'Content-Type': 'application/json; charset=utf-8' });
+            return res.end(JSON.stringify({ sucesso: false, erro: e.message }));
+        }
+    }
+
+    // 1.7 GET /api/projetos/:id/documento-estrategico — Obtém o documento estratégico completo e auditável
+    if (urlLimpa.startsWith('/api/projetos/') && urlLimpa.endsWith('/documento-estrategico') && req.method === 'GET') {
+        const usuarioAutenticado = exigirAutenticacao(req, res);
+        if (!usuarioAutenticado) return;
+
+        const idProjeto = decodeURIComponent(urlLimpa.replace('/api/projetos/', '').replace('/documento-estrategico', '').trim());
+        let projeto = obterProjetoPorId(idProjeto);
+        if (!projeto && db.pgPool) projeto = await db.obterProjetoDoPostgres(idProjeto);
+        if (!projeto) {
+            res.writeHead(404, { 'Content-Type': 'application/json; charset=utf-8' });
+            return res.end(JSON.stringify({ sucesso: false, erro: 'Projeto não encontrado' }));
+        }
+
+        garantirDocumentoEstrategicoProjeto(projeto);
+
+        res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+        return res.end(JSON.stringify({
+            sucesso: true,
+            id_projeto: idProjeto,
+            documento_estrategico: projeto.documento_estrategico,
+            garantia_fidelidade: projeto.documento_estrategico.garantia_fidelidade_contratada
+        }));
+    }
+
+    // 1.8 POST /api/projetos/:id/estrategia/aprovar — Homologação executiva da estratégia e liberação da execução
+    if (urlLimpa.startsWith('/api/projetos/') && urlLimpa.endsWith('/estrategia/aprovar') && req.method === 'POST') {
+        const usuarioAutenticado = exigirAutenticacao(req, res, ['DIRETOR', 'DIRETORA', 'ADMIN', 'OPERADOR']);
+        if (!usuarioAutenticado) return;
+
+        const idProjeto = decodeURIComponent(urlLimpa.replace('/api/projetos/', '').replace('/estrategia/aprovar', '').trim());
+        let projeto = obterProjetoPorId(idProjeto);
+        if (!projeto && db.pgPool) projeto = await db.obterProjetoDoPostgres(idProjeto);
+        if (!projeto) {
+            res.writeHead(404, { 'Content-Type': 'application/json; charset=utf-8' });
+            return res.end(JSON.stringify({ sucesso: false, erro: 'Projeto não encontrado' }));
+        }
+
+        try {
+            const body = await lerCorpoJson(req);
+            garantirDocumentoEstrategicoProjeto(projeto);
+
+            const responsavel = body.responsavelAprovacao || usuarioAutenticado.nome || 'Douglas Paz — Diretor Executivo';
+            const servicoAlvo = projeto.documento_estrategico.garantia_fidelidade_contratada?.servico_contratado_imutavel || projeto.servico_contratado;
+
+            // Validação estrita de fidelidade à contratação
+            const valFidelidade = sistemaBriefingEstrategico.validarFidelidadeContratacao(servicoAlvo, projeto.documento_estrategico);
+            if (!valFidelidade.valido) {
+                res.writeHead(400, { 'Content-Type': 'application/json; charset=utf-8' });
+                return res.end(JSON.stringify({ sucesso: false, erro: valFidelidade.motivo }));
+            }
+
+            projeto.documento_estrategico.status_aprovacao = 'HOMOLOGADO_DIRETORIA';
+            projeto.documento_estrategico.aprovado_por = responsavel;
+            projeto.documento_estrategico.data_aprovacao = new Date().toISOString();
+            projeto.documento_estrategico.observacao_aprovacao = body.observacao || 'Estratégia e plano de execução formalmente homologados pela Diretoria Executiva VIDE.';
+
+            // Se o projeto ainda estava aguardando autorização, autoriza no sistema de execução
+            if (projeto.situacao_projeto === 'AGUARDANDO_AUTORIZACAO_COMERCIAL') {
+                projeto = autorizarProjetoSistemaExecucao({
+                    idProjeto: projeto.id_projeto || projeto.id,
+                    responsavelAprovacao: responsavel,
+                    escopoAutorizado: servicoAlvo,
+                    observacao: 'Autorizado automaticamente via homologação formal do Documento Estratégico.'
+                });
+            } else {
+                salvarProjeto(projeto);
+            }
+
+            if (db.pgPool) await db.sincronizarProjetoCompletoPostgres(projeto);
+
+            res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+            return res.end(JSON.stringify({
+                sucesso: true,
+                id_projeto: idProjeto,
+                documento_estrategico: projeto.documento_estrategico,
+                situacao_projeto: projeto.situacao_projeto,
+                projeto
+            }));
+        } catch (e) {
+            res.writeHead(500, { 'Content-Type': 'application/json; charset=utf-8' });
+            return res.end(JSON.stringify({ sucesso: false, erro: e.message }));
+        }
+    }
+
+    // 1.9 POST /api/projetos/:id/estrategia/ajustar — Diretoria solicita ajustes na estratégia antes da execução
+    if (urlLimpa.startsWith('/api/projetos/') && urlLimpa.endsWith('/estrategia/ajustar') && req.method === 'POST') {
+        const usuarioAutenticado = exigirAutenticacao(req, res, ['DIRETOR', 'DIRETORA', 'ADMIN', 'OPERADOR']);
+        if (!usuarioAutenticado) return;
+
+        const idProjeto = decodeURIComponent(urlLimpa.replace('/api/projetos/', '').replace('/estrategia/ajustar', '').trim());
+        let projeto = obterProjetoPorId(idProjeto);
+        if (!projeto && db.pgPool) projeto = await db.obterProjetoDoPostgres(idProjeto);
+        if (!projeto) {
+            res.writeHead(404, { 'Content-Type': 'application/json; charset=utf-8' });
+            return res.end(JSON.stringify({ sucesso: false, erro: 'Projeto não encontrado' }));
+        }
+
+        try {
+            const body = await lerCorpoJson(req);
+            garantirDocumentoEstrategicoProjeto(projeto);
+
+            const apontamentos = body.apontamentos || body.ajustes || 'Ajustes solicitados pela Diretoria Executiva.';
+            projeto.documento_estrategico.status_aprovacao = 'AJUSTES_SOLICITADOS';
+            if (!projeto.documento_estrategico.historico_ajustes) {
+                projeto.documento_estrategico.historico_ajustes = [];
+            }
+            projeto.documento_estrategico.historico_ajustes.push({
+                timestamp: new Date().toISOString(),
+                autor: usuarioAutenticado.nome || 'Douglas Paz',
+                apontamentos
+            });
+
+            salvarProjeto(projeto);
+            if (db.pgPool) await db.sincronizarProjetoCompletoPostgres(projeto);
+
+            res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+            return res.end(JSON.stringify({
+                sucesso: true,
+                id_projeto: idProjeto,
+                documento_estrategico: projeto.documento_estrategico
+            }));
+        } catch (e) {
+            res.writeHead(500, { 'Content-Type': 'application/json; charset=utf-8' });
+            return res.end(JSON.stringify({ sucesso: false, erro: e.message }));
+        }
+    }
+
+// 2. GET /api/projetos/:id — Retorna detalhes de um projeto específico com fallback direto no PostgreSQL (Autenticação Obrigatória)
+    if (urlLimpa.startsWith('/api/projetos/') && !urlLimpa.includes('/arquivos') && !urlLimpa.includes('/detalhes') && !urlLimpa.includes('/anexos') && !urlLimpa.includes('/diagnostico') && !urlLimpa.includes('/dossie') && !urlLimpa.includes('/briefing') && !urlLimpa.includes('/documento-estrategico') && !urlLimpa.includes('/estrategia') && req.method === 'GET') {
         const usuarioAutenticado = exigirAutenticacao(req, res);
         if (!usuarioAutenticado) return;
 

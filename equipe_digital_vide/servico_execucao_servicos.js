@@ -26,6 +26,7 @@ const {
 const { db } = require('./banco_dados');
 const { servicoMotorInteligencia } = require('./servico_motor_inteligencia');
 const { storageService } = require('./storage_service');
+const { sistemaBriefingEstrategico, ESTRUTURAS_BRIEFING, identificarEspecialidadeServico } = require('./sistema_briefing_estrategico');
 
 // Especialistas executivos
 const { executarCicloCompletoDesenvolvedor } = require('./agente_03_desenvolvedor/executor_desenvolvedor');
@@ -159,6 +160,25 @@ function criarProjetoDemandaComercial(params = {}) {
         ]
     };
 
+    // ETAPA ESTRATÉGICA MANDATÓRIA: BRIEFING & DOCUMENTO ESTRATÉGICO DA SOLUÇÃO
+    const servicoPrincipal = params.servicoContratado || (Array.isArray(frentes) && frentes.length > 0 ? frentes[0] : solicitacao) || 'Sites & Landing Pages';
+    const briefingInicial = sistemaBriefingEstrategico.iniciarBriefingDemanda({
+        demandaOriginal: solicitacao,
+        servicoContratado: servicoPrincipal,
+        cliente: clienteNome
+    });
+    const docEstrategicoInicial = sistemaBriefingEstrategico.sintetizarDocumentoEstrategico({
+        idProjeto: idProjeto,
+        cliente: clienteNome,
+        solicitacaoOriginal: solicitacao,
+        servicoContratado: servicoPrincipal,
+        respostasBriefing: params.respostasBriefing || {}
+    });
+
+    projeto.briefing_estrategico = briefingInicial;
+    projeto.documento_estrategico = docEstrategicoInicial;
+    projeto.servico_contratado = servicoPrincipal;
+
     projeto.historico_operacional = projeto.registro_operacional;
     salvarProjeto(projeto);
     return projeto;
@@ -190,6 +210,18 @@ function autorizarProjetoComercialmente(params) {
     const entregaveis = params.entregaveis || projeto.entregaveis || [];
     const limites = params.limitesTrabalho || params.limites_trabalho || projeto.limites_trabalho || 'Trabalho restrito aos entregáveis contratados.';
     const obs = params.observacao || 'Autorização comercial formal concedida pela Diretoria Executiva VIDE.';
+
+    // REGRA COMERCIAL INVIOLÁVEL: VALIDAÇÃO DE FIDELIDADE À CONTRATAÇÃO
+    if (projeto.documento_estrategico) {
+        const servicoAlvo = projeto.documento_estrategico.garantia_fidelidade_contratada?.servico_contratado_imutavel || escopo;
+        const valFidelidade = sistemaBriefingEstrategico.validarFidelidadeContratacao(servicoAlvo, projeto.documento_estrategico);
+        if (!valFidelidade.valido) {
+            throw new Error(`[ERRO_GOVERNANCA_FIDELIDADE] ${valFidelidade.motivo}`);
+        }
+        projeto.documento_estrategico.status_aprovacao = 'HOMOLOGADO_DIRETORIA';
+        projeto.documento_estrategico.aprovado_por = responsavel;
+        projeto.documento_estrategico.data_aprovacao = new Date().toISOString();
+    }
 
     projeto.autorizacao_comercial = {
         status: ESTADOS_SISTEMA.AUTORIZADO,
@@ -594,11 +626,27 @@ function planejarEntregaProjetoInterno(projeto) {
     }
 
     projeto.grafo_tarefas = tarefas;
+    const direcionamentos = projeto.documento_estrategico?.secao_07_direcionamento_especifico_execucao || [];
     for (const t of projeto.grafo_tarefas) {
         if (!t.historico_alteracoes) t.historico_alteracoes = [];
         if (!t.historico_auditoria) t.historico_auditoria = [];
         if (!t.criterios_aceite) t.criterios_aceite = [t.criterio_conclusao];
         if (!t.evidencias_execucao) t.evidencias_execucao = [];
+
+        // Injeta diretriz estratégica personalizada do documento para o especialista
+        const dirMatch = direcionamentos.find(d => 
+            (t.agente_id && d.papel && (
+                (t.agente_id.includes('desenvolvedor') && d.papel.includes('Web')) ||
+                (t.agente_id.includes('branding') && d.papel.includes('Designer')) ||
+                (t.agente_id.includes('atendimento') && d.papel.includes('WhatsApp')) ||
+                (t.agente_id.includes('automacao') && d.papel.includes('Automações')) ||
+                (t.agente_id.includes('inteligencia') && d.papel.includes('7D')) ||
+                (t.agente_id.includes('coordenador') && d.papel.includes('Coordenador'))
+            ))
+        );
+        if (dirMatch) {
+            t.diretriz_estrategica = dirMatch.instrucao;
+        }
     }
 }
 
