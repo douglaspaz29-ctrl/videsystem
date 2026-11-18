@@ -59,6 +59,100 @@ const {
 // Timestamp de cooldown para proteção de custos da API de IA
 let ultimaAuditoriaIaTimestamp = 0;
 
+const CATALOGO_EQUIPE_DIGITAL = [
+    {
+        id: 'agente_02_coordenador',
+        numero: '02',
+        nome: 'Coordenador Geral',
+        papel: 'Liderança e Planejamento de Projetos',
+        icone: 'fa-diagram-project',
+        cor: '#00E5FF',
+        descricao: 'Coordena os sete especialistas, organiza o plano de etapas do projeto, monitora dependências e solicita suas aprovações.',
+        o_que_faz: 'Recebe seus objetivos em linguagem natural, planeja o fluxo de tarefas, orquestra a esteira e reúne todos os entregáveis para sua decisão.',
+        entregaveis_tipicos: 'Planos de trabalho, distribuição de tarefas no DAG e dossiês de conclusão.',
+        status: 'DISPONIVEL',
+        status_label: 'Online • Liderança Operacional'
+    },
+    {
+        id: 'agente_01_triagem',
+        numero: '01',
+        nome: 'Triagem & Diagnóstico Preliminar',
+        papel: 'Qualificação Comercial de Clientes',
+        icone: 'fa-filter',
+        cor: '#38BDF8',
+        descricao: 'Acolhe demandas comerciais de clientes, identifica dores, analisa ticket médio e enquadra na solução ideal da VIDE.',
+        o_que_faz: 'Avalia a maturidade comercial da empresa interessada, separa fatos de sintomas e prepara o resumo inicial para o Coordenador.',
+        entregaveis_tipicos: 'Fichas de diagnóstico preliminar, perguntas de qualificação e enquadramento de pacote comercial.',
+        status: 'DISPONIVEL',
+        status_label: 'Online • Pronto para Triagem'
+    },
+    {
+        id: 'agente_04_branding_design',
+        numero: '04',
+        nome: 'Designer de Marca & Identidade Visual',
+        papel: 'Design de Marca e Padrões Visuais',
+        icone: 'fa-palette',
+        cor: '#EC4899',
+        descricao: 'Desenvolve a identidade visual, paletas de cores com contraste acessível, logotipos vetoriais e guias de estilo da marca.',
+        o_que_faz: 'Cria ativos de design refinados que transmitem autoridade e sofisticação imediata aos clientes do negócio.',
+        entregaveis_tipicos: 'Logotipos em SVG, Design Tokens em CSS/JSON e Guia de Marca interativo.',
+        status: 'DISPONIVEL',
+        status_label: 'Online • Pronto para Design'
+    },
+    {
+        id: 'agente_03_desenvolvedor',
+        numero: '03',
+        nome: 'Desenvolvedor Web',
+        papel: 'Engenharia de Páginas e Conversão',
+        icone: 'fa-code',
+        cor: '#2563EB',
+        descricao: 'Programa landing pages responsivas, mobile-first, limpas e ultrarrápidas em HTML5, CSS e JavaScript sem dependências pesadas.',
+        o_que_faz: 'Constrói a vitrine digital da empresa, integrando botões de contato direto para WhatsApp e garantindo tempos de abertura inferiores a 1,2s.',
+        entregaveis_tipicos: 'Páginas web completas (HTML/CSS/JS), código-fonte e manuais de publicação.',
+        status: 'DISPONIVEL',
+        status_label: 'Online • Pronto para Código'
+    },
+    {
+        id: 'agente_05_atendimento',
+        numero: '05',
+        nome: 'Especialista em Atendimento & Vendas',
+        papel: 'Roteiros de Vendas e Conversão WhatsApp',
+        icone: 'fa-comments',
+        cor: '#10B981',
+        descricao: 'Cria roteiros comerciais para WhatsApp, treina respostas para as maiores objeções e redige mensagens persuasivas humanizadas.',
+        o_que_faz: 'Capacita a recepção ou equipe de vendas da empresa a atender clientes com velocidade, quebrar resistências de preço e fechar negócios.',
+        entregaveis_tipicos: 'Roteiros de abordagem rápida, matriz de 5 maiores objeções e cadências de mensagem.',
+        status: 'DISPONIVEL',
+        status_label: 'Online • Pronto para Roteiros'
+    },
+    {
+        id: 'agente_06_automacao',
+        numero: '06',
+        nome: 'Engenheiro de Processos & Automações',
+        papel: 'Integrações de Sistemas e Fluxos Automáticos',
+        icone: 'fa-gears',
+        cor: '#F59E0B',
+        descricao: 'Mapeia fluxos de trabalho, desenha integrações via webhooks/n8n e automatiza processos repetitivos para não perder nenhum lead.',
+        o_que_faz: 'Conecta formulários de sites a CRMs, cria notificações instantâneas e evita retrabalho operacional.',
+        entregaveis_tipicos: 'Fluxos visuais em JSON para n8n, regras de deduplicação e gatilhos de integração.',
+        status: 'DISPONIVEL',
+        status_label: 'Online • Pronto para Automação'
+    },
+    {
+        id: 'agente_07_inteligencia_comercial',
+        numero: '07',
+        nome: 'Analista de Inteligência Comercial & Marketing',
+        papel: 'Análise de Funil, Marketing e Indicadores 7D',
+        icone: 'fa-chart-line',
+        cor: '#8B5CF6',
+        descricao: 'Aplica o Diagnóstico Comercial 7D, analisa métricas de marketing (Instagram, Meta Ads) e investiga causas de gargalos de vendas.',
+        o_que_faz: 'Interpreta números brutos de visitas, contatos e faturamento para indicar exatamente onde o negócio está perdendo receita e propor melhorias rápidas.',
+        entregaveis_tipicos: 'Diagnóstico Comercial 7D, dossiês de causa-raiz e planos de melhorias recomendadas (MIV).',
+        status: 'DISPONIVEL',
+        status_label: 'Online • Pronto para Análise'
+    }
+];
+
 const TIPOS_MIME = {
     '.html': 'text/html; charset=utf-8',
     '.css': 'text/css; charset=utf-8',
@@ -1116,6 +1210,120 @@ const servidor = http.createServer(async (req, res) => {
         } catch (e) {
             res.writeHead(500, { 'Content-Type': 'application/json; charset=utf-8' });
             return res.end(JSON.stringify({ sucesso: false, erro: e.message }));
+        }
+    }
+
+    // 4.1 GET /api/equipe/agentes ou /api/agentes — Catálogo da Equipe Digital
+    if ((urlLimpa === '/api/equipe/agentes' || urlLimpa === '/api/agentes') && req.method === 'GET') {
+        res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+        return res.end(JSON.stringify({
+            sucesso: true,
+            total: CATALOGO_EQUIPE_DIGITAL.length,
+            agentes: CATALOGO_EQUIPE_DIGITAL
+        }));
+    }
+
+    // 4.2 POST /api/chat/mensagem ou /api/agentes/conversar — Chat Unificado (Coordenador ou Especialistas)
+    if ((urlLimpa === '/api/chat/mensagem' || urlLimpa === '/api/agentes/conversar') && req.method === 'POST') {
+        const ipOrigem = req.headers['x-forwarded-for']?.split(',')[0].trim() || req.socket.remoteAddress || '127.0.0.1';
+        if (!seguranca.verificarRateLimit(ipOrigem)) {
+            res.writeHead(429, { 'Content-Type': 'application/json; charset=utf-8' });
+            return res.end(JSON.stringify({ sucesso: false, erro: 'Taxa limite de requisições excedida.' }));
+        }
+
+        try {
+            const body = await lerCorpoJson(req);
+            const agenteId = body.agenteId || body.agente_id || 'agente_02_coordenador';
+            const mensagem = (body.mensagem || body.comando || body.instrucao || '').trim();
+            const idProjeto = body.idProjeto || body.id_projeto || null;
+
+            if (!mensagem) {
+                res.writeHead(400, { 'Content-Type': 'application/json; charset=utf-8' });
+                return res.end(JSON.stringify({ sucesso: false, erro: 'A mensagem não pode ser vazia.' }));
+            }
+
+            // Se for o Coordenador Geral (Agente 02)
+            if (agenteId === 'agente_02_coordenador' || agenteId === '02' || agenteId.includes('coordenador')) {
+                const respostaCoord = await interpretarComandoDiretoraComIA(mensagem);
+                if (respostaCoord.idProjetoParaExecucao) {
+                    try {
+                        const entregaveis = executarEsteiraCompletaEspecialistas(respostaCoord.idProjetoParaExecucao);
+                        const prjPos = obterProjetoPorId(respostaCoord.idProjetoParaExecucao);
+                        if (prjPos && db.pgPool) await db.sincronizarProjetoCompletoPostgres(prjPos);
+                        respostaCoord.entregaveis = entregaveis;
+                        respostaCoord.resposta += `\n\n🚀 **Esteira automatizada executada com sucesso!** Total de entregáveis: ${entregaveis.length}.`;
+                    } catch(eExec) {
+                        console.warn('[COORDENADOR] Aviso ao rodar esteira via comando:', eExec.message);
+                    }
+                }
+                const agenteCoord = CATALOGO_EQUIPE_DIGITAL.find(a => a.id === 'agente_02_coordenador');
+                res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+                return res.end(JSON.stringify({
+                    sucesso: true,
+                    agente: agenteCoord,
+                    resposta: respostaCoord.resposta || respostaCoord.mensagem,
+                    parecer: respostaCoord.resposta || respostaCoord.mensagem,
+                    origem_inteligencia: respostaCoord.origem_inteligencia || null,
+                    novoProjetoId: respostaCoord.novoProjetoId || null
+                }));
+            }
+
+            // Se for um dos 6 especialistas individuais
+            const especialista = CATALOGO_EQUIPE_DIGITAL.find(a => a.id === agenteId || a.numero === agenteId);
+            if (!especialista) {
+                res.writeHead(404, { 'Content-Type': 'application/json; charset=utf-8' });
+                return res.end(JSON.stringify({ sucesso: false, erro: 'Especialista não encontrado.' }));
+            }
+
+            let contextoProjeto = '';
+            if (idProjeto) {
+                const prj = obterProjetoPorId(idProjeto);
+                if (prj) {
+                    const tarefasDoAgente = (prj.grafo_tarefas || []).filter(t => 
+                        (t.agente_id === agenteId) || 
+                        (t.especialista && t.especialista.toLowerCase().includes(especialista.nome.toLowerCase().split(' ')[0]))
+                    );
+                    contextoProjeto = `\nContexto do Projeto Ativo:\n- Cliente: ${prj.cliente || prj.empresa_contratante}\n- Demanda: ${prj.solicitacao_original}\n- Situação: ${prj.situacao_projeto}\n- Tarefas suas no projeto: ${tarefasDoAgente.length} tarefa(s) atribuída(s)\n`;
+                }
+            }
+
+            const promptEspecialista = `Você é o ${especialista.nome} (Agente 0${especialista.numero}) da Equipe Digital da VIDE — Sistemas de Crescimento Comercial.
+Você está conversando diretamente com Douglas Paz, Diretor Executivo da VIDE.
+Sua especialidade: ${especialista.papel}.
+O que você faz: ${especialista.o_que_faz}.
+${contextoProjeto}
+Mensagem de Douglas: "${mensagem}"
+
+Diretrizes obrigatórias de resposta:
+1. Responda em português brasileiro de forma executiva, clara, direta e sem jargões técnicos ou siglas desnecessárias.
+2. Seja prestativo, profissional e autoridade na sua disciplina técnica (${especialista.papel}).
+3. Se Douglas apresentar uma dúvida ou pedido na sua especialidade, apresente soluções concretas e passos práticos.
+4. Se o pedido envolver outras disciplinas (ex: criar um site completo, mexer em anúncios, integrar com WhatsApp de ponta a ponta), responda sobre sua parte e recomende: "Para estruturarmos isso como um projeto completo com os demais especialistas, você pode solicitar ao Coordenador Geral na aba Conversar ou criar um Novo Projeto na aba Projetos."
+5. Mantenha o tom de um especialista sênior que trabalha na equipe dele.`;
+
+            const chaveIA = especialista.id.includes('triagem') ? 'TRIAGEM' :
+                           especialista.id.includes('branding') ? 'BRANDING' :
+                           especialista.id.includes('desenvolv') ? 'DESENVOLVEDOR' :
+                           especialista.id.includes('atend') ? 'ATENDIMENTO' :
+                           especialista.id.includes('auto') ? 'AUTOMACAO' : 'INTELIGENCIA';
+
+            const resIa = await iaService.gerarTextoIA(
+                promptEspecialista,
+                `Você é o ${especialista.nome} da VIDE. Fale diretamente com o Diretor Executivo com máxima clareza e respeito à governança.`,
+                chaveIA
+            );
+
+            res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+            return res.end(JSON.stringify({
+                sucesso: true,
+                agente: especialista,
+                resposta: resIa.texto,
+                parecer: resIa.texto,
+                origem_inteligencia: resIa.metadados
+            }));
+        } catch (eChat) {
+            res.writeHead(500, { 'Content-Type': 'application/json; charset=utf-8' });
+            return res.end(JSON.stringify({ sucesso: false, erro: eChat.message }));
         }
     }
 
