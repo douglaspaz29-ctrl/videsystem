@@ -228,7 +228,7 @@ Transfira o atendimento imediatamente quando:
                 categoria: "PRECO_VALOR",
                 frequencia_estimada: "45%",
                 descricao: "Lead considera o investimento inicial elevado ou compara com soluções de baixo custo.",
-                objecoes_especificas: [
+                objeções_especificas: [
                     {
                         id: "OBJ-PRECO-01",
                         gatilho_lead: "Achei o valor um pouco alto / fora do meu orçamento agora.",
@@ -244,7 +244,7 @@ Transfira o atendimento imediatamente quando:
                 categoria: "CONFIANCA_AUTORIDADE",
                 frequencia_estimada: "25%",
                 descricao: "Incerteza sobre a naturalidade dos resultados ou medo de efeito artificial/dor.",
-                objecoes_especificas: [
+                objeções_especificas: [
                     {
                         id: "OBJ-CONF-01",
                         gatilho_lead: "Tenho medo de ficar artificial ou de doer o procedimento.",
@@ -260,7 +260,7 @@ Transfira o atendimento imediatamente quando:
                 categoria: "TEMPO_URGENCIA",
                 frequencia_estimada: "20%",
                 descricao: "Lead adia a decisão dizendo que vai pensar, falar com o marido ou decidir no mês seguinte.",
-                objecoes_especificas: [
+                objeções_especificas: [
                     {
                         id: "OBJ-URG-01",
                         gatilho_lead: "Vou pensar com calma e qualquer coisa te retorno semana que vem.",
@@ -276,7 +276,7 @@ Transfira o atendimento imediatamente quando:
                 categoria: "CONCORRENTE_COMPARACAO",
                 frequencia_estimada: "10%",
                 descricao: "Lead cita outra clínica que cobra menos da metade do valor.",
-                objecoes_especificas: [
+                objeções_especificas: [
                     {
                         id: "OBJ-CONC-01",
                         gatilho_lead: "Vi outra profissional no Instagram que cobra bem menos.",
@@ -412,7 +412,7 @@ Transfira o atendimento imediatamente quando:
         arquivos_produzidos: [
             "fluxo_jornada_atendimento.json",
             "roteiro_conversas_qualificacao.md",
-            "matriz_objecoes_e_respostas.json",
+            "matriz_objeções_e_respostas.json",
             "regras_follow_up_e_recuperacao.json",
             "especificacao_tecnica_para_automacao.json",
             "simulador_chat_atendimento.html",
@@ -715,7 +715,7 @@ Transfira o atendimento imediatamente quando:
     // Grava os 7 arquivos físicos e persiste no storage PostgreSQL
     storageService.salvarArquivo(idProjeto, 'atendimento', 'fluxo_jornada_atendimento.json', JSON.stringify(fluxoJornada, null, 2));
     storageService.salvarArquivo(idProjeto, 'atendimento', 'roteiro_conversas_qualificacao.md', roteiroMarkdown);
-    storageService.salvarArquivo(idProjeto, 'atendimento', 'matriz_objecoes_e_respostas.json', JSON.stringify(matrizObjecoes, null, 2));
+    storageService.salvarArquivo(idProjeto, 'atendimento', 'matriz_objeções_e_respostas.json', JSON.stringify(matrizObjecoes, null, 2));
     storageService.salvarArquivo(idProjeto, 'atendimento', 'regras_follow_up_e_recuperacao.json', JSON.stringify(regrasFollowUp, null, 2));
     storageService.salvarArquivo(idProjeto, 'atendimento', 'especificacao_tecnica_para_automacao.json', JSON.stringify(especificacaoAutomacao, null, 2));
     storageService.salvarArquivo(idProjeto, 'atendimento', 'manifesto_entrega.json', JSON.stringify(manifestoEntrega, null, 2));
@@ -728,7 +728,7 @@ Transfira o atendimento imediatamente quando:
         arquivosCriados: [
             'fluxo_jornada_atendimento.json',
             'roteiro_conversas_qualificacao.md',
-            'matriz_objecoes_e_respostas.json',
+            'matriz_objeções_e_respostas.json',
             'regras_follow_up_e_recuperacao.json',
             'especificacao_tecnica_para_automacao.json',
             'manifesto_entrega.json',
@@ -763,7 +763,7 @@ function executarBateriaTestesAtendimento({ diretorioEntrega, criteriosAceite = 
     // 1. Teste de Existência Física dos 7 Arquivos
     const arqFluxo = path.join(diretorioEntrega, 'fluxo_jornada_atendimento.json');
     const arqRoteiro = path.join(diretorioEntrega, 'roteiro_conversas_qualificacao.md');
-    const arqMatriz = path.join(diretorioEntrega, 'matriz_objecoes_e_respostas.json');
+    const arqMatriz = path.join(diretorioEntrega, 'matriz_objeções_e_respostas.json');
     const arqFollow = path.join(diretorioEntrega, 'regras_follow_up_e_recuperacao.json');
     const arqAuto = path.join(diretorioEntrega, 'especificacao_tecnica_para_automacao.json');
     const arqManif = path.join(diretorioEntrega, 'manifesto_entrega.json');
@@ -799,12 +799,12 @@ function executarBateriaTestesAtendimento({ diretorioEntrega, criteriosAceite = 
             const cobreTempo = cats.includes('TEMPO_URGENCIA');
             const cobreConc = cats.includes('CONCORRENTE_COMPARACAO');
 
-            relatorio.testes_individuais.matriz_objecoes_completa = cobrePreco && cobreConf && cobreTempo && cobreConc;
-            if (!relatorio.testes_individuais.matriz_objecoes_completa) {
+            relatorio.testes_individuais.matriz_objeções_completa = cobrePreco && cobreConf && cobreTempo && cobreConc;
+            if (!relatorio.testes_individuais.matriz_objeções_completa) {
                 relatorio.falhas.push('Matriz de objeções deve cobrir obrigatoriamente: Preço, Confiança, Tempo e Concorrente.');
             }
         } catch (e) {
-            relatorio.testes_individuais.matriz_objecoes_completa = false;
+            relatorio.testes_individuais.matriz_objeções_completa = false;
             relatorio.falhas.push('Falha no JSON da matriz de objeções: ' + e.message);
         }
     }

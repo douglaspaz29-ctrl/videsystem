@@ -327,7 +327,7 @@ async function executarSuiteEtapa3() {
         if (resDiag7D.status === 200 && scoreGeral !== undefined) {
             const diag = resDiag7D.body.diagnostico;
             const sub = diag.scoresDimensoes?.gestao?.subdimensoes || diag.subdimensoesGestao || {};
-            console.log(`✓ [4.1] Diagnóstico 7D calculado: Score Geral [${scoreGeral} pts], Subdimensão Retenção [${sub.retencao_score}%], Recompra [${sub.recompra_score}%].`);
+            console.log(`✓ [4.1] Diagnóstico 7D calculado: Score Geral [${scoreGeral} pts], Subdimensão Retenção [${sub.retenção_score}%], Recompra [${sub.recompra_score}%].`);
         } else {
             throw new Error(`[FALHA 4.1] Erro no cálculo 7D: ${JSON.stringify(resDiag7D.body)}`);
         }

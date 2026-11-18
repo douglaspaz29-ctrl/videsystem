@@ -68,7 +68,7 @@ function executarSuiteEvolucaoAgente07Marketing() {
         seguidores_atuais: 3450,
         novos_seguidores: 310,
         perda_seguidores: 60,
-        retencao_media_percentual: 42.5
+        retenção_media_percentual: 42.5
     };
 
     const resInsta = analisarMetricasInstagram(dadosInstagramSimulado, {
@@ -117,7 +117,7 @@ function executarSuiteEvolucaoAgente07Marketing() {
         cliques_link: 80,
         cliques_contato: 30,
         conteudos: [
-            { id: 'POST-01', formato: 'REELS', alcance: 12000, impressoes: 15000, curtidas: 800, comentarios: 90, compartilhamentos: 150, salvamentos: 80, cliques: 20, retencao_percentual: 48.0 },
+            { id: 'POST-01', formato: 'REELS', alcance: 12000, impressoes: 15000, curtidas: 800, comentarios: 90, compartilhamentos: 150, salvamentos: 80, cliques: 20, retenção_percentual: 48.0 },
             { id: 'POST-02', formato: 'CARROSSEL', alcance: 4500, impressoes: 6500, curtidas: 250, comentarios: 60, compartilhamentos: 50, salvamentos: 190, cliques: 35 },
             { id: 'POST-03', formato: 'STORIES', alcance: 1800, impressoes: 3200, curtidas: 50, comentarios: 20, compartilhamentos: 10, salvamentos: 10, cliques: 45 },
             { id: 'POST-04', formato: 'FEED_ESTATICO', alcance: 1700, impressoes: 3300, curtidas: 100, comentarios: 10, compartilhamentos: 10, salvamentos: 20, cliques: 10 }
@@ -147,7 +147,7 @@ function executarSuiteEvolucaoAgente07Marketing() {
     // Reels gerou maior alcance médio e Carrossel gerou maior salvamento médio
     assert.strictEqual(resComparativo.comparativo_formatos.REELS.alcance_medio, 12000);
     assert.strictEqual(resComparativo.comparativo_formatos.CARROSSEL.salvamentos_medios, 190);
-    assert.strictEqual(resComparativo.comparativo_formatos.REELS.retencao_media_audiencia, 48.0);
+    assert.strictEqual(resComparativo.comparativo_formatos.REELS.retenção_media_audiencia, 48.0);
     registrarSucesso('Validação de métricas comparativas: Reels lidera alcance (12k) e Carrossel lidera salvamento (190)');
 
     // Comparativo temporal: delta de alcance e cliques
@@ -248,7 +248,7 @@ function executarSuiteEvolucaoAgente07Marketing() {
             formularios_iniciados: 200, // 55.5% dos cliques iniciam
             formularios_concluidos: 60  // 30% concluem (70% de abandono!)
         },
-        canais_aquisicao: [
+        canais_aquisição: [
             { canal: 'BUSCA_ORGANICA', sessoes: 600, formularios_concluidos: 30 },
             { canal: 'PAID_SOCIAL_META', sessoes: 1200, formularios_concluidos: 18 },
             { canal: 'DIRETO', sessoes: 400, formularios_concluidos: 10 },
@@ -275,8 +275,8 @@ function executarSuiteEvolucaoAgente07Marketing() {
     registrarSucesso('Atrito crítico identificado no formulário web (140 leads perdidos por burocracia de campos)');
 
     // Qualidade por canal: Busca Orgânica converte 5.0% (ALTA) vs Paid Social 1.5% (MEDIA)
-    const canalOrganico = resWeb.matriz_canais_aquisicao.find(c => c.canal === 'BUSCA_ORGANICA');
-    const canalPaidSocial = resWeb.matriz_canais_aquisicao.find(c => c.canal === 'PAID_SOCIAL_META');
+    const canalOrganico = resWeb.matriz_canais_aquisição.find(c => c.canal === 'BUSCA_ORGANICA');
+    const canalPaidSocial = resWeb.matriz_canais_aquisição.find(c => c.canal === 'PAID_SOCIAL_META');
     assert.strictEqual(canalOrganico.taxa_conversao, 5.0);
     assert.strictEqual(canalOrganico.qualidade_percebida, 'ALTA');
     assert.strictEqual(canalPaidSocial.taxa_conversao, 1.5);
@@ -353,7 +353,7 @@ function executarSuiteEvolucaoAgente07Marketing() {
         indicadores: {
             taxa_conversao_global: '12.0%',
             perda_pos_orcamento_brl: 75000.0,
-            cpa_aquisicao_brl: 55.0
+            cpa_aquisição_brl: 55.0
         },
         interpretacao: 'O fluxo de atração gera volume qualificado, porém a falta de ancoragem antecipada de valor no WhatsApp gera choque imediato na apresentação de preço.',
         padroes: [
@@ -487,7 +487,7 @@ function executarSuiteEvolucaoAgente07Marketing() {
     // Calibração de Scores 7D com Marketing
     const scoresBase7D = {
         comunicacao: 60,
-        aquisicao: 50,
+        aquisição: 50,
         atendimento: 70,
         processo_comercial: 65,
         conversao: 45,
@@ -504,7 +504,7 @@ function executarSuiteEvolucaoAgente07Marketing() {
     // Comunicação recebe bônus por bom engajamento (8.0%) e profundidade
     assert.ok(scoresCalibrados.comunicacao > scoresBase7D.comunicacao);
     // Aquisição é penalizada pelas 3 anomalias detectadas no Meta Ads
-    assert.ok(scoresCalibrados.aquisicao < scoresBase7D.aquisicao);
+    assert.ok(scoresCalibrados.aquisição < scoresBase7D.aquisição);
     // Conversão é penalizada pelo abandono de 70% no formulário web
     assert.ok(scoresCalibrados.conversao < scoresBase7D.conversao);
     registrarSucesso('Scores 7D calibrados dinamicamente refletindo comunicação (+), aquisição (-) e conversão (-)');

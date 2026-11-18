@@ -224,13 +224,13 @@ function gerarEntregaveisInteligencia(briefing) {
                 percentual_das_perdas: "47.7%",
                 aviso_rigor: "Leads que simplesmente interromperam a comunicação sem verbalizar motivo. A governança da VIDE expressamente PROÍBE rotular silêncio como objeção tácita de preço sem evidência explícita."
             },
-            objecoes_com_fundamento_verbal_ou_contextual: {
+            objeções_com_fundamento_verbal_ou_contextual: {
                 volume: 46,
                 percentual_das_perdas: "52.3%",
                 nota: "Ocorrências com menção explícita de valor, solicitação de tempo, comparação com concorrência ou insegurança clínica declarada."
             }
         },
-        distribuicao_objecoes: [
+        distribuicao_objeções: [
             {
                 categoria: "PRECO_VALOR",
                 frequencia_absoluta: 38,
@@ -599,7 +599,7 @@ function gerarEntregaveisInteligencia(briefing) {
         },
         arquivos_produzidos: [
             "diagnostico_funil_e_perdas.json",
-            "relatorio_motor_objecoes.json",
+            "relatorio_motor_objeções.json",
             "plano_recomendacoes_retroalimentacao.json",
             "dashboard_executivo_inteligencia.html",
             "manifesto_entrega.json"
@@ -624,7 +624,7 @@ function gerarEntregaveisInteligencia(briefing) {
             tarefas_predecessoras: briefing.dependencias || [],
             insumos_consumidos: [
                 "crm_estado_leads.json do Agente 06",
-                "matriz_objecoes_e_respostas.json do Agente 05"
+                "matriz_objeções_e_respostas.json do Agente 05"
             ]
         },
         pendencias_identificadas: [],
@@ -637,7 +637,7 @@ function gerarEntregaveisInteligencia(briefing) {
 
     // Gravação física dos 5 arquivos e persistência durável no PostgreSQL
     storageService.salvarArquivo(idProjeto, 'inteligencia', 'diagnostico_funil_e_perdas.json', JSON.stringify(diagnosticoFunil, null, 2));
-    storageService.salvarArquivo(idProjeto, 'inteligencia', 'relatorio_motor_objecoes.json', JSON.stringify(relatorioObjecoes, null, 2));
+    storageService.salvarArquivo(idProjeto, 'inteligencia', 'relatorio_motor_objeções.json', JSON.stringify(relatorioObjecoes, null, 2));
     storageService.salvarArquivo(idProjeto, 'inteligencia', 'plano_recomendacoes_retroalimentacao.json', JSON.stringify(planoRecomendacoes, null, 2));
     storageService.salvarArquivo(idProjeto, 'inteligencia', 'dashboard_executivo_inteligencia.html', dashboardHtml);
     storageService.salvarArquivo(idProjeto, 'inteligencia', 'manifesto_entrega.json', JSON.stringify(manifestoEntrega, null, 2));
@@ -648,7 +648,7 @@ function gerarEntregaveisInteligencia(briefing) {
         diretorioEntrega: pastaInteligencia,
         arquivosCriados: [
             'diagnostico_funil_e_perdas.json',
-            'relatorio_motor_objecoes.json',
+            'relatorio_motor_objeções.json',
             'plano_recomendacoes_retroalimentacao.json',
             'dashboard_executivo_inteligencia.html',
             'manifesto_entrega.json'
@@ -680,7 +680,7 @@ function executarBateriaTestesInteligencia({ diretorioEntrega, criteriosAceite =
 
     // 1. Teste de Existência Física dos 5 Arquivos
     const arqFunil = path.join(diretorioEntrega, 'diagnostico_funil_e_perdas.json');
-    const arqObjecoes = path.join(diretorioEntrega, 'relatorio_motor_objecoes.json');
+    const arqObjecoes = path.join(diretorioEntrega, 'relatorio_motor_objeções.json');
     const arqPlano = path.join(diretorioEntrega, 'plano_recomendacoes_retroalimentacao.json');
     const arqDashboard = path.join(diretorioEntrega, 'dashboard_executivo_inteligencia.html');
     const arqManif = path.join(diretorioEntrega, 'manifesto_entrega.json');
@@ -713,18 +713,18 @@ function executarBateriaTestesInteligencia({ diretorioEntrega, criteriosAceite =
     // 3. Validação do Motor de Objeções (Categorização e Frequência)
     if (fs.existsSync(arqObjecoes)) {
         try {
-            const objecoes = JSON.parse(fs.readFileSync(arqObjecoes, 'utf-8'));
-            const cats = (objecoes.distribuicao_objecoes || []).map(o => o.categoria);
+            const objeções = JSON.parse(fs.readFileSync(arqObjecoes, 'utf-8'));
+            const cats = (objeções.distribuicao_objeções || []).map(o => o.categoria);
             const cobreTodas = cats.includes('PRECO_VALOR') && cats.includes('CONFIANCA_AUTORIDADE') &&
                                cats.includes('TEMPO_URGENCIA') && cats.includes('CONCORRENTE_COMPARACAO');
-            const temImpacto = objecoes.distribuicao_objecoes.every(o => typeof o.impacto_financeiro_estimado_brl === 'number');
+            const temImpacto = objeções.distribuicao_objeções.every(o => typeof o.impacto_financeiro_estimado_brl === 'number');
 
-            relatorio.testes_individuais.motor_objecoes_valido = cobreTodas && temImpacto;
-            if (!relatorio.testes_individuais.motor_objecoes_valido) {
+            relatorio.testes_individuais.motor_objeções_valido = cobreTodas && temImpacto;
+            if (!relatorio.testes_individuais.motor_objeções_valido) {
                 relatorio.falhas.push('Motor de objeções incompleto ou sem cálculo de impacto financeiro.');
             }
         } catch (e) {
-            relatorio.testes_individuais.motor_objecoes_valido = false;
+            relatorio.testes_individuais.motor_objeções_valido = false;
             relatorio.falhas.push('Falha no JSON do motor de objeções: ' + e.message);
         }
     }

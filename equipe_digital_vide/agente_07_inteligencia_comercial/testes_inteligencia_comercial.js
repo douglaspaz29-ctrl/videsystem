@@ -186,8 +186,8 @@ function executarTestesInteligencia() {
     // TESTE 6: Validação do Motor de Objeções (Categorização e Perda Financeira)
     // -----------------------------------------------------------------
     console.log('>>> TESTE 6: Validação do Motor de Objeções (VIDE Objection Engine)');
-    const objecoesLidas = JSON.parse(fs.readFileSync(path.join(entrega.diretorioEntrega, 'relatorio_motor_objecoes.json'), 'utf-8'));
-    const dist = objecoesLidas.distribuicao_objecoes;
+    const objeçõesLidas = JSON.parse(fs.readFileSync(path.join(entrega.diretorioEntrega, 'relatorio_motor_objeções.json'), 'utf-8'));
+    const dist = objeçõesLidas.distribuicao_objeções;
     const cats = dist.map(d => d.categoria);
     const temTodas = cats.includes('PRECO_VALOR') && cats.includes('CONFIANCA_AUTORIDADE') &&
                      cats.includes('TEMPO_URGENCIA') && cats.includes('CONCORRENTE_COMPARACAO');

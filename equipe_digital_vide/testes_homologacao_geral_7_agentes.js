@@ -306,7 +306,7 @@ async function executarHomologacaoGeral() {
 
     const pastaIntel = path.join(__dirname, 'entregas_clientes', projetoHomolog.id_projeto, 'inteligencia');
     const funilJson = JSON.parse(fs.readFileSync(path.join(pastaIntel, 'diagnostico_funil_e_perdas.json'), 'utf-8'));
-    const objecoesJson = JSON.parse(fs.readFileSync(path.join(pastaIntel, 'relatorio_motor_objecoes.json'), 'utf-8'));
+    const objeçõesJson = JSON.parse(fs.readFileSync(path.join(pastaIntel, 'relatorio_motor_objeções.json'), 'utf-8'));
     const planoJson = JSON.parse(fs.readFileSync(path.join(pastaIntel, 'plano_recomendacoes_retroalimentacao.json'), 'utf-8'));
 
     // 3.1 Identificação Clara de Dados Simulados / Aviso Metodológico
@@ -316,11 +316,11 @@ async function executarHomologacaoGeral() {
         `Aviso: "${funilJson.natureza_do_cenario?.aviso_metodologico.substring(0, 80)}..."`);
 
     // 3.2 Distinção Metodológica entre Silêncio Puro e Objeção Explícita
-    const distincaoSilencioObjecao = objecoesJson.distincao_metodologica_silencio_vs_objecao &&
-        objecoesJson.distincao_metodologica_silencio_vs_objecao.ausencia_de_resposta_silencio_puro.volume > 0;
+    const distincaoSilencioObjecao = objeçõesJson.distincao_metodologica_silencio_vs_objecao &&
+        objeçõesJson.distincao_metodologica_silencio_vs_objecao.ausencia_de_resposta_silencio_puro.volume > 0;
     registrarResultado('3.2 Distinção entre Silêncio Sem Resposta e Objeções Declaradas',
         distincaoSilencioObjecao,
-        `Silêncio puro: ${objecoesJson.distincao_metodologica_silencio_vs_objecao?.ausencia_de_resposta_silencio_puro.volume} leads (${objecoesJson.distincao_metodologica_silencio_vs_objecao?.ausencia_de_resposta_silencio_puro.percentual_das_perdas})`);
+        `Silêncio puro: ${objeçõesJson.distincao_metodologica_silencio_vs_objecao?.ausencia_de_resposta_silencio_puro.volume} leads (${objeçõesJson.distincao_metodologica_silencio_vs_objecao?.ausencia_de_resposta_silencio_puro.percentual_das_perdas})`);
 
     // 3.3 Recomendações NÃO Alteram Campanhas/Preços Sozinhas (Aguardam Gestão Humana)
     const recomendacoesAguardamHumano = planoJson.recomendacoes.every(r => r.status_autorizacao === 'AGUARDANDO_APROVACAO_GESTAO');

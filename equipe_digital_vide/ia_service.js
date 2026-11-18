@@ -317,7 +317,7 @@ class ServicoInteligenciaArtificialVIDE {
         // 5. Raciocínio para Atendimento (Agente 05)
         if (agenteNome === 'ATENDIMENTO' || p.includes('objeção') || p.includes('atendimento')) {
             return JSON.stringify({
-                diagnostico_objecoes: "Principal causa de atrito: lead compara preço antes de entender a exclusividade do atendimento.",
+                diagnostico_objeções: "Principal causa de atrito: lead compara preço antes de entender a exclusividade do atendimento.",
                 estrategia_reversao: "Ancoragem de valor pelo diagnóstico personalizado antes da apresentação de valores comerciais.",
                 frase_chave: "Compreendo a sua análise. Aqui trabalhamos com protocolos personalizados para que você tenha exatamente o resultado esperado sem surpresas."
             });

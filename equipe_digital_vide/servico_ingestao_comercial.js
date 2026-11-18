@@ -28,8 +28,8 @@ class ServicoIngestaoComercialVIDE {
     /**
      * Executa operação transacional sob o contexto RLS da empresa
      */
-    async comTenant(empresaId, operacao) {
-        return await this.motor.comTenant(empresaId, operacao);
+    async comTenant(empresaId, operação) {
+        return await this.motor.comTenant(empresaId, operação);
     }
 
     /**

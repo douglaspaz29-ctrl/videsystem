@@ -63,7 +63,7 @@ async function rodarBateriaEtapa2() {
     });
     const motor = new ServicoMotorInteligenciaVIDE({ pool: poolTeste });
     const relatorio = {
-        cenario_A_diagnostico_7D_retencao: { status: 'PENDENTE' },
+        cenario_A_diagnostico_7D_retenção: { status: 'PENDENTE' },
         cenario_A_inteligencia_continua: { status: 'PENDENTE' },
         cenario_A_epv_calculo_e_versionamento: { status: 'PENDENTE' },
         cenario_A_miv_eficacia_suficiente: { status: 'PENDENTE' },
@@ -117,14 +117,14 @@ async function rodarBateriaEtapa2() {
         console.log(`✓ Diagnóstico 7D gerado com sucesso:`);
         console.log(`  - Score Geral: ${diag7D_A.scoreGeral}/100`);
         console.log(`  - Dimensões: Comunicação=${diag7D_A.scoresDimensoes.comunicacao}, Conversão=${diag7D_A.scoresDimensoes.conversao}, Gestão/Retenção=${diag7D_A.scoresDimensoes.gestao.score_total}`);
-        console.log(`  - Subdimensão Retenção: ${diag7D_A.scoresDimensoes.gestao.subdimensoes.retencao_score} pts`);
+        console.log(`  - Subdimensão Retenção: ${diag7D_A.scoresDimensoes.gestao.subdimensoes.retenção_score} pts`);
         console.log(`  - Subdimensão Recompra: ${diag7D_A.scoresDimensoes.gestao.subdimensoes.recompra_score} pts`);
         console.log(`  - Subdimensão Relacionamento: ${diag7D_A.scoresDimensoes.gestao.subdimensoes.relacionamento_pos_venda} pts`);
 
-        if (diag7D_A.scoresDimensoes.gestao.subdimensoes.retencao_score === undefined) {
+        if (diag7D_A.scoresDimensoes.gestao.subdimensoes.retenção_score === undefined) {
             throw new Error('Falha no Ajuste 1: Subdimensões de retenção/recompra ausentes no diagnóstico.');
         }
-        relatorio.cenario_A_diagnostico_7D_retencao.status = 'APROVADO';
+        relatorio.cenario_A_diagnostico_7D_retenção.status = 'APROVADO';
 
         // =====================================================================
         // TESTE 2: INTELIGÊNCIA COMERCIAL CONTÍNUA (Interações, Evidências, Padrões)

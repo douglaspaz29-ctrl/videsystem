@@ -47,7 +47,7 @@ function analisarMetricasInstagram(dadosInstagram = {}, contextoComercial = {}) 
         seguidores_atuais = 0,
         novos_seguidores = 0,
         perda_seguidores = 0,
-        retencao_media_percentual = null,
+        retenção_media_percentual = null,
         conteudos = [],
         historico_periodo_anterior = null
     } = dadosInstagram;
@@ -89,7 +89,7 @@ function analisarMetricasInstagram(dadosInstagram = {}, contextoComercial = {}) 
 
     // 4. Análise Segmentada por Formato de Conteúdo (Reels, Carrossel, Stories, Feed Estático)
     const formatosAgrupados = {
-        REELS: { qtd: 0, alcance: 0, impressoes: 0, interacoes: 0, salvamentos: 0, cliques: 0, retencao_acum: 0, contRetencao: 0 },
+        REELS: { qtd: 0, alcance: 0, impressoes: 0, interacoes: 0, salvamentos: 0, cliques: 0, retenção_acum: 0, contRetencao: 0 },
         CARROSSEL: { qtd: 0, alcance: 0, impressoes: 0, interacoes: 0, salvamentos: 0, cliques: 0 },
         STORIES: { qtd: 0, alcance: 0, impressoes: 0, interacoes: 0, cliques: 0 },
         FEED_ESTATICO: { qtd: 0, alcance: 0, impressoes: 0, interacoes: 0, salvamentos: 0, cliques: 0 }
@@ -107,8 +107,8 @@ function analisarMetricasInstagram(dadosInstagram = {}, contextoComercial = {}) 
         if (bucket.salvamentos !== undefined) bucket.salvamentos += (c.salvamentos || 0);
         bucket.cliques += (c.cliques_link || c.cliques || 0);
 
-        if (fmt === 'REELS' && typeof c.retencao_percentual === 'number') {
-            bucket.retencao_acum += c.retencao_percentual;
+        if (fmt === 'REELS' && typeof c.retenção_percentual === 'number') {
+            bucket.retenção_acum += c.retenção_percentual;
             bucket.contRetencao++;
         }
     }
@@ -133,7 +133,7 @@ function analisarMetricasInstagram(dadosInstagram = {}, contextoComercial = {}) 
             };
 
             if (fmt === 'REELS' && val.contRetencao > 0) {
-                comparativoFormatos[fmt].retencao_media_audiencia = Number((val.retencao_acum / val.contRetencao).toFixed(2));
+                comparativoFormatos[fmt].retenção_media_audiencia = Number((val.retenção_acum / val.contRetencao).toFixed(2));
             }
         }
     }
@@ -180,7 +180,7 @@ function analisarMetricasInstagram(dadosInstagram = {}, contextoComercial = {}) 
         });
     }
 
-    if (retencao_media_percentual === null && !conteudos.some(c => typeof c.retencao_percentual === 'number')) {
+    if (retenção_media_percentual === null && !conteudos.some(c => typeof c.retenção_percentual === 'number')) {
         inconsistencias.push('Métrica de retenção de audiência (watch time / % vídeo assistido) não fornecida pelo canal.');
     }
 
@@ -339,7 +339,7 @@ function analisarCampanhasMetaAds(dadosCampanhas = {}, contextoComercial = {}) {
             alcance_pago: alcanceTotal,
             alcance_organico: orgAlcance,
             razao_alcance_pago_organico: orgAlcance > 0 ? Number((alcanceTotal / orgAlcance).toFixed(2)) : 'N/A',
-            custo_aquisicao_pago_brl: cpaMedioGlobal,
+            custo_aquisição_pago_brl: cpaMedioGlobal,
             contatos_organicos: orgContatos,
             parecer_eficiencia: orgContatos > resultadosTotais && investimentoTotal > 0
                 ? 'O canal orgânico está gerando mais contatos que a mídia paga, indicando que a estratégia de anúncios atual requer calibração antes de qualquer novo aporte.'
@@ -409,7 +409,7 @@ function analisarConversaoWeb(dadosWeb = {}, contextoComercial = {}) {
         tempo_medio_sessao_segundos = 0,
         taxa_rejeicao_percentual = 0,
         paginas_destino = [],
-        canais_aquisicao = [],
+        canais_aquisição = [],
         funil_interface = {
             sessoes_totais: 0,
             visualizacoes_lp: 0,
@@ -445,7 +445,7 @@ function analisarConversaoWeb(dadosWeb = {}, contextoComercial = {}) {
 
     // Análise por Canal de Tráfego e Qualidade Relativa
     const matrizCanais = [];
-    for (const c of canais_aquisicao) {
+    for (const c of canais_aquisição) {
         const canalSess = c.sessoes || 0;
         const canalConc = c.formularios_concluidos || c.leads || 0;
         const convCanal = canalSess > 0 ? Number(((canalConc / canalSess) * 100).toFixed(2)) : 0;
@@ -497,7 +497,7 @@ function analisarConversaoWeb(dadosWeb = {}, contextoComercial = {}) {
             taxa_abandono_formulario: taxaAbandonoFormulario,
             taxa_conversao_global_site: taxaConversaoGlobalSite
         },
-        matriz_canais_aquisicao: matrizCanais,
+        matriz_canais_aquisição: matrizCanais,
         atritos_identificados: atritosInterface,
         compatibilidade_ga4_gsc: {
             pronto_para_ga4: true,
@@ -823,7 +823,7 @@ function calibrarScores7DComMarketing(scoresAtuais = {}, metricasMarketing = {})
         if (metaAds.desperdicios_e_anomalias && metaAds.desperdicios_e_anomalias.length > 0) {
             bonusAquisicao -= (metaAds.desperdicios_e_anomalias.length * 8); // Penaliza desperdícios
         }
-        scores.aquisicao = Math.min(100, Math.max(0, (scores.aquisicao || 50) + bonusAquisicao));
+        scores.aquisição = Math.min(100, Math.max(0, (scores.aquisição || 50) + bonusAquisicao));
     }
 
     // D5: Conversão / D6: Estrutura Digital

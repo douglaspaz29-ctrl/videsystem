@@ -185,7 +185,7 @@ function executarTestesAtendimento() {
     // TESTE 6: Validação da Matriz de Objeções (4 Macro-Categorias)
     // -----------------------------------------------------------------
     console.log('>>> TESTE 6: Validação da Matriz de Objeções (Cobertura VIDE)');
-    const matrizLida = JSON.parse(fs.readFileSync(path.join(entrega.diretorioEntrega, 'matriz_objecoes_e_respostas.json'), 'utf-8'));
+    const matrizLida = JSON.parse(fs.readFileSync(path.join(entrega.diretorioEntrega, 'matriz_objeções_e_respostas.json'), 'utf-8'));
     const categorias = matrizLida.macro_categorias.map(c => c.categoria);
     const temTodasCategorias = categorias.includes('PRECO_VALOR') &&
                                categorias.includes('CONFIANCA_AUTORIDADE') &&
@@ -308,7 +308,7 @@ function executarTestesAtendimento() {
 
     const relatorioFalho = {
         data_execucao: new Date().toISOString(),
-        testes_individuais: { matriz_objecoes_completa: false },
+        testes_individuais: { matriz_objeções_completa: false },
         criterios_atendidos: false,
         pontuacao_conformidade: 50,
         falhas: ['Matriz de objeções sem cobertura da categoria Preço e Valor.']

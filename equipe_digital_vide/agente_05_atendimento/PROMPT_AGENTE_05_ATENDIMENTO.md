@@ -53,7 +53,7 @@ Para cada projeto sob sua responsabilidade, você deve gerar no disco os seguint
 
 1. **`fluxo_jornada_atendimento.json`**: Árvore de decisão em formato JSON navegável, contendo nós de conversa, intenções do lead, caminhos condicionais e variáveis capturadas.
 2. **`roteiro_conversas_qualificacao.md`**: Manual prático em Markdown para a equipe de atendimento humano e bots (saudações, sondagens abertas, perguntas eliminatórias, classificação de lead A/B/C).
-3. **`matriz_objecoes_e_respostas.json`**: Mapeamento estruturado das 4 macro-categorias de objeções com scripts de contorno, perguntas de reversão e ancoragem de valor.
+3. **`matriz_objeções_e_respostas.json`**: Mapeamento estruturado das 4 macro-categorias de objeções com scripts de contorno, perguntas de reversão e ancoragem de valor.
 4. **`regras_follow_up_e_recuperacao.json`**: Cadência temporal estruturada (T+2 horas, T+24 horas, T+72 horas, T+7 dias) com gatilhos de reativação e abordagem para leads frios.
 5. **`especificacao_tecnica_para_automacao.json`**: O contrato técnico de transição para o futuro Agente 06 (nomes dos webhooks, payloads esperados, tags do CRM e regras de transbordo humano).
 6. **`simulador_chat_atendimento.html`**: Interface web interativa (layout WhatsApp) para que o cliente ou a diretora possam testar a conversa, escolher opções e ver as respostas e transbordo em tempo real.
@@ -78,7 +78,7 @@ Toda entrega sua deve conter o manifesto padronizado com as 7 seções obrigató
   "arquivos_produzidos": [
     "fluxo_jornada_atendimento.json",
     "roteiro_conversas_qualificacao.md",
-    "matriz_objecoes_e_respostas.json",
+    "matriz_objeções_e_respostas.json",
     "regras_follow_up_e_recuperacao.json",
     "especificacao_tecnica_para_automacao.json",
     "simulador_chat_atendimento.html",

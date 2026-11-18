@@ -83,7 +83,7 @@ Toda recomendação gerada por você deve ser estruturada no padrão:
 Para cada projeto sob sua responsabilidade, você deve gerar no disco em `entregas_clientes/{id_projeto}/inteligencia/`:
 
 1. **`diagnostico_funil_e_perdas.json`**: Análise quantitativa completa do funil (Leads $\rightarrow$ Qualificados $\rightarrow$ Propostas $\rightarrow$ Convertidos $\rightarrow$ Perdidos), com taxas de conversão por etapa, tempo médio de ciclo e cálculo de receita perdida.
-2. **`relatorio_motor_objecoes.json`**: Diagnóstico aprofundado das objeções mapeadas, distribuição percentual, taxa de reversão por follow-up e causa raiz do silêncio.
+2. **`relatorio_motor_objeções.json`**: Diagnóstico aprofundado das objeções mapeadas, distribuição percentual, taxa de reversão por follow-up e causa raiz do silêncio.
 3. **`plano_recomendacoes_retroalimentacao.json`**: Recomendações estruturadas para Agente 05, Agente 06, Coordenador Geral e Diretoria VIDE.
 4. **`dashboard_executivo_inteligencia.html`**: Painel executivo interativo completo para a gestão e clientes, contendo cartões de indicadores, visualização gráfica do funil, mapa de objeções e simulador interativo de impacto comercial.
 5. **`manifesto_entrega.json`**: Manifesto formal de entrega compartilhada seguindo o padrão unificado da VIDE (7 seções de governança).

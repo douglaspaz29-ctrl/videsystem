@@ -63,25 +63,29 @@ const CATALOGO_EQUIPE_DIGITAL = [
     {
         id: 'agente_02_coordenador',
         numero: '02',
-        nome: 'Coordenador Geral',
-        papel: 'Liderança e Planejamento de Projetos',
+        nome: 'Gabriel Rocha',
+        genero: 'M',
+        papel: 'Coordenador Geral & Estrategista',
         icone: 'fa-diagram-project',
-        cor: '#00E5FF',
-        descricao: 'Coordena os sete especialistas, organiza o plano de etapas do projeto, monitora dependências e solicita suas aprovações.',
-        o_que_faz: 'Recebe seus objetivos em linguagem natural, planeja o fluxo de tarefas, orquestra a esteira e reúne todos os entregáveis para sua decisão.',
-        entregaveis_tipicos: 'Planos de trabalho, distribuição de tarefas no DAG e dossiês de conclusão.',
+        cor: '#3B82F6',
+        iniciais: 'GR',
+        descricao: 'Lidera o planejamento operacional, organiza o fluxo de etapas da equipe, monitora prazos e solicita suas aprovações executivas.',
+        o_que_faz: 'Recebe seus objetivos em linguagem natural, estrutura o plano de etapas no fluxo de trabalho, orquestra a esteira e reúne todos os entregáveis para sua decisão.',
+        entregaveis_tipicos: 'Planos de trabalho, distribuição de tarefas no fluxo e dossiês executivos de conclusão.',
         status: 'DISPONIVEL',
         status_label: 'Online • Liderança Operacional'
     },
     {
         id: 'agente_01_triagem',
         numero: '01',
-        nome: 'Triagem & Diagnóstico Preliminar',
-        papel: 'Qualificação Comercial de Clientes',
+        nome: 'Lucas Fontana',
+        genero: 'M',
+        papel: 'Triagem Comercial & Qualificação',
         icone: 'fa-filter',
-        cor: '#38BDF8',
-        descricao: 'Acolhe demandas comerciais de clientes, identifica dores, analisa ticket médio e enquadra na solução ideal da VIDE.',
-        o_que_faz: 'Avalia a maturidade comercial da empresa interessada, separa fatos de sintomas e prepara o resumo inicial para o Coordenador.',
+        cor: '#0EA5E9',
+        iniciais: 'LF',
+        descricao: 'Acolhe demandas comerciais de clientes, identifica dores reais, analisa maturidade comercial e enquadra no pacote ideal da VIDE.',
+        o_que_faz: 'Avalia o perfil da empresa interessada, separa sintomas de causas reais e prepara o resumo inicial de qualificação para o Coordenador.',
         entregaveis_tipicos: 'Fichas de diagnóstico preliminar, perguntas de qualificação e enquadramento de pacote comercial.',
         status: 'DISPONIVEL',
         status_label: 'Online • Pronto para Triagem'
@@ -89,23 +93,27 @@ const CATALOGO_EQUIPE_DIGITAL = [
     {
         id: 'agente_04_branding_design',
         numero: '04',
-        nome: 'Designer de Marca & Identidade Visual',
-        papel: 'Design de Marca e Padrões Visuais',
+        nome: 'Helena Prado',
+        genero: 'F',
+        papel: 'Diretora de Arte & Brand Designer',
         icone: 'fa-palette',
         cor: '#EC4899',
-        descricao: 'Desenvolve a identidade visual, paletas de cores com contraste acessível, logotipos vetoriais e guias de estilo da marca.',
-        o_que_faz: 'Cria ativos de design refinados que transmitem autoridade e sofisticação imediata aos clientes do negócio.',
+        iniciais: 'HP',
+        descricao: 'Desenvolve identidades visuais sofisticadas, logotipos vetoriais em SVG, paletas de cores com contraste acessível e guias de estilo.',
+        o_que_faz: 'Cria ativos de design refinados que transmitem autoridade imediata, elegância e profissionalismo aos clientes do negócio.',
         entregaveis_tipicos: 'Logotipos em SVG, Design Tokens em CSS/JSON e Guia de Marca interativo.',
         status: 'DISPONIVEL',
-        status_label: 'Online • Pronto para Design'
+        status_label: 'Online • Pronta para Design'
     },
     {
         id: 'agente_03_desenvolvedor',
         numero: '03',
-        nome: 'Desenvolvedor Web',
-        papel: 'Engenharia de Páginas e Conversão',
+        nome: 'Rafael Duarte',
+        genero: 'M',
+        papel: 'Engenheiro & Desenvolvedor Web',
         icone: 'fa-code',
         cor: '#2563EB',
+        iniciais: 'RD',
         descricao: 'Programa landing pages responsivas, mobile-first, limpas e ultrarrápidas em HTML5, CSS e JavaScript sem dependências pesadas.',
         o_que_faz: 'Constrói a vitrine digital da empresa, integrando botões de contato direto para WhatsApp e garantindo tempos de abertura inferiores a 1,2s.',
         entregaveis_tipicos: 'Páginas web completas (HTML/CSS/JS), código-fonte e manuais de publicação.',
@@ -115,23 +123,27 @@ const CATALOGO_EQUIPE_DIGITAL = [
     {
         id: 'agente_05_atendimento',
         numero: '05',
-        nome: 'Especialista em Atendimento & Vendas',
-        papel: 'Roteiros de Vendas e Conversão WhatsApp',
+        nome: 'Camila Silveira',
+        genero: 'F',
+        papel: 'Especialista em Atendimento & Vendas',
         icone: 'fa-comments',
         cor: '#10B981',
+        iniciais: 'CS',
         descricao: 'Cria roteiros comerciais para WhatsApp, treina respostas para as maiores objeções e redige mensagens persuasivas humanizadas.',
         o_que_faz: 'Capacita a recepção ou equipe de vendas da empresa a atender clientes com velocidade, quebrar resistências de preço e fechar negócios.',
         entregaveis_tipicos: 'Roteiros de abordagem rápida, matriz de 5 maiores objeções e cadências de mensagem.',
         status: 'DISPONIVEL',
-        status_label: 'Online • Pronto para Roteiros'
+        status_label: 'Online • Pronta para Roteiros'
     },
     {
         id: 'agente_06_automacao',
         numero: '06',
-        nome: 'Engenheiro de Processos & Automações',
-        papel: 'Integrações de Sistemas e Fluxos Automáticos',
+        nome: 'Thiago Meireles',
+        genero: 'M',
+        papel: 'Engenheiro de Automações & Processos',
         icone: 'fa-gears',
         cor: '#F59E0B',
+        iniciais: 'TM',
         descricao: 'Mapeia fluxos de trabalho, desenha integrações via webhooks/n8n e automatiza processos repetitivos para não perder nenhum lead.',
         o_que_faz: 'Conecta formulários de sites a CRMs, cria notificações instantâneas e evita retrabalho operacional.',
         entregaveis_tipicos: 'Fluxos visuais em JSON para n8n, regras de deduplicação e gatilhos de integração.',
@@ -141,15 +153,17 @@ const CATALOGO_EQUIPE_DIGITAL = [
     {
         id: 'agente_07_inteligencia_comercial',
         numero: '07',
-        nome: 'Analista de Inteligência Comercial & Marketing',
-        papel: 'Análise de Funil, Marketing e Indicadores 7D',
+        nome: 'Matheus Barreto',
+        genero: 'M',
+        papel: 'Inteligência Comercial & Growth 7D',
         icone: 'fa-chart-line',
         cor: '#8B5CF6',
-        descricao: 'Aplica o Diagnóstico Comercial 7D, analisa métricas de marketing (Instagram, Meta Ads) e investiga causas de gargalos de vendas.',
-        o_que_faz: 'Interpreta números brutos de visitas, contatos e faturamento para indicar exatamente onde o negócio está perdendo receita e propor melhorias rápidas.',
-        entregaveis_tipicos: 'Diagnóstico Comercial 7D, dossiês de causa-raiz e planos de melhorias recomendadas (MIV).',
+        iniciais: 'MB',
+        descricao: 'Analisa taxas de conversão, custos de aquisição e indicadores de funil, indicando onde a empresa está perdendo dinheiro e o que priorizar.',
+        o_que_faz: 'Mapeia gargalos matemáticos, audita interações e propõe Recomendações de Menor Intervenção Viável (MIV) pelo Motor 7D.',
+        entregaveis_tipicos: 'Diagnóstico Comercial 7D, dossiês de causa-raiz e planos de melhorias recomendadas.',
         status: 'DISPONIVEL',
-        status_label: 'Online • Pronto para Análise'
+        status_label: 'Online • Pronto para Inteligência'
     }
 ];
 
@@ -184,6 +198,30 @@ function lerCorpoTexto(req) {
 /**
  * Lê o corpo da requisição POST como JSON
  */
+
+function sanitizarPayloadResposta(obj) {
+    if (!obj) return obj;
+    try {
+        let str = typeof obj === 'string' ? obj : JSON.stringify(obj);
+        str = str.replace(/\uFFFD/g, '')
+                 .replace(/AutoPeas/g, 'AutoPeças')
+                 .replace(/reestruturao/g, 'reestruturação')
+                 .replace(/Presena/g, 'Presença')
+                 .replace(/automao/g, 'automação')
+                 .replace(/Liderana/g, 'Liderança')
+                 .replace(/Agente 01/g, 'Lucas Fontana (Triagem)')
+                 .replace(/Agente 02/g, 'Gabriel Rocha (Coordenador)')
+                 .replace(/Agente 03/g, 'Rafael Duarte (Dev)')
+                 .replace(/Agente 04/g, 'Helena Prado (Design)')
+                 .replace(/Agente 05/g, 'Camila Silveira (Atendimento)')
+                 .replace(/Agente 06/g, 'Thiago Meireles (Automação)')
+                 .replace(/Agente 07/g, 'Matheus Barreto (Inteligência)');
+        return typeof obj === 'string' ? str : JSON.parse(str);
+    } catch (_) {
+        return obj;
+    }
+}
+
 function lerCorpoJson(req) {
     return lerCorpoTexto(req).then(texto => {
         if (!texto || texto.trim() === '') return {};
@@ -349,13 +387,13 @@ const servidor = http.createServer(async (req, res) => {
                 pid: process.pid
             },
             banco_dados: {
-                modo_operacao: statusDb.modo,
+                modo_operação: statusDb.modo,
                 conexao_remota_ativa: statusDb.sucesso,
                 database_url_configurada: !!CONFIG.DATABASE_URL,
                 detalhes: statusDb.sucesso ? `PostgreSQL Ativo: ${statusDb.versao_postgresql}` : statusDb.erro
             },
             armazenamento_arquivos: diagStorage,
-            integracoes: {
+            integrações: {
                 whatsapp_meta_cloud: {
                     status: (CONFIG.META_WA_PHONE_NUMBER_ID && CONFIG.META_WA_ACCESS_TOKEN) ? 'CREDENCIAS_CONFIGURADAS' : 'AGUARDANDO_CREDENCIAIS_META',
                     phone_number_id_definido: !!CONFIG.META_WA_PHONE_NUMBER_ID
@@ -1287,7 +1325,9 @@ const servidor = http.createServer(async (req, res) => {
                 }
             }
 
-            const promptEspecialista = `Você é o ${especialista.nome} (Agente 0${especialista.numero}) da Equipe Digital da VIDE — Sistemas de Crescimento Comercial.
+            const artigoPronome = especialista.genero === 'F' ? 'a' : 'o';
+            const tratamento = especialista.genero === 'F' ? 'uma especialista sênior' : 'um especialista sênior';
+            const promptEspecialista = `Você é ${especialista.nome}, ${especialista.papel} da Equipe Digital da VIDE — Sistemas de Crescimento Comercial.
 Você está conversando diretamente com Douglas Paz, Diretor Executivo da VIDE.
 Sua especialidade: ${especialista.papel}.
 O que você faz: ${especialista.o_que_faz}.
@@ -1295,11 +1335,11 @@ ${contextoProjeto}
 Mensagem de Douglas: "${mensagem}"
 
 Diretrizes obrigatórias de resposta:
-1. Responda em português brasileiro de forma executiva, clara, direta e sem jargões técnicos ou siglas desnecessárias.
-2. Seja prestativo, profissional e autoridade na sua disciplina técnica (${especialista.papel}).
-3. Se Douglas apresentar uma dúvida ou pedido na sua especialidade, apresente soluções concretas e passos práticos.
-4. Se o pedido envolver outras disciplinas (ex: criar um site completo, mexer em anúncios, integrar com WhatsApp de ponta a ponta), responda sobre sua parte e recomende: "Para estruturarmos isso como um projeto completo com os demais especialistas, você pode solicitar ao Coordenador Geral na aba Conversar ou criar um Novo Projeto na aba Projetos."
-5. Mantenha o tom de um especialista sênior que trabalha na equipe dele.`;
+1. Responda em português brasileiro de forma executiva, profissional, calorosa, natural e sem qualquer menção robótica de "inteligência artificial" ou "agente". Você é ${especialista.nome}, ${tratamento} que trabalha na equipe de Douglas.
+2. Seja prestativo, claro, direto e demonstre autoridade na sua disciplina técnica (${especialista.papel}).
+3. Se Douglas apresentar uma dúvida ou pedido na sua especialidade, apresente soluções concretas e passos práticos imediatamente.
+4. Se o pedido envolver outras disciplinas (ex: criar um site completo, mexer em anúncios, integrar com WhatsApp de ponta a ponta), responda sobre sua parte e recomende: "Para estruturarmos isso como um projeto completo com os demais membros da equipe, você pode alinhar com o Gabriel Rocha na aba Conversar ou criar um Novo Projeto na aba Projetos."
+5. Mantenha o tom de alta governança executiva, tratando Douglas pelo nome.`;
 
             const chaveIA = especialista.id.includes('triagem') ? 'TRIAGEM' :
                            especialista.id.includes('branding') ? 'BRANDING' :
@@ -1566,7 +1606,7 @@ Diretrizes obrigatórias de resposta:
                     const scoresMap = diagResultado.scoresDimensoes || {};
                     const listaDim = [
                         { dim: 'COMUNICACAO', score: scoresMap.comunicacao ?? 50 },
-                        { dim: 'AQUISICAO', score: scoresMap.aquisicao ?? 50 },
+                        { dim: 'AQUISICAO', score: scoresMap.aquisição ?? 50 },
                         { dim: 'ATENDIMENTO', score: scoresMap.atendimento ?? 50 },
                         { dim: 'PROCESSO_COMERCIAL', score: scoresMap.processo_comercial ?? 50 },
                         { dim: 'CONVERSAO', score: scoresMap.conversao ?? 50 },

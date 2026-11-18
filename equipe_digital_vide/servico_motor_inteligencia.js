@@ -47,10 +47,10 @@ class ServicoMotorInteligenciaVIDE {
      * Executa operação transacional isolada por Tenant (Row-Level Security Defense-in-Depth)
      * Utiliza set_config com is_local = true, garantindo zero vazamento no pool de conexões.
      * @param {string} empresaId - UUID do Tenant cliente
-     * @param {Function} operacao - Callback recebendo o client conectado e parametrizado
+     * @param {Function} operação - Callback recebendo o client conectado e parametrizado
      * @returns {Promise<any>}
      */
-    async comTenant(empresaId, operacao) {
+    async comTenant(empresaId, operação) {
         if (!empresaId) {
             throw new Error('[SEGURANCA_MOTOR] empresa_id obrigatório para execução sob RLS.');
         }
@@ -63,7 +63,7 @@ class ServicoMotorInteligenciaVIDE {
             await client.query('BEGIN;');
             // Escopo estritamente local à transação (is_local = true)
             await client.query("SELECT set_config('vide.current_empresa_id', $1, true);", [empresaId]);
-            const resultado = await operacao(client);
+            const resultado = await operação(client);
             await client.query('COMMIT;');
             return resultado;
         } catch (erro) {
@@ -528,7 +528,7 @@ class ServicoMotorInteligenciaVIDE {
 
             let scoresDimensoes = {
                 comunicacao: scoreComunicacao,
-                aquisicao: scoreAquisicao,
+                aquisição: scoreAquisicao,
                 atendimento: scoreAtendimento,
                 processo_comercial: scoreProcesso,
                 conversao: scoreConversao,
@@ -536,7 +536,7 @@ class ServicoMotorInteligenciaVIDE {
                 gestao: {
                     score_total: scoreGestao,
                     subdimensoes: {
-                        retencao_score: subdimRetencao,
+                        retenção_score: subdimRetencao,
                         recompra_score: subdimRecompra,
                         relacionamento_pos_venda: subdimRelacionamento,
                         visibilidade_metricas: subdimMetricas
@@ -551,7 +551,7 @@ class ServicoMotorInteligenciaVIDE {
             }
 
             const scoreComFinal = scoresDimensoes.comunicacao;
-            const scoreAquFinal = scoresDimensoes.aquisicao;
+            const scoreAquFinal = scoresDimensoes.aquisição;
             const scoreAteFinal = scoresDimensoes.atendimento;
             const scoreProFinal = scoresDimensoes.processo_comercial;
             const scoreConFinal = scoresDimensoes.conversao;

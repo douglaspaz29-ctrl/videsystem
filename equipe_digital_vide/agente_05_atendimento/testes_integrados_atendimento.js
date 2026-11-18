@@ -101,7 +101,7 @@ async function executarFluxoIntegradoAtendimento() {
     console.log(`✓ Critérios de Aceite Atendidos: ${manifesto.criterios_aceite.length}`);
 
     // Leitura da matriz de objeções (Motor VIDE)
-    const matriz = JSON.parse(fs.readFileSync(path.join(pastaEntrega, 'matriz_objecoes_e_respostas.json'), 'utf-8'));
+    const matriz = JSON.parse(fs.readFileSync(path.join(pastaEntrega, 'matriz_objeções_e_respostas.json'), 'utf-8'));
     console.log(`✓ Macro-Categorias de Objeções no Motor: ${matriz.macro_categorias.map(c => c.categoria).join(', ')}`);
 
     // Leitura das réguas de follow-up

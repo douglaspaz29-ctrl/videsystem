@@ -88,9 +88,9 @@ async function executarFluxoIntegradoInteligencia() {
     console.log(`✓ Receita Perdida Pós-Proposta: R$ ${funil.metricas_calculadas.receita_perdida_pos_proposta_brl.toLocaleString('pt-BR')}`);
     console.log(`✓ Padrão Central: ${funil.padroes_observados[0]}`);
 
-    const objecoes = JSON.parse(fs.readFileSync(path.join(pastaEntrega, 'relatorio_motor_objecoes.json'), 'utf-8'));
+    const objeções = JSON.parse(fs.readFileSync(path.join(pastaEntrega, 'relatorio_motor_objeções.json'), 'utf-8'));
     console.log(`✓ Distribuição de Objeções:`);
-    objecoes.distribuicao_objecoes.forEach(o => {
+    objeções.distribuicao_objeções.forEach(o => {
         console.log(`   - [${o.categoria}]: ${o.frequencia_absoluta} casos (${o.percentual_total}) -> R$ ${o.impacto_financeiro_estimado_brl.toLocaleString('pt-BR')} em risco`);
     });
 

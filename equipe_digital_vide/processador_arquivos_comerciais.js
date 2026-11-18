@@ -371,7 +371,7 @@ function classificarTipoDadosComerciais(registros, tipoExplicitado = null) {
     const temChave = (...termos) => termos.some(termo => chaves.some(k => k.includes(termo)));
 
     // 1. Métricas de Retenção e Recompra
-    if (temChave('churn', 'nps', 'csat', 'retencao', 'recompra', 'tempo_casa', 'renovacao', 'recorrencia')) {
+    if (temChave('churn', 'nps', 'csat', 'retenção', 'recompra', 'tempo_casa', 'renovacao', 'recorrencia')) {
         return 'METRICA_RETENCAO';
     }
 
