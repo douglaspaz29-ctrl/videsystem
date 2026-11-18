@@ -1629,6 +1629,181 @@ select, .input-dark-field, .proj-selector-dropdown {
     box-shadow: 0 0 14px var(--cyan-glow) !important;
 }
 
+
+/* =====================================================================
+ * CHAT FORM, TEXTAREA, BUTTON & RESPONSIVE RULES (OBSIDIAN SPEC)
+ * ===================================================================== */
+.chat-workspace {
+    display: grid !important;
+    grid-template-columns: 310px 1fr !important;
+    gap: 18px !important;
+    height: calc(100vh - 150px) !important;
+    min-height: 560px !important;
+}
+
+.chat-main-panel {
+    display: flex !important;
+    flex-direction: column !important;
+    height: 100% !important;
+    background: var(--bg-card) !important;
+    border: 1px solid var(--border-card) !important;
+    border-radius: var(--radius-xl) !important;
+    overflow: hidden !important;
+}
+
+.chat-messages-scroll {
+    flex: 1 !important;
+    overflow-y: auto !important;
+    padding: 20px 24px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 16px !important;
+}
+
+.chat-suggestions-bar {
+    display: flex !important;
+    gap: 8px !important;
+    padding: 8px 20px !important;
+    background: rgba(10, 14, 24, 0.6) !important;
+    border-top: 1px solid var(--border-subtle) !important;
+    overflow-x: auto !important;
+    flex-shrink: 0 !important;
+}
+
+.chat-input-area {
+    padding: 12px 20px 16px 20px !important;
+    background: rgba(8, 11, 18, 0.95) !important;
+    border-top: 1px solid var(--border-subtle) !important;
+    flex-shrink: 0 !important;
+}
+
+.chat-input-form {
+    display: flex !important;
+    align-items: flex-end !important;
+    gap: 12px !important;
+    background: var(--bg-input) !important;
+    border: 1px solid var(--border-light) !important;
+    border-radius: var(--radius-lg) !important;
+    padding: 8px 12px !important;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.4) !important;
+    transition: border-color var(--duration-fast) ease, box-shadow var(--duration-fast) ease !important;
+}
+
+.chat-input-form:focus-within {
+    border-color: var(--cyan-core) !important;
+    box-shadow: 0 0 16px var(--cyan-glow), inset 0 2px 4px rgba(0, 0, 0, 0.4) !important;
+}
+
+.chat-input-textarea {
+    flex: 1 !important;
+    background: transparent !important;
+    border: none !important;
+    outline: none !important;
+    color: #FFF !important;
+    font-family: var(--font-body) !important;
+    font-size: 13.5px !important;
+    line-height: 1.5 !important;
+    resize: none !important;
+    min-height: 28px !important;
+    max-height: 120px !important;
+    padding: 4px 6px !important;
+}
+
+.btn-chat-send {
+    width: 38px !important;
+    height: 38px !important;
+    border-radius: var(--radius-md) !important;
+    background: linear-gradient(135deg, #00D2FF 0%, #0284C7 100%) !important;
+    border: none !important;
+    color: #050810 !important;
+    cursor: pointer !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 14px !important;
+    flex-shrink: 0 !important;
+    transition: all var(--duration-fast) ease !important;
+    box-shadow: 0 4px 12px rgba(0, 210, 255, 0.3) !important;
+}
+
+.btn-chat-send:hover {
+    transform: translateY(-1px) !important;
+    box-shadow: 0 6px 18px rgba(0, 210, 255, 0.5) !important;
+}
+
+/* =====================================================================
+ * RESPONSIVIDADE PRECISA: NOTEBOOK (<= 1366px e 1280px)
+ * ===================================================================== */
+@media (max-width: 1366px) {
+    .exec-topbar {
+        padding: 0 12px !important;
+        gap: 8px !important;
+    }
+    .exec-tab-btn {
+        padding: 6px 10px !important;
+        font-size: 12px !important;
+        gap: 5px !important;
+    }
+    .exec-user-text {
+        display: none !important; /* Salva 90px de largura no notebook! */
+    }
+    .exec-system-status span {
+        display: none !important; /* Salva 90px de largura no notebook! */
+    }
+    .btn-exec-logout {
+        padding: 6px 12px !important;
+        font-size: 11.5px !important;
+    }
+}
+
+/* =====================================================================
+ * RESPONSIVIDADE PRECISA: TABLET & MOBILE (<= 1024px e 390px)
+ * ===================================================================== */
+@media (max-width: 1024px) {
+    .exec-nav-tabs {
+        display: none !important;
+    }
+    .exec-mobile-dock {
+        display: flex !important;
+    }
+    .exec-main-content {
+        padding-bottom: 84px !important;
+    }
+    .chat-workspace {
+        grid-template-columns: 1fr !important;
+        height: auto !important;
+    }
+}
+
+@media (max-width: 640px) {
+    .exec-topbar {
+        height: 56px !important;
+        padding: 0 8px !important;
+        margin: 6px 8px 12px 8px !important;
+        width: calc(100% - 16px) !important;
+    }
+    .exec-brand-info p {
+        display: none !important;
+    }
+    .brand-badge-exec {
+        display: none !important;
+    }
+    .exec-system-status {
+        padding: 5px 8px !important;
+    }
+    .inicio-prompt-bar {
+        flex-direction: column !important;
+        align-items: stretch !important;
+        padding: 10px !important;
+        gap: 8px !important;
+    }
+    .btn-brand-cyan {
+        width: 100% !important;
+        justify-content: center !important;
+        padding: 10px 14px !important;
+    }
+}
+
 </style>
 </head>
 <body>
@@ -3842,7 +4017,6 @@ select, .input-dark-field, .proj-selector-dropdown {
 
         // Atualizar lista da barra lateral
         renderizarSidebarAgentesChat();
-        selecionarAgenteChat("agente_02_coordenador");
 
         // Atualizar cabeçalho do chat
         const elAvatar = document.getElementById('chat-active-avatar');
@@ -4350,6 +4524,7 @@ select, .input-dark-field, .proj-selector-dropdown {
         renderizarMiniCardsEquipeInicio();
         renderizarCardsEquipeCompleta();
         renderizarSidebarAgentesChat();
+        selecionarAgenteChat('agente_02_coordenador');
 
         // Verificar autenticação prévia
         const authOk = verificarAutenticacaoCockpit();
@@ -6821,5 +6996,27 @@ select, .input-dark-field, .proj-selector-dropdown {
     }
 
     </script>
+
+    <!-- Barra de Navegação Inferior Executiva para Telas Mobile (390px / Smartphones) -->
+    <nav class="exec-mobile-dock" id="exec-mobile-dock">
+        <button class="exec-mobile-dock-btn active" id="mob-tab-btn-inicio" onclick="alternarAbaPrincipal('inicio')">
+            <i class="fas fa-house"></i><span>Início</span>
+        </button>
+        <button class="exec-mobile-dock-btn" id="mob-tab-btn-conversar" onclick="alternarAbaPrincipal('conversar')">
+            <i class="fas fa-comments"></i><span>Conversar</span>
+        </button>
+        <button class="exec-mobile-dock-btn" id="mob-tab-btn-equipe" onclick="alternarAbaPrincipal('equipe')">
+            <i class="fas fa-users-gear"></i><span>Equipe</span>
+        </button>
+        <button class="exec-mobile-dock-btn" id="mob-tab-btn-projetos" onclick="alternarAbaPrincipal('projetos')">
+            <i class="fas fa-diagram-project"></i><span>Projetos</span>
+        </button>
+        <button class="exec-mobile-dock-btn" id="mob-tab-btn-entregas" onclick="alternarAbaPrincipal('entregas')">
+            <i class="fas fa-box-archive"></i><span>Entregas</span>
+        </button>
+        <button class="exec-mobile-dock-btn" id="mob-tab-btn-avancado" onclick="alternarAbaPrincipal('avancado')">
+            <i class="fas fa-sliders"></i><span>Avançado</span>
+        </button>
+    </nav>
 </body>
 </html>
