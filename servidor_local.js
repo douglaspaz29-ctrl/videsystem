@@ -215,7 +215,14 @@ function sanitizarPayloadResposta(obj) {
                  .replace(/Agente 04/g, 'Helena Prado (Design)')
                  .replace(/Agente 05/g, 'Camila Silveira (Atendimento)')
                  .replace(/Agente 06/g, 'Thiago Meireles (Automação)')
-                 .replace(/Agente 07/g, 'Matheus Barreto (Inteligência)');
+                 .replace(/Agente 07/g, 'Matheus Barreto (Inteligência)')
+                             .replace(/AGT-0?1/g, 'Lucas Fontana (Triagem)')
+                             .replace(/AGT-0?2/g, 'Gabriel Rocha (Coordenador)')
+                             .replace(/AGT-0?3/g, 'Rafael Duarte (Dev)')
+                             .replace(/AGT-0?4/g, 'Helena Prado (Design)')
+                             .replace(/AGT-0?5/g, 'Camila Silveira (Atendimento)')
+                             .replace(/AGT-0?6/g, 'Thiago Meireles (Automação)')
+                             .replace(/AGT-0?7/g, 'Matheus Barreto (Inteligência)');
         return typeof obj === 'string' ? str : JSON.parse(str);
     } catch (_) {
         return obj;
@@ -339,6 +346,44 @@ function executarEsteiraCompletaEspecialistas(idProjeto) {
 
 const servidor = http.createServer(async (req, res) => {
     let urlLimpa = req.url.split('?')[0];
+
+    // Interceptor global de segurança para sanitização mandatória de respostas JSON
+    const originalEnd = res.end;
+    res.end = function(chunk, encoding, callback) {
+        if (chunk) {
+            try {
+                const contentType = res.getHeader('Content-Type') || '';
+                if (typeof contentType === 'string' && contentType.includes('application/json')) {
+                    let str = Buffer.isBuffer(chunk) ? chunk.toString('utf8') : String(chunk);
+                    str = str.replace(/\uFFFD/g, '')
+                             .replace(/AutoPeas/g, 'AutoPeças')
+                             .replace(/reestruturao/g, 'reestruturação')
+                             .replace(/Presena/g, 'Presença')
+                             .replace(/automao/g, 'automação')
+                             .replace(/oramento/g, 'orçamento')
+                             .replace(/trfego/g, 'tráfego')
+                             .replace(/gesto/g, 'gestão')
+                             .replace(/silncio/g, 'silêncio')
+                             .replace(/ps-proposta/g, 'pós-proposta')
+                             .replace(/horrios/g, 'horários')
+                             .replace(/udio/g, 'áudio')
+                             .replace(/cardpio/g, 'cardápio')
+                             .replace(/Liderana/g, 'Liderança')
+                             .replace(/Agente 002/g, 'Gabriel Rocha (Coordenador Geral)')
+                             .replace(/Agente 02/g, 'Gabriel Rocha (Coordenador Geral)')
+                             .replace(/Agente 01/g, 'Lucas Fontana (Triagem)')
+                             .replace(/Agente 03/g, 'Rafael Duarte (Dev)')
+                             .replace(/Agente 04/g, 'Helena Prado (Design)')
+                             .replace(/Agente 05/g, 'Camila Silveira (Atendimento)')
+                             .replace(/Agente 06/g, 'Thiago Meireles (Automação)')
+                             .replace(/Agente 07/g, 'Matheus Barreto (Inteligência)');
+                    chunk = Buffer.from(str, 'utf8');
+                    res.setHeader('Content-Length', chunk.length);
+                }
+            } catch (_) {}
+        }
+        return originalEnd.call(this, chunk, encoding, callback);
+    };
 
     // CORS Headers
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -2452,6 +2497,18 @@ servidor.listen(PORTA, HOST, async () => {
     console.log(`[VIDE] Landing Page Oficial: ${CONFIG.BASE_URL}/`);
     console.log(`[VIDE] API REST & Webhook n8n prontos em: ${CONFIG.BASE_URL}/api/`);
     try {
+        if (db.pgPool) {
+            try {
+                await db.pgPool.query(`
+                    UPDATE projetos SET cliente = REPLACE(cliente, 'AutoPeas', 'AutoPeças'), empresa_contratante = REPLACE(empresa_contratante, 'AutoPeas', 'AutoPeças') WHERE cliente LIKE '%AutoPe%' OR empresa_contratante LIKE '%AutoPe%';
+                    UPDATE empresas SET nome = REPLACE(nome, 'AutoPeas', 'AutoPeças') WHERE nome LIKE '%AutoPe%';
+                    UPDATE tarefas SET titulo = REPLACE(REPLACE(titulo, 'AutoPeas', 'AutoPeças'), '\uFFFD', ''), descricao = REPLACE(REPLACE(descricao, 'AutoPeas', 'AutoPeças'), '\uFFFD', '');
+                    UPDATE hipoteses_causais SET enunciado_hipotese = REPLACE(REPLACE(enunciado_hipotese, 'silncio', 'silêncio'), 'ps-proposta', 'pós-proposta'), causa_raiz_provavel = REPLACE(REPLACE(causa_raiz_provavel, 'horrios', 'horários'), 'automao', 'automação');
+                    UPDATE aprendizados_miv SET titulo_miv = REPLACE(REPLACE(titulo_miv, 'udio', 'áudio'), 'cardpio', 'cardápio');
+                `);
+                console.log('[VIDE] Limpeza de dados em PostgreSQL executada com sucesso.');
+            } catch (_) {}
+        }
         await db.hidratarDoPostgres();
         console.log('[VIDE] Hidratação relacional pós-boot concluída.');
     } catch (_) {}

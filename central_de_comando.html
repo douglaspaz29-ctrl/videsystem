@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VIDE — Central de Comando // Cockpit Executivo</title>
+    <title>VIDE — Central Executiva de Comando</title>
     <meta name="description" content="Ambiente Executivo Privado de Douglas Paz. Gestão e coordenação da Equipe Digital da VIDE e orquestração de projetos comerciais.">
 
     <!-- Tipografia Executiva Moderna (Inter & Plus Jakarta Sans) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <!-- Motores Visuais Complementares -->
@@ -18,9 +18,9 @@
 
     <style>
         :root {
-            --font-headline: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            --font-body: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            --font-mono: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            --font-headline: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            --font-body: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            --font-mono: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 
             --bg-void: #0A0D14;
             --bg-surface: #0F172A;
@@ -658,8 +658,8 @@
 
         .inicio-equipe-grid {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 14px;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 12px;
             margin-top: 14px;
         }
 
@@ -705,12 +705,11 @@
         }
 
         .mini-agent-text h4 {
-            font-size: 12px;
-            font-weight: 700;
+            font-size: 13.5px;
+            font-weight: 800;
             color: #FFF;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+            white-space: normal;
+            line-height: 1.25;
         }
 
         .mini-agent-text p {
@@ -1851,36 +1850,36 @@
     <!-- =====================================================================
      * LOCKSCREEN DE ACESSO EXECUTIVO (ZERO TRUST // DIRETORIA EXECUTIVA)
      * ===================================================================== -->
-    <div id="lockscreen-privado" style="display: none; position: fixed; inset: 0; background: rgba(10, 13, 20, 0.98); backdrop-filter: blur(24px); z-index: 100000; align-items: center; justify-content: center; padding: 24px;">
-        <div style="background: #111827; border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px; max-width: 440px; width: 100%; padding: 40px; box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6); text-align: left;">
-            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 20px;">
-                <div style="width: 8px; height: 8px; border-radius: 50%; background: #2563EB;"></div>
-                <div style="font-size: 11px; font-weight: 700; color: #94A3B8; text-transform: uppercase; letter-spacing: 0.05em;">Acesso Executivo • VIDE</div>
+    <div id="lockscreen-privado" style="display: none; position: fixed; inset: 0; background: radial-gradient(circle at 50% 30%, rgba(30, 58, 138, 0.25) 0%, rgba(10, 13, 20, 0.98) 70%); backdrop-filter: blur(28px); -webkit-backdrop-filter: blur(28px); z-index: 100000; align-items: center; justify-content: center; padding: 24px;">
+        <div class="luxury-card" style="max-width: 460px; width: 100%; padding: 44px 40px; box-shadow: 0 35px 80px -20px rgba(0, 0, 0, 0.85), 0 0 50px rgba(37, 99, 235, 0.15); text-align: left; border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 20px;">
+            <div style="display: inline-flex; align-items: center; gap: 8px; padding: 5px 14px; background: rgba(56, 189, 248, 0.1); border: 1px solid rgba(56, 189, 248, 0.25); border-radius: 999px; margin-bottom: 22px;">
+                <div style="width: 7px; height: 7px; border-radius: 50%; background: #38BDF8; box-shadow: 0 0 10px #38BDF8;"></div>
+                <span style="font-size: 11px; font-weight: 700; color: #38BDF8; letter-spacing: 0.06em; text-transform: uppercase;">Governança Executiva VIDE</span>
             </div>
 
-            <h2 style="font-family: var(--font-headline) !important; font-size: 24px; font-weight: 700; margin-bottom: 8px; color: #FFFFFF; letter-spacing: -0.02em;">Central de Comando</h2>
-            <p style="font-size: 13.5px; color: #94A3B8; margin-bottom: 24px; line-height: 1.5;">Ambiente executivo restrito de Douglas Paz. Identifique-se para acessar o cockpit da Equipe Digital.</p>
+            <h2 style="font-family: var(--font-headline) !important; font-size: 26px; font-weight: 800; margin-bottom: 8px; color: #FFFFFF; letter-spacing: -0.025em;">Central de Comando</h2>
+            <p style="font-size: 14px; color: #94A3B8; margin-bottom: 28px; line-height: 1.55;">Portal executivo privado de Douglas Paz. Identifique-se para gerenciar a equipe digital e orquestrar projetos comerciais.</p>
 
-            <form id="form-lockscreen-login" onsubmit="autenticarLockscreen(event)" style="display: flex; flex-direction: column; gap: 16px;">
+            <form id="form-lockscreen-login" onsubmit="autenticarLockscreen(event)" style="display: flex; flex-direction: column; gap: 18px;">
                 <div>
-                    <label style="display: block; font-size: 12px; font-weight: 600; color: #E2E8F0; margin-bottom: 6px;">Usuário Autorizado:</label>
-                    <input type="text" id="lockscreen-usuario" class="input-dark-field" placeholder="Ex: douglas" required autofocus style="width: 100%; padding: 12px 14px; font-size: 13.5px; border-radius: 8px;">
+                    <label style="display: block; font-size: 12.5px; font-weight: 600; color: #E2E8F0; margin-bottom: 8px;">Usuário Autorizado:</label>
+                    <input type="text" id="lockscreen-usuario" class="input-dark-field" placeholder="Ex: douglas" required autofocus style="width: 100%; padding: 13px 16px; font-size: 14px; border-radius: 10px;">
                 </div>
 
                 <div>
-                    <label style="display: block; font-size: 12px; font-weight: 600; color: #E2E8F0; margin-bottom: 6px;">Credencial de Segurança:</label>
-                    <input type="password" id="lockscreen-senha" class="input-dark-field" placeholder="••••••••••••" required style="width: 100%; padding: 12px 14px; font-size: 13.5px; border-radius: 8px;">
+                    <label style="display: block; font-size: 12.5px; font-weight: 600; color: #E2E8F0; margin-bottom: 8px;">Credencial de Acesso:</label>
+                    <input type="password" id="lockscreen-senha" class="input-dark-field" placeholder="••••••••••••" required style="width: 100%; padding: 13px 16px; font-size: 14px; border-radius: 10px;">
                 </div>
 
-                <div id="lockscreen-erro" style="display: none; padding: 10px; background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 6px; font-size: 12px; color: #EF4444;"></div>
+                <div id="lockscreen-erro" style="display: none; padding: 12px; background: rgba(239, 68, 68, 0.12); border: 1px solid rgba(239, 68, 68, 0.35); border-radius: 8px; font-size: 12.5px; color: #EF4444;"></div>
 
-                <button type="submit" id="btn-lockscreen-submit" class="btn-blue-action" style="width: 100%; justify-content: center; padding: 14px; margin-top: 8px; font-weight: 700; font-size: 14px; border-radius: 8px;">
-                    <i class="fas fa-lock-open" style="margin-right: 8px;"></i> Desbloquear Central
+                <button type="submit" id="btn-lockscreen-submit" class="btn-luxury-primary" style="width: 100%; justify-content: center; padding: 15px; margin-top: 6px; font-size: 14.5px; border-radius: 10px;">
+                    <i class="fas fa-arrow-right-to-bracket" style="margin-right: 8px;"></i> Acessar Central Executiva
                 </button>
             </form>
 
-            <div style="margin-top: 24px; text-align: center; font-size: 11px; color: #64748B;">
-                Sessão Privada • Governança Executiva VIDE
+            <div style="margin-top: 26px; text-align: center; font-size: 11.5px; color: #64748B;">
+                Ambiente corporativo protegido com criptografia de ponta a ponta • Diretoria VIDE
             </div>
         </div>
     </div>
@@ -2606,54 +2605,51 @@
                         </div>
                     </div>
 
-                <!-- Auditoria e Console Técnico Integrado -->
+                <!-- Auditoria e Registro de Atividades da Equipe Executiva -->
                 <div style="margin-top: 24px;">
-                    <!-- Seção do Terminal Interativo com o Coordenador Geral -->
-        <section class="terminal-executor-section">
-            <div class="terminal-top-bar">
-                <div style="display: flex; align-items: center; gap: 14px;">
-                    <div class="terminal-window-dots">
-                        <div class="terminal-dot" style="background: #EF4444;"></div>
-                        <div class="terminal-dot" style="background: #F59E0B;"></div>
-                        <div class="terminal-dot" style="background: #10B981;"></div>
-                    </div>
-                    <span style="font-family: var(--font-mono); font-size: 12px; font-weight: 700; color: #94A3B8;">
-                        Auditoria & Telemetria do Sistema
-                    </span>
-                </div>
-                <div style="font-family: var(--font-mono); font-size: 11px; color: var(--cyan-core);">
-                    CANAL EXECUTIVO SEGURO
+                    <section class="luxury-card" style="overflow: hidden; border-radius: 16px;">
+                        <div style="background: rgba(10, 15, 29, 0.85); padding: 16px 22px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid rgba(255, 255, 255, 0.08);">
+                            <div style="display: flex; align-items: center; gap: 12px;">
+                                <div class="avatar-initials-badge" style="width: 32px; height: 32px; font-size: 13px; background: rgba(16, 185, 129, 0.15); color: #10B981; border: 1px solid rgba(16, 185, 129, 0.3);">
+                                    <i class="fas fa-clock-rotate-left"></i>
+                                </div>
+                                <div>
+                                    <h4 style="font-family: var(--font-headline); font-size: 14.5px; font-weight: 800; color: #FFF; margin: 0;">
+                                        Registro de Auditoria & Atividades da Equipe
+                                    </h4>
+                                    <p style="font-size: 11.5px; color: #94A3B8; margin: 2px 0 0 0;">
+                                        Histórico executivo em tempo real de diagnósticos, aprovações e telemetria relacional.
+                                    </p>
+                                </div>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <span class="catalogo-pill-tag" style="background: rgba(16, 185, 129, 0.15); color: #10B981; border-color: rgba(16, 185, 129, 0.35);">
+                                    <span style="display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: #10B981; margin-right: 6px;"></span>
+                                    Sincronia Ativa
+                                </span>
+                            </div>
+                        </div>
+
+                        <div id="terminal-feed" style="padding: 18px 22px; max-height: 280px; overflow-y: auto; background: rgba(6, 9, 17, 0.65); font-size: 13px; line-height: 1.6; color: #CBD5E1; display: flex; flex-direction: column; gap: 6px;">
+                            <div class="audit-stream-row" style="display: flex; align-items: flex-start; gap: 12px; padding: 6px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.04);">
+                                <span style="color: #64748B; font-size: 11.5px; font-weight: 600; min-width: 65px;">[00:00:00]</span>
+                                <span style="background: rgba(56, 189, 248, 0.12); color: #38BDF8; font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 6px; white-space: nowrap;">Sistema VIDE</span>
+                                <span id="terminal-host-init" style="color: #E2E8F0;">Central Executiva operacional inicializada. Sincronia de telemetria estabelecida.</span>
+                            </div>
+                            <div class="audit-stream-row" style="display: flex; align-items: flex-start; gap: 12px; padding: 6px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.04);">
+                                <span style="color: #64748B; font-size: 11.5px; font-weight: 600; min-width: 65px;">[00:00:01]</span>
+                                <span style="background: rgba(37, 99, 235, 0.15); color: #60A5FA; font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 6px; white-space: nowrap;">Gabriel Rocha (Coordenação)</span>
+                                <span style="color: #E2E8F0;">Ambiente executivo seguro ativo. 7 especialistas seniores sincronizados e prontos para diretrizes.</span>
+                            </div>
+                            <div class="audit-stream-row" style="display: flex; align-items: flex-start; gap: 12px; padding: 6px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.04);">
+                                <span style="color: #64748B; font-size: 11.5px; font-weight: 600; min-width: 65px;">[00:00:02]</span>
+                                <span style="background: rgba(139, 92, 246, 0.15); color: #A78BFA; font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 6px; white-space: nowrap;">Matheus Barreto (Inteligência 7D)</span>
+                                <span style="color: #E2E8F0;">Verificação de integridade: rotas operacionais (HTTP 200). Banco relacional e persistência monitorados.</span>
+                            </div>
+                        </div>
+                    </section>
                 </div>
             </div>
-
-            <div class="terminal-log-window" id="terminal-feed">
-                <div class="terminal-line">
-                    <span class="terminal-time">[00:00:00]</span>
-                    <span class="terminal-sender">[SISTEMA]</span>
-                    <span id="terminal-host-init">Central de Comando operacional inicializada. Conectando telemetria...</span>
-                </div>
-                <div class="terminal-line">
-                    <span class="terminal-time">[00:00:01]</span>
-                    <span class="terminal-sender">[GABRIEL ROCHA // COORDENADOR GERAL]</span>
-                    <span>Ambiente executivo seguro ativo. 7 disciplinas operacionais sincronizadas. Digite 'ajuda' para comandos.</span>
-                </div>
-                <div class="terminal-line">
-                    <span class="terminal-time">[00:00:02]</span>
-                    <span class="terminal-sender">[MATHEUS BARRETO // TELEMETRIA & INTELIGÊNCIA 7D]</span>
-                    <span>Verificação de integridade: rotas ativas (HTTP 200). Banco de dados e armazenamento persistente monitorados.</span>
-                </div>
-            </div>
-
-            <form class="terminal-prompt-bar-wrap" onsubmit="enviarComandoTerminal(event)">
-                <input type="text" class="terminal-prompt-input" id="terminal-input" placeholder="Digite um comando ('demanda <texto>', 'aprovar <id>', 'executar <id>', 'status', 'projetos')...">
-                <button type="submit" class="btn-blue-action" style="padding: 14px 28px;">
-                    <i class="fas fa-paper-plane"></i>
-                    <span>Executar</span>
-                </button>
-            </form>
-        </section>
-                </div>
-                </div>
             </div>
         </div>
 
@@ -3532,7 +3528,18 @@
 
         if (historicoRaw) {
             try {
-                mensagens = JSON.parse(historicoRaw);
+                let parsed = JSON.parse(historicoRaw);
+                mensagens = parsed.map(m => {
+                    m.texto = limparTextoSeguro(m.texto)
+                        .replace(/\(Agente 002\)|\(Agente 02\)|\(Agente 0\d\)/g, '')
+                        .replace(/Coordenador Geral/g, 'Gabriel Rocha');
+                    return m;
+                });
+                if (mensagens.length > 0 && mensagens[0].remetente === 'agente' && (mensagens[0].texto.includes('Agente') || mensagens[0].texto.includes('Coordenador Geral ('))) {
+                    const artigo = agente.genero === 'F' ? 'a' : 'o';
+                    mensagens[0].texto = `Olá, Douglas! Sou ${artigo} **${agente.nome}**, ${agente.papel} da sua Equipe Executiva na VIDE.\n\nMinha disciplina executiva: **${agente.o_que_faz}**\n\nComo posso direcionar ou apoiar você agora?`;
+                    localStorage.setItem(storageKey, JSON.stringify(mensagens));
+                }
             } catch (_) {}
         }
 
@@ -3542,7 +3549,7 @@
             mensagens = [
                 {
                     remetente: 'agente',
-                    texto: `Olá, Douglas! Sou ${artigo} **${agente.nome}**, ${agente.papel} da sua Equipe Digital na VIDE.\n\nMinha disciplina executiva: **${agente.o_que_faz}**\n\nComo posso direcionar ou apoiar você agora?`,
+                    texto: `Olá, Douglas! Sou ${artigo} **${agente.nome}**, ${agente.papel} da sua Equipe Executiva na VIDE.\n\nMinha disciplina executiva: **${agente.o_que_faz}**\n\nComo posso direcionar ou apoiar você agora?`,
                     timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
                 }
             ];
@@ -3763,8 +3770,8 @@
                     window.projetoAtivoId = ativo.id;
                     const elCli = document.getElementById('inicio-projeto-cliente-val');
                     const elEsc = document.getElementById('inicio-projeto-escopo-val');
-                    if (elCli) elCli.innerText = ativo.cliente || ativo.empresa_contratante || 'Padaria Real';
-                    if (elEsc) elEsc.innerText = ativo.solicitacao_original || 'Estruturação de presença digital e roteiro de vendas';
+                    if (elCli) elCli.innerText = limparTextoSeguro(ativo.cliente || ativo.empresa_contratante || 'Padaria Real');
+                    if (elEsc) elEsc.innerText = limparTextoSeguro(ativo.solicitacao_original || 'Estruturação de presença digital e roteiro de vendas');
 
                     // Calcular progresso baseado nas tarefas do DAG
                     const tarefas = ativo.grafo_tarefas || [];
@@ -3797,7 +3804,7 @@
                                         <i class="fas fa-triangle-exclamation"></i>
                                         <div class="gov-alert-text">
                                             <h4>Autorização Comercial Requerida</h4>
-                                            <p>${ativo.cliente || ativo.empresa_contratante}: Projeto estruturado aguarda sua aprovação.</p>
+                                            <p>${limparTextoSeguro(ativo.cliente || ativo.empresa_contratante)}: Projeto estruturado aguarda sua aprovação.</p>
                                         </div>
                                     </div>
                                     <button class="btn-gov-autorizar" onclick="abrirModalAutorizarProjeto()">
@@ -3984,13 +3991,13 @@
                     if (elStatus) elStatus.textContent = data.servidor.status;
                 }
                 const bco = (data.banco_de_dados && data.banco_de_dados.modo_operação) || 'POSTGRESQL_REMOTO_ATIVO';
-                adicionarLogTerminal('AGT-07 TELEMETRIA', 'Telemetria ao vivo: ' + bco + ' operacional.');
+                adicionarLogTerminal('Matheus Barreto (Telemetria)', 'Telemetria ao vivo: ' + bco + ' operacional.');
                 if (data.integrações && data.integrações.inteligencia_artificial) {
                     const iaInfo = data.integrações.inteligencia_artificial;
                     const iaStatusTexto = iaInfo.ia_generativa_ativa 
                         ? `IA Generativa Ativa [${iaInfo.provedor} / ${iaInfo.modelo}]` 
                         : `Motor Cognitivo Local Ativo [${iaInfo.modelo}]`;
-                    adicionarLogTerminal('AGT-02 COORDENADOR', 'Inteligência Artificial: ' + iaStatusTexto);
+                    adicionarLogTerminal('Gabriel Rocha (Coordenação)', 'Inteligência Artificial: ' + iaStatusTexto);
                 }
             }
         } catch(e) {
@@ -4026,7 +4033,7 @@
 
         // 1. Comando AJUDA / HELP
         if (acao === 'ajuda' || acao === 'help') {
-            adicionarLogTerminal('AGT-02 COORDENADOR', 'Comandos do Cockpit: [demanda <texto>], [status], [ia], [ia auditar], [projetos], [aprovar <id>], [executar <id>], [auditar <id>], [webhook <url>], [login <usr> <pwd>], [limpar] ou diretriz executiva livre.');
+            adicionarLogTerminal('Gabriel Rocha (Coordenação)', 'Comandos do Cockpit: [demanda <texto>], [status], [ia], [ia auditar], [projetos], [aprovar <id>], [executar <id>], [auditar <id>], [webhook <url>], [login <usr> <pwd>], [limpar] ou diretriz executiva livre.');
             return;
         }
 
@@ -4070,9 +4077,9 @@
             try {
                 const res = await fetch('/api/status/infraestrutura');
                 const data = await res.json();
-                adicionarLogTerminal('AGT-07 TELEMETRIA', 'Servidor: ' + data.servidor.status + ' | Ambiente: ' + data.ambiente + ' | Banco: ' + data.banco_de_dados.modo_operação + ' | Storage: ' + data.armazenamento.tipo);
+                adicionarLogTerminal('Matheus Barreto (Telemetria)', 'Servidor: ' + data.servidor.status + ' | Ambiente: ' + data.ambiente + ' | Banco: ' + data.banco_de_dados.modo_operação + ' | Storage: ' + data.armazenamento.tipo);
             } catch(err) {
-                adicionarLogTerminal('AGT-07 TELEMETRIA', 'Erro ao consultar infraestrutura: ' + err.message);
+                adicionarLogTerminal('Matheus Barreto (Telemetria)', 'Erro ao consultar infraestrutura: ' + err.message);
             }
             return;
         }
@@ -4086,12 +4093,12 @@
                 const prjs = await res.json();
                 if (Array.isArray(prjs) && prjs.length > 0) {
                     const resumo = prjs.slice(0, 5).map(p => (p.id || p.id_projeto) + ' (' + (p.status || p.fase || 'EM_ANDAMENTO') + ')').join(' | ');
-                    adicionarLogTerminal('AGT-02 COORDENADOR', 'Projetos registrados (' + prjs.length + '): ' + resumo);
+                    adicionarLogTerminal('Gabriel Rocha (Coordenação)', 'Projetos registrados (' + prjs.length + '): ' + resumo);
                 } else {
-                    adicionarLogTerminal('AGT-02 COORDENADOR', 'Nenhum projeto em esteira no momento.');
+                    adicionarLogTerminal('Gabriel Rocha (Coordenação)', 'Nenhum projeto em esteira no momento.');
                 }
             } catch(err) {
-                adicionarLogTerminal('AGT-02 COORDENADOR', 'Erro ao listar projetos: ' + err.message);
+                adicionarLogTerminal('Gabriel Rocha (Coordenação)', 'Erro ao listar projetos: ' + err.message);
             }
             return;
         }
@@ -4100,11 +4107,11 @@
         if (acao === 'demanda' || acao === 'lead' || acao === 'triagem') {
             const textoDemanda = cmd.substring(acao.length).trim();
             if (!textoDemanda) {
-                adicionarLogTerminal('AGT-01 TRIAGEM', 'Sintaxe: demanda <descreva a necessidade do cliente>');
+                adicionarLogTerminal('Lucas Fontana (Triagem)', 'Sintaxe: demanda <descreva a necessidade do cliente>');
                 return;
             }
             try {
-                adicionarLogTerminal('AGT-01 TRIAGEM', 'Ingerindo e classificando demanda comercial...');
+                adicionarLogTerminal('Lucas Fontana (Triagem)', 'Ingerindo e classificando demanda comercial...');
                 const res = await fetch('/api/webhook/triagem', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -4115,17 +4122,17 @@
                 });
                 const data = await res.json();
                 if (res.ok && data.id_projeto) {
-                    adicionarLogTerminal('AGT-01 TRIAGEM', 'Demanda classificada com sucesso! ID: ' + (data.id_demanda || 'N/A') + ' | Diagnóstico: ' + (data.resultado?.triagem?.servicoSolicitado || 'Tripartite'));
-                    adicionarLogTerminal('AGT-02 COORDENADOR', 'Projeto [' + data.id_projeto + '] registrado no Coordenador Geral. Situação: AGUARDANDO_AUTORIZACAO_COMERCIAL (Bloqueio estrito de especialistas até autorização da Diretoria).');
-                    adicionarLogTerminal('DIRETORIA', 'Para liberar e disparar os 7 especialistas, execute: aprovar ' + data.id_projeto);
+                    adicionarLogTerminal('Lucas Fontana (Triagem)', 'Demanda classificada com sucesso! ID: ' + (data.id_demanda || 'N/A') + ' | Diagnóstico: ' + (data.resultado?.triagem?.servicoSolicitado || 'Tripartite'));
+                    adicionarLogTerminal('Gabriel Rocha (Coordenação)', 'Projeto [' + data.id_projeto + '] registrado no Coordenador Geral. Situação: AGUARDANDO_AUTORIZACAO_COMERCIAL (Bloqueio estrito de especialistas até autorização da Diretoria).');
+                    adicionarLogTerminal('Douglas Paz (Diretor Executivo)', 'Para liberar e disparar os 7 especialistas, execute: aprovar ' + data.id_projeto);
                     carregarTelemetriaReal();
         carregarEmpresasMotor();
         carregarProjetosSelect();
                 } else {
-                    adicionarLogTerminal('AGT-01 TRIAGEM', 'Erro ao processar demanda: ' + (data.erro || 'Falha desconhecida'));
+                    adicionarLogTerminal('Lucas Fontana (Triagem)', 'Erro ao processar demanda: ' + (data.erro || 'Falha desconhecida'));
                 }
             } catch(err) {
-                adicionarLogTerminal('AGT-01 TRIAGEM', 'Erro de conexão: ' + err.message);
+                adicionarLogTerminal('Lucas Fontana (Triagem)', 'Erro de conexão: ' + err.message);
             }
             return;
         }
@@ -4134,7 +4141,7 @@
         if (acao === 'executar' || acao === 'esteira') {
             const id_projeto = parts[1];
             if (!id_projeto) {
-                adicionarLogTerminal('AGT-02 COORDENADOR', 'Sintaxe: executar <ID_PROJETO>');
+                adicionarLogTerminal('Gabriel Rocha (Coordenação)', 'Sintaxe: executar <ID_PROJETO>');
                 return;
             }
             const token = sessionStorage.getItem('vide_jwt');
@@ -4143,7 +4150,7 @@
                 return;
             }
             try {
-                adicionarLogTerminal('AGT-02 COORDENADOR', 'Disparando esteira completa dos especialistas para [' + id_projeto + ']...');
+                adicionarLogTerminal('Gabriel Rocha (Coordenação)', 'Disparando esteira completa dos especialistas para [' + id_projeto + ']...');
                 const res = await fetch('/api/coordenador/executar-esteira', {
                     method: 'POST',
                     headers: {
@@ -4154,13 +4161,13 @@
                 });
                 const data = await res.json();
                 if (res.ok) {
-                    adicionarLogTerminal('AGT-02 COORDENADOR', 'Esteira concluída com sucesso! ' + (data.entregaveis?.length || 0) + ' tarefas especializadas executadas.');
+                    adicionarLogTerminal('Gabriel Rocha (Coordenação)', 'Esteira concluída com sucesso! ' + (data.entregaveis?.length || 0) + ' tarefas especializadas executadas.');
                     carregarTelemetriaReal();
                 } else {
-                    adicionarLogTerminal('AGT-02 COORDENADOR', 'Falha na execução: ' + (data.erro || 'Erro não especificado'));
+                    adicionarLogTerminal('Gabriel Rocha (Coordenação)', 'Falha na execução: ' + (data.erro || 'Erro não especificado'));
                 }
             } catch(err) {
-                adicionarLogTerminal('AGT-02 COORDENADOR', 'Erro na execução: ' + err.message);
+                adicionarLogTerminal('Gabriel Rocha (Coordenação)', 'Erro na execução: ' + err.message);
             }
             return;
         }
@@ -4169,7 +4176,7 @@
         if (acao === 'auditar' || acao === 'arquivos') {
             const id_projeto = parts[1];
             if (!id_projeto) {
-                adicionarLogTerminal('AGT-07 TELEMETRIA', 'Sintaxe: auditar <ID_PROJETO>');
+                adicionarLogTerminal('Matheus Barreto (Telemetria)', 'Sintaxe: auditar <ID_PROJETO>');
                 return;
             }
             const token = sessionStorage.getItem('vide_jwt');
@@ -4180,16 +4187,16 @@
                 if (res.ok) {
                     const totalPg = data.total_arquivos_postgresql || 0;
                     const arqs = data.arquivos || data.arquivos_em_disco || [];
-                    adicionarLogTerminal('AGT-07 TELEMETRIA', 'Auditoria [' + id_projeto + ']: ' + arqs.length + ' arquivos em disco | ' + totalPg + ' persistidos no PostgreSQL durável.');
+                    adicionarLogTerminal('Matheus Barreto (Telemetria)', 'Auditoria [' + id_projeto + ']: ' + arqs.length + ' arquivos em disco | ' + totalPg + ' persistidos no PostgreSQL durável.');
                     if (arqs.length > 0) {
                         const lista = arqs.slice(0, 4).map(a => typeof a === 'string' ? a : a.nome_arquivo).join(', ');
-                        adicionarLogTerminal('AGT-07 TELEMETRIA', 'Entregáveis auditados: ' + lista + ' (+ ' + (arqs.length - 4) + ' adicionais)');
+                        adicionarLogTerminal('Matheus Barreto (Telemetria)', 'Entregáveis auditados: ' + lista + ' (+ ' + (arqs.length - 4) + ' adicionais)');
                     }
                 } else {
-                    adicionarLogTerminal('AGT-07 TELEMETRIA', 'Falha ao auditar: ' + (data.erro || 'Erro não especificado'));
+                    adicionarLogTerminal('Matheus Barreto (Telemetria)', 'Falha ao auditar: ' + (data.erro || 'Erro não especificado'));
                 }
             } catch(err) {
-                adicionarLogTerminal('AGT-07 TELEMETRIA', 'Erro ao auditar: ' + err.message);
+                adicionarLogTerminal('Matheus Barreto (Telemetria)', 'Erro ao auditar: ' + err.message);
             }
             return;
         }
@@ -4198,7 +4205,7 @@
         if (acao === 'aprovar') {
             const id_projeto = parts[1];
             if (!id_projeto) {
-                adicionarLogTerminal('AGT-02 COORDENADOR', 'Sintaxe: aprovar <ID_PROJETO>');
+                adicionarLogTerminal('Gabriel Rocha (Coordenação)', 'Sintaxe: aprovar <ID_PROJETO>');
                 return;
             }
             const token = sessionStorage.getItem('vide_jwt');
@@ -4217,19 +4224,19 @@
                 });
                 const data = await res.json();
                 if (res.ok) {
-                    adicionarLogTerminal('AGT-02 COORDENADOR', 'Projeto [' + id_projeto + '] homologado e aprovado pela Diretoria! Grafo de tarefas ativado.');
+                    adicionarLogTerminal('Gabriel Rocha (Coordenação)', 'Projeto [' + id_projeto + '] homologado e aprovado pela Diretoria! Grafo de tarefas ativado.');
                     if (Array.isArray(data.entregaveis) && data.entregaveis.length > 0) {
                         data.entregaveis.forEach(ent => {
                             adicionarLogTerminal('ESPECIALISTA', '✓ ' + ent.especialista + ': Ativos gerados e conferidos pelo Coordenador Geral.');
                         });
-                        adicionarLogTerminal('AGT-02 COORDENADOR', 'Projeto [' + id_projeto + '] atingiu AGUARDANDO_HOMOLOGACAO_GESTAO com 100% dos critérios validados!');
+                        adicionarLogTerminal('Gabriel Rocha (Coordenação)', 'Projeto [' + id_projeto + '] atingiu AGUARDANDO_HOMOLOGACAO_GESTAO com 100% dos critérios validados!');
                     }
                     carregarTelemetriaReal();
                 } else {
-                    adicionarLogTerminal('AGT-02 COORDENADOR', 'Falha ao aprovar projeto: ' + (data.erro || 'Erro não especificado'));
+                    adicionarLogTerminal('Gabriel Rocha (Coordenação)', 'Falha ao aprovar projeto: ' + (data.erro || 'Erro não especificado'));
                 }
             } catch(err) {
-                adicionarLogTerminal('AGT-02 COORDENADOR', 'Erro na comunicação de aprovação: ' + err.message);
+                adicionarLogTerminal('Gabriel Rocha (Coordenação)', 'Erro na comunicação de aprovação: ' + err.message);
             }
             return;
         }
@@ -4247,12 +4254,12 @@
             });
             if (res.ok) {
                 const data = await res.json();
-                adicionarLogTerminal('AGT-02 COORDENADOR', data.parecer || 'Diretriz recebida e distribuída na esteira de tarefas.');
+                adicionarLogTerminal('Gabriel Rocha (Coordenação)', data.parecer || 'Diretriz recebida e distribuída na esteira de tarefas.');
             } else {
-                adicionarLogTerminal('AGT-02 COORDENADOR', 'Comando executado com sucesso: parâmetros comerciais homologados.');
+                adicionarLogTerminal('Gabriel Rocha (Coordenação)', 'Comando executado com sucesso: parâmetros comerciais homologados.');
             }
         } catch(err) {
-            adicionarLogTerminal('AGT-02 COORDENADOR', 'Comando assimilado pelo Coordenador Geral. Roadmap operacional alinhado.');
+            adicionarLogTerminal('Gabriel Rocha (Coordenação)', 'Comando assimilado pelo Coordenador Geral. Roadmap operacional alinhado.');
         }
     }
 
@@ -4287,7 +4294,7 @@
         const limites = (document.getElementById('modal-limites')?.value || '').trim();
 
         try {
-            adicionarLogTerminal('DIRETORIA', 'Criando novo projeto para [' + cliente + ']...');
+            adicionarLogTerminal('Douglas Paz (Diretor Executivo)', 'Criando novo projeto para [' + cliente + ']...');
             const token = sessionStorage.getItem('vide_jwt');
             const headers = { 'Content-Type': 'application/json' };
             if (token) headers['Authorization'] = 'Bearer ' + token;
@@ -4306,15 +4313,15 @@
             });
             const data = await res.json();
             if (res.ok && data.id_projeto) {
-                adicionarLogTerminal('AGT-02 COORDENADOR', 'Projeto [' + data.id_projeto + '] registrado! Situação: AGUARDANDO_AUTORIZACAO_COMERCIAL (Bloqueio estrito mantido).');
+                adicionarLogTerminal('Gabriel Rocha (Coordenação)', 'Projeto [' + data.id_projeto + '] registrado! Situação: AGUARDANDO_AUTORIZACAO_COMERCIAL (Bloqueio estrito mantido).');
                 fecharModalNovoProjeto();
                 await carregarProjetosSelect();
                 selecionarProjetoAtivo(data.id_projeto);
             } else {
-                adicionarLogTerminal('AGT-02 COORDENADOR', 'Erro ao criar projeto: ' + (data.erro || 'Falha'));
+                adicionarLogTerminal('Gabriel Rocha (Coordenação)', 'Erro ao criar projeto: ' + (data.erro || 'Falha'));
             }
         } catch(err) {
-            adicionarLogTerminal('AGT-02 COORDENADOR', 'Erro na criação do projeto: ' + err.message);
+            adicionarLogTerminal('Gabriel Rocha (Coordenação)', 'Erro na criação do projeto: ' + err.message);
         }
     }
 
@@ -4341,7 +4348,7 @@
                 const opt = document.createElement('option');
                 const id = p.id_projeto || p.id;
                 opt.value = id;
-                opt.textContent = '[' + id + '] ' + (p.cliente || 'Sem Nome') + ' (' + (p.situacao_projeto || p.status || 'EM_ANDAMENTO') + ')';
+                opt.textContent = '[' + id + '] ' + limparTextoSeguro(p.cliente || p.empresa_contratante || 'Sem Nome') + ' (' + (p.situacao_projeto || p.status || 'EM_ANDAMENTO') + ')';
                 select.appendChild(opt);
             });
 
@@ -4411,7 +4418,7 @@
                 tagsHtml += ' <span class="catalogo-pill-tag" style="background: rgba(16,185,129,0.12); color: #10B981; border-color: rgba(16,185,129,0.3);"><i class="fas fa-shield-halved"></i> SIMULADO</span>';
 
                 if (p.limites_trabalho) {
-                    tagsHtml += '<div style="font-size: 11.5px; color: #94A3B8; margin-top: 6px;"><i class="fas fa-ban" style="color: #F59E0B;"></i> <strong>Limites:</strong> ' + p.limites_trabalho + '</div>';
+                    tagsHtml += '<div style="font-size: 11.5px; color: #94A3B8; margin-top: 6px;"><i class="fas fa-ban" style="color: #F59E0B;"></i> <strong>Limites:</strong> ' + limparTextoSeguro(p.limites_trabalho) + '</div>';
                 }
 
                 elCatTag.innerHTML = tagsHtml;
@@ -4687,7 +4694,7 @@
         }
 
         try {
-            adicionarLogTerminal('DIRETORIA', 'Anexando materiais ao projeto [' + projetoAtivoId + ']...');
+            adicionarLogTerminal('Douglas Paz (Diretor Executivo)', 'Anexando materiais ao projeto [' + projetoAtivoId + ']...');
 
             if (file) {
                 const reader = new FileReader();
@@ -4706,7 +4713,7 @@
                 await enviarPayloadAnexo({ briefing: textoBriefing });
             }
         } catch(err) {
-            adicionarLogTerminal('AGT-02 COORDENADOR', 'Erro ao processar anexo: ' + err.message);
+            adicionarLogTerminal('Gabriel Rocha (Coordenação)', 'Erro ao processar anexo: ' + err.message);
         }
     }
 
@@ -4722,18 +4729,18 @@
         });
         const data = await res.json();
         if (res.ok && data.sucesso) {
-            adicionarLogTerminal('AGT-02 COORDENADOR', 'Material anexado com sucesso ao projeto [' + projetoAtivoId + ']! Total de anexos: ' + data.total_materiais);
+            adicionarLogTerminal('Gabriel Rocha (Coordenação)', 'Material anexado com sucesso ao projeto [' + projetoAtivoId + ']! Total de anexos: ' + data.total_materiais);
             document.getElementById('input-briefing-texto').value = '';
             document.getElementById('input-arquivo-upload').value = '';
             await selecionarProjetoAtivo(projetoAtivoId);
         } else {
-            adicionarLogTerminal('AGT-02 COORDENADOR', 'Falha ao anexar: ' + (data.erro || 'Erro'));
+            adicionarLogTerminal('Gabriel Rocha (Coordenação)', 'Falha ao anexar: ' + (data.erro || 'Erro'));
         }
     }
 
     async function dispararDiagnosticoComercial() {
         if (!projetoAtivoId) return;
-        adicionarLogTerminal('AGT-02 COORDENADOR', 'Iniciando Diagnóstico Comercial VIDE para [' + projetoAtivoId + '] (10 passos)...');
+        adicionarLogTerminal('Gabriel Rocha (Coordenação)', 'Iniciando Diagnóstico Comercial VIDE para [' + projetoAtivoId + '] (10 passos)...');
         try {
             const token = sessionStorage.getItem('vide_jwt');
             const headers = { 'Content-Type': 'application/json' };
@@ -4747,15 +4754,15 @@
             const data = await res.json();
             if (res.ok && data.sucesso) {
                 const d = data.diagnostico;
-                adicionarLogTerminal('AGT-02 COORDENADOR', '✓ Diagnóstico Comercial concluído! Solução recomendada: ' + d.solucao_recomendada);
-                adicionarLogTerminal('AGT-07 TELEMETRIA', 'Fatos: ' + d.fatos_comprovados.length + ' | Informações Ausentes: ' + d.informacoes_ausentes.length + ' | Gargalos: ' + d.gargalos_identificados.length);
-                adicionarLogTerminal('DIRETORIA', 'Proposta comercial gerada com governança de dimensionamento. O projeto permanece aguardando autorização.');
+                adicionarLogTerminal('Gabriel Rocha (Coordenação)', '✓ Diagnóstico Comercial concluído! Solução recomendada: ' + d.solucao_recomendada);
+                adicionarLogTerminal('Matheus Barreto (Telemetria)', 'Fatos: ' + d.fatos_comprovados.length + ' | Informações Ausentes: ' + d.informacoes_ausentes.length + ' | Gargalos: ' + d.gargalos_identificados.length);
+                adicionarLogTerminal('Douglas Paz (Diretor Executivo)', 'Proposta comercial gerada com governança de dimensionamento. O projeto permanece aguardando autorização.');
                 await selecionarProjetoAtivo(projetoAtivoId);
             } else {
-                adicionarLogTerminal('AGT-02 COORDENADOR', 'Erro no diagnóstico: ' + (data.erro || 'Falha'));
+                adicionarLogTerminal('Gabriel Rocha (Coordenação)', 'Erro no diagnóstico: ' + (data.erro || 'Falha'));
             }
         } catch(err) {
-            adicionarLogTerminal('AGT-02 COORDENADOR', 'Erro ao executar diagnóstico: ' + err.message);
+            adicionarLogTerminal('Gabriel Rocha (Coordenação)', 'Erro ao executar diagnóstico: ' + err.message);
         }
     }
 
@@ -4815,7 +4822,7 @@
         const limites = document.getElementById('aut-limites').value.trim();
         const responsavel = document.getElementById('aut-responsavel').value.trim();
 
-        adicionarLogTerminal('DIRETORIA', 'Emitindo autorização formal de ' + responsavel + ' para [' + projetoAtivoId + ']...');
+        adicionarLogTerminal('Douglas Paz (Diretor Executivo)', 'Emitindo autorização formal de ' + responsavel + ' para [' + projetoAtivoId + ']...');
         try {
             const res = await fetch('/api/projetos/autorizar', {
                 method: 'POST',
@@ -4833,14 +4840,14 @@
             });
             const data = await res.json();
             if (res.ok && data.sucesso) {
-                adicionarLogTerminal('AGT-02 COORDENADOR', 'Projeto [' + projetoAtivoId + '] AUTORIZADO com sucesso! Grafo DAG de tarefas liberado. Frentes: ' + frentes.join(', '));
+                adicionarLogTerminal('Gabriel Rocha (Coordenação)', 'Projeto [' + projetoAtivoId + '] AUTORIZADO com sucesso! Grafo DAG de tarefas liberado. Frentes: ' + frentes.join(', '));
                 fecharModalAutorizarProjeto();
                 await selecionarProjetoAtivo(projetoAtivoId);
             } else {
-                adicionarLogTerminal('AGT-02 COORDENADOR', 'Falha ao autorizar: ' + (data.erro || 'Erro'));
+                adicionarLogTerminal('Gabriel Rocha (Coordenação)', 'Falha ao autorizar: ' + (data.erro || 'Erro'));
             }
         } catch(err) {
-            adicionarLogTerminal('AGT-02 COORDENADOR', 'Erro ao autorizar: ' + err.message);
+            adicionarLogTerminal('Gabriel Rocha (Coordenação)', 'Erro ao autorizar: ' + err.message);
         }
     }
 
@@ -4852,7 +4859,7 @@
             return;
         }
 
-        adicionarLogTerminal('AGT-02 COORDENADOR', 'Despachando especialista para tarefa [' + idTarefa + ']...');
+        adicionarLogTerminal('Gabriel Rocha (Coordenação)', 'Despachando especialista para tarefa [' + idTarefa + ']...');
         try {
             const res = await fetch('/api/projetos/tarefa/executar', {
                 method: 'POST',
@@ -4867,10 +4874,10 @@
                 adicionarLogTerminal('ESPECIALISTA', 'Tarefa [' + idTarefa + '] executada com sucesso! ' + (data.arquivos?.length || 0) + ' arquivos gerados. Estado: AGUARDANDO_APROVACAO.');
                 await selecionarProjetoAtivo(projetoAtivoId);
             } else {
-                adicionarLogTerminal('AGT-02 COORDENADOR', 'Bloqueio / Erro ao executar tarefa: ' + (data.erro || 'Erro'));
+                adicionarLogTerminal('Gabriel Rocha (Coordenação)', 'Bloqueio / Erro ao executar tarefa: ' + (data.erro || 'Erro'));
             }
         } catch(err) {
-            adicionarLogTerminal('AGT-02 COORDENADOR', 'Erro na execução da tarefa: ' + err.message);
+            adicionarLogTerminal('Gabriel Rocha (Coordenação)', 'Erro na execução da tarefa: ' + err.message);
         }
     }
 
@@ -4942,7 +4949,7 @@
             return;
         }
 
-        adicionarLogTerminal('DIRETORIA', (aprovado ? 'Aprovando' : 'Rejeitando') + ' entrega da tarefa [' + idTarefa + ']...');
+        adicionarLogTerminal('Douglas Paz (Diretor Executivo)', (aprovado ? 'Aprovando' : 'Rejeitando') + ' entrega da tarefa [' + idTarefa + ']...');
         try {
             const res = await fetch('/api/projetos/tarefa/conferir', {
                 method: 'POST',
@@ -4959,13 +4966,13 @@
             });
             const data = await res.json();
             if (res.ok && data.sucesso) {
-                adicionarLogTerminal('AGT-02 COORDENADOR', 'Tarefa [' + idTarefa + '] ' + (aprovado ? 'APROVADA e marcada como CONCLUÍDO! DAG recalculado.' : 'Rejeitada com solicitação de correção.'));
+                adicionarLogTerminal('Gabriel Rocha (Coordenação)', 'Tarefa [' + idTarefa + '] ' + (aprovado ? 'APROVADA e marcada como CONCLUÍDO! DAG recalculado.' : 'Rejeitada com solicitação de correção.'));
                 await selecionarProjetoAtivo(projetoAtivoId);
             } else {
-                adicionarLogTerminal('AGT-02 COORDENADOR', 'Erro na conferência: ' + (data.erro || 'Erro'));
+                adicionarLogTerminal('Gabriel Rocha (Coordenação)', 'Erro na conferência: ' + (data.erro || 'Erro'));
             }
         } catch(err) {
-            adicionarLogTerminal('AGT-02 COORDENADOR', 'Erro ao conferir tarefa: ' + err.message);
+            adicionarLogTerminal('Gabriel Rocha (Coordenação)', 'Erro ao conferir tarefa: ' + err.message);
         }
     }
 
@@ -4979,7 +4986,7 @@
             return;
         }
 
-        adicionarLogTerminal('DIRETORIA', 'Solicitando correção na tarefa [' + idTarefa + ']: ' + apontamentos);
+        adicionarLogTerminal('Douglas Paz (Diretor Executivo)', 'Solicitando correção na tarefa [' + idTarefa + ']: ' + apontamentos);
         try {
             const res = await fetch('/api/projetos/tarefa/conferir', {
                 method: 'POST',
@@ -4997,13 +5004,13 @@
             });
             const data = await res.json();
             if (res.ok && data.sucesso) {
-                adicionarLogTerminal('AGT-02 COORDENADOR', 'Tarefa [' + idTarefa + '] retornada para EM_EXECUCAO com pendência registrada.');
+                adicionarLogTerminal('Gabriel Rocha (Coordenação)', 'Tarefa [' + idTarefa + '] retornada para EM_EXECUCAO com pendência registrada.');
                 await selecionarProjetoAtivo(projetoAtivoId);
             } else {
-                adicionarLogTerminal('AGT-02 COORDENADOR', 'Erro ao solicitar correção: ' + (data.erro || 'Erro'));
+                adicionarLogTerminal('Gabriel Rocha (Coordenação)', 'Erro ao solicitar correção: ' + (data.erro || 'Erro'));
             }
         } catch(err) {
-            adicionarLogTerminal('AGT-02 COORDENADOR', 'Erro: ' + err.message);
+            adicionarLogTerminal('Gabriel Rocha (Coordenação)', 'Erro: ' + err.message);
         }
     }
 
@@ -5031,13 +5038,13 @@
             });
             const data = await res.json();
             if (res.ok && data.sucesso) {
-                adicionarLogTerminal('AGT-02 COORDENADOR', 'Correção aplicada na tarefa [' + idTarefa + ']! Ressubmetida para AGUARDANDO_APROVACAO.');
+                adicionarLogTerminal('Gabriel Rocha (Coordenação)', 'Correção aplicada na tarefa [' + idTarefa + ']! Ressubmetida para AGUARDANDO_APROVACAO.');
                 await selecionarProjetoAtivo(projetoAtivoId);
             } else {
-                adicionarLogTerminal('AGT-02 COORDENADOR', 'Erro ao aplicar correção: ' + (data.erro || 'Erro'));
+                adicionarLogTerminal('Gabriel Rocha (Coordenação)', 'Erro ao aplicar correção: ' + (data.erro || 'Erro'));
             }
         } catch(err) {
-            adicionarLogTerminal('AGT-02 COORDENADOR', 'Erro: ' + err.message);
+            adicionarLogTerminal('Gabriel Rocha (Coordenação)', 'Erro: ' + err.message);
         }
     }
 
@@ -5049,7 +5056,7 @@
             return;
         }
 
-        adicionarLogTerminal('AGT-02 COORDENADOR', 'Disparando esteira dos especialistas para [' + projetoAtivoId + ']...');
+        adicionarLogTerminal('Gabriel Rocha (Coordenação)', 'Disparando esteira dos especialistas para [' + projetoAtivoId + ']...');
         try {
             const res = await fetch('/api/coordenador/executar-esteira', {
                 method: 'POST',
@@ -5061,13 +5068,13 @@
             });
             const data = await res.json();
             if (res.ok && data.sucesso) {
-                adicionarLogTerminal('AGT-02 COORDENADOR', 'Esteira concluída! ' + (data.entregaveis?.length || 0) + ' entregas físicas validadas e auditadas.');
+                adicionarLogTerminal('Gabriel Rocha (Coordenação)', 'Esteira concluída! ' + (data.entregaveis?.length || 0) + ' entregas físicas validadas e auditadas.');
                 await selecionarProjetoAtivo(projetoAtivoId);
             } else {
-                adicionarLogTerminal('AGT-02 COORDENADOR', 'Falha na esteira: ' + (data.erro || 'Erro'));
+                adicionarLogTerminal('Gabriel Rocha (Coordenação)', 'Falha na esteira: ' + (data.erro || 'Erro'));
             }
         } catch(err) {
-            adicionarLogTerminal('AGT-02 COORDENADOR', 'Erro na esteira: ' + err.message);
+            adicionarLogTerminal('Gabriel Rocha (Coordenação)', 'Erro na esteira: ' + err.message);
         }
     }
 
@@ -5078,10 +5085,44 @@
         const now = new Date();
         const time = now.toTimeString().split(' ')[0];
 
-        const line = document.createElement('div');
-        line.className = 'terminal-line';
-        line.innerHTML = '<span class="terminal-time">[' + time + ']</span> <span class="terminal-sender">[' + emissor + ']</span> <span>' + texto + '</span>';
-        feed.appendChild(line);
+        let emissorLimpo = limparTextoSeguro(emissor || 'Sistema')
+            .replace(/AGT-0?1(\s+TRIAGEM)?/gi, 'Lucas Fontana (Triagem)')
+            .replace(/AGT-0?2(\s+COORDENADOR)?/gi, 'Gabriel Rocha (Coordenação)')
+            .replace(/AGT-0?3(\s+DESENVOLVEDOR)?/gi, 'Rafael Duarte (Dev)')
+            .replace(/AGT-0?4(\s+BRANDING|\s+DESIGN)?/gi, 'Helena Prado (Design)')
+            .replace(/AGT-0?5(\s+ATENDIMENTO)?/gi, 'Camila Silveira (Atendimento)')
+            .replace(/AGT-0?6(\s+AUTOMAÇÃO|\s+AUTOMACAO)?/gi, 'Thiago Meireles (Automação)')
+            .replace(/AGT-0?7(\s+TELEMETRIA)?/gi, 'Matheus Barreto (Telemetria)')
+            .replace(/AGT-0?7(\s+INTELIGÊNCIA|\s+INTELIGENCIA)?/gi, 'Matheus Barreto (Inteligência 7D)')
+            .replace(/DIRETORIA(\s+EXECUTIVA)?/gi, 'Douglas Paz (Diretor Executivo)')
+            .replace(/SEGURANÇA/gi, 'Segurança Corporativa');
+
+        let textoLimpo = limparTextoSeguro(texto || '')
+            .replace(/AutoPeas/g, 'AutoPeças')
+            .replace(/AGT-0?1/gi, 'Lucas Fontana')
+            .replace(/AGT-0?2/gi, 'Gabriel Rocha')
+            .replace(/AGT-0?3/gi, 'Rafael Duarte')
+            .replace(/AGT-0?4/gi, 'Helena Prado')
+            .replace(/AGT-0?5/gi, 'Camila Silveira')
+            .replace(/AGT-0?6/gi, 'Thiago Meireles')
+            .replace(/AGT-0?7/gi, 'Matheus Barreto');
+
+        let badgeColor = 'background: rgba(255, 255, 255, 0.08); color: #E2E8F0;';
+        if (emissorLimpo.includes('Gabriel')) badgeColor = 'background: rgba(37, 99, 235, 0.15); color: #60A5FA;';
+        else if (emissorLimpo.includes('Lucas')) badgeColor = 'background: rgba(14, 165, 233, 0.15); color: #38BDF8;';
+        else if (emissorLimpo.includes('Rafael')) badgeColor = 'background: rgba(37, 99, 235, 0.15); color: #93C5FD;';
+        else if (emissorLimpo.includes('Helena')) badgeColor = 'background: rgba(236, 72, 153, 0.15); color: #F472B6;';
+        else if (emissorLimpo.includes('Camila')) badgeColor = 'background: rgba(16, 185, 129, 0.15); color: #34D399;';
+        else if (emissorLimpo.includes('Thiago')) badgeColor = 'background: rgba(245, 158, 11, 0.15); color: #FBBF24;';
+        else if (emissorLimpo.includes('Matheus')) badgeColor = 'background: rgba(139, 92, 246, 0.15); color: #A78BFA;';
+        else if (emissorLimpo.includes('Douglas')) badgeColor = 'background: rgba(16, 185, 129, 0.2); color: #10B981; font-weight: 800;';
+
+        const row = document.createElement('div');
+        row.className = 'audit-stream-row';
+        row.style.cssText = 'display: flex; align-items: flex-start; gap: 12px; padding: 6px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.04); font-size: 12.5px;';
+        row.innerHTML = '<span style="color: #64748B; font-size: 11.5px; font-weight: 600; min-width: 65px;">[' + time + ']</span><span style="' + badgeColor + ' font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 6px; white-space: nowrap;">' + emissorLimpo + '</span><span style="color: #E2E8F0; line-height: 1.5; word-break: break-word;">' + textoLimpo + '</span>';
+
+        feed.appendChild(row);
         feed.scrollTop = feed.scrollHeight;
     }
 
@@ -5168,7 +5209,7 @@
         const headers = token ? { 'Authorization': 'Bearer ' + token } : {};
 
         try {
-            adicionarLogTerminal('AGT-07 INTELIGÊNCIA', 'Sincronizando dossiê executivo do Motor 7D...');
+            adicionarLogTerminal('Matheus Barreto (Inteligência 7D)', 'Sincronizando dossiê executivo do Motor 7D...');
             const res = await fetch('/api/motor/dossie/' + empresaMotorAtivaId, { headers });
             if (!res.ok) {
                 if (res.status === 401) {
@@ -5180,9 +5221,9 @@
             const data = await res.json();
             dossieMotorAtivo = data.dossie;
             renderizarDossieMotor(dossieMotorAtivo);
-            adicionarLogTerminal('AGT-07 INTELIGÊNCIA', 'Dossiê do Motor 7D sincronizado com sucesso.');
+            adicionarLogTerminal('Matheus Barreto (Inteligência 7D)', 'Dossiê do Motor 7D sincronizado com sucesso.');
         } catch(e) {
-            adicionarLogTerminal('AGT-07 INTELIGÊNCIA', 'Falha ao buscar dossiê: ' + e.message);
+            adicionarLogTerminal('Matheus Barreto (Inteligência 7D)', 'Falha ao buscar dossiê: ' + e.message);
         }
     }
 
@@ -5313,7 +5354,7 @@
                     <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
                         <div style="display: flex; align-items: center; gap: 10px;">
                             <span class="epv-badge-pill" style="${isTop ? 'background: rgba(0,229,255,0.25); color: #FFF;' : ''}">#${idx + 1} PRIORIDADE</span>
-                            <span style="font-family: var(--font-headline); font-size: 15px; font-weight: 800; color: #FFF;">${g.titulo_gargalo}</span>
+                            <span style="font-family: var(--font-headline); font-size: 15px; font-weight: 800; color: #FFF;">${limparTextoSeguro(g.titulo_gargalo)}</span>
                             <span style="font-family: var(--font-mono); font-size: 10px; color: #94A3B8; text-transform: uppercase;">[${g.dimensao_afetada}]</span>
                         </div>
                         <div style="display: flex; align-items: center; gap: 12px;">
@@ -5420,7 +5461,7 @@
                         <div style="font-family: var(--font-mono); font-size: 9px; color: #00E5FF;">
                             ${(f.tipo_evidencia || 'EVIDÊNCIA').toUpperCase()} • ${f.contexto_origem || 'CANAL DIRETO'} • CONFIABILIDADE ${Math.round((f.grau_confiabilidade || 1) * 100)}%
                         </div>
-                        <div style="margin-top: 4px;">"${f.trecho_fato}"</div>
+                        <div style="margin-top: 4px;">"${limparTextoSeguro(f.trecho_fato)}"</div>
                     </div>
                 `).join('');
             } else {
@@ -5739,7 +5780,7 @@
             return;
         }
 
-        adicionarLogTerminal('DIRETORIA EXECUTIVA', 'Emitindo aprovação formal expressa para MIV [' + mivId + ']...');
+        adicionarLogTerminal('Douglas Paz (Diretor Executivo)', 'Emitindo aprovação formal expressa para MIV [' + mivId + ']...');
 
         try {
             const res = await fetch('/api/motor/miv/aprovar', {
@@ -5757,7 +5798,7 @@
 
             const data = await res.json();
             if (res.ok && data.sucesso) {
-                adicionarLogTerminal('AGT-07 INTELIGÊNCIA', 'MIV HOMOLOGADA! Tarefa [' + (data.tarefaDespachada?.id || 'OK') + '] despachada para ' + (data.tarefaDespachada?.especialista || 'a equipe digital') + '.');
+                adicionarLogTerminal('Matheus Barreto (Inteligência 7D)', 'MIV HOMOLOGADA! Tarefa [' + (data.tarefaDespachada?.id || 'OK') + '] despachada para ' + (data.tarefaDespachada?.especialista || 'a equipe digital') + '.');
                 await carregarDossieMotorAtivo();
             } else {
                 adicionarLogTerminal('GOVERNANÇA', 'Falha na homologação: ' + (data.erro || 'Erro desconhecido.'));
@@ -5785,7 +5826,7 @@
         const obs = document.getElementById('modal-diag-observacao').value;
 
         fecharModalNovoDiagnostico7D();
-        adicionarLogTerminal('AGT-07 INTELIGÊNCIA', 'Executando novo Diagnóstico Dimensional 7D para [' + empresaId + ']...');
+        adicionarLogTerminal('Matheus Barreto (Inteligência 7D)', 'Executando novo Diagnóstico Dimensional 7D para [' + empresaId + ']...');
 
         const token = sessionStorage.getItem('vide_jwt');
         const headers = {
@@ -5812,13 +5853,13 @@
 
             const data = await res.json();
             if (res.ok && data.sucesso) {
-                adicionarLogTerminal('AGT-07 INTELIGÊNCIA', 'Diagnóstico 7D concluído! Pontuação geral: ' + Math.round(data.diagnostico?.pontuacaoGeral || 0) + ' pts.');
+                adicionarLogTerminal('Matheus Barreto (Inteligência 7D)', 'Diagnóstico 7D concluído! Pontuação geral: ' + Math.round(data.diagnostico?.pontuacaoGeral || 0) + ' pts.');
                 await carregarDossieMotorAtivo();
             } else {
-                adicionarLogTerminal('AGT-07 INTELIGÊNCIA', 'Erro no diagnóstico: ' + (data.erro || 'Erro'));
+                adicionarLogTerminal('Matheus Barreto (Inteligência 7D)', 'Erro no diagnóstico: ' + (data.erro || 'Erro'));
             }
         } catch(err) {
-            adicionarLogTerminal('AGT-07 INTELIGÊNCIA', 'Erro na requisição: ' + err.message);
+            adicionarLogTerminal('Matheus Barreto (Inteligência 7D)', 'Erro na requisição: ' + err.message);
         }
     }
 
@@ -6362,7 +6403,7 @@
         } finally {
             if (btn) {
                 btn.disabled = false;
-                btn.innerHTML = '<i class="fas fa-fingerprint"></i> DESBLOQUEAR COCKPIT PRIVADO';
+                btn.innerHTML = '<i class="fas fa-arrow-right-to-bracket" style="margin-right: 8px;"></i> Acessar Central Executiva';
             }
         }
     }
