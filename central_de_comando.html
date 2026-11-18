@@ -93,12 +93,12 @@
             background: rgba(3, 5, 8, 0.94);
             backdrop-filter: blur(20px);
             border-bottom: 1px solid var(--border-hairline);
-            padding: 0 24px;
+            padding: 0 16px;
             height: 70px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 20px;
+            gap: 12px;
         }
 
         .exec-brand {
@@ -160,9 +160,9 @@
             border: 1px solid transparent;
             color: #94A3B8;
             font-family: var(--font-body);
-            font-size: 13px;
+            font-size: 12.5px;
             font-weight: 600;
-            padding: 8px 16px;
+            padding: 7px 11px;
             border-radius: 8px;
             cursor: pointer;
             display: flex;
@@ -198,7 +198,7 @@
         .exec-user-area {
             display: flex;
             align-items: center;
-            gap: 14px;
+            gap: 8px;
             flex-shrink: 0;
         }
 
@@ -1696,7 +1696,7 @@
             <div class="inicio-equipe-strip">
                 <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
                     <h3 style="font-family: var(--font-headline); font-size: 18px; font-weight: 800; color: #FFF;">
-                        Equipe Digital da VIDE <span style="font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); font-weight: 500;">(7 Especialistas + Coordenador)</span>
+                        Equipe Digital da VIDE <span style="font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); font-weight: 500;">(7 Agentes: Coordenador Geral + 6 Especialistas)</span>
                     </h3>
                     <button class="btn-outline-subtle" onclick="alternarAbaPrincipal('equipe')" style="padding: 5px 12px; font-size: 12px;">
                         Ver Perfis Completos <i class="fas fa-arrow-right"></i>
@@ -1718,7 +1718,7 @@
                 <aside class="chat-sidebar">
                     <div class="chat-sidebar-header">
                         <h3><i class="fas fa-users"></i> Especialistas VIDE</h3>
-                        <span style="font-family: var(--font-mono); font-size: 10px; color: var(--green-emerald);">8 Disponíveis</span>
+                        <span style="font-family: var(--font-mono); font-size: 10px; color: var(--green-emerald);">7 Disponíveis</span>
                     </div>
 
                     <div class="chat-agents-list" id="chat-sidebar-agents-container">
@@ -3435,8 +3435,33 @@
         if (!modal || !iframe) return;
 
         tit.innerText = titulo || 'Pré-Visualização do Entregável';
-        iframe.src = url;
-        if (link) link.href = url;
+        
+        // Se a URL for inválida ou não houver arquivo real gerado ainda
+        if (!url || url === '#' || url.includes('/undefined/') || url.endsWith('/')) {
+            iframe.style.display = 'none';
+            let placeholder = document.getElementById('modal-vis-placeholder');
+            if (!placeholder) {
+                placeholder = document.createElement('div');
+                placeholder.id = 'modal-vis-placeholder';
+                placeholder.style.cssText = 'height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; background: #070B14; color: #FFF; padding: 40px; text-align: center;';
+                iframe.parentNode.appendChild(placeholder);
+            }
+            placeholder.style.display = 'flex';
+            placeholder.innerHTML = '<div style="width: 60px; height: 60px; border-radius: 14px; background: rgba(0,229,255,0.1); border: 1px solid rgba(0,229,255,0.3); display: flex; align-items: center; justify-content: center; font-size: 26px; color: #00E5FF; margin-bottom: 20px;"><i class="fas fa-file-shield"></i></div>' +
+                '<h3 style="font-family: var(--font-headline); font-size: 20px; font-weight: 800; margin-bottom: 8px;">' + (titulo || 'Entregável Homologado') + '</h3>' +
+                '<p style="font-size: 14px; color: #94A3B8; max-width: 500px; line-height: 1.5; margin-bottom: 24px;">Este ativo foi estruturado pela Equipe Digital da VIDE e encontra-se registrado no repositório de entregas do projeto ativo.</p>' +
+                '<button onclick="fecharModalVisualizadorEntregavel()" class="btn-brand-cyan" style="padding: 10px 20px;"><i class="fas fa-check"></i> Fechar Pré-Visualização</button>';
+            if (link) link.style.display = 'none';
+        } else {
+            const placeholder = document.getElementById('modal-vis-placeholder');
+            if (placeholder) placeholder.style.display = 'none';
+            iframe.style.display = 'block';
+            iframe.src = url;
+            if (link) {
+                link.href = url;
+                link.style.display = 'inline-flex';
+            }
+        }
         modal.style.display = 'flex';
     }
 
