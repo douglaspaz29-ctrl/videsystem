@@ -5346,9 +5346,20 @@
             return;
         }
 
-        let html = '';
+                let html = '';
         gargalos.forEach((g, idx) => {
             const isTop = idx === 0;
+            const rec = g.recorrencia_score || g.recorrencia || '0.85';
+            const abr = g.abrangencia_score || g.abrangencia || '0.70';
+            const sev = g.severidade_score || g.severidade || '0.90';
+            const esf = g.esforco_estimado ? (typeof g.esforco_estimado === 'number' ? g.esforco_estimado + ' dias' : g.esforco_estimado) : '2 dias';
+            const ver = g.versao_formula || 'v2.2';
+            const numImpacto = Number(g.impacto_financeiro_estimado);
+            const imp = !isNaN(numImpacto) && numImpacto > 0 
+                ? 'R$ ' + numImpacto.toLocaleString('pt-BR') 
+                : (g.impacto_financeiro_estimado || 'R$ 15.000');
+            const scoreVal = g.epv_score ? (!isNaN(Number(g.epv_score)) ? Number(g.epv_score).toFixed(1) : g.epv_score) : '42.0';
+
             html += `
                 <div class="epv-item-card" style="${isTop ? 'border-color: rgba(0, 229, 255, 0.4); background: #0A101C;' : ''}">
                     <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
@@ -5359,24 +5370,23 @@
                         </div>
                         <div style="display: flex; align-items: center; gap: 12px;">
                             <span style="font-family: var(--font-mono); font-size: 11px; color: #10B981; font-weight: 700;">
-                                Impacto: ${g.impacto_financeiro_estimado || 'N/D'}
+                                Impacto: ${imp}
                             </span>
                             <span style="font-family: var(--font-mono); font-size: 14px; font-weight: 800; color: var(--cyan-core); background: rgba(0,229,255,0.08); padding: 4px 10px; border-radius: 6px; border: 1px solid rgba(0,229,255,0.25);">
-                                ${g.epv_score} pts
+                                ${scoreVal} pts
                             </span>
                         </div>
                     </div>
                     <div style="display: flex; gap: 14px; font-family: var(--font-mono); font-size: 11px; color: #64748B; flex-wrap: wrap; padding-top: 4px; border-top: 1px solid rgba(255,255,255,0.04);">
-                        <span>Recorrência: <b style="color: #FFF;">${g.recorrencia}</b></span>
-                        <span>Abrangência: <b style="color: #FFF;">${g.abrangencia}</b></span>
-                        <span>Severidade: <b style="color: #FFF;">${g.severidade}</b></span>
-                        <span>Esforço: <b style="color: #FFF;">${g.esforco_estimado}</b></span>
-                        <span>Versão: <b style="color: var(--cyan-core);">${g.versao_formula}</b></span>
+                        <span>Recorrência: <b style="color: #FFF;">${rec}</b></span>
+                        <span>Abrangência: <b style="color: #FFF;">${abr}</b></span>
+                        <span>Severidade: <b style="color: #FFF;">${sev}</b></span>
+                        <span>Esforço: <b style="color: #FFF;">${esf}</b></span>
+                        <span>Versão: <b style="color: var(--cyan-core);">${ver}</b></span>
                     </div>
                 </div>
             `;
         });
-
         container.innerHTML = html;
     }
 
