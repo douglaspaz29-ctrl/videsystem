@@ -6,11 +6,10 @@
     <title>VIDE — Central de Comando // Cockpit Executivo</title>
     <meta name="description" content="Ambiente Executivo Privado de Douglas Paz. Gestão e coordenação da Equipe Digital da VIDE e orquestração de projetos comerciais.">
 
-    <!-- Tipografia Editorial de Alto Padrão -->
-    <link href="https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@800,700,600,500,400&f[]=general-sans@600,500,400&display=swap" rel="stylesheet">
+    <!-- Tipografia Executiva Moderna (Inter & Plus Jakarta Sans) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <!-- Motores Visuais Complementares -->
@@ -19,41 +18,53 @@
 
     <style>
         :root {
-            --font-headline: 'Cabinet Grotesk', 'Plus Jakarta Sans', sans-serif;
-            --font-body: 'General Sans', sans-serif;
-            --font-mono: 'JetBrains Mono', monospace;
+            --font-headline: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            --font-body: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            --font-mono: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 
-            --bg-void: #030508;
-            --bg-surface: #070B14;
-            --bg-card: #0B101D;
-            --bg-card-hover: #10172A;
+            --bg-void: #0A0D14;
+            --bg-surface: #0F172A;
+            --bg-card: #131C2E;
+            --bg-card-hover: #1A263D;
 
-            --cyan-core: #00E5FF;
-            --cyan-glow: rgba(0, 229, 255, 0.4);
-            --blue-core: #0051FF;
-            --blue-electric: #2563EB;
+            --cyan-core: #0284C7;
+            --cyan-glow: rgba(2, 132, 199, 0.2);
+            --blue-core: #2563EB;
+            --blue-electric: #3B82F6;
             --green-emerald: #10B981;
             --amber-gold: #F59E0B;
-            --rose-accent: #EC4899;
-            --purple-core: #8B5CF6;
+            --rose-accent: #E11D48;
+            --purple-core: #7C3AED;
 
             --titanium-white: #FFFFFF;
-            --text-silver: #F1F5F9;
+            --text-silver: #F8FAFC;
             --text-muted: #94A3B8;
 
             --border-hairline: rgba(255, 255, 255, 0.08);
-            --border-cyan: rgba(0, 229, 255, 0.35);
-            --border-card: rgba(255, 255, 255, 0.06);
+            --border-cyan: rgba(37, 99, 235, 0.35);
+            --border-card: rgba(255, 255, 255, 0.08);
 
             --radius-btn: 8px;
             --radius-tag: 6px;
             --radius-card: 14px;
         }
 
-        * {
+        *, *::before, *::after {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
+            font-family: var(--font-body) !important;
+        }
+
+        body, button, input, textarea, select, span, p, div, label, a, h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-body) !important;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        h1, h2, h3, h4, .brand-title, .exec-section-header h2, .modal-header h3 {
+            font-family: var(--font-headline) !important;
+            letter-spacing: -0.02em;
         }
 
         body {
@@ -183,15 +194,15 @@
         }
 
         .exec-tab-btn.active {
-            background: rgba(0, 229, 255, 0.12);
-            border-color: rgba(0, 229, 255, 0.4);
-            color: var(--cyan-core);
-            font-weight: 700;
-            box-shadow: 0 0 16px rgba(0, 229, 255, 0.15);
+            background: #1E293B;
+            border-color: rgba(255, 255, 255, 0.15);
+            color: #FFFFFF;
+            font-weight: 600;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
         }
 
         .exec-tab-btn.active i {
-            color: var(--cyan-core);
+            color: #38BDF8;
         }
 
         /* Perfil de Douglas & Status */
@@ -206,13 +217,13 @@
             display: flex;
             align-items: center;
             gap: 7px;
-            font-family: var(--font-mono);
-            font-size: 11px;
-            color: var(--green-emerald);
+            font-size: 12px;
+            font-weight: 500;
+            color: #34D399;
             background: rgba(16, 185, 129, 0.1);
             padding: 5px 10px;
             border-radius: 6px;
-            border: 1px solid rgba(16, 185, 129, 0.25);
+            border: 1px solid rgba(16, 185, 129, 0.2);
         }
 
         .status-dot-pulse {
@@ -263,10 +274,9 @@
         }
 
         .exec-user-role {
-            font-family: var(--font-mono);
-            font-size: 9px;
-            color: var(--cyan-core);
-            text-transform: uppercase;
+            font-size: 11px;
+            color: #94A3B8;
+            font-weight: 500;
         }
 
         .btn-exec-logout {
@@ -348,10 +358,10 @@
         }
 
         .btn-brand-cyan {
-            background: var(--cyan-core);
-            color: #030508;
-            font-family: var(--font-body);
-            font-weight: 700;
+            background: linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%);
+            color: #FFFFFF;
+            font-family: var(--font-body) !important;
+            font-weight: 600;
             font-size: 13px;
             border: none;
             padding: 10px 18px;
@@ -361,11 +371,12 @@
             align-items: center;
             gap: 8px;
             transition: all 0.2s ease;
+            box-shadow: 0 2px 8px rgba(37, 99, 235, 0.25);
         }
 
         .btn-brand-cyan:hover {
-            background: #25F0FF;
-            box-shadow: 0 0 16px rgba(0, 229, 255, 0.4);
+            background: linear-gradient(135deg, #3B82F6 0%, #2563EB 100%);
+            box-shadow: 0 4px 14px rgba(37, 99, 235, 0.4);
             transform: translateY(-1px);
         }
 
@@ -1480,6 +1491,76 @@
                 grid-template-columns: repeat(2, 1fr);
             }
         }
+    
+        /* =====================================================================
+         * TERMINAL DE AUDITORIA & TELEMETRIA INTEGRADO
+         * ===================================================================== */
+        .terminal-executor-section {
+            background: #0B0F19;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+        }
+        .terminal-top-bar {
+            background: #070B14;
+            padding: 12px 18px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        }
+        .terminal-window-dots {
+            display: flex;
+            gap: 6px;
+        }
+        .terminal-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+        .terminal-log-window {
+            padding: 16px 18px;
+            max-height: 280px;
+            overflow-y: auto;
+            background: #060911;
+            font-size: 12.5px;
+            line-height: 1.6;
+            color: #CBD5E1;
+        }
+        .terminal-line {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 4px;
+        }
+        .terminal-time {
+            color: #64748B;
+        }
+        .terminal-sender {
+            color: #38BDF8;
+            font-weight: 600;
+        }
+        .terminal-prompt-bar-wrap {
+            display: flex;
+            padding: 12px 18px;
+            background: #0B0F19;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            gap: 12px;
+        }
+        .terminal-prompt-input {
+            flex: 1;
+            background: #060911;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 10px 14px;
+            color: #FFF;
+            font-size: 13px;
+        }
+        .terminal-prompt-input:focus {
+            outline: none;
+            border-color: #2563EB;
+        }
+
     </style>
 </head>
 <body>
@@ -1487,36 +1568,36 @@
     <!-- =====================================================================
      * LOCKSCREEN DE ACESSO EXECUTIVO (ZERO TRUST // DIRETORIA EXECUTIVA)
      * ===================================================================== -->
-    <div id="lockscreen-privado" style="display: none; position: fixed; inset: 0; background: rgba(3, 5, 8, 0.98); backdrop-filter: blur(24px); z-index: 100000; align-items: center; justify-content: center; padding: 24px;">
-        <div style="background: #0B0E17; border: 1px solid rgba(0, 229, 255, 0.3); border-radius: 14px; max-width: 440px; width: 100%; padding: 40px; box-shadow: 0 25px 60px rgba(0, 0, 0, 0.95); text-align: left;">
-            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 20px;">
-                <div style="width: 10px; height: 10px; border-radius: 50%; background: #00E5FF; box-shadow: 0 0 10px #00E5FF;"></div>
-                <div style="font-family: var(--font-mono); font-size: 11px; font-weight: 800; color: #00E5FF; letter-spacing: 0.15em;">ACESSO RESTRITO // GOVERNANÇA PRIVADA</div>
+    <div id="lockscreen-privado" style="display: none; position: fixed; inset: 0; background: rgba(10, 13, 20, 0.98); backdrop-filter: blur(24px); z-index: 100000; align-items: center; justify-content: center; padding: 24px;">
+        <div style="background: #111827; border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px; max-width: 440px; width: 100%; padding: 40px; box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6); text-align: left;">
+            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 20px;">
+                <div style="width: 8px; height: 8px; border-radius: 50%; background: #2563EB;"></div>
+                <div style="font-size: 11px; font-weight: 700; color: #94A3B8; text-transform: uppercase; letter-spacing: 0.05em;">Acesso Executivo • VIDE</div>
             </div>
 
-            <h2 style="font-family: var(--font-headline); font-size: 24px; font-weight: 800; margin-bottom: 8px; color: #FFFFFF; letter-spacing: -0.02em;">CENTRAL DE COMANDO OS</h2>
-            <p style="font-size: 13px; color: #94A3B8; margin-bottom: 24px; line-height: 1.5;">Ambiente executivo restrito de Douglas Paz. Autenticação obrigatória com credenciais criptografadas para orquestração da equipe digital.</p>
+            <h2 style="font-family: var(--font-headline) !important; font-size: 24px; font-weight: 700; margin-bottom: 8px; color: #FFFFFF; letter-spacing: -0.02em;">Central de Comando</h2>
+            <p style="font-size: 13.5px; color: #94A3B8; margin-bottom: 24px; line-height: 1.5;">Ambiente executivo restrito de Douglas Paz. Identifique-se para acessar o cockpit da Equipe Digital.</p>
 
             <form id="form-lockscreen-login" onsubmit="autenticarLockscreen(event)" style="display: flex; flex-direction: column; gap: 16px;">
                 <div>
-                    <label style="display: block; font-family: var(--font-mono); font-size: 10px; font-weight: 700; color: #94A3B8; text-transform: uppercase; margin-bottom: 6px;">Usuário Autorizado:</label>
-                    <input type="text" id="lockscreen-usuario" class="input-dark-field" placeholder="Ex: douglas" required autofocus style="width: 100%;">
+                    <label style="display: block; font-size: 12px; font-weight: 600; color: #E2E8F0; margin-bottom: 6px;">Usuário Autorizado:</label>
+                    <input type="text" id="lockscreen-usuario" class="input-dark-field" placeholder="Ex: douglas" required autofocus style="width: 100%; padding: 12px 14px; font-size: 13.5px; border-radius: 8px;">
                 </div>
 
                 <div>
-                    <label style="display: block; font-family: var(--font-mono); font-size: 10px; font-weight: 700; color: #94A3B8; text-transform: uppercase; margin-bottom: 6px;">Credencial de Segurança:</label>
-                    <input type="password" id="lockscreen-senha" class="input-dark-field" placeholder="••••••••••••" required style="width: 100%;">
+                    <label style="display: block; font-size: 12px; font-weight: 600; color: #E2E8F0; margin-bottom: 6px;">Credencial de Segurança:</label>
+                    <input type="password" id="lockscreen-senha" class="input-dark-field" placeholder="••••••••••••" required style="width: 100%; padding: 12px 14px; font-size: 13.5px; border-radius: 8px;">
                 </div>
 
-                <div id="lockscreen-erro" style="display: none; padding: 10px; background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 6px; font-family: var(--font-mono); font-size: 11px; color: #EF4444;"></div>
+                <div id="lockscreen-erro" style="display: none; padding: 10px; background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 6px; font-size: 12px; color: #EF4444;"></div>
 
-                <button type="submit" id="btn-lockscreen-submit" class="btn-brand-cyan" style="width: 100%; justify-content: center; padding: 14px; margin-top: 8px; font-weight: 800;">
-                    <i class="fas fa-fingerprint"></i> DESBLOQUEAR COCKPIT PRIVADO
+                <button type="submit" id="btn-lockscreen-submit" class="btn-blue-action" style="width: 100%; justify-content: center; padding: 14px; margin-top: 8px; font-weight: 700; font-size: 14px; border-radius: 8px;">
+                    <i class="fas fa-lock-open" style="margin-right: 8px;"></i> Desbloquear Central
                 </button>
             </form>
 
-            <div style="margin-top: 24px; text-align: center; font-family: var(--font-mono); font-size: 9px; color: #475569; letter-spacing: 0.1em; text-transform: uppercase;">
-                ZERO TRUST • ASSINATURA HMAC-SHA256 • SESSÃO PROTEGIDA
+            <div style="margin-top: 24px; text-align: center; font-size: 11px; color: #64748B;">
+                Sessão Privada • Governança Executiva VIDE
             </div>
         </div>
     </div>
@@ -1530,7 +1611,7 @@
                 <i class="fas fa-layer-group"></i>
             </div>
             <div class="exec-brand-info">
-                <h1>VIDE <span style="color: var(--cyan-core); font-size: 12px; font-family: var(--font-mono); font-weight: 500;">// CENTRAL DE COMANDO</span></h1>
+                <h1>VIDE <span style="color: #60A5FA; font-size: 12px; font-weight: 600; padding: 2px 8px; background: rgba(37, 99, 235, 0.15); border-radius: 6px; margin-left: 6px;">Central Executiva</span></h1>
                 <p>Ambiente do Diretor Executivo</p>
             </div>
         </div>
@@ -1944,7 +2025,7 @@
             <div class="cluster-head-row" style="margin-bottom: 24px;">
                 <div>
                     <div style="font-family: var(--font-mono); font-size: 11px; font-weight: 800; color: #00E5FF; letter-spacing: 0.12em;">
-                        INTELIGÊNCIA COMERCIAL // METODOLOGIA VIDE 7D (v2.2)
+                        Inteligência Comercial • Metodologia VIDE 7D
                     </div>
                     <h2 style="font-size: 24px; font-weight: 800; text-transform: uppercase; margin-top: 4px; color: #FFFFFF;">
                         Motor de Inteligência Comercial & Crescimento Contínuo
@@ -2229,6 +2310,54 @@
                             <div style="font-size: 20px; font-weight: 800; color: var(--amber-gold); margin-top: 4px;" id="projetos-auditados-val">100%</div>
                         </div>
                     </div>
+
+                <!-- Auditoria e Console Técnico Integrado -->
+                <div style="margin-top: 24px;">
+                    <!-- Seção do Terminal Interativo com o Coordenador Geral -->
+        <section class="terminal-executor-section">
+            <div class="terminal-top-bar">
+                <div style="display: flex; align-items: center; gap: 14px;">
+                    <div class="terminal-window-dots">
+                        <div class="terminal-dot" style="background: #EF4444;"></div>
+                        <div class="terminal-dot" style="background: #F59E0B;"></div>
+                        <div class="terminal-dot" style="background: #10B981;"></div>
+                    </div>
+                    <span style="font-family: var(--font-mono); font-size: 12px; font-weight: 700; color: #94A3B8;">
+                        Auditoria & Telemetria do Sistema
+                    </span>
+                </div>
+                <div style="font-family: var(--font-mono); font-size: 11px; color: var(--cyan-core);">
+                    CANAL EXECUTIVO SEGURO
+                </div>
+            </div>
+
+            <div class="terminal-log-window" id="terminal-feed">
+                <div class="terminal-line">
+                    <span class="terminal-time">[00:00:00]</span>
+                    <span class="terminal-sender">[SISTEMA]</span>
+                    <span id="terminal-host-init">Central de Comando operacional inicializada. Conectando telemetria...</span>
+                </div>
+                <div class="terminal-line">
+                    <span class="terminal-time">[00:00:01]</span>
+                    <span class="terminal-sender">[AGT-02 COORDENADOR]</span>
+                    <span>Ambiente executivo seguro ativo. 7 disciplinas operacionais sincronizadas. Digite 'ajuda' para comandos.</span>
+                </div>
+                <div class="terminal-line">
+                    <span class="terminal-time">[00:00:02]</span>
+                    <span class="terminal-sender">[AGT-07 TELEMETRIA]</span>
+                    <span>Verificação de integridade: rotas ativas (HTTP 200). Banco de dados e armazenamento persistente monitorados.</span>
+                </div>
+            </div>
+
+            <form class="terminal-prompt-bar-wrap" onsubmit="enviarComandoTerminal(event)">
+                <input type="text" class="terminal-prompt-input" id="terminal-input" placeholder="Digite um comando ('demanda <texto>', 'aprovar <id>', 'executar <id>', 'status', 'projetos')...">
+                <button type="submit" class="btn-blue-action" style="padding: 14px 28px;">
+                    <i class="fas fa-paper-plane"></i>
+                    <span>Executar</span>
+                </button>
+            </form>
+        </section>
+                </div>
                 </div>
             </div>
         </div>
@@ -2242,7 +2371,7 @@
             <div class="modal-card-box">
                 <div class="modal-header">
                     <div>
-                        <div style="font-family: var(--font-mono); font-size: 10px; color: #00E5FF; font-weight: 800;">DIRETORIA EXECUTIVA // INGESTÃO DE PROJETO</div>
+                        <div style="font-family: var(--font-mono); font-size: 10px; color: #00E5FF; font-weight: 800;">Diretoria Executiva • Ingestão de Projeto</div>
                         <h3 style="font-size: 18px; font-weight: 800; color: #FFF; margin-top: 2px;">Cadastrar Novo Projeto</h3>
                     </div>
                     <button onclick="fecharModalNovoProjeto()" class="btn-close-modal"><i class="fas fa-xmark"></i></button>
@@ -2298,7 +2427,7 @@
             <div class="modal-card-box" style="max-width: 580px;">
                 <div class="modal-header">
                     <div>
-                        <div style="font-family: var(--font-mono); font-size: 10px; color: #10B981; font-weight: 800;">DIRETORIA EXECUTIVA // GOVERNANÇA COMERCIAL</div>
+                        <div style="font-family: var(--font-mono); font-size: 10px; color: #10B981; font-weight: 800;">Diretoria Executiva • Governança Comercial</div>
                         <h3 style="font-size: 18px; font-weight: 800; color: #FFF; margin-top: 2px;">Autorização Comercial de Entrega</h3>
                     </div>
                     <button onclick="fecharModalAutorizarProjeto()" class="btn-close-modal"><i class="fas fa-xmark"></i></button>
@@ -2347,7 +2476,7 @@
             <div class="modal-card-box" style="max-width: 680px; max-height: 90vh; overflow-y: auto;">
                 <div class="modal-header">
                     <div>
-                        <div id="modal-insp-badge" style="font-family: var(--font-mono); font-size: 10px; color: #00E5FF; font-weight: 800;">INSPEÇÃO // AGT-XX</div>
+                        <div id="modal-insp-badge" style="font-family: var(--font-mono); font-size: 10px; color: #00E5FF; font-weight: 800;">Inspeção Técnica • Entrega de Agente</div>
                         <h3 id="modal-insp-titulo" style="font-size: 18px; font-weight: 800; color: #FFF; margin-top: 2px;">Inspeção de Entrega</h3>
                     </div>
                     <button onclick="fecharModalInspecaoTarefa()" class="btn-close-modal"><i class="fas fa-xmark"></i></button>
@@ -2381,50 +2510,7 @@
             </div>
         </div>
 
-        <!-- Seção do Terminal Interativo com o Coordenador Geral -->
-        <section class="terminal-executor-section">
-            <div class="terminal-top-bar">
-                <div style="display: flex; align-items: center; gap: 14px;">
-                    <div class="terminal-window-dots">
-                        <div class="terminal-dot" style="background: #EF4444;"></div>
-                        <div class="terminal-dot" style="background: #F59E0B;"></div>
-                        <div class="terminal-dot" style="background: #10B981;"></div>
-                    </div>
-                    <span style="font-family: var(--font-mono); font-size: 12px; font-weight: 700; color: #94A3B8;">
-                        TERMINAL DE COMANDO & AUDITORIA // AGT-02 COORDENADOR
-                    </span>
-                </div>
-                <div style="font-family: var(--font-mono); font-size: 11px; color: var(--cyan-core);">
-                    CANAL EXECUTIVO SEGURO
-                </div>
-            </div>
-
-            <div class="terminal-log-window" id="terminal-feed">
-                <div class="terminal-line">
-                    <span class="terminal-time">[00:00:00]</span>
-                    <span class="terminal-sender">[SISTEMA]</span>
-                    <span id="terminal-host-init">Central de Comando operacional inicializada. Conectando telemetria...</span>
-                </div>
-                <div class="terminal-line">
-                    <span class="terminal-time">[00:00:01]</span>
-                    <span class="terminal-sender">[AGT-02 COORDENADOR]</span>
-                    <span>Ambiente executivo seguro ativo. 7 disciplinas operacionais sincronizadas. Digite 'ajuda' para comandos.</span>
-                </div>
-                <div class="terminal-line">
-                    <span class="terminal-time">[00:00:02]</span>
-                    <span class="terminal-sender">[AGT-07 TELEMETRIA]</span>
-                    <span>Verificação de integridade: rotas ativas (HTTP 200). Banco de dados e armazenamento persistente monitorados.</span>
-                </div>
-            </div>
-
-            <form class="terminal-prompt-bar-wrap" onsubmit="enviarComandoTerminal(event)">
-                <input type="text" class="terminal-prompt-input" id="terminal-input" placeholder="Digite um comando ('demanda <texto>', 'aprovar <id>', 'executar <id>', 'status', 'projetos')...">
-                <button type="submit" class="btn-blue-action" style="padding: 14px 28px;">
-                    <i class="fas fa-paper-plane"></i>
-                    <span>Executar</span>
-                </button>
-            </form>
-        </section>
+        
 
     
         <!-- Modal de Rastreabilidade Prévia da MIV -->
@@ -2432,7 +2518,7 @@
             <div class="modal-card-box" style="max-width: 750px;">
                 <div class="modal-header">
                     <div>
-                        <div style="font-family: var(--font-mono); font-size: 10px; color: #00E5FF; font-weight: 800;">RASTREABILIDADE RELACIONAL // PRÉ-APROVAÇÃO MIV</div>
+                        <div style="font-family: var(--font-mono); font-size: 10px; color: #00E5FF; font-weight: 800;">Rastreabilidade e Evidências • Recomendação MIV</div>
                         <h3 id="modal-rastreab-titulo" style="font-size: 18px; font-weight: 800; color: #FFF; margin-top: 2px;">Cadeia Completa de Evidências</h3>
                     </div>
                     <button onclick="fecharModalRastreabilidade()" class="btn-close-modal"><i class="fas fa-xmark"></i></button>
@@ -2452,7 +2538,7 @@
             <div class="modal-card-box" style="max-width: 600px;">
                 <div class="modal-header">
                     <div>
-                        <div style="font-family: var(--font-mono); font-size: 10px; color: #00E5FF; font-weight: 800;">DIAGNÓSTICO 7D // NOVA AVALIAÇÃO</div>
+                        <div style="font-family: var(--font-mono); font-size: 10px; color: #00E5FF; font-weight: 800;">Diagnóstico Comercial 7D • Nova Avaliação</div>
                         <h3 style="font-size: 18px; font-weight: 800; color: #FFF; margin-top: 2px;">Executar Diagnóstico de Crescimento</h3>
                     </div>
                     <button onclick="fecharModalNovoDiagnostico7D()" class="btn-close-modal"><i class="fas fa-xmark"></i></button>
@@ -2483,7 +2569,7 @@
             <div class="modal-card-box" style="max-width: 650px;">
                 <div class="modal-header">
                     <div>
-                        <div style="font-family: var(--font-mono); font-size: 10px; color: #10B981; font-weight: 800;">FEEDBACK LOOP // APRENDIZADO ACUMULADO</div>
+                        <div style="font-family: var(--font-mono); font-size: 10px; color: #10B981; font-weight: 800;">Avaliação de Eficácia • Aprendizado Contínuo</div>
                         <h3 style="font-size: 18px; font-weight: 800; color: #FFF; margin-top: 2px;">Avaliação de Eficácia de MIV</h3>
                     </div>
                     <button onclick="fecharModalNovaAvaliacaoMIV()" class="btn-close-modal"><i class="fas fa-xmark"></i></button>
@@ -2548,7 +2634,7 @@
                 <div class="modal-header">
                     <div>
                         <div style="font-family: var(--font-mono); font-size: 10px; color: #10B981; font-weight: 800;">
-                            PIPELINE MULTI-FONTE // ENTRADA DE DADOS
+                            Ingestão Multi-fonte • Dados Comerciais
                         </div>
                         <h3 style="font-size: 18px; font-weight: 800; color: #FFF; margin-top: 2px;">
                             Nova Ingestão de Dados Comerciais
@@ -2647,7 +2733,7 @@
                 <div class="modal-header">
                     <div>
                         <div style="font-family: var(--font-mono); font-size: 10px; color: #10B981; font-weight: 800;">
-                            AUDITORIA & RASTREABILIDADE DE DADOS COMERCIAIS
+                            Auditoria de Dados • Lote de Ingestão
                         </div>
                         <h3 id="modal-inspecionar-titulo" style="font-size: 18px; font-weight: 800; color: #FFF; margin-top: 2px;">
                             Detalhes do Lote de Ingestão
@@ -2693,14 +2779,7 @@
                 <div style="padding: 14px 24px; border-top: 1px solid rgba(255,255,255,0.08); display: flex; justify-content: flex-end;">
                     <button type="button" onclick="fecharModalInspecionarLote()" class="btn-black-outline">Fechar</button>
                 </div>
-            </div>
-        </div>
-
-    </main>
-
-    
-
-    <!-- Modal Adicional: Visualizador de Entregável em Tela Cheia -->
+            </div></div><!-- Modal Adicional: Visualizador de Entregável em Tela Cheia -->
     <div id="modal-visualizador-entregavel" class="modal-overlay" style="display: none; position: fixed; inset: 0; background: rgba(3, 5, 8, 0.95); backdrop-filter: blur(20px); z-index: 100000; align-items: center; justify-content: center; padding: 24px;">
         <div style="background: #0B101D; border: 1px solid rgba(0, 229, 255, 0.35); border-radius: 14px; width: 95vw; height: 90vh; max-width: 1400px; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 25px 60px rgba(0,0,0,0.9);">
             <div style="padding: 16px 24px; border-bottom: 1px solid var(--border-hairline); display: flex; align-items: center; justify-content: space-between; background: #060911;">
@@ -2945,18 +3024,18 @@
                 </div>
 
                 <div class="team-card-block">
-                    <div class="team-card-block-title">O que faz na VIDE</div>
+                    <div class="team-card-block-title" style="font-size: 12px; font-weight: 600; color: #94A3B8; margin-bottom: 4px; text-transform: none; letter-spacing: 0;">O que faz na VIDE</div>
                     <p class="team-card-block-text">${ag.o_que_faz}</p>
                 </div>
 
                 <div class="team-card-block">
-                    <div class="team-card-block-title">Quando acionar</div>
+                    <div class="team-card-block-title" style="font-size: 12px; font-weight: 600; color: #94A3B8; margin-bottom: 4px; text-transform: none; letter-spacing: 0;">Quando acionar</div>
                     <p class="team-card-block-text">${ag.quando_acionar}</p>
                 </div>
 
                 <div class="team-card-block">
-                    <div class="team-card-block-title">O que ele entrega</div>
-                    <p class="team-card-block-text" style="color: var(--cyan-core); font-family: var(--font-mono); font-size: 12px;">${ag.entregaveis}</p>
+                    <div class="team-card-block-title" style="font-size: 12px; font-weight: 600; color: #94A3B8; margin-bottom: 4px; text-transform: none; letter-spacing: 0;">O que ele entrega</div>
+                    <p class="team-card-block-text" style="color: #38BDF8; font-size: 13px; font-weight: 500; line-height: 1.5;">${ag.entregaveis}</p>
                 </div>
 
                 <div class="team-card-footer">
