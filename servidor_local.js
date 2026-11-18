@@ -205,17 +205,6 @@ function executarEsteiraCompletaEspecialistas(idProjeto) {
     return resultados;
 }
 
-    try {
-        servicoWebhooksSaida.dispararEvento('esteira_concluida', {
-            id_projeto: idProjeto,
-            total_entregaveis: resultados.length,
-            entregaveis: resultados
-        });
-    } catch (_) {}
-
-    return resultados;
-}
-
 const servidor = http.createServer(async (req, res) => {
     let urlLimpa = req.url.split('?')[0];
 
