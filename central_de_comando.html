@@ -1967,6 +1967,273 @@
             box-shadow: 0 12px 28px -8px rgba(0, 0, 0, 0.6);
         }
 
+    
+        /* =====================================================================
+         * SISTEMA DE BOTÕES UNIVERSAL DE LUXO (PADRÃO AWWWARDS / LINEAR)
+         * ===================================================================== */
+        .btn-blue-action {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background: linear-gradient(135deg, #0284C7 0%, #2563EB 100%);
+            color: #FFFFFF !important;
+            font-family: var(--font-headline);
+            font-size: 12.5px;
+            font-weight: 700;
+            padding: 10px 18px;
+            border-radius: 9px;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            cursor: pointer;
+            box-shadow: 0 4px 14px rgba(2, 132, 199, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            text-decoration: none;
+            white-space: nowrap;
+        }
+
+        .btn-blue-action:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 22px rgba(2, 132, 199, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+            filter: brightness(1.1);
+        }
+
+        .btn-black-outline {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background: rgba(15, 23, 42, 0.75);
+            color: #E2E8F0 !important;
+            font-family: var(--font-headline);
+            font-size: 12.5px;
+            font-weight: 600;
+            padding: 10px 18px;
+            border-radius: 9px;
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            cursor: pointer;
+            backdrop-filter: blur(8px);
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            text-decoration: none;
+            white-space: nowrap;
+        }
+
+        .btn-black-outline:hover {
+            background: rgba(255, 255, 255, 0.08);
+            color: #FFFFFF !important;
+            border-color: rgba(56, 189, 248, 0.45);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+        }
+
+        /* =====================================================================
+         * COMPONENTES DA ÁREA AVANÇADA (MOTOR 7D, EPV, MIV, TRIPARTITE)
+         * ===================================================================== */
+        .miv-card {
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.8) 0%, rgba(10, 13, 20, 0.9) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.09);
+            border-radius: 16px;
+            padding: 22px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .miv-card:hover {
+            transform: translateY(-3px);
+            border-color: rgba(56, 189, 248, 0.35);
+            box-shadow: 0 16px 36px -10px rgba(0, 0, 0, 0.7), 0 0 20px rgba(56, 189, 248, 0.12);
+        }
+
+        .miv-status-tag {
+            font-family: var(--font-headline);
+            font-size: 10.5px;
+            font-weight: 800;
+            padding: 3px 9px;
+            border-radius: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            display: inline-block;
+        }
+
+        .miv-status-tag.aguardando {
+            background: rgba(245, 158, 11, 0.15);
+            color: #F59E0B;
+            border: 1px solid rgba(245, 158, 11, 0.35);
+        }
+
+        .miv-status-tag.aprovado {
+            background: rgba(16, 185, 129, 0.15);
+            color: #10B981;
+            border: 1px solid rgba(16, 185, 129, 0.35);
+        }
+
+        .epv-item-card {
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.75) 0%, rgba(10, 13, 20, 0.85) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 14px;
+            padding: 18px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .epv-item-card:hover {
+            transform: translateY(-2px);
+            border-color: rgba(56, 189, 248, 0.35);
+            box-shadow: 0 10px 28px rgba(0, 0, 0, 0.5), 0 0 16px rgba(56, 189, 248, 0.1);
+        }
+
+        .epv-badge-pill {
+            font-family: var(--font-headline);
+            font-size: 10.5px;
+            font-weight: 800;
+            padding: 3px 10px;
+            border-radius: 6px;
+            background: rgba(255, 255, 255, 0.08);
+            color: #E2E8F0;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .tripartite-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 18px;
+            margin-top: 14px;
+        }
+
+        .tripartite-col {
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.75) 0%, rgba(10, 13, 20, 0.85) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 14px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+        }
+
+        .tripartite-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-family: var(--font-headline);
+            font-size: 14px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+        }
+
+        .motor-grid-7d {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 16px;
+            margin-top: 14px;
+        }
+
+        .dim-card {
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.75) 0%, rgba(10, 13, 20, 0.85) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 14px;
+            padding: 18px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .dim-card:hover {
+            transform: translateY(-2px);
+            border-color: rgba(56, 189, 248, 0.3);
+            box-shadow: 0 10px 26px rgba(0, 0, 0, 0.5);
+        }
+
+        .dim-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .dim-title {
+            font-family: var(--font-headline);
+            font-size: 14.5px;
+            font-weight: 800;
+            color: #FFFFFF;
+        }
+
+        .dim-score-badge {
+            font-family: var(--font-headline);
+            font-size: 11px;
+            font-weight: 800;
+            padding: 3px 8px;
+            border-radius: 6px;
+        }
+
+        .dim-score-badge.bom {
+            background: rgba(16, 185, 129, 0.15);
+            color: #10B981;
+            border: 1px solid rgba(16, 185, 129, 0.35);
+        }
+
+        .dim-score-badge.alerta {
+            background: rgba(245, 158, 11, 0.15);
+            color: #F59E0B;
+            border: 1px solid rgba(245, 158, 11, 0.35);
+        }
+
+        .dim-score-badge.critico {
+            background: rgba(239, 68, 68, 0.15);
+            color: #EF4444;
+            border: 1px solid rgba(239, 68, 68, 0.35);
+        }
+
+        .dim-progress-track {
+            width: 100%;
+            height: 7px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 999px;
+            overflow: hidden;
+        }
+
+        .dim-progress-fill {
+            height: 100%;
+            border-radius: 999px;
+            transition: width 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .dim-subitems {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 4px;
+        }
+
+        .dim-subchip {
+            font-family: var(--font-body);
+            font-size: 10.5px;
+            font-weight: 600;
+            color: #94A3B8;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            border-radius: 6px;
+            padding: 3px 8px;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
     </style>
 </head>
 <body>
@@ -2459,13 +2726,9 @@
                             <option value="">Carregando empresas...</option>
                         </select>
                     </div>
-                    <button onclick="carregarDossieMotorAtivo()" class="btn-blue-action" style="padding: 10px 16px; font-size: 12px;">
-                        <i class="fas fa-arrows-rotate"></i>
-                        <span>Atualizar Dossiê</span>
+                    <button onclick="carregarDossieMotorAtivo()" class="btn-luxury-primary" style="padding: 11px 20px; font-size: 12.5px;"><i class="fas fa-arrows-rotate"></i><span>Atualizar Dossiê</span>
                     </button>
-                    <button onclick="abrirModalNovoDiagnostico7D()" class="btn-black-outline" style="padding: 10px 16px; font-size: 12px; border-color: rgba(0, 229, 255, 0.4);">
-                        <i class="fas fa-stethoscope" style="color: var(--cyan-core);"></i>
-                        <span>Novo Diagnóstico 7D</span>
+                    <button onclick="abrirModalNovoDiagnostico7D()" class="btn-luxury-outline-cyan" style="padding: 11px 20px; font-size: 12.5px;"><i class="fas fa-stethoscope"></i><span>Novo Diagnóstico 7D</span>
                     </button>
                 </div>
             </div>
@@ -2644,13 +2907,9 @@
                             <option value="">Carregando empresas...</option>
                         </select>
                     </div>
-                    <button onclick="carregarLotesIngestao()" class="btn-blue-action" style="padding: 10px 16px; font-size: 12px;">
-                        <i class="fas fa-arrows-rotate"></i>
-                        <span>Atualizar Lotes</span>
+                    <button onclick="carregarLotesIngestao()" class="btn-luxury-primary" style="padding: 11px 20px; font-size: 12.5px;"><i class="fas fa-arrows-rotate"></i><span>Atualizar Lotes</span>
                     </button>
-                    <button onclick="abrirModalNovaIngestao()" class="btn-black-outline" style="padding: 10px 16px; font-size: 12px; border-color: rgba(16, 185, 129, 0.5); color: #10B981;">
-                        <i class="fas fa-cloud-arrow-up"></i>
-                        <span>Nova Ingestão de Dados</span>
+                    <button onclick="abrirModalNovaIngestao()" class="btn-luxury-outline-emerald" style="padding: 11px 20px; font-size: 12.5px;"><i class="fas fa-cloud-arrow-up"></i><span>Nova Ingestão de Dados</span>
                     </button>
                 </div>
             </div>
@@ -5567,17 +5826,17 @@
                     ` : ''}
 
                     <div style="display: flex; gap: 10px; margin-top: auto; padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.06);">
-                        <button onclick="abrirModalRastreabilidade('${m.id}')" class="btn-black-outline" style="flex: 1; font-size: 11px; padding: 10px;">
+                        <button onclick="abrirModalRastreabilidade('${m.id}')" class="btn-luxury-glass" style="flex: 1; font-size: 12px; padding: 11px 14px; justify-content: center;">
                             <i class="fas fa-link" style="color: var(--cyan-core);"></i>
                             <span>Analisar Evidências</span>
                         </button>
                         ${isPendente ? `
-                            <button onclick="aprovarMivDiretoria('${m.id}')" class="btn-blue-action" style="flex: 1; font-size: 11px; padding: 10px;">
+                            <button onclick="aprovarMivDiretoria('${m.id}')" class="btn-luxury-emerald" style="flex: 1; font-size: 12px; padding: 11px 14px; justify-content: center;">
                                 <i class="fas fa-stamp"></i>
                                 <span>Aprovar & Despachar</span>
                             </button>
                         ` : `
-                            <button disabled class="btn-black-outline" style="flex: 1; font-size: 11px; padding: 10px; opacity: 0.6; cursor: not-allowed; border-color: rgba(16,185,129,0.4);">
+                            <button disabled class="btn-luxury-glass" style="flex: 1; font-size: 12px; padding: 11px 14px; justify-content: center; opacity: 0.7; cursor: not-allowed; border-color: rgba(16,185,129,0.4); color: #10B981;">
                                 <i class="fas fa-check" style="color: #10B981;"></i>
                                 <span>Homologado</span>
                             </button>
@@ -6129,10 +6388,10 @@
                         </div>
 
                         <div style="display: flex; gap: 8px; justify-content: flex-end; border-top: 1px solid rgba(255,255,255,0.06); padding-top: 12px;">
-                            <button onclick="abrirModalInspecionarLote('${l.id}')" class="btn-black-outline" style="padding: 6px 12px; font-size: 11px;">
+                            <button onclick="abrirModalInspecionarLote('${l.id}')" class="btn-luxury-glass" style="padding: 8px 16px; font-size: 12px;">
                                 <i class="fas fa-eye"></i> Inspecionar
                             </button>
-                            <button onclick="dispararProcessamentoLoteNoMotor('${l.id}')" class="btn-blue-action" style="padding: 6px 12px; font-size: 11px;">
+                            <button onclick="dispararProcessamentoLoteNoMotor('${l.id}')" class="btn-luxury-emerald" style="padding: 8px 16px; font-size: 12px;">
                                 <i class="fas fa-bolt"></i> Alimentar Motor
                             </button>
                         </div>
