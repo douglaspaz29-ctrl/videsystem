@@ -2710,7 +2710,10 @@ Diretrizes obrigatórias de resposta:
             }
         } else if (urlLimpa.startsWith('/assets/')) {
             const rel = urlLimpa.replace('/assets/', '');
-            caminhoArquivo = path.join(DIRETORIO_RAIZ, rel);
+            caminhoArquivo = path.join(DIRETORIO_RAIZ, 'assets', rel);
+            if (!fs.existsSync(caminhoArquivo)) {
+                caminhoArquivo = path.join(DIRETORIO_RAIZ, rel);
+            }
         } else if (urlLimpa.startsWith('/js/')) {
             const rel = urlLimpa.replace('/js/', '');
             caminhoArquivo = path.join(DIRETORIO_RAIZ, rel);
