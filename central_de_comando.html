@@ -5977,6 +5977,520 @@ body {
     }
 }
 
+
+/* =====================================================================
+ * WIDESCREEN ASYMMETRICAL HERO STAGE & DOSSIER CENTERPIECE
+ * ===================================================================== */
+.edition-hero-stage-widescreen {
+    position: relative !important;
+    min-height: 86vh !important;
+    padding: 40px 24px 60px 24px !important;
+    overflow: hidden !important;
+    border-bottom: 1px solid var(--vide-border-hairline) !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+}
+
+.edition-hero-widescreen-inner {
+    width: 100% !important;
+    max-width: 1320px !important;
+    display: grid !important;
+    grid-template-columns: 1.15fr 0.85fr !important;
+    gap: 48px !important;
+    align-items: center !important;
+    position: relative !important;
+    z-index: 2 !important;
+}
+
+.hero-command-hub {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    text-align: left !important;
+}
+
+.hero-live-pill {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    font-size: 12.5px !important;
+    font-weight: 500 !important;
+    color: #94A3B8 !important;
+    background: rgba(255, 255, 255, 0.04) !important;
+    border: 1px solid var(--vide-border-hairline) !important;
+    padding: 5px 14px !important;
+    border-radius: 9999px !important;
+    margin-bottom: 20px !important;
+    backdrop-filter: blur(12px) !important;
+}
+
+.live-dot-pulse {
+    width: 7px !important;
+    height: 7px !important;
+    background: #00D2FF !important;
+    border-radius: 50% !important;
+    box-shadow: 0 0 10px #00D2FF !important;
+    display: inline-block !important;
+}
+
+.hero-title-group {
+    margin-bottom: 18px !important;
+}
+
+.hero-brand-kicker {
+    font-family: 'Syne', sans-serif !important;
+    font-size: 14px !important;
+    font-weight: 700 !important;
+    color: #00D2FF !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.14em !important;
+    margin-bottom: 4px !important;
+}
+
+.hero-main-title {
+    font-family: 'Syne', 'Plus Jakarta Sans', sans-serif !important;
+    font-size: clamp(2.6rem, 5.2vw, 4.2rem) !important;
+    font-weight: 800 !important;
+    color: #FFFFFF !important;
+    letter-spacing: -0.035em !important;
+    line-height: 1.05 !important;
+    margin: 0 !important;
+    text-shadow: 0 4px 30px rgba(0, 0, 0, 0.7) !important;
+}
+
+.hero-desc-prose {
+    font-size: clamp(1rem, 1.35vw, 1.15rem) !important;
+    font-weight: 400 !important;
+    color: #94A3B8 !important;
+    line-height: 1.6 !important;
+    margin: 0 0 28px 0 !important;
+    max-width: 540px !important;
+}
+
+/* Directive Deck */
+.hero-directive-deck {
+    width: 100% !important;
+    max-width: 560px !important;
+    background: rgba(13, 17, 26, 0.75) !important;
+    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+    border-radius: 12px !important;
+    padding: 16px !important;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5) !important;
+    backdrop-filter: blur(20px) !important;
+    margin-bottom: 24px !important;
+    transition: all 0.25s ease !important;
+}
+
+.hero-directive-deck:focus-within {
+    border-color: rgba(0, 210, 255, 0.5) !important;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6), 0 0 20px rgba(0, 210, 255, 0.2) !important;
+}
+
+.directive-deck-header {
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+    margin-bottom: 12px !important;
+}
+
+.directive-deck-avatar {
+    position: relative !important;
+    width: 36px !important;
+    height: 36px !important;
+}
+
+.directive-deck-avatar img {
+    width: 100% !important;
+    height: 100% !important;
+    border-radius: 8px !important;
+    object-fit: cover !important;
+    border: 1.5px solid rgba(0, 210, 255, 0.4) !important;
+}
+
+.deck-online-ring {
+    position: absolute !important;
+    bottom: -2px !important;
+    right: -2px !important;
+    width: 10px !important;
+    height: 10px !important;
+    background: #10B981 !important;
+    border: 2px solid #06080C !important;
+    border-radius: 50% !important;
+}
+
+.directive-deck-title h4 {
+    font-size: 14.5px !important;
+    font-weight: 700 !important;
+    color: #FFFFFF !important;
+    margin: 0 !important;
+}
+
+.directive-deck-title p {
+    font-size: 11.5px !important;
+    color: #00D2FF !important;
+    margin: 0 !important;
+}
+
+.directive-deck-input-row {
+    display: flex !important;
+    gap: 8px !important;
+    align-items: center !important;
+}
+
+.directive-deck-input-row input {
+    flex: 1 !important;
+    background: rgba(255, 255, 255, 0.05) !important;
+    border: 1px solid var(--vide-border-hairline) !important;
+    border-radius: 8px !important;
+    padding: 10px 14px !important;
+    color: #FFFFFF !important;
+    font-size: 13.5px !important;
+    font-family: inherit !important;
+    outline: none !important;
+}
+
+.directive-deck-input-row input:focus {
+    border-color: rgba(0, 210, 255, 0.4) !important;
+}
+
+.btn-deck-send {
+    background: #00D2FF !important;
+    color: #06080C !important;
+    font-weight: 700 !important;
+    font-size: 13px !important;
+    border: none !important;
+    border-radius: 8px !important;
+    padding: 10px 18px !important;
+    cursor: pointer !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    transition: all 0.2s ease !important;
+    flex-shrink: 0 !important;
+}
+
+.btn-deck-send:hover {
+    background: #38BDF8 !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 4px 16px rgba(0, 210, 255, 0.35) !important;
+}
+
+.hero-quick-shortcuts {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 8px !important;
+}
+
+.hero-shortcut-btn {
+    background: rgba(255, 255, 255, 0.04) !important;
+    border: 1px solid var(--vide-border-hairline) !important;
+    color: var(--vide-text-body) !important;
+    font-size: 12.5px !important;
+    font-weight: 600 !important;
+    padding: 8px 14px !important;
+    border-radius: 8px !important;
+    cursor: pointer !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 7px !important;
+    transition: all 0.2s ease !important;
+}
+
+.hero-shortcut-btn:hover {
+    background: rgba(255, 255, 255, 0.08) !important;
+    color: #FFFFFF !important;
+    border-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+.hero-shortcut-btn.primary {
+    background: rgba(0, 210, 255, 0.12) !important;
+    color: #00D2FF !important;
+    border-color: rgba(0, 210, 255, 0.3) !important;
+}
+
+.hero-shortcut-btn.primary:hover {
+    background: #00D2FF !important;
+    color: #06080C !important;
+}
+
+/* Right Column Operations Centerpiece */
+.hero-operations-centerpiece {
+    position: relative !important;
+    border-radius: 16px !important;
+    overflow: hidden !important;
+    border: 1px solid var(--vide-border-hairline) !important;
+    background: rgba(10, 14, 22, 0.6) !important;
+    min-height: 440px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: flex-end !important;
+    padding: 28px !important;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6) !important;
+}
+
+.hero-centerpiece-art {
+    position: absolute !important;
+    inset: 0 !important;
+    background-size: cover !important;
+    background-position: center !important;
+    opacity: 0.35 !important;
+    filter: saturate(1.1) brightness(0.9) !important;
+    z-index: 0 !important;
+    pointer-events: none !important;
+}
+
+.centerpiece-gradient-overlay {
+    position: absolute !important;
+    inset: 0 !important;
+    background: linear-gradient(180deg, rgba(6, 8, 12, 0.1) 0%, rgba(6, 8, 12, 0.85) 60%, rgba(6, 8, 12, 0.98) 100%) !important;
+    z-index: 1 !important;
+    pointer-events: none !important;
+}
+
+.centerpiece-dossier-card {
+    position: relative !important;
+    z-index: 2 !important;
+    background: rgba(13, 17, 26, 0.82) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: 12px !important;
+    padding: 22px !important;
+    backdrop-filter: blur(20px) !important;
+}
+
+.dossier-card-top {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    margin-bottom: 12px !important;
+}
+
+.dossier-tag {
+    font-size: 11px !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.08em !important;
+    color: #00D2FF !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+}
+
+.dossier-status-badge {
+    background: rgba(16, 185, 129, 0.12) !important;
+    color: #10B981 !important;
+    border: 1px solid rgba(16, 185, 129, 0.3) !important;
+    padding: 3px 8px !important;
+    border-radius: 5px !important;
+    font-size: 11px !important;
+    font-weight: 600 !important;
+}
+
+.dossier-proj-title {
+    font-size: 18px !important;
+    font-weight: 700 !important;
+    color: #FFFFFF !important;
+    margin: 0 0 4px 0 !important;
+}
+
+.dossier-client-name {
+    font-size: 12.5px !important;
+    color: #94A3B8 !important;
+    margin: 0 0 16px 0 !important;
+}
+
+/* Stepper */
+.dossier-stepper {
+    display: flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    margin-bottom: 14px !important;
+}
+
+.stepper-step {
+    flex: 1 !important;
+    height: 4px !important;
+    background: rgba(255, 255, 255, 0.1) !important;
+    border-radius: 2px !important;
+    position: relative !important;
+}
+
+.stepper-step.completed {
+    background: #00D2FF !important;
+}
+
+.stepper-step.active {
+    background: #3B82F6 !important;
+    box-shadow: 0 0 8px #3B82F6 !important;
+}
+
+.dossier-progress-meta {
+    display: flex !important;
+    justify-content: space-between !important;
+    font-size: 12px !important;
+    color: #94A3B8 !important;
+    margin-bottom: 6px !important;
+}
+
+.dossier-progress-meta strong {
+    color: #FFFFFF !important;
+}
+
+.dossier-progress-track {
+    width: 100% !important;
+    height: 6px !important;
+    background: rgba(255, 255, 255, 0.08) !important;
+    border-radius: 9999px !important;
+    overflow: hidden !important;
+    margin-bottom: 20px !important;
+}
+
+.dossier-progress-fill {
+    height: 100% !important;
+    background: linear-gradient(90deg, #00D2FF, #3B82F6) !important;
+    border-radius: 9999px !important;
+}
+
+.dossier-actions-row {
+    display: flex !important;
+    gap: 10px !important;
+}
+
+.btn-dossier-action {
+    flex: 1 !important;
+    padding: 9px 12px !important;
+    border-radius: 8px !important;
+    font-size: 12.5px !important;
+    font-weight: 600 !important;
+    cursor: pointer !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 6px !important;
+    transition: all 0.2s ease !important;
+}
+
+.btn-dossier-action.primary {
+    background: #00D2FF !important;
+    color: #06080C !important;
+    border: none !important;
+    font-weight: 700 !important;
+}
+
+.btn-dossier-action.primary:hover {
+    background: #38BDF8 !important;
+}
+
+.btn-dossier-action.secondary {
+    background: rgba(255, 255, 255, 0.05) !important;
+    border: 1px solid var(--vide-border-hairline) !important;
+    color: #FFFFFF !important;
+}
+
+.btn-dossier-action.secondary:hover {
+    background: rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Strategic Steps List in Chapter 01 */
+.strategic-steps-list {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 14px !important;
+}
+
+.strat-step-item {
+    display: flex !important;
+    align-items: flex-start !important;
+    gap: 10px !important;
+    font-size: 13px !important;
+    color: #94A3B8 !important;
+    line-height: 1.5 !important;
+}
+
+.strat-step-num {
+    width: 20px !important;
+    height: 20px !important;
+    border-radius: 5px !important;
+    background: rgba(0, 210, 255, 0.12) !important;
+    color: #00D2FF !important;
+    font-size: 11px !important;
+    font-weight: 800 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-shrink: 0 !important;
+    margin-top: 2px !important;
+}
+
+/* Topbar Área Avançada Button */
+.exec-tab-btn-avancado {
+    background: rgba(255, 255, 255, 0.04) !important;
+    border: 1px solid var(--vide-border-hairline) !important;
+    color: var(--vide-text-body) !important;
+    font-size: 12px !important;
+    font-weight: 600 !important;
+    padding: 6px 12px !important;
+    border-radius: 7px !important;
+    cursor: pointer !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    transition: all 0.2s ease !important;
+}
+
+.exec-tab-btn-avancado:hover, .exec-tab-btn-avancado.active {
+    background: rgba(255, 255, 255, 0.1) !important;
+    color: #FFFFFF !important;
+    border-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+@media (max-width: 1024px) {
+    .edition-hero-widescreen-inner {
+        grid-template-columns: 1fr !important;
+        gap: 36px !important;
+    }
+    .strategic-steps-list {
+        grid-template-columns: 1fr !important;
+    }
+}
+
+
+@media (max-width: 640px) {
+    .edition-hero-stage-widescreen {
+        padding: 24px 16px 40px 16px !important;
+    }
+    .hero-directive-deck {
+        padding: 12px !important;
+    }
+    .directive-deck-input-row {
+        flex-direction: column !important;
+        align-items: stretch !important;
+        gap: 8px !important;
+    }
+    .btn-deck-send {
+        width: 100% !important;
+        justify-content: center !important;
+        padding: 10px !important;
+    }
+    .hero-live-pill {
+        white-space: normal !important;
+        font-size: 11.5px !important;
+        padding: 6px 10px !important;
+    }
+    .hero-quick-shortcuts {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr !important;
+        width: 100% !important;
+    }
+    .hero-shortcut-btn {
+        justify-content: center !important;
+    }
+    .dossier-actions-row {
+        flex-direction: column !important;
+    }
+}
+
 </style>
 </head>
 <body>
@@ -6027,11 +6541,12 @@ body {
                 <img src="logo_vide.jpg" alt="Logo Oficial VIDE">
             </div>
             <div class="exec-brand-info">
-                <h1>VIDE <span class="brand-badge-exec">Central Executiva</span></h1>
-                <p>Ambiente do Diretor Executivo</p>
+                <h1>VIDE <span class="brand-badge-exec">Central</span></h1>
+                <p>Operação e Inteligência Comercial</p>
             </div>
         </div>
 
+        <!-- NÍVEL 1: AMBIENTE PRINCIPAL (USO COTIDIANO) -->
         <nav class="exec-nav-tabs">
             <button class="exec-tab-btn active" id="tab-btn-inicio" onclick="alternarAbaPrincipal('inicio')">
                 <i class="fas fa-house"></i> Início
@@ -6048,26 +6563,28 @@ body {
             <button class="exec-tab-btn" id="tab-btn-entregas" onclick="alternarAbaPrincipal('entregas')">
                 <i class="fas fa-box-archive"></i> Entregas
             </button>
-            <button class="exec-tab-btn" id="tab-btn-avancado" onclick="alternarAbaPrincipal('avancado')">
-                <i class="fas fa-sliders"></i> Área Avançada
-            </button>
         </nav>
 
+        <!-- NÍVEL 3: ÁREA AVANÇADA (RECURSOS TÉCNICOS E GOVERNANÇA) + STATUS E USUÁRIO -->
         <div class="exec-user-area">
+            <button class="exec-tab-btn-avancado" id="tab-btn-avancado" onclick="alternarAbaPrincipal('avancado')" title="Acessar Inteligência 7D, Governança e Configurações Técnicas">
+                <i class="fas fa-sliders"></i> Área Avançada
+            </button>
+
             <div class="exec-system-status">
                 <div class="status-dot-pulse"></div>
-                <span>Staging • Operacional</span>
+                <span>Online</span>
             </div>
 
             <div class="exec-user-chip">
                 <div class="exec-user-avatar">D</div>
                 <div class="exec-user-text">
                     <div class="exec-user-name">Douglas Paz</div>
-                    <div class="exec-user-role">Diretor Executivo</div>
+                    <div class="exec-user-role">Diretoria</div>
                 </div>
             </div>
 
-            <button class="btn-exec-logout" onclick="bloquearSessaoCockpit()" title="Bloquear Sessão">
+            <button class="btn-exec-logout" onclick="bloquearSessaoCockpit()" title="Encerrar Sessão">
                 <i class="fas fa-arrow-right-from-bracket"></i> Sair
             </button>
         </div>
@@ -6087,157 +6604,214 @@ body {
             <div id="edition-scroll-indicator" class="edition-scroll-indicator"></div>
 
             <!-- =================================================================
-             * SECTION 1: PALCO MONUMENTAL (HERO STAGE COM ARTE ESCULTURAL VIDE)
+             * SECTION 1: ABERTURA ASSIMÉTRICA MONUMENTAL (SHOPIFY EDITIONS WINTER '26)
              * ================================================================= -->
-            <section class="edition-hero-stage">
+            <section class="edition-hero-stage-widescreen">
+                <!-- Fundo Escultural Imersivo com Parallax -->
                 <div class="edition-hero-bg-layer parallax-bg" style="background-image: url('assets/images/vide_arbor_crescimento.jpg');"></div>
                 <div class="edition-hero-ambient-glow"></div>
 
-                <div class="edition-hero-content-wrap">
-                    <!-- Beacon de Status Discreto e Autoritário -->
-                    <div class="edition-live-beacon">
-                        <span class="beacon-pulse-dot"></span>
-                        <span>Operação Ativa · Colegiado Executivo sob liderança de Gabriel Rocha</span>
+                <div class="edition-hero-widescreen-inner">
+                    <!-- COLUNA ESQUERDA: COMANDO, ORIENTAÇÃO & DESPACHO DIRETO -->
+                    <div class="hero-command-hub">
+                        <div class="hero-live-pill">
+                            <span class="live-dot-pulse"></span>
+                            <span>Sistema Online · Gabriel Rocha e 7 especialistas prontos</span>
+                        </div>
+
+                        <div class="hero-title-group">
+                            <div class="hero-brand-kicker">VIDE</div>
+                            <h1 class="hero-main-title">Central de Comando</h1>
+                        </div>
+
+                        <p class="hero-desc-prose">
+                            Ambiente de trabalho da diretoria para orientar a equipe digital, acompanhar o progresso de demandas comerciais e homologar entregas.
+                        </p>
+
+                        <!-- CONSOLE DE DESPACHO DIRETO COM O COORDENADOR GERAL -->
+                        <div class="hero-directive-deck">
+                            <div class="directive-deck-header">
+                                <div class="directive-deck-avatar">
+                                    <img src="assets/avatars/gabriel_rocha.jpg" alt="Gabriel Rocha" onerror="this.src='logo_vide.jpg'">
+                                    <div class="deck-online-ring"></div>
+                                </div>
+                                <div class="directive-deck-title">
+                                    <h4>Gabriel Rocha</h4>
+                                    <p>Coordenador Geral da Operação</p>
+                                </div>
+                            </div>
+                            
+                            <div class="directive-deck-input-row">
+                                <input type="text" id="inicio-quick-prompt" placeholder="O que você deseja encaminhar para Gabriel Rocha? (ex: revisar o projeto ativo, iniciar nova demanda...)" onkeydown="if(event.key === 'Enter') enviarPromptInicio()">
+                                <button class="btn-deck-send" onclick="enviarPromptInicio()">
+                                    <i class="fas fa-arrow-right"></i> Encaminhar
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- ATALHOS IMEDIATOS DO AMBIENTE PRINCIPAL -->
+                        <div class="hero-quick-shortcuts">
+                            <button class="hero-shortcut-btn primary" onclick="abrirModalNovoProjeto()">
+                                <i class="fas fa-plus"></i> Nova Demanda
+                            </button>
+                            <button class="hero-shortcut-btn" onclick="alternarAbaPrincipal('projetos')">
+                                <i class="fas fa-diagram-project"></i> Ver Projetos
+                            </button>
+                            <button class="hero-shortcut-btn" onclick="alternarAbaPrincipal('equipe')">
+                                <i class="fas fa-users-gear"></i> Equipe Digital
+                            </button>
+                            <button class="hero-shortcut-btn" onclick="alternarAbaPrincipal('entregas')">
+                                <i class="fas fa-box-archive"></i> Entregas
+                            </button>
+                        </div>
                     </div>
 
-                    <!-- Título Monumental Puro (Sem floreios artificiais de IA) -->
-                    <h1 class="edition-monumental-headline">
-                        VIDE Central de Comando
-                    </h1>
+                    <!-- COLUNA DIREITA: DEMANDA ATIVA EM FOCO & TELAS DO SISTEMA -->
+                    <div class="hero-operations-centerpiece">
+                        <div class="hero-centerpiece-art" style="background-image: url('assets/images/vide_governanca_monolito.jpg');"></div>
+                        <div class="centerpiece-gradient-overlay"></div>
 
-                    <p class="edition-editorial-lead">
-                        Ambiente executivo de alta precisão para governança, estratégias de crescimento comercial e esteira autônoma de entregáveis homologados.
-                    </p>
+                        <div class="centerpiece-dossier-card">
+                            <div class="dossier-card-top">
+                                <span class="dossier-tag"><i class="fas fa-bolt" style="color: #00D2FF;"></i> Demanda em Foco</span>
+                                <span class="dossier-status-badge">Em Execução</span>
+                            </div>
 
-                    <!-- Console Executivo de Despacho Arquitetônico -->
-                    <div class="edition-directive-console">
-                        <div class="console-leader-portrait">
-                            <img src="assets/avatars/gabriel_rocha.jpg" alt="Gabriel Rocha" onerror="this.src='logo_vide.jpg'">
-                            <div class="console-online-ring"></div>
+                            <h3 class="dossier-proj-title" id="inicio-proj-nome-val">Presença Comercial & Expansão de Vendas</h3>
+                            <p class="dossier-client-name" id="inicio-proj-cliente-sub">Cliente: AutoPeças Progresso Ltda</p>
+
+                            <!-- Mini Stepper de 7 Etapas Estratégicas -->
+                            <div class="dossier-stepper">
+                                <div class="stepper-step completed" title="1. Entendimento"><span class="step-dot"></span></div>
+                                <div class="stepper-step completed" title="2. Briefing"><span class="step-dot"></span></div>
+                                <div class="stepper-step completed" title="3. Diagnóstico"><span class="step-dot"></span></div>
+                                <div class="stepper-step completed" title="4. Estratégia"><span class="step-dot"></span></div>
+                                <div class="stepper-step completed" title="5. Plano"><span class="step-dot"></span></div>
+                                <div class="stepper-step active" title="6. Execução"><span class="step-dot"></span></div>
+                                <div class="stepper-step pending" title="7. Homologação"><span class="step-dot"></span></div>
+                            </div>
+
+                            <!-- Progresso Numérico -->
+                            <div class="dossier-progress-meta">
+                                <span>Etapas Concluídas</span>
+                                <strong id="inicio-proj-progress-txt">6 de 8 tarefas validadas (75%)</strong>
+                            </div>
+                            <div class="dossier-progress-track">
+                                <div id="inicio-proj-progress-bar" class="dossier-progress-fill" style="width: 75%;"></div>
+                            </div>
+
+                            <!-- Ações Rápidas da Demanda -->
+                            <div class="dossier-actions-row">
+                                <button class="btn-dossier-action primary" onclick="abrirModalEstrategiaProjeto()">
+                                    <i class="fas fa-file-signature"></i> Ver Estratégia
+                                </button>
+                                <button class="btn-dossier-action secondary" onclick="alternarAbaPrincipal('projetos')">
+                                    <i class="fas fa-list-check"></i> Abrir na Esteira
+                                </button>
+                            </div>
                         </div>
-                        <div class="console-input-slot">
-                            <input type="text" id="inicio-quick-prompt" placeholder="Despachar diretriz executiva para Gabriel Rocha (ex: Iniciar demanda, auditar esteira...)" onkeydown="if(event.key === 'Enter') enviarPromptInicio()">
-                        </div>
-                        <button class="edition-console-submit-btn" onclick="enviarPromptInicio()">
-                            <i class="fas fa-arrow-right"></i> Despachar
-                        </button>
-                    </div>
-
-                    <!-- Gatilhos de Ação Estratégica Imediata -->
-                    <div class="edition-hero-actions-bar">
-                        <button class="edition-action-link" onclick="abrirModalNovoProjeto()">
-                            <i class="fas fa-plus" style="color: #00D2FF;"></i> Novo Briefing & Demanda
-                        </button>
-                        <button class="edition-action-link" onclick="alternarAbaPrincipal('projetos')">
-                            <i class="fas fa-diagram-project" style="color: #38BDF8;"></i> Esteira de Demandas
-                        </button>
-                        <button class="edition-action-link" onclick="alternarAbaPrincipal('entregas')">
-                            <i class="fas fa-box-archive" style="color: #10B981;"></i> Galeria de Ativos
-                        </button>
-                        <button class="edition-action-link" onclick="irParaChatComAgente('agente_02_coordenador')">
-                            <i class="fas fa-comments" style="color: #00D2FF;"></i> Conversar com Gabriel
-                        </button>
-                        <button class="edition-action-link" onclick="irParaChatComAgente('agente_04_branding_design')">
-                            <i class="fas fa-palette" style="color: #F59E0B;"></i> Branding & Design
-                        </button>
-                        <button class="edition-action-link" onclick="irParaChatComAgente('agente_03_desenvolvedor')">
-                            <i class="fas fa-code" style="color: #10B981;"></i> Engenharia Web
-                        </button>
                     </div>
                 </div>
 
                 <!-- =============================================================
-                 * PAINEL DE ESPECIFICAÇÃO ARQUITETÔNICA (SUBSTITUIÇÃO DEFINITIVA DO CARD SOUP)
-                 * Faixa Contínua em 4 Colunas com Divisores Ultrafinos e Tipografia Expressiva
+                 * FAIXA DE ESPECIFICAÇÃO ARQUITETÔNICA (4 COLUNAS SEM CARD SOUP)
                  * ============================================================= -->
                 <div class="edition-spec-sheet">
                     <div class="spec-sheet-cell">
-                        <div class="spec-sheet-label">Coordenação Executiva</div>
-                        <div class="spec-sheet-val cyan">Gabriel Rocha & Colegiado</div>
+                        <div class="spec-sheet-label">Coordenação Geral</div>
+                        <div class="spec-sheet-val cyan">Gabriel Rocha</div>
                         <div class="spec-sheet-status">
-                            <i class="fas fa-circle" style="color: #00D2FF; font-size: 7px;"></i> Online · 7 Especialistas Seniores
+                            <i class="fas fa-circle" style="color: #00D2FF; font-size: 7px;"></i> 7 Especialistas Prontos
                         </div>
                     </div>
 
                     <div class="spec-sheet-cell">
-                        <div class="spec-sheet-label">Demandas Comerciais</div>
-                        <div class="spec-sheet-val blue" id="inicio-total-projetos-badge">4 Projetos Ativos</div>
+                        <div class="spec-sheet-label">Projetos Ativos</div>
+                        <div class="spec-sheet-val blue" id="inicio-total-projetos-badge">4 Demandas</div>
                         <div class="spec-sheet-status" id="inicio-projeto-cliente-val">
                             AutoPeças Progresso em Foco
                         </div>
                     </div>
 
                     <div class="spec-sheet-cell">
-                        <div class="spec-sheet-label">Governança & Risco</div>
+                        <div class="spec-sheet-label">Aprovações Pendentes</div>
                         <div class="spec-sheet-val amber" id="inicio-pendencias-count">0 Pendências</div>
                         <div class="spec-sheet-status" id="inicio-status-gov-badge">
-                            <i class="fas fa-shield-check" style="color: #10B981;"></i> Conformidade MIV 100% Homologada
+                            <i class="fas fa-shield-check" style="color: #10B981;"></i> Regularidade Plena
                         </div>
                     </div>
 
                     <div class="spec-sheet-cell">
-                        <div class="spec-sheet-label">Entregáveis Físicos</div>
-                        <div class="spec-sheet-val purple" id="inicio-total-entregas-badge">3 Ativos Prontos</div>
+                        <div class="spec-sheet-label">Entregas Homologadas</div>
+                        <div class="spec-sheet-val purple" id="inicio-total-entregas-badge">3 Arquivos</div>
                         <div class="spec-sheet-status">
-                            Prontos para Homologação & Download
+                            Prontos para Download
                         </div>
                     </div>
                 </div>
             </section>
 
             <!-- =================================================================
-             * SECTION 2: CAPÍTULO 01 — ESTRATÉGIA DA SOLUÇÃO & GOVERNANÇA (STORYTELLING)
+             * SECTION 2: COMO FUNCIONA A EXECUÇÃO DAS DEMANDAS (GOVERNANÇA & FLUXO)
              * ================================================================= -->
             <section class="edition-chapter-section scroll-reveal" id="capitulo-estrategia">
                 <div class="edition-chapter-header">
-                    <div class="edition-chapter-tag">Estratégia & Governança</div>
-                    <h2 class="edition-chapter-title">Engenharia de Solução e Fidelidade Contratada</h2>
+                    <div class="edition-chapter-tag">Método de Trabalho</div>
+                    <h2 class="edition-chapter-title">Como Funciona a Execução das Demandas</h2>
                     <p class="edition-chapter-subtitle">
-                        Toda demanda passa pela esteira estratégica obrigatória em 7 etapas antes de ser executada, garantindo alinhamento estrito com os objetivos de crescimento do cliente.
+                        Toda nova contratação passa por uma etapa estratégica obrigatória antes de qualquer execução técnica, garantindo fidelidade estrita ao escopo contratado.
                     </p>
                 </div>
 
                 <div class="edition-editorial-split">
-                    <!-- Painel Tátil da Demanda Ativa com Arte de Fundo Monolítica -->
+                    <!-- Painel dos 6 Passos Estratégicos -->
                     <div class="demand-master-panel">
-                        <div class="demand-panel-bg-art" style="background-image: url('assets/images/vide_governanca_monolito.jpg');"></div>
+                        <div class="demand-panel-bg-art" style="background-image: url('assets/images/estrategia_redes_conexao.jpg');"></div>
                         
                         <div style="position: relative; z-index: 1;">
-                            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px;">
-                                <div>
-                                    <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: #00D2FF; font-weight: 700; margin-bottom: 4px;">Demanda Prioritária</div>
-                                    <h3 id="inicio-proj-nome-val" style="font-size: 22px; font-weight: 700; color: #FFFFFF; margin: 0;">Presença Comercial & Expansão de Vendas</h3>
-                                    <p id="inicio-proj-cliente-sub" style="font-size: 13.5px; color: #94A3B8; margin: 4px 0 0 0;">Cliente: AutoPeças Progresso Ltda</p>
-                                </div>
-                                <span style="background: rgba(16, 185, 129, 0.12); color: #10B981; border: 1px solid rgba(16, 185, 129, 0.3); padding: 4px 10px; border-radius: 6px; font-size: 11.5px; font-weight: 600;">
-                                    <i class="fas fa-play" style="font-size: 9px; margin-right: 4px;"></i> Em Execução
-                                </span>
+                            <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: #00D2FF; font-weight: 700; margin-bottom: 16px;">
+                                Etapa Estratégica Obrigatória
                             </div>
 
-                            <!-- Barra de Progresso da Esteira -->
-                            <div style="margin-top: 24px;">
-                                <div style="display: flex; justify-content: space-between; font-size: 12.5px; margin-bottom: 8px;">
-                                    <span style="color: #94A3B8;">Esteira Técnica:</span>
-                                    <span id="inicio-proj-progress-txt" style="color: #FFFFFF; font-weight: 700;">6 de 8 tarefas validadas (75%)</span>
+                            <div class="strategic-steps-list">
+                                <div class="strat-step-item">
+                                    <span class="strat-step-num">1</span>
+                                    <div><strong>Entendimento:</strong> Identificação do serviço solicitado e do contexto comercial.</div>
                                 </div>
-                                <div style="width: 100%; height: 6px; background: rgba(255, 255, 255, 0.08); border-radius: 9999px; overflow: hidden;">
-                                    <div id="inicio-proj-progress-bar" style="width: 75%; height: 100%; background: linear-gradient(90deg, #00D2FF, #3B82F6); border-radius: 9999px;"></div>
+                                <div class="strat-step-item">
+                                    <span class="strat-step-num">2</span>
+                                    <div><strong>Briefing:</strong> Coleta objetiva sobre negócio, público, dores e metas.</div>
+                                </div>
+                                <div class="strat-step-item">
+                                    <span class="strat-step-num">3</span>
+                                    <div><strong>Diagnóstico:</strong> Análise da causa-raiz que motivou a contratação.</div>
+                                </div>
+                                <div class="strat-step-item">
+                                    <span class="strat-step-num">4</span>
+                                    <div><strong>Estratégia:</strong> Definição de como o serviço atenderá ao objetivo real.</div>
+                                </div>
+                                <div class="strat-step-item">
+                                    <span class="strat-step-num">5</span>
+                                    <div><strong>Plano:</strong> Escopo, entregáveis, responsáveis e critérios de qualidade.</div>
+                                </div>
+                                <div class="strat-step-item">
+                                    <span class="strat-step-num">6</span>
+                                    <div><strong>Aprovação:</strong> Apresentação para autorização da diretoria antes do início.</div>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Ações do Painel de Demanda -->
-                        <div style="position: relative; z-index: 1; display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px;">
-                            <button class="edition-action-link" onclick="abrirModalEstrategiaProjeto()" style="background: #00D2FF; color: #06080C; font-weight: 700; border: none; padding: 10px 18px;">
-                                <i class="fas fa-file-signature"></i> Consultar Dossiê Estratégico (10 Seções)
+                        <div style="position: relative; z-index: 1; display: flex; gap: 12px; margin-top: 24px;">
+                            <button class="hero-shortcut-btn primary" onclick="abrirModalNovoProjeto()">
+                                <i class="fas fa-plus"></i> Iniciar Nova Demanda
                             </button>
-                            <button class="edition-action-link" onclick="alternarAbaPrincipal('projetos')" style="padding: 10px 18px;">
-                                <i class="fas fa-list-check"></i> Ver Etapas na Esteira
+                            <button class="hero-shortcut-btn" onclick="abrirModalEstrategiaProjeto()">
+                                <i class="fas fa-file-lines"></i> Consultar Dossiê da Demanda Ativa
                             </button>
                         </div>
                     </div>
 
-                    <!-- Coluna Direita: Liderança Gabriel Rocha Jovem + Governança Inviolável -->
+                    <!-- Coluna Direita: Compromisso do Coordenador Geral -->
                     <div class="side-executive-stack">
                         <div class="side-leader-card">
                             <div class="leader-card-profile-row">
@@ -6247,20 +6821,20 @@ body {
                                 </div>
                                 <div class="leader-card-meta">
                                     <h4>Gabriel Rocha</h4>
-                                    <p>Coordenador Geral da Operação</p>
+                                    <p>Coordenador Geral</p>
                                 </div>
                             </div>
 
                             <p class="leader-statement-quote">
-                                "Acompanho cada etapa da esteira técnica e consolido entregáveis para sua decisão. Qualquer ajuste de escopo requer sua aprovação prévia."
+                                "Nenhum especialista inicia a execução técnica sem a aprovação formal do plano de trabalho pela diretoria. O escopo contratado pelo cliente é cumprido à risca."
                             </p>
 
                             <div style="display: flex; gap: 10px;">
-                                <button class="edition-action-link" onclick="irParaChatComAgente('agente_02_coordenador')" style="flex: 1; justify-content: center; background: rgba(0, 210, 255, 0.12); color: #00D2FF; border-color: rgba(0, 210, 255, 0.3);">
+                                <button class="hero-shortcut-btn primary" onclick="irParaChatComAgente('agente_02_coordenador')" style="flex: 1; justify-content: center;">
                                     <i class="fas fa-comments"></i> Conversar com Gabriel
                                 </button>
-                                <button class="edition-action-link" onclick="abrirModalNovoProjeto()" title="Novo Briefing & Projeto">
-                                    <i class="fas fa-plus"></i> Novo
+                                <button class="hero-shortcut-btn" onclick="alternarAbaPrincipal('projetos')" title="Ver Projetos">
+                                    <i class="fas fa-diagram-project"></i> Projetos
                                 </button>
                             </div>
                         </div>
@@ -6268,10 +6842,10 @@ body {
                         <div class="governance-shield-card">
                             <div class="gov-shield-header">
                                 <i class="fas fa-shield-halved"></i>
-                                <span>Governança & Fidelidade Comercial</span>
+                                <span>Regra de Governança Inviolável</span>
                             </div>
                             <p class="gov-shield-text">
-                                A estratégia orienta a execução técnica sem jamais substituir unilateralmente o serviço contratado pelo cliente. Nenhuma tarefa é alterada sem autorização executiva.
+                                A estratégia orienta a execução técnica sem jamais substituir unilateralmente o serviço contratado pelo cliente. Nenhuma tarefa é alterada sem autorização expressa.
                             </p>
                         </div>
                     </div>
@@ -6279,37 +6853,37 @@ body {
             </section>
 
             <!-- =================================================================
-             * SECTION 3: CAPÍTULO 02 — EQUIPE DIGITAL EM PRONTIDÃO (OS 7 ESPECIALISTAS)
+             * SECTION 3: EQUIPE DIGITAL — OS 7 ESPECIALISTAS DA VIDE
              * ================================================================= -->
             <section class="edition-chapter-section scroll-reveal" id="capitulo-equipe">
                 <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 24px;">
                     <div>
-                        <div class="edition-chapter-tag">Colegiado Executivo</div>
-                        <h2 class="edition-chapter-title">Equipe Digital em Prontidão</h2>
-                        <p class="edition-chapter-subtitle">Sete especialistas seniores dedicados à execução comercial de alto padrão, liderados pelo Coordenador Geral.</p>
+                        <div class="edition-chapter-tag">Equipe Digital</div>
+                        <h2 class="edition-chapter-title">Especialistas em Prontidão</h2>
+                        <p class="edition-chapter-subtitle">Sete profissionais seniores dedicados à operação comercial da VIDE, coordenados por Gabriel Rocha.</p>
                     </div>
-                    <button class="edition-action-link" onclick="alternarAbaPrincipal('equipe')">
-                        Ver Atribuições Completas <i class="fas fa-arrow-right" style="margin-left: 6px;"></i>
+                    <button class="hero-shortcut-btn" onclick="alternarAbaPrincipal('equipe')">
+                        Ver Bancadas de Trabalho <i class="fas fa-arrow-right" style="margin-left: 6px;"></i>
                     </button>
                 </div>
 
                 <div class="inicio-team-grid" id="inicio-agentes-mini-grid">
-                    <!-- Renderizado dinamicamente via JavaScript com o novo template de luxo -->
+                    <!-- Renderizado dinamicamente via JavaScript com template refinado -->
                 </div>
             </section>
 
             <!-- =================================================================
-             * SECTION 4: CAPÍTULO 03 — GALERIA DE ATIVOS HOMOLOGADOS
+             * SECTION 4: ENTREGAS RECENTES & ARQUIVOS HOMOLOGADOS
              * ================================================================= -->
             <section class="edition-chapter-section scroll-reveal" id="capitulo-entregas-destaque">
                 <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 28px;">
                     <div>
-                        <div class="edition-chapter-tag">Entregáveis Oficiais</div>
-                        <h2 class="edition-chapter-title">Galeria de Ativos Homologados</h2>
-                        <p class="edition-chapter-subtitle">Ativos físicos e digitais finalizados e inspecionados para as demandas ativas da VIDE.</p>
+                        <div class="edition-chapter-tag">Entregáveis</div>
+                        <h2 class="edition-chapter-title">Entregas Homologadas</h2>
+                        <p class="edition-chapter-subtitle">Ativos digitais e físicos validados pelos especialistas, prontos para uso e download.</p>
                     </div>
-                    <button class="edition-action-link" onclick="alternarAbaPrincipal('entregas')">
-                        Explorar Galeria Completa <i class="fas fa-arrow-right" style="margin-left: 6px;"></i>
+                    <button class="hero-shortcut-btn" onclick="alternarAbaPrincipal('entregas')">
+                        Galeria de Entregas <i class="fas fa-arrow-right" style="margin-left: 6px;"></i>
                     </button>
                 </div>
 
@@ -6320,7 +6894,7 @@ body {
                             <span style="font-size: 11px; color: #10B981;"><i class="fas fa-circle" style="font-size: 7px;"></i> Homologado</span>
                         </div>
                         <h4 style="font-size: 16px; font-weight: 700; color: #FFFFFF; margin: 0 0 6px 0;">Landing Page de Alta Conversão</h4>
-                        <p style="font-size: 12.5px; color: #94A3B8; line-height: 1.5; margin: 0 0 16px 0;">Código front-end completo responsivo, mobile-first, otimizado para carregamento em 1,2s.</p>
+                        <p style="font-size: 12.5px; color: #94A3B8; line-height: 1.5; margin: 0 0 16px 0;">Código front-end responsivo, mobile-first, otimizado para carregamento em 1,2s.</p>
                         <div class="agent-card-cta-btn">
                             <i class="fas fa-eye"></i> Visualizar Ativo
                         </div>
@@ -6332,7 +6906,7 @@ body {
                             <span style="font-size: 11px; color: #10B981;"><i class="fas fa-circle" style="font-size: 7px;"></i> Homologado</span>
                         </div>
                         <h4 style="font-size: 16px; font-weight: 700; color: #FFFFFF; margin: 0 0 6px 0;">Manual de Identidade Visual</h4>
-                        <p style="font-size: 12.5px; color: #94A3B8; line-height: 1.5; margin: 0 0 16px 0;">Manual de marca com paleta cromática, tipografias corporativas, ícones e assets em SVG.</p>
+                        <p style="font-size: 12.5px; color: #94A3B8; line-height: 1.5; margin: 0 0 16px 0;">Manual de marca com paleta cromática, tipografias corporativas e assets vetoriais.</p>
                         <div class="agent-card-cta-btn">
                             <i class="fas fa-eye"></i> Visualizar Ativo
                         </div>
@@ -6352,11 +6926,11 @@ body {
 
                     <div class="exec-agent-card-lux" onclick="alternarAbaPrincipal('entregas')" style="--agent-color: #EC4899; --agent-glow: rgba(236, 72, 153, 0.2);">
                         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-                            <span style="font-size: 11px; font-weight: 700; color: #EC4899; background: rgba(236, 72, 153, 0.1); padding: 3px 8px; border-radius: 4px;">VENDAS & AUTOMAÇÃO</span>
+                            <span style="font-size: 11px; font-weight: 700; color: #EC4899; background: rgba(236, 72, 153, 0.1); padding: 3px 8px; border-radius: 4px;">VENDAS & ATENDIMENTO</span>
                             <span style="font-size: 11px; color: #F59E0B;"><i class="fas fa-circle" style="font-size: 7px;"></i> Em Análise</span>
                         </div>
                         <h4 style="font-size: 16px; font-weight: 700; color: #FFFFFF; margin: 0 0 6px 0;">Fluxo Automatizado WhatsApp</h4>
-                        <p style="font-size: 12.5px; color: #94A3B8; line-height: 1.5; margin: 0 0 16px 0;">Script de abordagem comercial, árvore de qualificação de leads e integração n8n.</p>
+                        <p style="font-size: 12.5px; color: #94A3B8; line-height: 1.5; margin: 0 0 16px 0;">Script de abordagem comercial, qualificação ágil de leads e integração n8n.</p>
                         <div class="agent-card-cta-btn">
                             <i class="fas fa-eye"></i> Visualizar Ativo
                         </div>
@@ -6651,7 +7225,7 @@ body {
         <div id="view-avancado" class="exec-view">
             <div class="exec-section-header">
                 <h2><i class="fas fa-sliders" style="color: var(--cyan-core);"></i> Módulos Avançados e Infraestrutura</h2>
-                <p>Acesso técnico ao Motor de Inteligência Comercial, Ingestão de Dados Multi-fonte e Telemetria do Sistema.</p>
+                <p>Acesso técnico ao Inteligência Comercial, Ingestão de Dados Multi-fonte e Telemetria do Sistema.</p>
             </div>
 
             <!-- Sub-abas da Área Avançada -->
@@ -10821,7 +11395,7 @@ window.addEventListener('DOMContentLoaded', () => {
                 fecharModalNovaIngestao();
                 await carregarLotesIngestao();
 
-                if (confirm(`Lote processado com sucesso!\n\nTotal: ${data.totalRegistros}\nVálidos: ${data.registrosValidos}\nDuplicados: ${data.registrosDuplicados}\n\nDeseja disparar imediatamente a análise no Motor de Inteligência Comercial?`)) {
+                if (confirm(`Lote processado com sucesso!\n\nTotal: ${data.totalRegistros}\nVálidos: ${data.registrosValidos}\nDuplicados: ${data.registrosDuplicados}\n\nDeseja disparar imediatamente a análise no Inteligência Comercial?`)) {
                     await dispararProcessamentoLoteNoMotor(data.loteId);
                 }
             } else {
