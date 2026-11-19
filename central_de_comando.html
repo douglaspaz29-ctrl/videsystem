@@ -7657,6 +7657,329 @@ body {
     }
 }
 
+
+/* =========================================================================
+ * GESTÃO DE DEMANDAS & PROJETOS - DIREÇÃO DARK LUXURY (SHOPIFY EDITIONS W26)
+ * ========================================================================= */
+.projetos-deck-section {
+    margin-bottom: 40px;
+    padding-bottom: 32px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.projetos-deck-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.projetos-deck-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 20px;
+}
+
+.proj-deck-card {
+    background: #080D18;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 18px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 16px;
+    position: relative;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.proj-deck-card:hover {
+    border-color: rgba(0, 229, 255, 0.3);
+    transform: translateY(-2px);
+    box-shadow: 0 16px 40px rgba(0, 229, 255, 0.08);
+}
+
+.proj-deck-card.card-foco {
+    border-color: var(--cyan-core);
+    background: linear-gradient(180deg, #0A1224 0%, #060B16 100%);
+    box-shadow: 0 0 30px rgba(0, 229, 255, 0.15);
+}
+
+.proj-deck-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+}
+
+.proj-deck-id {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: #94A3B8;
+    letter-spacing: 0.05em;
+}
+
+.proj-deck-title {
+    font-family: var(--font-headline);
+    font-size: 18px;
+    font-weight: 800;
+    color: #FFFFFF;
+    margin: 6px 0 2px 0;
+    line-height: 1.3;
+}
+
+.proj-deck-service {
+    font-size: 12.5px;
+    color: #00E5FF;
+    font-weight: 600;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.proj-deck-progress-box {
+    background: rgba(0, 0, 0, 0.3);
+    padding: 12px 14px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.proj-deck-progress-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11.5px;
+    margin-bottom: 6px;
+}
+
+.proj-deck-progress-txt {
+    color: #E2E8F0;
+    font-weight: 700;
+    font-family: var(--font-mono);
+}
+
+.proj-deck-progress-track {
+    height: 6px;
+    background: rgba(255, 255, 255, 0.06);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.proj-deck-progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #00D2FF, #10B981);
+    border-radius: 4px;
+    transition: width 0.6s ease;
+}
+
+.proj-deck-next-step {
+    font-size: 12px;
+    color: #94A3B8;
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    line-height: 1.4;
+}
+
+.proj-deck-next-step strong {
+    color: #F8FAFC;
+}
+
+.proj-deck-pending-badge {
+    font-size: 11px;
+    padding: 4px 8px;
+    border-radius: 6px;
+    background: rgba(245, 158, 11, 0.1);
+    color: #FBBF24;
+    border: 1px solid rgba(245, 158, 11, 0.2);
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.btn-deck-abrir {
+    width: 100%;
+    padding: 10px 16px;
+    border-radius: 10px;
+    font-family: var(--font-headline);
+    font-size: 12.5px;
+    font-weight: 700;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.2s ease;
+    background: rgba(0, 229, 255, 0.08);
+    border: 1px solid rgba(0, 229, 255, 0.3);
+    color: #00E5FF;
+}
+
+.btn-deck-abrir:hover {
+    background: var(--cyan-core);
+    color: #030611;
+    box-shadow: 0 0 20px rgba(0, 229, 255, 0.4);
+}
+
+.proj-deck-card.card-foco .btn-deck-abrir {
+    background: var(--cyan-core);
+    color: #030611;
+}
+
+/* NAVEGAÇÃO EM 5 SUB-ABAS DO PROJETO */
+.proj-environment-container {
+    background: #060A14;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 24px;
+    padding: 32px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    margin-top: 10px;
+}
+
+.proj-subtabs-nav {
+    display: flex;
+    gap: 8px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    padding-bottom: 14px;
+    margin-bottom: 28px;
+    overflow-x: auto;
+    scrollbar-width: none;
+}
+
+.proj-subtabs-nav::-webkit-scrollbar {
+    display: none;
+}
+
+.proj-subtab-btn {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: #94A3B8;
+    padding: 10px 18px;
+    border-radius: 12px;
+    font-family: var(--font-headline);
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+    transition: all 0.25s ease;
+}
+
+.proj-subtab-btn:hover {
+    color: #FFFFFF;
+    border-color: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.proj-subtab-btn.active {
+    background: rgba(0, 229, 255, 0.12);
+    border-color: var(--cyan-core);
+    color: #00E5FF;
+    box-shadow: 0 0 20px rgba(0, 229, 255, 0.2);
+}
+
+.proj-subtab-pane {
+    display: none;
+    animation: fadeInPane 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.proj-subtab-pane.active {
+    display: block;
+}
+
+@keyframes fadeInPane {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* CARDS DO ESCOPO CONTRATADO (ABA 1) */
+.scope-summary-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 20px;
+    margin-bottom: 24px;
+}
+
+.scope-card-item {
+    background: #080D1A;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.scope-card-label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: #64748B;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.scope-card-title {
+    font-family: var(--font-headline);
+    font-size: 16px;
+    font-weight: 800;
+    color: #FFFFFF;
+    margin: 0;
+}
+
+.scope-card-desc {
+    font-size: 13.5px;
+    color: #CBD5E1;
+    line-height: 1.6;
+}
+
+.proj-context-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 14px;
+    padding: 12px 18px;
+    margin-bottom: 24px;
+}
+
+.btn-voltar-deck {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #CBD5E1;
+    border-radius: 10px;
+    padding: 8px 14px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s ease;
+}
+
+.btn-voltar-deck:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #FFFFFF;
+}
+
+/* ENTREGÁVEIS ESPECÍFICOS DO PROJETO (ABA 5) */
+.proj-entregas-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 20px;
+}
+
 </style>
 </head>
 <body>
@@ -7863,10 +8186,10 @@ body {
                             <!-- Progresso Numérico -->
                             <div class="dossier-progress-meta">
                                 <span>Etapas Concluídas</span>
-                                <strong id="inicio-proj-progress-txt">6 de 8 tarefas validadas (75%)</strong>
+                                <strong id="inicio-proj-progress-txt">Carregando tarefas...</strong>
                             </div>
                             <div class="dossier-progress-track">
-                                <div id="inicio-proj-progress-bar" class="dossier-progress-fill" style="width: 75%;"></div>
+                                <div id="inicio-proj-progress-bar" class="dossier-progress-fill" style="width: 0%;"></div>
                             </div>
 
                             <!-- Ações Rápidas da Demanda -->
@@ -8498,190 +8821,384 @@ body {
          * ================================================================= -->
         <div id="view-projetos" class="exec-view">
             <div class="editorial-section-header">
-                <span class="editorial-kicker">03 / ESTEIRA OPERACIONAL</span>
+                <span class="editorial-kicker">03 / PORTFÓLIO & GESTÃO EXECUTIVA</span>
                 <h2 class="editorial-title">Esteira de Demandas & Gestão de Projetos</h2>
                 <p class="editorial-subtitle">
-                    Supervisione a execução ponta a ponta dos serviços contratados, responda ao briefing estratégico com perguntas guiadas e aprove entregas.
+                    Supervisão executiva de todas as demandas da VIDE, cálculo matemático real de avanço técnico, governança estrita e acesso ao ambiente operacional de cada projeto com 5 frentes integradas.
                 </p>
             </div>
 
-            <!-- Toolbar de Controle do Projeto Selecionado -->
-            <div class="proj-toolbar-architectural">
-                <div class="proj-selector-wrap">
-                    <span class="proj-selector-label"><i class="fas fa-folder-open" style="color: #00D2FF;"></i> Demanda Ativa:</span>
-                    <select id="select-projeto-ativo" class="proj-selector-dropdown-architectural" onchange="selecionarProjetoAtivo(this.value)">
-                        <option value="">Carregando projetos da VIDE...</option>
-                    </select>
-                </div>
-
-                <div class="proj-toolbar-actions">
+            <!-- =============================================================
+             * 1. VISÃO GERAL DOS PROJETOS (DECK EXECUTIVO)
+             * Leitura rápida de todos os projetos cadastrados
+             * ============================================================= -->
+            <div class="projetos-deck-section" id="projetos-deck-geral">
+                <div class="projetos-deck-header">
+                    <div>
+                        <span class="editorial-kicker" style="font-size: 11px; margin-bottom: 4px;">PORTFÓLIO DE DEMANDAS ATIVAS</span>
+                        <h3 style="font-family: var(--font-headline); font-size: 20px; font-weight: 800; color: #FFFFFF; margin: 0;">
+                            Visão Geral dos Projetos Contratados
+                        </h3>
+                    </div>
                     <button class="btn-new-demand-primary" onclick="abrirModalNovoProjeto()">
                         <i class="fas fa-plus"></i> Iniciar Nova Demanda
                     </button>
                 </div>
-            </div>
 
-            <!-- Painel do Documento Estratégico (Fidelidade ao Escopo) -->
-            <div id="painel-documento-estrategico" class="strategy-dossier-banner">
-                <div class="strategy-banner-top">
-                    <div>
-                        <div class="strategy-status-row">
-                            <span class="scope-fidelity-badge"><i class="fas fa-shield-halved"></i> Garantia de Fidelidade ao Escopo: Ativa</span>
-                            <span id="badge-status-doc-estrategico" class="badge-status-estrategia">Aguardando Homologação</span>
-                        </div>
-                        <h3 class="strategy-banner-title">Documento Estratégico da Solução & Diretrizes Executivas</h3>
-                        <p class="strategy-banner-sub">
-                            A estratégia orienta a execução técnica sem jamais substituir o serviço contratado pelo cliente. Nenhuma tarefa é alterada sem autorização expressa.
-                        </p>
-                    </div>
-                    <div class="strategy-banner-cta">
-                        <button class="btn-dossier-action primary" onclick="abrirModalEstrategiaProjeto()">
-                            <i class="fas fa-book-open-reader"></i> Visualizar Dossiê Completo
-                        </button>
-                        <button class="btn-dossier-action secondary" id="btn-aprovar-estrategia-top" onclick="aprovarEstrategiaProjeto()">
-                            <i class="fas fa-check-double"></i> Aprovar Estratégia
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Grid de Síntese Estratégica -->
-                <div class="strategy-summary-grid">
-                    <div class="strategy-cell">
-                        <span class="cell-label"><i class="fas fa-file-contract" style="color: #00D2FF;"></i> Serviço Contratado</span>
-                        <strong class="cell-val" id="doc-servico-contratado-txt">Presença Comercial & Expansão</strong>
-                    </div>
-                    <div class="strategy-cell">
-                        <span class="cell-label"><i class="fas fa-bullseye" style="color: #EC4899;"></i> Público-Alvo & ICP</span>
-                        <strong class="cell-val" id="doc-publico-alvo-txt">Varejo & Oficinas Mecânicas</strong>
-                    </div>
-                    <div class="strategy-cell">
-                        <span class="cell-label"><i class="fas fa-lightbulb" style="color: #F59E0B;"></i> Estratégia Recomendada</span>
-                        <strong class="cell-val" id="doc-estrategia-recomendada-txt">Funil de Alta Conversão no WhatsApp</strong>
+                <!-- Grid Dinâmico de Projetos (gerado via JS com dados do backend) -->
+                <div class="projetos-deck-grid" id="deck-projetos-container">
+                    <div style="color: #64748B; font-size: 13px; padding: 24px; text-align: center; grid-column: 1 / -1;">
+                        <i class="fas fa-spinner fa-spin" style="color: var(--cyan-core); margin-right: 8px;"></i> Carregando projetos da VIDE...
                     </div>
                 </div>
             </div>
 
             <!-- =============================================================
-             * NOVO BRIEFING ESTRATÉGICO GUIADO (FIM DO "ANEXAR BRIEFING")
-             * Perguntas introdutórias intuitivas, direção básica e salvamento
+             * 2. AMBIENTE OPERACIONAL DO PROJETO SELECIONADO
+             * 5 Abas Internas Coerentes: Escopo, Briefing, Estratégia, Tarefas, Entregáveis
              * ============================================================= -->
-            <div class="guided-briefing-master-card" id="secao-briefing-intuitivo">
-                <div class="briefing-card-header">
-                    <div class="briefing-badge-row">
-                        <span class="briefing-tag-pill"><i class="fas fa-compass"></i> Briefing Guiado Intuitivo</span>
-                        <span class="briefing-status-pill"><i class="fas fa-check-circle" style="color: #10B981;"></i> 4 Questões Chave</span>
-                    </div>
-                    <h3 class="briefing-main-title">Direção Básica & Perguntas Introdutórias da Demanda</h3>
-                    <p class="briefing-desc-text">
-                        Responda às questões fundamentais do negócio do cliente para calibrar as tarefas técnicas dos especialistas. As respostas alimentam a estratégia e o plano de entrega.
-                    </p>
-                </div>
-
-                <!-- Form de Perguntas Guiadas -->
-                <form id="form-briefing-guiado-inline" onsubmit="salvarBriefingGuiadoInline(event)" class="briefing-questions-grid">
-                    <!-- Pergunta 1: Ramo & Atuação -->
-                    <div class="briefing-question-box">
-                        <label class="question-label">
-                            <span class="q-num">1</span>
-                            <span>Ramo de Atuação & Modelo de Negócio</span>
-                        </label>
-                        <input type="text" id="inline-briefing-nicho" class="briefing-input-field" value="Varejo de autopeças e componentes mecânicos (AutoPeças Progresso Ltda)" placeholder="Ex: E-commerce de moda feminina, Clínica odontológica...">
-                    </div>
-
-                    <!-- Pergunta 2: Dor Principal & Objetivo -->
-                    <div class="briefing-question-box">
-                        <label class="question-label">
-                            <span class="q-num">2</span>
-                            <span>Dor Central & Objetivo Imediato da Contratação</span>
-                        </label>
-                        <textarea id="inline-briefing-dor" class="briefing-input-field" rows="2" placeholder="Qual o problema que motivou a contratação e o que precisa ser resolvido primeiro?">Dependência excessiva de balcão físico e perda de vendas para concorrentes digitais. Objetivo imediato: criar presença web profissional e canal de cotação rápida no WhatsApp.</textarea>
-                    </div>
-
-                    <!-- Pergunta 3: Público-Alvo & ICP -->
-                    <div class="briefing-question-box">
-                        <label class="question-label">
-                            <span class="q-num">3</span>
-                            <span>Público-Alvo & Cliente Ideal</span>
-                        </label>
-                        <input type="text" id="inline-briefing-publico" class="briefing-input-field" value="Donos de oficinas mecânicas, frotistas e proprietários de veículos leves" placeholder="Ex: Mulheres de 25 a 45 anos da classe B, Profissionais liberais...">
-                    </div>
-
-                    <!-- Pergunta 4: Referências & Tom de Comunicação -->
-                    <div class="briefing-question-box">
-                        <label class="question-label">
-                            <span class="q-num">4</span>
-                            <span>Referências de Mercado & Tom Desejado</span>
-                        </label>
-                        <input type="text" id="inline-briefing-referencias" class="briefing-input-field" value="Tom prático, ágil e de alta autoridade técnica. Foco em facilidade de atendimento." placeholder="Ex: Visual minimalista moderno, linguagem direta...">
-                    </div>
-
-                    <!-- Barra de Ação do Briefing -->
-                    <div class="briefing-actions-bar">
-                        <div class="briefing-save-meta">
-                            <i class="fas fa-circle-check" style="color: #10B981;"></i>
-                            <span>Respostas sincronizadas com Gabriel Rocha e a equipe</span>
-                        </div>
-                        <div style="display: flex; gap: 10px; align-items: center;">
-                            <button type="submit" class="btn-briefing-save">
-                                <i class="fas fa-floppy-disk"></i> Salvar Direção do Briefing
-                            </button>
-                            <button type="button" class="btn-briefing-chat" onclick="irParaChatComAgente('agente_02_coordenador')">
-                                <i class="fas fa-comments"></i> Calibrar com Gabriel
-                            </button>
-                        </div>
-                    </div>
-                </form>
-
-                <!-- Seção Opcional de Materiais de Apoio -->
-                <div class="briefing-supporting-files-drawer">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; flex-wrap: wrap; gap: 8px;">
-                        <span style="font-size: 12px; font-weight: 700; color: #94A3B8; text-transform: uppercase; letter-spacing: 0.05em;">
-                            <i class="fas fa-paperclip"></i> Arquivos & Documentos de Apoio (Opcional)
-                        </span>
-                        <button type="button" onclick="document.getElementById('input-arquivo-upload').click()" style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); color: #cbd5e1; border-radius: 8px; padding: 5px 12px; font-size: 11.5px; cursor: pointer;">
-                            <i class="fas fa-upload"></i> Adicionar Arquivo Opcional
+            <div class="proj-environment-container" id="painel-projeto-detalhes">
+                <!-- Barra de Contexto do Projeto -->
+                <div class="proj-context-bar">
+                    <div style="display: flex; align-items: center; gap: 14px; flex-wrap: wrap;">
+                        <button class="btn-voltar-deck" onclick="rolarParaDeckProjetos()">
+                            <i class="fas fa-arrow-up"></i> Visão Geral das Demandas
                         </button>
-                        <input type="file" id="input-arquivo-upload" style="display: none;" onchange="enviarAnexoProjeto(event)">
-                    </div>
-                    <div id="lista-materiais-container" style="display: flex; flex-wrap: wrap; gap: 8px;">
-                        <span style="font-size: 12px; color: #64748B;">Nenhum arquivo adicional anexado. O briefing estruturado é suficiente para a equipe.</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Painel das Etapas e Tarefas dos Especialistas -->
-            <div class="proj-flow-container-architectural">
-                <div class="proj-flow-header">
-                    <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; margin-bottom: 16px;">
-                        <div>
-                            <h4 class="proj-flow-title"><i class="fas fa-list-check" style="color: #00D2FF;"></i> Etapas do Fluxo & Especialistas Responsáveis</h4>
-                            <p class="proj-flow-sub">Cada especialista atua em sua esteira técnica com supervisão de Gabriel Rocha.</p>
+                        <div class="proj-selector-wrap" style="margin: 0;">
+                            <span class="proj-selector-label"><i class="fas fa-folder-open" style="color: #00D2FF;"></i> Alternar Demanda:</span>
+                            <select id="select-projeto-ativo" class="proj-selector-dropdown-architectural" onchange="selecionarProjetoAtivo(this.value)">
+                                <option value="">Carregando projetos da VIDE...</option>
+                            </select>
                         </div>
-                        <span class="proj-flow-count" id="proj-contagem-etapas">8 etapas mapeadas</span>
                     </div>
-
-                    <!-- Barra de Progresso Geral -->
-                    <div class="proj-progress-row">
-                        <div class="progress-meta">
-                            <span>Conclusão Geral do Projeto:</span>
-                            <strong id="proj-progresso-percentual">75%</strong>
-                        </div>
-                        <div class="progress-track-architectural">
-                            <div class="progress-fill-architectural" id="proj-progresso-fill" style="width: 75%;"></div>
-                        </div>
+                    <div class="proj-toolbar-actions">
+                        <button class="btn-new-demand-primary" style="padding: 8px 16px; font-size: 12px;" onclick="abrirModalNovoProjeto()">
+                            <i class="fas fa-plus"></i> Nova Demanda
+                        </button>
                     </div>
                 </div>
 
-                <!-- Container do Grafo de Tarefas (injetado via JS) -->
-                <div class="steps-container-grid" id="grafo-tarefas-container">
-                    <!-- Preenchido via JS com os cards de tarefas/etapas -->
+                <!-- Cabeçalho Monumental da Demanda em Foco -->
+                <div class="proj-hero-architectural" style="margin-bottom: 24px; display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 20px;">
+                    <div class="proj-hero-info" style="flex: 1; min-width: 320px;">
+                        <div class="proj-status-row" style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px; flex-wrap: wrap;">
+                            <span id="badge-status-projeto" class="badge-status-pill status-execucao">Em Execução</span>
+                            <div id="proj-catalogo-tag" style="display: inline-flex; align-items: center; gap: 6px;"></div>
+                        </div>
+                        <h2 class="proj-client-headline" id="proj-nome-cliente" style="font-family: var(--font-headline); font-size: 26px; font-weight: 800; color: #FFFFFF; margin: 4px 0 6px 0;">
+                            Carregando Demanda...
+                        </h2>
+                        <p class="proj-solicitation-sub" id="proj-solicitacao-txt" style="font-size: 13.5px; color: #94A3B8; line-height: 1.5; max-width: 760px;">
+                            Sincronizando dados com o Coordenador Gabriel Rocha...
+                        </p>
+                    </div>
+
+                    <!-- Progresso Numérico Real Derivado do Grafo de Tarefas -->
+                    <div class="proj-progress-architectural-box" style="min-width: 280px; max-width: 380px; background: rgba(0,0,0,0.4); padding: 16px 20px; border-radius: 14px; border: 1px solid rgba(255,255,255,0.06);">
+                        <div class="progress-meta" style="display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 8px;">
+                            <span style="color: #94A3B8;">Avanço Real das Tarefas:</span>
+                            <strong id="proj-progresso-percentual" style="color: #00E5FF; font-family: var(--font-mono); font-weight: 800; font-size: 13px;">--%</strong>
+                        </div>
+                        <div class="progress-track-architectural" style="height: 8px; background: rgba(255,255,255,0.06); border-radius: 4px; overflow: hidden;">
+                            <div class="progress-fill-architectural" id="proj-progresso-fill" style="width: 0%; height: 100%; background: linear-gradient(90deg, #00D2FF, #10B981); transition: width 0.6s ease;"></div>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; font-size: 11px; color: #64748B; margin-top: 8px;">
+                            <span id="proj-contagem-etapas">-- etapas mapeadas</span>
+                            <span style="color: #10B981;"><i class="fas fa-check-circle"></i> Cálculo Real</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Alerta de Governança Executiva (caso necessite aprovação formal da diretoria) -->
+                <div id="proj-governance-alert-box" style="display: none; margin-bottom: 24px;"></div>
+
+                <!-- Barra de Navegação das 5 Abas Internas -->
+                <div class="proj-subtabs-nav" id="proj-subtabs-nav">
+                    <button type="button" class="proj-subtab-btn active" id="subtab-proj-escopo" onclick="alternarSubAbaProjeto('escopo')">
+                        <i class="fas fa-file-contract"></i> 1. Resumo & Escopo Contratado
+                    </button>
+                    <button type="button" class="proj-subtab-btn" id="subtab-proj-briefing" onclick="alternarSubAbaProjeto('briefing')">
+                        <i class="fas fa-compass"></i> 2. Briefing Estratégico
+                    </button>
+                    <button type="button" class="proj-subtab-btn" id="subtab-proj-estrategia" onclick="alternarSubAbaProjeto('estrategia')">
+                        <i class="fas fa-brain"></i> 3. Diagnóstico & Estratégia
+                    </button>
+                    <button type="button" class="proj-subtab-btn" id="subtab-proj-tarefas" onclick="alternarSubAbaProjeto('tarefas')">
+                        <i class="fas fa-list-check"></i> 4. Esteira de Execução & Tarefas
+                    </button>
+                    <button type="button" class="proj-subtab-btn" id="subtab-proj-entregas" onclick="alternarSubAbaProjeto('entregas')">
+                        <i class="fas fa-box-archive"></i> 5. Entregáveis & Arquivos
+                    </button>
+                </div>
+
+                <!-- =========================================================
+                 * SUB-ABA 1: RESUMO & ESCOPO CONTRATADO
+                 * ========================================================= -->
+                <div class="proj-subtab-pane active" id="pane-proj-escopo">
+                    <div class="scope-summary-grid">
+                        <div class="scope-card-item">
+                            <span class="scope-card-label"><i class="fas fa-bullseye" style="color: #00D2FF;"></i> 01 / Objetivo da Demanda</span>
+                            <h4 class="scope-card-title">Demanda Declarada do Cliente</h4>
+                            <p class="scope-card-desc" id="proj-escopo-objetivo">
+                                Carregando solicitação original...
+                            </p>
+                        </div>
+                        <div class="scope-card-item">
+                            <span class="scope-card-label"><i class="fas fa-check-double" style="color: #10B981;"></i> 02 / Escopo Aprovado</span>
+                            <h4 class="scope-card-title">Serviços Técnicos Contratados</h4>
+                            <p class="scope-card-desc" id="proj-escopo-aprovado">
+                                Carregando escopo autorizado...
+                            </p>
+                        </div>
+                        <div class="scope-card-item">
+                            <span class="scope-card-label"><i class="fas fa-shield-halved" style="color: #F59E0B;"></i> 03 / Limites de Trabalho</span>
+                            <h4 class="scope-card-title">Blindagem Contratual (Limites Estritos)</h4>
+                            <p class="scope-card-desc" id="proj-escopo-limites">
+                                Carregando limites de trabalho...
+                            </p>
+                        </div>
+                        <div class="scope-card-item">
+                            <span class="scope-card-label"><i class="fas fa-signature" style="color: #EC4899;"></i> 04 / Governança Comercial</span>
+                            <h4 class="scope-card-title">Termos de Autorização & Homologação</h4>
+                            <p class="scope-card-desc" id="proj-escopo-governanca">
+                                Carregando termos de governança...
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- =========================================================
+                 * SUB-ABA 2: BRIEFING ESTRATÉGICO GUIADO
+                 * ========================================================= -->
+                <div class="proj-subtab-pane" id="pane-proj-briefing">
+                    <div class="guided-briefing-master-card" id="secao-briefing-intuitivo">
+                        <div class="briefing-card-header">
+                            <div class="briefing-badge-row">
+                                <span class="briefing-status-tag"><i class="fas fa-circle-check"></i> Briefing Guiado Ativo</span>
+                                <span class="briefing-mode-tag">4 Perguntas Essenciais</span>
+                            </div>
+                            <h3 class="briefing-card-title">Briefing Estratégico & Direção Inicial</h3>
+                            <p class="briefing-card-sub">
+                                Defina os pilares do projeto sem formulários burocráticos. As informações direcionam o Coordenador Gabriel Rocha e os especialistas.
+                            </p>
+                        </div>
+
+                        <!-- Formulário das 4 Perguntas Introdutórias -->
+                        <form id="form-briefing-intuitivo" onsubmit="salvarBriefingInline(event)" class="briefing-fields-stack">
+                            <div class="briefing-field-group">
+                                <label class="briefing-field-label" for="inline-briefing-nicho">
+                                    <span class="q-num">1</span>
+                                    <span>Nicho de Atuação & Segmento do Negócio</span>
+                                </label>
+                                <input type="text" id="inline-briefing-nicho" class="briefing-input-field" value="Autopeças, mecânica pesada, suspensão e freios para frotas e varejo." placeholder="Ex: Varejo de moda, tecnologia B2B, clínica médica...">
+                            </div>
+
+                            <div class="briefing-field-group">
+                                <label class="briefing-field-label" for="inline-briefing-dor">
+                                    <span class="q-num">2</span>
+                                    <span>Principal Dor Comercial ou Gargalo a Resolver</span>
+                                </label>
+                                <input type="text" id="inline-briefing-dor" class="briefing-input-field" value="Atendimento lento no balcão e perda de cotações de peças por demora no WhatsApp." placeholder="Ex: Clientes desistem no checkout, baixa autoridade visual...">
+                            </div>
+
+                            <div class="briefing-field-group">
+                                <label class="briefing-field-label" for="inline-briefing-publico">
+                                    <span class="q-num">3</span>
+                                    <span>Público-Alvo, ICP & Perfil do Comprador</span>
+                                </label>
+                                <input type="text" id="inline-briefing-publico" class="briefing-input-field" value="Mecânicos independentes, gestores de oficinas e proprietários de veículos linha leve." placeholder="Ex: Pequenos empresários, jovens de 20 a 35 anos...">
+                            </div>
+
+                            <div class="briefing-field-group">
+                                <label class="briefing-field-label" for="inline-briefing-referencias">
+                                    <span class="q-num">4</span>
+                                    <span>Referências de Mercado & Tom Desejado</span>
+                                </label>
+                                <input type="text" id="inline-briefing-referencias" class="briefing-input-field" value="Tom prático, ágil e de alta autoridade técnica. Foco em facilidade de atendimento." placeholder="Ex: Visual minimalista moderno, linguagem direta...">
+                            </div>
+
+                            <!-- Barra de Ação do Briefing -->
+                            <div class="briefing-actions-bar">
+                                <div class="briefing-save-meta">
+                                    <i class="fas fa-circle-check" style="color: #10B981;"></i>
+                                    <span>Respostas sincronizadas com Gabriel Rocha e a equipe</span>
+                                </div>
+                                <div style="display: flex; gap: 10px; align-items: center;">
+                                    <button type="submit" class="btn-briefing-save">
+                                        <i class="fas fa-floppy-disk"></i> Salvar Direção do Briefing
+                                    </button>
+                                    <button type="button" class="btn-briefing-chat" onclick="irParaChatComAgente('agente_02_coordenador')">
+                                        <i class="fas fa-comments"></i> Calibrar com Gabriel
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+
+                        <!-- Seção Opcional de Materiais de Apoio -->
+                        <div class="briefing-supporting-files-drawer">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; flex-wrap: wrap; gap: 8px;">
+                                <span style="font-size: 12px; font-weight: 700; color: #94A3B8; text-transform: uppercase; letter-spacing: 0.05em;">
+                                    <i class="fas fa-paperclip"></i> Arquivos & Documentos de Apoio (Opcional)
+                                </span>
+                                <button type="button" onclick="document.getElementById('input-arquivo-upload').click()" style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); color: #cbd5e1; border-radius: 8px; padding: 5px 12px; font-size: 11.5px; cursor: pointer;">
+                                    <i class="fas fa-upload"></i> Adicionar Arquivo Opcional
+                                </button>
+                                <input type="file" id="input-arquivo-upload" style="display: none;" onchange="enviarAnexoProjeto(event)">
+                            </div>
+                            <div id="lista-materiais-container" style="display: flex; flex-wrap: wrap; gap: 8px;">
+                                <span style="font-size: 12px; color: #64748B;">Nenhum arquivo adicional anexado. O briefing estruturado é suficiente para a equipe.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- =========================================================
+                 * SUB-ABA 3: DIAGNÓSTICO & ESTRATÉGIA
+                 * ========================================================= -->
+                <div class="proj-subtab-pane" id="pane-proj-estrategia">
+                    <div id="painel-documento-estrategico" class="strategy-dossier-banner" style="margin-top: 0;">
+                        <div class="strategy-banner-top">
+                            <div>
+                                <div class="strategy-status-row">
+                                    <span class="scope-fidelity-badge"><i class="fas fa-shield-halved"></i> Garantia de Fidelidade ao Escopo: Ativa</span>
+                                    <span id="badge-status-doc-estrategico" class="badge-status-estrategia">Aguardando Homologação</span>
+                                </div>
+                                <h3 class="strategy-banner-title">Documento Estratégico da Solução & Diretrizes Executivas</h3>
+                                <p class="strategy-banner-sub">
+                                    A estratégia orienta a execução técnica sem jamais substituir o serviço contratado pelo cliente. Nenhuma tarefa é alterada sem autorização expressa.
+                                </p>
+                            </div>
+                            <div class="strategy-banner-cta">
+                                <button class="btn-dossier-action primary" onclick="abrirModalEstrategiaProjeto()">
+                                    <i class="fas fa-book-open-reader"></i> Visualizar Dossiê Completo
+                                </button>
+                                <button class="btn-dossier-action secondary" id="btn-aprovar-estrategia-top" onclick="aprovarEstrategiaProjeto()">
+                                    <i class="fas fa-check-double"></i> Aprovar Estratégia
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Grid de Síntese Estratégica -->
+                        <div class="strategy-summary-grid">
+                            <div class="strategy-cell">
+                                <span class="cell-label"><i class="fas fa-file-contract" style="color: #00D2FF;"></i> Serviço Contratado</span>
+                                <strong class="cell-val" id="doc-servico-contratado-txt">Presença Comercial & Expansão</strong>
+                            </div>
+                            <div class="strategy-cell">
+                                <span class="cell-label"><i class="fas fa-bullseye" style="color: #EC4899;"></i> Público-Alvo & ICP</span>
+                                <strong class="cell-val" id="doc-publico-alvo-txt">Varejo & Oficinas Mecânicas</strong>
+                            </div>
+                            <div class="strategy-cell">
+                                <span class="cell-label"><i class="fas fa-lightbulb" style="color: #F59E0B;"></i> Estratégia Recomendada</span>
+                                <strong class="cell-val" id="doc-estrategia-recomendada-txt">Funil de Alta Conversão no WhatsApp</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- =========================================================
+                 * SUB-ABA 4: ESTEIRA DE EXECUÇÃO & TAREFAS
+                 * ========================================================= -->
+                <div class="proj-subtab-pane" id="pane-proj-tarefas">
+                    <div class="proj-flow-container-architectural" style="margin-top: 0;">
+                        <div class="proj-flow-header">
+                            <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; margin-bottom: 16px;">
+                                <div>
+                                    <h4 class="proj-flow-title"><i class="fas fa-list-check" style="color: #00D2FF;"></i> Etapas do Fluxo & Especialistas Responsáveis</h4>
+                                    <p class="proj-flow-sub">Cada especialista atua em sua esteira técnica com supervisão de Gabriel Rocha.</p>
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 12px;">
+                                    <button class="btn-luxury-primary" onclick="executarEsteiraProjetoAtivo()" style="padding: 7px 16px; font-size: 11.5px; background: linear-gradient(135deg, #0284C7, #0369A1);">
+                                        <i class="fas fa-play"></i> Disparar Esteira dos Especialistas
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Container do Grafo de Tarefas (injetado via JS) -->
+                        <div class="steps-container-grid" id="grafo-tarefas-container">
+                            <!-- Preenchido via JS com os cards de tarefas/etapas -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- =========================================================
+                 * SUB-ABA 5: ENTREGÁVEIS & ARQUIVOS DO PROJETO
+                 * ========================================================= -->
+                <div class="proj-subtab-pane" id="pane-proj-entregas">
+                    <div style="margin-bottom: 24px;">
+                        <h4 style="font-family: var(--font-headline); font-size: 18px; font-weight: 800; color: #FFFFFF; margin: 0 0 6px 0;">
+                            Ativos & Entregáveis do Projeto
+                        </h4>
+                        <p style="font-size: 13px; color: #94A3B8; margin: 0;">
+                            Entregas técnicas validadas e pacotes de arquivos gerados pela equipe digital da VIDE.
+                        </p>
+                    </div>
+
+                    <!-- Grid de Entregáveis deste Projeto -->
+                    <div class="proj-entregas-grid" id="proj-entregas-grid">
+                        <div class="deliverable-card-architectural">
+                            <div class="deliverable-card-art" style="background-image: url('assets/images/hero_arquitetura_crescimento.jpg');">
+                                <div class="deliverable-art-overlay"></div>
+                                <span class="deliverable-status-tag homologado"><i class="fas fa-circle-check"></i> Homologado</span>
+                            </div>
+                            <div class="deliverable-card-body">
+                                <div class="deliverable-type-tag" style="color: #10B981;">SITE & LANDING PAGE</div>
+                                <h3 class="deliverable-card-title">Landing Page de Alta Conversão</h3>
+                                <p class="deliverable-card-desc">
+                                    Código front-end responsivo, mobile-first, otimizado para carregamento em menos de 1 segundo e integrado ao WhatsApp comercial.
+                                </p>
+                                <div class="deliverable-card-footer">
+                                    <div class="deliverable-author">
+                                        <img src="assets/avatars/rafael_duarte.jpg" alt="Rafael Duarte" onerror="this.src='logo_vide.jpg'">
+                                        <span>Rafael Duarte</span>
+                                    </div>
+                                    <button class="btn-deliverable-view" onclick="abrirModalEstrategiaProjeto()">
+                                        <i class="fas fa-eye"></i> Visualizar Ativo
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="deliverable-card-architectural">
+                            <div class="deliverable-card-art" style="background-image: url('assets/images/equipe_digital_atelier.jpg');">
+                                <div class="deliverable-art-overlay"></div>
+                                <span class="deliverable-status-tag homologado"><i class="fas fa-circle-check"></i> Homologado</span>
+                            </div>
+                            <div class="deliverable-card-body">
+                                <div class="deliverable-type-tag" style="color: #F59E0B;">BRANDING & DESIGN</div>
+                                <h3 class="deliverable-card-title">Manual de Identidade Visual & Assets</h3>
+                                <p class="deliverable-card-desc">
+                                    Guia de marca com paleta cromática, tipografias corporativas, diretrizes de aplicação e pacote completo de assets em SVG e PNG.
+                                </p>
+                                <div class="deliverable-card-footer">
+                                    <div class="deliverable-author">
+                                        <img src="assets/avatars/helena_prado.jpg" alt="Helena Prado" onerror="this.src='logo_vide.jpg'">
+                                        <span>Helena Prado</span>
+                                    </div>
+                                    <button class="btn-deliverable-view" onclick="abrirModalEstrategiaProjeto()">
+                                        <i class="fas fa-eye"></i> Visualizar Ativo
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Acervo de Arquivos Físicos do Projeto -->
+                    <div style="margin-top: 28px; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.06); border-radius: 14px; padding: 20px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                            <span style="font-family: var(--font-headline); font-size: 13px; font-weight: 700; color: #FFFFFF;">
+                                <i class="fas fa-folder-tree" style="color: var(--cyan-core); margin-right: 6px;"></i> Arquivos Físicos no Repositório (<span id="total-entregas-arquivos">0</span>)
+                            </span>
+                        </div>
+                        <div id="lista-entregas-container" style="display: flex; flex-wrap: wrap; gap: 8px;">
+                            <div style="color: #64748B; font-size: 12px;">Nenhum arquivo físico gerado ainda.</div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- =================================================================
-         * VIEW 5: ENTREGAS (GALERIA ARQUITETÔNICA DE ENTREGÁVEIS HOMOLOGADOS)
-         * ================================================================= -->
         <div id="view-entregas" class="exec-view">
             <div class="editorial-section-header">
                 <span class="editorial-kicker">04 / ACERVO DE ATIVOS</span>
@@ -10283,7 +10800,7 @@ body {
                 if (badgeTotal) badgeTotal.innerText = total + ' Ativos';
 
                 // Buscar projeto ativo atual
-                const ativo = data.projetos.find(p => p.id === window.projetoAtivoId) || data.projetos[0];
+                const ativo = data.projetos.find(p => (p.id || p.id_projeto) === (window.projetoAtivoId || (typeof projetoAtivoId !== 'undefined' ? projetoAtivoId : null))) || data.projetos[0];
                 if (ativo) {
                     window.projetoAtivoId = ativo.id || ativo.id_projeto;
                     carregarDocumentoEstrategicoProjeto(ativo.id || ativo.id_projeto);
@@ -10294,7 +10811,7 @@ body {
 
                     // Calcular progresso baseado nas tarefas do DAG
                     const tarefas = ativo.grafo_tarefas || [];
-                    const concluidas = tarefas.filter(t => t.estado === 'CONCLUIDA' || t.estado === 'APROVADA').length;
+                    const concluidas = tarefas.filter(t => t.estado === 'CONCLUIDO' || t.estado === 'CONCLUIDA' || t.estado === 'APROVADO' || t.estado === 'APROVADA' || t.estado === 'FINALIZADO').length;
                     const percent = tarefas.length > 0 ? Math.round((concluidas / tarefas.length) * 100) : 0;
 
                     const elBar = document.getElementById('inicio-proj-progress-bar');
@@ -10895,7 +11412,153 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    async 
+    // Alternância de Sub-Abas do Projeto Selecionado
+    function alternarSubAbaProjeto(subAbaId) {
+        document.querySelectorAll('.proj-subtab-btn').forEach(btn => btn.classList.remove('active'));
+        const btn = document.getElementById('subtab-proj-' + subAbaId);
+        if (btn) btn.classList.add('active');
+
+        document.querySelectorAll('.proj-subtab-pane').forEach(p => {
+            p.classList.remove('active');
+            p.style.display = 'none';
+        });
+        const targetPane = document.getElementById('pane-proj-' + subAbaId);
+        if (targetPane) {
+            targetPane.classList.add('active');
+            targetPane.style.display = 'block';
+        }
+    }
+
+    function rolarParaDeckProjetos() {
+        const deck = document.getElementById('projetos-deck-geral');
+        if (deck) deck.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function abrirAmbienteProjeto(idProjeto) {
+        if (typeof selecionarProjetoAtivo === 'function') {
+            selecionarProjetoAtivo(idProjeto);
+        }
+        const ambiente = document.getElementById('painel-projeto-detalhes');
+        if (ambiente) {
+            ambiente.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    }
+
+    // Renderização do Deck Executivo de Projetos
+    function renderizarDeckProjetos(lista) {
+        const container = document.getElementById('deck-projetos-container');
+        if (!container) return;
+
+        if (!lista || lista.length === 0) {
+            container.innerHTML = '<div style="color: #64748B; font-size: 13px; padding: 20px; text-align: center; grid-column: 1 / -1;">Nenhuma demanda cadastrada no banco de dados.</div>';
+            return;
+        }
+
+        container.innerHTML = lista.map(p => {
+            const id = p.id_projeto || p.id;
+            const clienteLimpo = limparTextoSeguro(p.cliente || p.empresa_contratante || 'Cliente Sem Nome').replace(/\[SIMULADO\]/gi, '').trim();
+            const sit = (p.situacao_projeto || p.status || 'EM_EXECUCAO').toUpperCase();
+            const isFoco = projetoAtivoId === id;
+
+            let badgeStatusHtml = '';
+            if (sit === 'AGUARDANDO_AUTORIZACAO_COMERCIAL' || (p.autorizacao_comercial && p.autorizacao_comercial.status === 'PENDENTE')) {
+                badgeStatusHtml = '<span class="step-status-pill status-pendente"><i class="fas fa-clock"></i> Aguardando Autorização</span>';
+            } else if (sit === 'CONCLUIDO' || sit === 'APROVADO') {
+                badgeStatusHtml = '<span class="step-status-pill status-concluido"><i class="fas fa-check-circle"></i> Concluído</span>';
+            } else {
+                badgeStatusHtml = '<span class="step-status-pill status-execucao"><i class="fas fa-spinner fa-spin"></i> Em Execução</span>';
+            }
+
+            // Cálculo Real de Progresso Matemático
+            const tarefas = p.grafo_tarefas || [];
+            const total = tarefas.length;
+            const concluidas = tarefas.filter(t => t.estado === 'CONCLUIDO' || t.estado === 'APROVADO' || t.estado === 'FINALIZADO' || t.estado === 'CONCLUIDA' || t.estado === 'APROVADA').length;
+            const pct = total > 0 ? Math.round((concluidas / total) * 100) : 0;
+            const progressoTexto = total > 0 ? concluidas + ' de ' + total + ' tarefas (' + pct + '%)' : 'Sem tarefas (0%)';
+
+            // Serviço Contratado
+            let servico = 'Presença Comercial & Sistema';
+            if (p.frentes_comerciais && p.frentes_comerciais.length > 0) {
+                servico = p.frentes_comerciais.map(f => {
+                    if (f === 'PRESENCA_COMERCIAL') return 'Presença Comercial';
+                    if (f === 'SISTEMA_COMERCIAL') return 'Sistema Comercial';
+                    if (f === 'INTELIGENCIA_OTIMIZACAO') return 'Inteligência & Telemetria';
+                    return f.replace(/_/g, ' ');
+                }).join(' & ');
+            }
+
+            // Próxima Tarefa & Responsável
+            let proximaTarefa = 'Esteira pronta para inicialização';
+            let especialistaNome = 'Gabriel Rocha';
+            let pendenciaHtml = '';
+
+            const tAtiva = tarefas.find(t => t.estado === 'EM_EXECUCAO' || t.estado === 'PRONTA_PARA_EXECUCAO' || t.estado === 'AGUARDANDO_APROVACAO');
+            if (tAtiva) {
+                proximaTarefa = limparTextoSeguro(tAtiva.titulo || tAtiva.nome || 'Execução técnica em curso');
+                const infoEsp = typeof obterEspecialistaInfo === 'function' ? obterEspecialistaInfo(tAtiva.especialista) : { nome: tAtiva.especialista || 'Especialista VIDE' };
+                especialistaNome = infoEsp.nome || 'Especialista VIDE';
+            } else if (tarefas.length > 0 && concluidas === total) {
+                proximaTarefa = 'Todas as tarefas homologadas com sucesso';
+                especialistaNome = 'Douglas Paz (Diretor Executivo)';
+            }
+
+            const tBloqueada = tarefas.find(t => t.estado === 'BLOQUEADO' || (t.estado && t.estado.includes('BLOQUEADA')));
+            if (sit === 'AGUARDANDO_AUTORIZACAO_COMERCIAL') {
+                pendenciaHtml = '<div class="proj-deck-pending-badge"><i class="fas fa-shield-halved"></i> Requer Autorização de Douglas Paz</div>';
+            } else if (tBloqueada) {
+                pendenciaHtml = '<div class="proj-deck-pending-badge"><i class="fas fa-lock"></i> Tarefa aguardando dependência anterior</div>';
+            }
+
+            const isSimulado = (p.cliente || '').includes('[SIMULADO]') || (p.empresa_contratante || '').includes('(SIMULADO)');
+
+            return `
+                <div class="proj-deck-card ${isFoco ? 'card-foco' : ''}" id="deck-card-${id}">
+                    <div>
+                        <div class="proj-deck-top">
+                            <span class="proj-deck-id">[${id}]</span>
+                            ${badgeStatusHtml}
+                        </div>
+                        <h4 class="proj-deck-title">
+                            ${clienteLimpo}
+                            ${isSimulado ? '<span style="font-size: 10px; font-weight: 600; color: #94A3B8; background: rgba(255,255,255,0.06); padding: 2px 6px; border-radius: 4px; margin-left: 6px;">Homologação</span>' : ''}
+                        </h4>
+                        <div class="proj-deck-service">
+                            <i class="fas fa-layer-group"></i> ${servico}
+                        </div>
+                    </div>
+
+                    <!-- Progresso Real -->
+                    <div class="proj-deck-progress-box">
+                        <div class="proj-deck-progress-meta">
+                            <span style="color: #94A3B8;">Avanço Matemático:</span>
+                            <span class="proj-deck-progress-txt">${progressoTexto}</span>
+                        </div>
+                        <div class="proj-deck-progress-track">
+                            <div class="proj-deck-progress-fill" style="width: ${pct}%;"></div>
+                        </div>
+                    </div>
+
+                    <!-- Próxima Ação & Responsável -->
+                    <div style="display: flex; flex-direction: column; gap: 8px;">
+                        <div class="proj-deck-next-step">
+                            <i class="fas fa-arrow-right" style="color: var(--cyan-core); margin-top: 3px; font-size: 11px;"></i>
+                            <div>
+                                <span style="font-size: 11px; color: #64748B; text-transform: uppercase; font-family: var(--font-mono);">Próxima Ação:</span><br>
+                                <strong>${proximaTarefa}</strong>
+                                <div style="font-size: 11px; color: #94A3B8; margin-top: 2px;"><i class="fas fa-user-gear"></i> ${especialistaNome}</div>
+                            </div>
+                        </div>
+                        ${pendenciaHtml}
+                    </div>
+
+                    <!-- Ação -->
+                    <button class="btn-deck-abrir" onclick="abrirAmbienteProjeto('${id}')">
+                        <i class="fas fa-folder-open"></i> ${isFoco ? 'Ambiente em Foco' : 'Abrir Ambiente do Projeto'}
+                    </button>
+                </div>
+            `;
+        }).join('');
+    }
 
     async function carregarProjetosSelect() {
         try {
@@ -10923,6 +11586,9 @@ window.addEventListener('DOMContentLoaded', () => {
                 opt.textContent = '[' + id + '] ' + limparTextoSeguro(p.cliente || p.empresa_contratante || 'Sem Nome').replace(/\[SIMULADO\]/gi, '').trim() + ' (' + (function(s){ if(!s) return 'Em andamento'; const u=s.toUpperCase(); if(u==='AGUARDANDO_AUTORIZACAO_COMERCIAL') return 'Aguardando autorização'; if(u==='EM_EXECUCAO') return 'Em execução'; if(u==='CONCLUIDO') return 'Concluído'; return s.replace(/_/g,' '); })(p.situacao_projeto || p.status) + ')';
                 select.appendChild(opt);
             });
+
+            // Renderizar Deck Executivo de Projetos
+            renderizarDeckProjetos(lista);
 
             // Seleciona o primeiro ou o projeto anteriormente ativo
             const alvo = projetoAtivoId && lista.some(p => (p.id_projeto || p.id) === projetoAtivoId)
@@ -10955,6 +11621,32 @@ window.addEventListener('DOMContentLoaded', () => {
             const p = data.projeto;
             const painel = document.getElementById('painel-projeto-detalhes');
             if (painel) painel.style.display = 'block';
+
+            // Atualizar foco visual no Deck de Projetos
+            document.querySelectorAll('.proj-deck-card').forEach(c => c.classList.remove('card-foco'));
+            const cardAtivo = document.getElementById('deck-card-' + idProjeto);
+            if (cardAtivo) cardAtivo.classList.add('card-foco');
+
+            // Preencher Aba 1: Resumo & Escopo Contratado
+            const elObj = document.getElementById('proj-escopo-objetivo');
+            if (elObj) elObj.textContent = limparTextoSeguro(p.solicitacao_original) || 'Desenvolvimento e estruturação comercial sob demanda.';
+            const elApr = document.getElementById('proj-escopo-aprovado');
+            if (elApr) elApr.textContent = limparTextoSeguro(p.escopo_autorizado) || 'Presença Comercial, Webhook de Conversão e Automação de Atendimento.';
+            const elLim = document.getElementById('proj-escopo-limites');
+            if (elLim) elLim.textContent = limparTextoSeguro(p.limites_trabalho) || 'Escopo restrito aos entregáveis contratados. Exclui tráfego pago ou integração legada não autorizada.';
+            const elGov = document.getElementById('proj-escopo-governanca');
+            if (elGov) elGov.textContent = 'Homologação formal: ' + (p.responsavel_aprovacao || 'Douglas Paz (Diretor Executivo)') + ' | Governança estrita: alteração de escopo bloqueada sem aditivo formal.';
+
+            // Preencher Aba 2: Briefing Estratégico Guiado
+            const bResp = p.briefing_respostas || p.briefing_estruturado || {};
+            const inNicho = document.getElementById('inline-briefing-nicho');
+            if (inNicho && bResp.nicho_atuacao) inNicho.value = bResp.nicho_atuacao;
+            const inDor = document.getElementById('inline-briefing-dor');
+            if (inDor && bResp.dor_principal) inDor.value = bResp.dor_principal;
+            const inPub = document.getElementById('inline-briefing-publico');
+            if (inPub && bResp.publico_alvo) inPub.value = bResp.publico_alvo;
+            const inRef = document.getElementById('inline-briefing-referencias');
+            if (inRef && bResp.referencias_mercado) inRef.value = bResp.referencias_mercado;
 
             // 1. Header do Projeto
             const elCliente = document.getElementById('proj-nome-cliente');
@@ -11167,15 +11859,35 @@ window.addEventListener('DOMContentLoaded', () => {
 
             // Sincronizar com a nova interface executiva
             try {
-                const concluidas = (p.grafo_tarefas || []).filter(t => t.estado === 'CONCLUIDO' || t.estado === 'APROVADA' || t.estado === 'CONCLUIDA').length;
+                const concluidas = (p.grafo_tarefas || []).filter(t => t.estado === 'CONCLUIDO' || t.estado === 'CONCLUIDA' || t.estado === 'APROVADO' || t.estado === 'APROVADA' || t.estado === 'FINALIZADO').length;
                 const totTsk = (p.grafo_tarefas || []).length;
                 const perc = totTsk > 0 ? Math.round((concluidas / totTsk) * 100) : 0;
                 const elFill = document.getElementById('proj-progresso-fill');
                 const elPerc = document.getElementById('proj-progresso-percentual');
                 const elCont = document.getElementById('proj-contagem-etapas');
                 if (elFill) elFill.style.width = perc + '%';
-                if (elPerc) elPerc.innerText = perc + '% (' + concluidas + ' de ' + totTsk + ' etapas concluídas)';
-                if (elCont) elCont.innerText = totTsk + ' etapas mapeadas';
+                if (elPerc) elPerc.innerText = totTsk > 0 ? concluidas + ' de ' + totTsk + ' tarefas concluídas (' + perc + '%)' : 'Sem tarefas (0%)';
+                if (elCont) elCont.innerText = totTsk > 0 ? totTsk + ' etapas mapeadas' : 'Sem etapas mapeadas';
+
+                // Sincronizar Card de Demanda em Foco no Início (Home)
+                const inicioTxt = document.getElementById('inicio-proj-progress-txt');
+                if (inicioTxt) inicioTxt.innerText = totTsk > 0 ? concluidas + ' de ' + totTsk + ' tarefas validadas (' + perc + '%)' : 'Sem tarefas cadastradas (0%)';
+                const inicioBar = document.getElementById('inicio-proj-progress-bar');
+                if (inicioBar) inicioBar.style.width = perc + '%';
+                const inicioNome = document.getElementById('inicio-proj-nome-val');
+                if (inicioNome) {
+                    const servico = (p.frentes_comerciais && p.frentes_comerciais.length > 0) 
+                        ? p.frentes_comerciais.map(f => {
+                            if (f === 'PRESENCA_COMERCIAL') return 'Presença Comercial';
+                            if (f === 'SISTEMA_COMERCIAL') return 'Sistema Comercial';
+                            if (f === 'INTELIGENCIA_OTIMIZACAO') return 'Inteligência Comercial';
+                            return f.replace(/_/g, ' ');
+                        }).join(' & ') 
+                        : 'Presença Comercial & Expansão';
+                    inicioNome.innerText = servico;
+                }
+                const inicioCli = document.getElementById('inicio-proj-cliente-sub');
+                if (inicioCli) inicioCli.innerText = 'Cliente: ' + (limparTextoSeguro(p.cliente || p.empresa_contratante) || 'Cliente Ativo').replace(/\[SIMULADO\]/gi, '').trim();
 
                 const govBox = document.getElementById('proj-governance-alert-box');
                 if (govBox) {
@@ -11937,8 +12649,8 @@ window.addEventListener('DOMContentLoaded', () => {
             const numImpacto = Number(g.impacto_financeiro_estimado);
             const imp = !isNaN(numImpacto) && numImpacto > 0 
                 ? 'R$ ' + numImpacto.toLocaleString('pt-BR') 
-                : (g.impacto_financeiro_estimado || 'R$ 15.000');
-            const scoreVal = g.epv_score ? (!isNaN(Number(g.epv_score)) ? Number(g.epv_score).toFixed(1) : g.epv_score) : '42.0';
+                : (g.impacto_financeiro_estimado || 'Sem dados disponíveis');
+            const scoreVal = g.epv_score ? (!isNaN(Number(g.epv_score)) ? Number(g.epv_score).toFixed(1) : g.epv_score) : '--';
 
             html += `
                 <div class="epv-item-card" style="${isTop ? 'border-color: rgba(0, 229, 255, 0.4); background: #0A101C;' : ''}">
