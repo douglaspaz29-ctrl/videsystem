@@ -6491,6 +6491,1172 @@ body {
     }
 }
 
+
+/* =====================================================================
+ * DIREÇÃO DE ARTE DEFINITIVA: VIDE SHOPIFY EDITIONS MASTER ARCHITECTURE
+ * ===================================================================== */
+
+/* HEADERS EDITORIAIS SOBERANOS */
+.editorial-section-header {
+    margin-bottom: 32px !important;
+    padding-bottom: 20px !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07) !important;
+}
+
+.editorial-kicker {
+    display: inline-block !important;
+    font-family: var(--font-mono) !important;
+    font-size: 11px !important;
+    font-weight: 800 !important;
+    letter-spacing: 0.12em !important;
+    text-transform: uppercase !important;
+    color: #00D2FF !important;
+    margin-bottom: 8px !important;
+}
+
+.editorial-title {
+    font-family: var(--font-headline) !important;
+    font-size: 32px !important;
+    font-weight: 800 !important;
+    letter-spacing: -0.03em !important;
+    color: #FFFFFF !important;
+    margin: 0 0 10px 0 !important;
+}
+
+.editorial-subtitle {
+    font-size: 15px !important;
+    color: #94A3B8 !important;
+    line-height: 1.6 !important;
+    max-width: 800px !important;
+    margin: 0 !important;
+}
+
+/* WORKBENCH GATEWAY */
+.workbench-gateway-grid {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 24px !important;
+    margin-top: 24px !important;
+}
+
+.workbench-gateway-card {
+    background: rgba(13, 17, 26, 0.7) !important;
+    border: 1px solid var(--vide-border-hairline) !important;
+    border-radius: 16px !important;
+    padding: 28px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+    cursor: pointer !important;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    backdrop-filter: blur(20px) !important;
+    min-height: 220px !important;
+    position: relative !important;
+    overflow: hidden !important;
+}
+
+.workbench-gateway-card:hover {
+    background: rgba(255, 255, 255, 0.03) !important;
+    border-color: rgba(0, 210, 255, 0.35) !important;
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.5), 0 0 20px rgba(0, 210, 255, 0.1) !important;
+    transform: translateY(-2px) !important;
+}
+
+.gateway-card-top {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    margin-bottom: 16px !important;
+}
+
+.gateway-icon-badge {
+    width: 42px !important;
+    height: 42px !important;
+    border-radius: 10px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 18px !important;
+    border: 1px solid transparent !important;
+}
+
+.gateway-status-pill {
+    font-size: 11px !important;
+    font-weight: 600 !important;
+    color: #94A3B8 !important;
+    background: rgba(255, 255, 255, 0.04) !important;
+    border: 1px solid var(--vide-border-hairline) !important;
+    padding: 3px 8px !important;
+    border-radius: 5px !important;
+}
+
+.gateway-card-title {
+    font-size: 17px !important;
+    font-weight: 700 !important;
+    color: #FFFFFF !important;
+    margin: 0 0 8px 0 !important;
+    letter-spacing: -0.01em !important;
+}
+
+.gateway-card-desc {
+    font-size: 13px !important;
+    color: #94A3B8 !important;
+    line-height: 1.55 !important;
+    margin: 0 0 20px 0 !important;
+}
+
+.gateway-card-cta {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    font-size: 13px !important;
+    font-weight: 700 !important;
+    color: #00D2FF !important;
+    transition: gap 0.2s ease !important;
+}
+
+.workbench-gateway-card:hover .gateway-card-cta {
+    gap: 12px !important;
+}
+
+/* CHAT ARQUITETÔNICO */
+.chat-workspace-architectural {
+    display: grid !important;
+    grid-template-columns: 310px 1fr !important;
+    gap: 20px !important;
+    height: calc(100vh - 140px) !important;
+    min-height: 600px !important;
+    background: rgba(11, 15, 24, 0.75) !important;
+    border: 1px solid var(--vide-border-hairline) !important;
+    border-radius: 20px !important;
+    overflow: hidden !important;
+    backdrop-filter: blur(24px) !important;
+}
+
+.chat-sidebar-architectural {
+    background: rgba(7, 9, 14, 0.85) !important;
+    border-right: 1px solid rgba(255, 255, 255, 0.07) !important;
+    display: flex !important;
+    flex-direction: column !important;
+    overflow: hidden !important;
+}
+
+.chat-sidebar-header-architectural {
+    padding: 20px 18px 14px 18px !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07) !important;
+}
+
+.sidebar-kicker {
+    font-family: var(--font-mono) !important;
+    font-size: 10px !important;
+    font-weight: 700 !important;
+    color: #94A3B8 !important;
+    letter-spacing: 0.1em !important;
+}
+
+.sidebar-online-count {
+    font-size: 11px !important;
+    font-weight: 600 !important;
+    color: #10B981 !important;
+}
+
+.sidebar-title {
+    font-family: var(--font-headline) !important;
+    font-size: 16px !important;
+    font-weight: 800 !important;
+    color: #FFF !important;
+    margin: 4px 0 0 0 !important;
+}
+
+.chat-agents-list-architectural {
+    flex: 1 !important;
+    overflow-y: auto !important;
+    padding: 12px 10px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 6px !important;
+}
+
+.chat-sidebar-agent-item {
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+    padding: 10px 12px !important;
+    border-radius: 12px !important;
+    background: rgba(255, 255, 255, 0.02) !important;
+    border: 1px solid rgba(255, 255, 255, 0.05) !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+}
+
+.chat-sidebar-agent-item:hover {
+    background: rgba(255, 255, 255, 0.05) !important;
+    transform: translateX(2px) !important;
+}
+
+.chat-sidebar-agent-item.active {
+    background: rgba(0, 210, 255, 0.1) !important;
+    border-color: rgba(0, 210, 255, 0.3) !important;
+}
+
+.agent-avatar-wrap {
+    position: relative !important;
+    width: 38px !important;
+    height: 38px !important;
+    flex-shrink: 0 !important;
+}
+
+.agent-avatar-wrap img {
+    width: 100% !important;
+    height: 100% !important;
+    border-radius: 10px !important;
+    object-fit: cover !important;
+}
+
+.avatar-status-dot.online {
+    position: absolute !important;
+    bottom: -1px !important;
+    right: -1px !important;
+    width: 9px !important;
+    height: 9px !important;
+    background: #10B981 !important;
+    border: 2px solid #07090E !important;
+    border-radius: 50% !important;
+}
+
+.agent-info-wrap {
+    flex: 1 !important;
+    min-width: 0 !important;
+}
+
+.agent-name-row {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    margin-bottom: 2px !important;
+}
+
+.agent-name-row h4 {
+    margin: 0 !important;
+    font-size: 13px !important;
+    font-weight: 700 !important;
+    color: #FFF !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+}
+
+.agent-num-tag {
+    font-family: var(--font-mono) !important;
+    font-size: 10px !important;
+    font-weight: 800 !important;
+}
+
+.agent-role-txt {
+    margin: 0 !important;
+    font-size: 11px !important;
+    color: #94A3B8 !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+}
+
+.chat-main-architectural {
+    display: flex !important;
+    flex-direction: column !important;
+    overflow: hidden !important;
+}
+
+.chat-header-architectural {
+    padding: 16px 24px !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    background: rgba(13, 17, 26, 0.5) !important;
+}
+
+.chat-active-profile {
+    display: flex !important;
+    align-items: center !important;
+    gap: 14px !important;
+}
+
+.chat-active-avatar-wrap {
+    position: relative !important;
+    width: 44px !important;
+    height: 44px !important;
+}
+
+.chat-active-avatar-wrap img {
+    width: 100% !important;
+    height: 100% !important;
+    border-radius: 12px !important;
+    object-fit: cover !important;
+    border: 1.5px solid #00D2FF !important;
+}
+
+.active-pulse-ring {
+    position: absolute !important;
+    bottom: -2px !important;
+    right: -2px !important;
+    width: 11px !important;
+    height: 11px !important;
+    background: #10B981 !important;
+    border: 2px solid #0B0F18 !important;
+    border-radius: 50% !important;
+}
+
+.chat-active-meta h3 {
+    margin: 0 !important;
+    font-size: 15px !important;
+    font-weight: 700 !important;
+    color: #FFF !important;
+}
+
+.chat-online-badge {
+    font-size: 10px !important;
+    font-weight: 600 !important;
+    color: #10B981 !important;
+}
+
+.chat-active-meta p {
+    margin: 2px 0 0 0 !important;
+    font-size: 12px !important;
+    color: #94A3B8 !important;
+}
+
+.chat-header-actions {
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+}
+
+.chat-project-chip {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 7px !important;
+    padding: 6px 12px !important;
+    border-radius: 8px !important;
+    background: rgba(255, 255, 255, 0.04) !important;
+    border: 1px solid var(--vide-border-hairline) !important;
+    font-size: 12px !important;
+    color: #CBD5E1 !important;
+}
+
+.chat-clean-btn {
+    background: rgba(255, 255, 255, 0.04) !important;
+    border: 1px solid var(--vide-border-hairline) !important;
+    color: #94A3B8 !important;
+    width: 32px !important;
+    height: 32px !important;
+    border-radius: 8px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+}
+
+.chat-clean-btn:hover {
+    color: #FFF !important;
+    border-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+.chat-messages-scroll {
+    flex: 1 !important;
+    overflow-y: auto !important;
+    padding: 24px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 16px !important;
+}
+
+.chat-message-bubble {
+    display: flex !important;
+    gap: 12px !important;
+    max-width: 80% !important;
+}
+
+.bubble-avatar img {
+    width: 32px !important;
+    height: 32px !important;
+    border-radius: 8px !important;
+    object-fit: cover !important;
+}
+
+.bubble-content-wrap {
+    background: rgba(18, 23, 35, 0.85) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border-radius: 14px !important;
+    padding: 12px 16px !important;
+}
+
+.bubble-header-meta {
+    font-size: 11.5px !important;
+    color: #94A3B8 !important;
+    margin-bottom: 4px !important;
+}
+
+.bubble-time {
+    font-size: 10px !important;
+    margin-left: 6px !important;
+}
+
+.bubble-body-text {
+    font-size: 13.5px !important;
+    color: #E2E8F0 !important;
+    line-height: 1.55 !important;
+}
+
+.chat-quick-suggestions {
+    padding: 8px 24px !important;
+    display: flex !important;
+    gap: 8px !important;
+    overflow-x: auto !important;
+    background: rgba(13, 17, 26, 0.3) !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.04) !important;
+}
+
+.chat-suggestion-chip {
+    background: rgba(255, 255, 255, 0.03) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border-radius: 8px !important;
+    padding: 6px 12px !important;
+    font-size: 11.5px !important;
+    color: #94A3B8 !important;
+    white-space: nowrap !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+}
+
+.chat-suggestion-chip:hover {
+    color: #00D2FF !important;
+    border-color: rgba(0, 210, 255, 0.3) !important;
+}
+
+.chat-input-bar-architectural {
+    padding: 16px 24px !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.07) !important;
+    display: flex !important;
+    gap: 12px !important;
+    background: rgba(10, 13, 20, 0.9) !important;
+}
+
+.chat-input-bar-architectural input {
+    flex: 1 !important;
+    background: rgba(255, 255, 255, 0.03) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: 12px !important;
+    padding: 12px 16px !important;
+    color: #FFF !important;
+    font-size: 13.5px !important;
+    outline: none !important;
+    transition: border 0.2s ease !important;
+}
+
+.chat-input-bar-architectural input:focus {
+    border-color: #00D2FF !important;
+}
+
+.chat-send-submit-btn {
+    background: linear-gradient(135deg, #00D2FF 0%, #0284C7 100%) !important;
+    border: none !important;
+    border-radius: 12px !important;
+    padding: 0 20px !important;
+    color: #04101E !important;
+    font-weight: 700 !important;
+    font-size: 13px !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    cursor: pointer !important;
+    transition: transform 0.15s ease !important;
+}
+
+.chat-send-submit-btn:hover {
+    transform: scale(1.02) !important;
+}
+
+/* EQUIPE ARQUITETÔNICA (7 PROFISSIONAIS) */
+.team-cards-grid-architectural {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)) !important;
+    gap: 24px !important;
+}
+
+.team-dossier-card {
+    background: rgba(13, 17, 26, 0.7) !important;
+    border: 1px solid var(--vide-border-hairline) !important;
+    border-radius: 18px !important;
+    padding: 24px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+    backdrop-filter: blur(20px) !important;
+    transition: all 0.25s ease !important;
+}
+
+.team-dossier-card:hover {
+    border-color: rgba(255, 255, 255, 0.15) !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.6) !important;
+}
+
+.dossier-card-header {
+    display: flex !important;
+    align-items: center !important;
+    gap: 16px !important;
+    margin-bottom: 16px !important;
+}
+
+.dossier-avatar-wrap {
+    position: relative !important;
+    width: 60px !important;
+    height: 60px !important;
+    flex-shrink: 0 !important;
+}
+
+.dossier-avatar-wrap img {
+    width: 100% !important;
+    height: 100% !important;
+    border-radius: 14px !important;
+    object-fit: cover !important;
+    border: 2px solid transparent !important;
+}
+
+.dossier-online-dot {
+    position: absolute !important;
+    bottom: -2px !important;
+    right: -2px !important;
+    width: 12px !important;
+    height: 12px !important;
+    background: #10B981 !important;
+    border: 2.5px solid #0D111A !important;
+    border-radius: 50% !important;
+}
+
+.dossier-num-badge {
+    font-family: var(--font-mono) !important;
+    font-size: 10px !important;
+    font-weight: 800 !important;
+    letter-spacing: 0.08em !important;
+}
+
+.dossier-agent-name {
+    font-family: var(--font-headline) !important;
+    font-size: 18px !important;
+    font-weight: 800 !important;
+    color: #FFF !important;
+    margin: 2px 0 !important;
+}
+
+.dossier-agent-role {
+    font-size: 12px !important;
+    color: #94A3B8 !important;
+    margin: 0 !important;
+}
+
+.dossier-agent-desc {
+    font-size: 13px !important;
+    color: #CBD5E1 !important;
+    line-height: 1.55 !important;
+    margin: 0 0 16px 0 !important;
+}
+
+.dossier-deliverables-box {
+    background: rgba(255, 255, 255, 0.02) !important;
+    border: 1px solid rgba(255, 255, 255, 0.06) !important;
+    border-radius: 10px !important;
+    padding: 12px 14px !important;
+    margin-bottom: 20px !important;
+}
+
+.deliverables-label {
+    display: block !important;
+    font-family: var(--font-mono) !important;
+    font-size: 10px !important;
+    font-weight: 700 !important;
+    color: #94A3B8 !important;
+    text-transform: uppercase !important;
+    margin-bottom: 4px !important;
+}
+
+.deliverables-text {
+    font-size: 12px !important;
+    color: #E2E8F0 !important;
+    line-height: 1.45 !important;
+    margin: 0 !important;
+}
+
+.btn-dossier-chat {
+    width: 100% !important;
+    background: rgba(255, 255, 255, 0.04) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: 10px !important;
+    padding: 10px !important;
+    color: #FFF !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+}
+
+.btn-dossier-chat:hover {
+    background: rgba(0, 210, 255, 0.12) !important;
+    border-color: rgba(0, 210, 255, 0.4) !important;
+    color: #00D2FF !important;
+}
+
+/* PROJETOS & BRIEFING GUIADO */
+.proj-toolbar-architectural {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 16px !important;
+    flex-wrap: wrap !important;
+    background: rgba(13, 17, 26, 0.7) !important;
+    border: 1px solid var(--vide-border-hairline) !important;
+    border-radius: 14px !important;
+    padding: 14px 20px !important;
+    margin-bottom: 24px !important;
+}
+
+.proj-selector-wrap {
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+    flex: 1 !important;
+    min-width: 280px !important;
+}
+
+.proj-selector-label {
+    font-size: 12.5px !important;
+    font-weight: 700 !important;
+    color: #94A3B8 !important;
+    white-space: nowrap !important;
+}
+
+.proj-selector-dropdown-architectural {
+    background: rgba(8, 10, 16, 0.9) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: 10px !important;
+    padding: 8px 14px !important;
+    color: #FFF !important;
+    font-size: 13px !important;
+    flex: 1 !important;
+    outline: none !important;
+}
+
+.btn-new-demand-primary {
+    background: linear-gradient(135deg, #00D2FF 0%, #0284C7 100%) !important;
+    border: none !important;
+    border-radius: 10px !important;
+    padding: 9px 18px !important;
+    color: #04101E !important;
+    font-size: 13px !important;
+    font-weight: 700 !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    cursor: pointer !important;
+}
+
+.strategy-dossier-banner {
+    background: rgba(13, 17, 26, 0.7) !important;
+    border: 1px solid var(--vide-border-hairline) !important;
+    border-radius: 18px !important;
+    padding: 24px !important;
+    margin-bottom: 24px !important;
+    backdrop-filter: blur(20px) !important;
+}
+
+.strategy-banner-top {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: flex-start !important;
+    gap: 20px !important;
+    flex-wrap: wrap !important;
+    margin-bottom: 20px !important;
+}
+
+.strategy-status-row {
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    margin-bottom: 8px !important;
+}
+
+.scope-fidelity-badge {
+    font-size: 11px !important;
+    font-weight: 700 !important;
+    color: #10B981 !important;
+    background: rgba(16, 185, 129, 0.1) !important;
+    border: 1px solid rgba(16, 185, 129, 0.25) !important;
+    padding: 3px 8px !important;
+    border-radius: 6px !important;
+}
+
+.strategy-banner-title {
+    font-family: var(--font-headline) !important;
+    font-size: 20px !important;
+    font-weight: 800 !important;
+    color: #FFF !important;
+    margin: 0 0 6px 0 !important;
+}
+
+.strategy-banner-sub {
+    font-size: 13px !important;
+    color: #94A3B8 !important;
+    line-height: 1.5 !important;
+    max-width: 800px !important;
+    margin: 0 !important;
+}
+
+.strategy-banner-cta {
+    display: flex !important;
+    gap: 10px !important;
+    align-items: center !important;
+    flex-wrap: wrap !important;
+}
+
+.strategy-summary-grid {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)) !important;
+    gap: 12px !important;
+}
+
+.strategy-cell {
+    background: rgba(255, 255, 255, 0.02) !important;
+    border: 1px solid rgba(255, 255, 255, 0.06) !important;
+    border-radius: 10px !important;
+    padding: 12px 14px !important;
+}
+
+.cell-label {
+    display: block !important;
+    font-family: var(--font-mono) !important;
+    font-size: 10px !important;
+    color: #94A3B8 !important;
+    text-transform: uppercase !important;
+    margin-bottom: 4px !important;
+}
+
+.cell-val {
+    font-size: 13px !important;
+    font-weight: 700 !important;
+    color: #FFF !important;
+}
+
+/* BRIEFING GUIADO INTUITIVO (NOVO) */
+.guided-briefing-master-card {
+    background: rgba(13, 17, 26, 0.85) !important;
+    border: 1px solid rgba(0, 210, 255, 0.25) !important;
+    border-radius: 20px !important;
+    padding: 28px !important;
+    margin-bottom: 24px !important;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6) !important;
+}
+
+.briefing-card-header {
+    margin-bottom: 24px !important;
+}
+
+.briefing-badge-row {
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    margin-bottom: 8px !important;
+}
+
+.briefing-tag-pill {
+    font-family: var(--font-mono) !important;
+    font-size: 10px !important;
+    font-weight: 800 !important;
+    color: #00D2FF !important;
+    background: rgba(0, 210, 255, 0.12) !important;
+    border: 1px solid rgba(0, 210, 255, 0.3) !important;
+    padding: 3px 8px !important;
+    border-radius: 6px !important;
+}
+
+.briefing-status-pill {
+    font-size: 11px !important;
+    font-weight: 600 !important;
+    color: #10B981 !important;
+}
+
+.briefing-main-title {
+    font-family: var(--font-headline) !important;
+    font-size: 22px !important;
+    font-weight: 800 !important;
+    color: #FFF !important;
+    margin: 0 0 6px 0 !important;
+}
+
+.briefing-desc-text {
+    font-size: 13.5px !important;
+    color: #94A3B8 !important;
+    line-height: 1.55 !important;
+    margin: 0 !important;
+}
+
+.briefing-questions-grid {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 16px !important;
+}
+
+.briefing-question-box {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 6px !important;
+}
+
+.question-label {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    font-size: 13px !important;
+    font-weight: 700 !important;
+    color: #FFF !important;
+}
+
+.q-num {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 20px !important;
+    height: 20px !important;
+    background: rgba(0, 210, 255, 0.15) !important;
+    color: #00D2FF !important;
+    border-radius: 6px !important;
+    font-size: 11px !important;
+    font-weight: 800 !important;
+}
+
+.briefing-input-field {
+    background: rgba(8, 10, 16, 0.85) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: 12px !important;
+    padding: 12px 16px !important;
+    color: #FFF !important;
+    font-size: 13.5px !important;
+    outline: none !important;
+    transition: border 0.2s ease !important;
+}
+
+.briefing-input-field:focus {
+    border-color: #00D2FF !important;
+}
+
+.briefing-actions-bar {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 16px !important;
+    flex-wrap: wrap !important;
+    margin-top: 10px !important;
+    padding-top: 16px !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.07) !important;
+}
+
+.briefing-save-meta {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    font-size: 12px !important;
+    color: #10B981 !important;
+}
+
+.btn-briefing-save {
+    background: linear-gradient(135deg, #10B981 0%, #059669 100%) !important;
+    border: none !important;
+    border-radius: 10px !important;
+    padding: 10px 20px !important;
+    color: #04100C !important;
+    font-size: 13px !important;
+    font-weight: 700 !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    cursor: pointer !important;
+}
+
+.btn-briefing-chat {
+    background: rgba(255, 255, 255, 0.05) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: 10px !important;
+    padding: 10px 16px !important;
+    color: #CBD5E1 !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    cursor: pointer !important;
+}
+
+.briefing-supporting-files-drawer {
+    margin-top: 20px !important;
+    padding-top: 16px !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.07) !important;
+}
+
+.proj-flow-container-architectural {
+    background: rgba(13, 17, 26, 0.7) !important;
+    border: 1px solid var(--vide-border-hairline) !important;
+    border-radius: 18px !important;
+    padding: 24px !important;
+}
+
+.proj-flow-title {
+    font-family: var(--font-headline) !important;
+    font-size: 18px !important;
+    font-weight: 800 !important;
+    color: #FFF !important;
+    margin: 0 !important;
+}
+
+.proj-flow-sub {
+    font-size: 12.5px !important;
+    color: #94A3B8 !important;
+    margin: 2px 0 0 0 !important;
+}
+
+.proj-flow-count {
+    font-family: var(--font-mono) !important;
+    font-size: 11px !important;
+    color: #94A3B8 !important;
+    background: rgba(255, 255, 255, 0.04) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    padding: 4px 10px !important;
+    border-radius: 6px !important;
+}
+
+.proj-progress-row {
+    margin-bottom: 24px !important;
+}
+
+.progress-meta {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    font-size: 12.5px !important;
+    color: #CBD5E1 !important;
+    margin-bottom: 6px !important;
+}
+
+.progress-track-architectural {
+    height: 8px !important;
+    background: rgba(255, 255, 255, 0.05) !important;
+    border-radius: 999px !important;
+    overflow: hidden !important;
+}
+
+.progress-fill-architectural {
+    height: 100% !important;
+    background: linear-gradient(90deg, #00D2FF 0%, #38BDF8 100%) !important;
+    border-radius: 999px !important;
+    transition: width 0.4s ease !important;
+}
+
+/* ENTREGAS ARQUITETÔNICAS */
+.entregas-grid-architectural {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)) !important;
+    gap: 24px !important;
+}
+
+.deliverable-card-architectural {
+    background: rgba(13, 17, 26, 0.7) !important;
+    border: 1px solid var(--vide-border-hairline) !important;
+    border-radius: 18px !important;
+    overflow: hidden !important;
+    display: flex !important;
+    flex-direction: column !important;
+    backdrop-filter: blur(20px) !important;
+    transition: all 0.25s ease !important;
+}
+
+.deliverable-card-architectural:hover {
+    border-color: rgba(255, 255, 255, 0.15) !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.6) !important;
+}
+
+.deliverable-card-art {
+    height: 160px !important;
+    background-size: cover !important;
+    background-position: center !important;
+    position: relative !important;
+}
+
+.deliverable-art-overlay {
+    position: absolute !important;
+    inset: 0 !important;
+    background: linear-gradient(180deg, rgba(7,9,14,0.1) 0%, rgba(13,17,26,0.95) 100%) !important;
+}
+
+.deliverable-status-tag {
+    position: absolute !important;
+    top: 14px !important;
+    right: 14px !important;
+    font-size: 11px !important;
+    font-weight: 700 !important;
+    padding: 3px 8px !important;
+    border-radius: 6px !important;
+    backdrop-filter: blur(8px) !important;
+}
+
+.deliverable-status-tag.homologado {
+    background: rgba(16, 185, 129, 0.2) !important;
+    border: 1px solid rgba(16, 185, 129, 0.4) !important;
+    color: #10B981 !important;
+}
+
+.deliverable-status-tag.analysis {
+    background: rgba(245, 158, 11, 0.2) !important;
+    border: 1px solid rgba(245, 158, 11, 0.4) !important;
+    color: #F59E0B !important;
+}
+
+.deliverable-card-body {
+    padding: 20px !important;
+    flex: 1 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+}
+
+.deliverable-type-tag {
+    font-family: var(--font-mono) !important;
+    font-size: 10px !important;
+    font-weight: 800 !important;
+    letter-spacing: 0.08em !important;
+    margin-bottom: 4px !important;
+}
+
+.deliverable-card-title {
+    font-family: var(--font-headline) !important;
+    font-size: 17px !important;
+    font-weight: 800 !important;
+    color: #FFF !important;
+    margin: 0 0 8px 0 !important;
+}
+
+.deliverable-card-desc {
+    font-size: 12.5px !important;
+    color: #94A3B8 !important;
+    line-height: 1.5 !important;
+    margin: 0 0 16px 0 !important;
+}
+
+.deliverable-card-footer {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    padding-top: 14px !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.06) !important;
+}
+
+.deliverable-author {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    font-size: 12px !important;
+    color: #CBD5E1 !important;
+}
+
+.deliverable-author img {
+    width: 24px !important;
+    height: 24px !important;
+    border-radius: 6px !important;
+    object-fit: cover !important;
+}
+
+.btn-deliverable-view {
+    background: rgba(255, 255, 255, 0.04) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: 8px !important;
+    padding: 6px 12px !important;
+    color: #00D2FF !important;
+    font-size: 12px !important;
+    font-weight: 600 !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+}
+
+.btn-deliverable-view:hover {
+    background: rgba(0, 210, 255, 0.12) !important;
+    border-color: rgba(0, 210, 255, 0.4) !important;
+}
+
+/* ÁREA AVANÇADA */
+.avancado-subtabs-architectural {
+    display: inline-flex !important;
+    gap: 8px !important;
+    padding: 6px !important;
+    background: rgba(13, 17, 26, 0.8) !important;
+    border: 1px solid var(--vide-border-hairline) !important;
+    border-radius: 12px !important;
+    margin-bottom: 24px !important;
+}
+
+.avancado-subtab-btn {
+    background: transparent !important;
+    border: none !important;
+    border-radius: 8px !important;
+    padding: 8px 18px !important;
+    color: #94A3B8 !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+}
+
+.avancado-subtab-btn:hover {
+    color: #FFF !important;
+}
+
+.avancado-subtab-btn.active {
+    background: rgba(0, 210, 255, 0.12) !important;
+    color: #00D2FF !important;
+    border: 1px solid rgba(0, 210, 255, 0.25) !important;
+}
+
+/* RESPONSIVIDADE MOBILE 390px */
+@media (max-width: 900px) {
+    .workbench-gateway-grid {
+        grid-template-columns: 1fr !important;
+    }
+    .chat-workspace-architectural {
+        grid-template-columns: 1fr !important;
+        height: auto !important;
+    }
+    .chat-sidebar-architectural {
+        max-height: 140px !important;
+    }
+    .chat-agents-list-architectural {
+        flex-direction: row !important;
+        overflow-x: auto !important;
+        overflow-y: hidden !important;
+    }
+    .chat-sidebar-agent-item {
+        flex-shrink: 0 !important;
+    }
+}
+
 </style>
 </head>
 <body>
@@ -6599,12 +7765,15 @@ body {
          * VIEW 1: INÍCIO (VISÃO GERAL EXECUTIVA & PONTO DE PARTIDA)
          * ================================================================= -->
         
+        <!-- =================================================================
+         * VIEW 1: INÍCIO (COMANDO SOBERANO VIDE — SHOPIFY EDITIONS MOTOR)
+         * ================================================================= -->
         <div id="view-inicio" class="exec-view active edition-view">
             <!-- Barra Superior de Progresso de Scroll com Rastro de Luz -->
             <div id="edition-scroll-indicator" class="edition-scroll-indicator"></div>
 
             <!-- =================================================================
-             * SECTION 1: ABERTURA ASSIMÉTRICA MONUMENTAL (SHOPIFY EDITIONS WINTER '26)
+             * SECTION 1: ABERTURA ASSIMÉTRICA MONUMENTAL (COMANDO SOBERANO VIDE)
              * ================================================================= -->
             <section class="edition-hero-stage-widescreen">
                 <!-- Fundo Escultural Imersivo com Parallax -->
@@ -6616,16 +7785,16 @@ body {
                     <div class="hero-command-hub">
                         <div class="hero-live-pill">
                             <span class="live-dot-pulse"></span>
-                            <span>Sistema Online · Gabriel Rocha e 7 especialistas prontos</span>
+                            <span>Sistema Online · Gabriel Rocha e 7 especialistas em prontidão</span>
                         </div>
 
                         <div class="hero-title-group">
-                            <div class="hero-brand-kicker">VIDE</div>
-                            <h1 class="hero-main-title">Central de Comando</h1>
+                            <div class="hero-brand-kicker">01 / CENTRAL DE COMANDO</div>
+                            <h1 class="hero-main-title">Direção Executiva & Operação</h1>
                         </div>
 
                         <p class="hero-desc-prose">
-                            Ambiente de trabalho da diretoria para orientar a equipe digital, acompanhar o progresso de demandas comerciais e homologar entregas.
+                            Ambiente de trabalho da diretoria da VIDE para orientar a equipe digital, acompanhar o progresso de demandas comerciais e homologar entregas.
                         </p>
 
                         <!-- CONSOLE DE DESPACHO DIRETO COM O COORDENADOR GERAL -->
@@ -6637,7 +7806,7 @@ body {
                                 </div>
                                 <div class="directive-deck-title">
                                     <h4>Gabriel Rocha</h4>
-                                    <p>Coordenador Geral da Operação</p>
+                                    <p>Coordenador Geral</p>
                                 </div>
                             </div>
                             
@@ -6666,7 +7835,7 @@ body {
                         </div>
                     </div>
 
-                    <!-- COLUNA DIREITA: DEMANDA ATIVA EM FOCO & TELAS DO SISTEMA -->
+                    <!-- COLUNA DIREITA: DEMANDA ATIVA EM FOCO & DOSSIÊ OPERACIONAL -->
                     <div class="hero-operations-centerpiece">
                         <div class="hero-centerpiece-art" style="background-image: url('assets/images/vide_governanca_monolito.jpg');"></div>
                         <div class="centerpiece-gradient-overlay"></div>
@@ -6714,7 +7883,7 @@ body {
                 </div>
 
                 <!-- =============================================================
-                 * FAIXA DE ESPECIFICAÇÃO ARQUITETÔNICA (4 COLUNAS SEM CARD SOUP)
+                 * FAIXA DE ESPECIFICAÇÃO ARQUITETÔNICA (4 COLUNAS REALISTAS)
                  * ============================================================= -->
                 <div class="edition-spec-sheet">
                     <div class="spec-sheet-cell">
@@ -6743,9 +7912,9 @@ body {
 
                     <div class="spec-sheet-cell">
                         <div class="spec-sheet-label">Entregas Homologadas</div>
-                        <div class="spec-sheet-val purple" id="inicio-total-entregas-badge">3 Arquivos</div>
+                        <div class="spec-sheet-val purple" id="inicio-total-entregas-badge">4 Arquivos</div>
                         <div class="spec-sheet-status">
-                            Prontos para Download
+                            Prontos para Consulta
                         </div>
                     </div>
                 </div>
@@ -6801,7 +7970,7 @@ body {
                             </div>
                         </div>
 
-                        <div style="position: relative; z-index: 1; display: flex; gap: 12px; margin-top: 24px;">
+                        <div style="position: relative; z-index: 1; display: flex; gap: 12px; margin-top: 24px; flex-wrap: wrap;">
                             <button class="hero-shortcut-btn primary" onclick="abrirModalNovoProjeto()">
                                 <i class="fas fa-plus"></i> Iniciar Nova Demanda
                             </button>
@@ -6853,726 +8022,874 @@ body {
             </section>
 
             <!-- =================================================================
-             * SECTION 3: EQUIPE DIGITAL — OS 7 ESPECIALISTAS DA VIDE
+             * SECTION 3: PORTAIS DE ACESSO OPERACIONAL (WORKBENCH GATEWAY)
+             * Elimina o acúmulo de cards empilhados e conduz à operação real
              * ================================================================= -->
-            <section class="edition-chapter-section scroll-reveal" id="capitulo-equipe">
-                <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 24px;">
-                    <div>
-                        <div class="edition-chapter-tag">Equipe Digital</div>
-                        <h2 class="edition-chapter-title">Especialistas em Prontidão</h2>
-                        <p class="edition-chapter-subtitle">Sete profissionais seniores dedicados à operação comercial da VIDE, coordenados por Gabriel Rocha.</p>
-                    </div>
-                    <button class="hero-shortcut-btn" onclick="alternarAbaPrincipal('equipe')">
-                        Ver Bancadas de Trabalho <i class="fas fa-arrow-right" style="margin-left: 6px;"></i>
-                    </button>
+            <section class="edition-chapter-section scroll-reveal" id="capitulo-portais-operacao">
+                <div class="edition-chapter-header">
+                    <div class="edition-chapter-tag">Ambientes de Trabalho</div>
+                    <h2 class="edition-chapter-title">Acesso Direto à Operação</h2>
+                    <p class="edition-chapter-subtitle">
+                        Navegue diretamente para o console de conversa, as bancadas especializadas da equipe ou a esteira de projetos e tarefas.
+                    </p>
                 </div>
 
-                <div class="inicio-team-grid" id="inicio-agentes-mini-grid">
-                    <!-- Renderizado dinamicamente via JavaScript com template refinado -->
-                </div>
-            </section>
-
-            <!-- =================================================================
-             * SECTION 4: ENTREGAS RECENTES & ARQUIVOS HOMOLOGADOS
-             * ================================================================= -->
-            <section class="edition-chapter-section scroll-reveal" id="capitulo-entregas-destaque">
-                <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 28px;">
-                    <div>
-                        <div class="edition-chapter-tag">Entregáveis</div>
-                        <h2 class="edition-chapter-title">Entregas Homologadas</h2>
-                        <p class="edition-chapter-subtitle">Ativos digitais e físicos validados pelos especialistas, prontos para uso e download.</p>
-                    </div>
-                    <button class="hero-shortcut-btn" onclick="alternarAbaPrincipal('entregas')">
-                        Galeria de Entregas <i class="fas fa-arrow-right" style="margin-left: 6px;"></i>
-                    </button>
-                </div>
-
-                <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px;">
-                    <div class="exec-agent-card-lux" onclick="alternarAbaPrincipal('entregas')" style="--agent-color: #10B981; --agent-glow: rgba(16, 185, 129, 0.2);">
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-                            <span style="font-size: 11px; font-weight: 700; color: #10B981; background: rgba(16, 185, 129, 0.1); padding: 3px 8px; border-radius: 4px;">SITE & LANDING PAGE</span>
-                            <span style="font-size: 11px; color: #10B981;"><i class="fas fa-circle" style="font-size: 7px;"></i> Homologado</span>
+                <div class="workbench-gateway-grid">
+                    <!-- Portal 1: Conversar -->
+                    <div class="workbench-gateway-card" onclick="alternarAbaPrincipal('conversar')">
+                        <div class="gateway-card-top">
+                            <div class="gateway-icon-badge" style="background: rgba(0, 210, 255, 0.12); color: #00D2FF; border-color: rgba(0, 210, 255, 0.3);">
+                                <i class="fas fa-comments"></i>
+                            </div>
+                            <span class="gateway-status-pill">Online</span>
                         </div>
-                        <h4 style="font-size: 16px; font-weight: 700; color: #FFFFFF; margin: 0 0 6px 0;">Landing Page de Alta Conversão</h4>
-                        <p style="font-size: 12.5px; color: #94A3B8; line-height: 1.5; margin: 0 0 16px 0;">Código front-end responsivo, mobile-first, otimizado para carregamento em 1,2s.</p>
-                        <div class="agent-card-cta-btn">
-                            <i class="fas fa-eye"></i> Visualizar Ativo
+                        <div class="gateway-card-body">
+                            <h3 class="gateway-card-title">Console de Conversação</h3>
+                            <p class="gateway-card-desc">
+                                Despache instruções pontuais ou converse diretamente com Gabriel Rocha e qualquer um dos 7 especialistas da equipe.
+                            </p>
+                        </div>
+                        <div class="gateway-card-cta">
+                            <span>Abrir Console de Conversa</span> <i class="fas fa-arrow-right"></i>
                         </div>
                     </div>
 
-                    <div class="exec-agent-card-lux" onclick="alternarAbaPrincipal('entregas')" style="--agent-color: #F59E0B; --agent-glow: rgba(245, 158, 11, 0.2);">
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-                            <span style="font-size: 11px; font-weight: 700; color: #F59E0B; background: rgba(245, 158, 11, 0.1); padding: 3px 8px; border-radius: 4px;">BRANDING & DESIGN</span>
-                            <span style="font-size: 11px; color: #10B981;"><i class="fas fa-circle" style="font-size: 7px;"></i> Homologado</span>
+                    <!-- Portal 2: Equipe Digital -->
+                    <div class="workbench-gateway-card" onclick="alternarAbaPrincipal('equipe')">
+                        <div class="gateway-card-top">
+                            <div class="gateway-icon-badge" style="background: rgba(56, 189, 248, 0.12); color: #38BDF8; border-color: rgba(56, 189, 248, 0.3);">
+                                <i class="fas fa-users-gear"></i>
+                            </div>
+                            <span class="gateway-status-pill">7 Profissionais</span>
                         </div>
-                        <h4 style="font-size: 16px; font-weight: 700; color: #FFFFFF; margin: 0 0 6px 0;">Manual de Identidade Visual</h4>
-                        <p style="font-size: 12.5px; color: #94A3B8; line-height: 1.5; margin: 0 0 16px 0;">Manual de marca com paleta cromática, tipografias corporativas e assets vetoriais.</p>
-                        <div class="agent-card-cta-btn">
-                            <i class="fas fa-eye"></i> Visualizar Ativo
+                        <div class="gateway-card-body">
+                            <h3 class="gateway-card-title">Bancadas da Equipe Digital</h3>
+                            <p class="gateway-card-desc">
+                                Acesse as bancadas de trabalho, atribuições oficiais, entregáveis e comandos diretos dos 7 especialistas seniores.
+                            </p>
                         </div>
-                    </div>
-
-                    <div class="exec-agent-card-lux" onclick="alternarAbaPrincipal('entregas')" style="--agent-color: #38BDF8; --agent-glow: rgba(56, 189, 248, 0.2);">
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-                            <span style="font-size: 11px; font-weight: 700; color: #38BDF8; background: rgba(56, 189, 248, 0.1); padding: 3px 8px; border-radius: 4px;">TRÁFEGO & PERFORMANCE</span>
-                            <span style="font-size: 11px; color: #10B981;"><i class="fas fa-circle" style="font-size: 7px;"></i> Homologado</span>
-                        </div>
-                        <h4 style="font-size: 16px; font-weight: 700; color: #FFFFFF; margin: 0 0 6px 0;">Estratégia de Aquisição de Tráfego</h4>
-                        <p style="font-size: 12.5px; color: #94A3B8; line-height: 1.5; margin: 0 0 16px 0;">Mapeamento de público-alvo, criativos persuasivos, pixels de rastreamento e distribuição.</p>
-                        <div class="agent-card-cta-btn">
-                            <i class="fas fa-eye"></i> Visualizar Ativo
+                        <div class="gateway-card-cta">
+                            <span>Ver Bancadas da Equipe</span> <i class="fas fa-arrow-right"></i>
                         </div>
                     </div>
 
-                    <div class="exec-agent-card-lux" onclick="alternarAbaPrincipal('entregas')" style="--agent-color: #EC4899; --agent-glow: rgba(236, 72, 153, 0.2);">
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-                            <span style="font-size: 11px; font-weight: 700; color: #EC4899; background: rgba(236, 72, 153, 0.1); padding: 3px 8px; border-radius: 4px;">VENDAS & ATENDIMENTO</span>
-                            <span style="font-size: 11px; color: #F59E0B;"><i class="fas fa-circle" style="font-size: 7px;"></i> Em Análise</span>
+                    <!-- Portal 3: Projetos & Esteira -->
+                    <div class="workbench-gateway-card" onclick="alternarAbaPrincipal('projetos')">
+                        <div class="gateway-card-top">
+                            <div class="gateway-icon-badge" style="background: rgba(16, 185, 129, 0.12); color: #10B981; border-color: rgba(16, 185, 129, 0.3);">
+                                <i class="fas fa-diagram-project"></i>
+                            </div>
+                            <span class="gateway-status-pill">4 Demandas</span>
                         </div>
-                        <h4 style="font-size: 16px; font-weight: 700; color: #FFFFFF; margin: 0 0 6px 0;">Fluxo Automatizado WhatsApp</h4>
-                        <p style="font-size: 12.5px; color: #94A3B8; line-height: 1.5; margin: 0 0 16px 0;">Script de abordagem comercial, qualificação ágil de leads e integração n8n.</p>
-                        <div class="agent-card-cta-btn">
-                            <i class="fas fa-eye"></i> Visualizar Ativo
+                        <div class="gateway-card-body">
+                            <h3 class="gateway-card-title">Esteira de Projetos & Tarefas</h3>
+                            <p class="gateway-card-desc">
+                                Acompanhe o avanço das 7 etapas de cada demanda comercial, gerencie tarefas da equipe e aprove entregáveis.
+                            </p>
+                        </div>
+                        <div class="gateway-card-cta">
+                            <span>Acompanhar Projetos</span> <i class="fas fa-arrow-right"></i>
                         </div>
                     </div>
                 </div>
             </section>
         </div>
 
+        <!-- =================================================================
+         * VIEW 2: CONVERSAR (CONSOLE DE CONVERSAÇÃO ARQUITETÔNICO COM OS 7 AGENTES)
+         * ================================================================= -->
         <div id="view-conversar" class="exec-view">
-            <div class="chat-workspace">
-                <!-- Sidebar de Especialistas -->
-                <aside class="chat-sidebar">
-                    <div class="chat-sidebar-header">
-                        <h3><i class="fas fa-users"></i> Especialistas VIDE</h3>
-                        <span style="font-family: var(--font-mono); font-size: 10px; color: var(--green-emerald);">7 Disponíveis</span>
+            <div class="chat-workspace-architectural">
+                <!-- Sidebar Lateral: Lista Completa dos 7 Especialistas Seniores -->
+                <aside class="chat-sidebar-architectural">
+                    <div class="chat-sidebar-header-architectural">
+                        <div style="display: flex; align-items: center; justify-content: space-between;">
+                            <span class="sidebar-kicker">EQUIPE DIGITAL</span>
+                            <span class="sidebar-online-count"><i class="fas fa-circle" style="color: #10B981; font-size: 7px;"></i> 7 Prontos</span>
+                        </div>
+                        <h3 class="sidebar-title">Especialistas VIDE</h3>
                     </div>
 
-                    <div class="chat-agents-list" id="chat-sidebar-agents-container">
-                        <!-- Itens renderizados dinamicamente pelo JS -->
-                    </div>
-                </aside>
-
-                <!-- Painel de Chat Principal -->
-                <main class="chat-main-panel">
-                    <header class="chat-main-header">
-                        <div class="chat-header-agent-info">
-                            <div class="chat-header-avatar" id="chat-active-avatar" style="background: rgba(0, 229, 255, 0.15); color: #00E5FF;">
-                                <i class="fas fa-diagram-project"></i>
+                    <div class="chat-agents-list-architectural" id="chat-sidebar-agents-container">
+                        <!-- Item 1: Gabriel Rocha -->
+                        <div class="chat-sidebar-agent-item active" onclick="selecionarAgenteChat('agente_02_coordenador')" id="chat-agent-item-agente_02_coordenador" style="border-left: 3px solid #00D2FF;">
+                            <div class="agent-avatar-wrap">
+                                <img src="assets/avatars/gabriel_rocha.jpg" alt="Gabriel Rocha" onerror="this.src='logo_vide.jpg'">
+                                <span class="avatar-status-dot online"></span>
                             </div>
-                            <div class="chat-header-text">
-                                <h3 id="chat-active-name">Coordenador Geral <span style="font-family: var(--font-mono); font-size: 10px; color: var(--green-emerald); font-weight: 500;">• Online</span></h3>
-                                <p id="chat-active-role">Liderança Operacional e Planejamento de Projetos</p>
+                            <div class="agent-info-wrap">
+                                <div class="agent-name-row">
+                                    <h4>Gabriel Rocha</h4>
+                                    <span class="agent-num-tag" style="color: #00D2FF;">#02</span>
+                                </div>
+                                <p class="agent-role-txt">Coordenação Geral & Estratégia</p>
                             </div>
                         </div>
 
-                        <div style="display: flex; align-items: center; gap: 12px;">
-                            <div class="chat-context-chip" id="chat-context-chip-projeto">
-                                <i class="fas fa-folder"></i> <span id="chat-context-projeto-txt">Projeto: AutoPeças Progresso</span>
+                        <!-- Item 2: Lucas Fontana -->
+                        <div class="chat-sidebar-agent-item" onclick="selecionarAgenteChat('agente_01_triagem')" id="chat-agent-item-agente_01_triagem" style="border-left: 3px solid #38BDF8;">
+                            <div class="agent-avatar-wrap">
+                                <img src="assets/avatars/lucas_fontana.jpg" alt="Lucas Fontana" onerror="this.src='logo_vide.jpg'">
+                                <span class="avatar-status-dot online"></span>
                             </div>
-                            <button class="btn-outline-subtle" onclick="limparHistoricoChat()" title="Limpar mensagens desta conversa" style="padding: 6px 10px; font-size: 11px;">
-                                <i class="fas fa-trash"></i>
+                            <div class="agent-info-wrap">
+                                <div class="agent-name-row">
+                                    <h4>Lucas Fontana</h4>
+                                    <span class="agent-num-tag" style="color: #38BDF8;">#01</span>
+                                </div>
+                                <p class="agent-role-txt">Triagem & Qualificação Comercial</p>
+                            </div>
+                        </div>
+
+                        <!-- Item 3: Helena Prado -->
+                        <div class="chat-sidebar-agent-item" onclick="selecionarAgenteChat('agente_04_branding_design')" id="chat-agent-item-agente_04_branding_design" style="border-left: 3px solid #F59E0B;">
+                            <div class="agent-avatar-wrap">
+                                <img src="assets/avatars/helena_prado.jpg" alt="Helena Prado" onerror="this.src='logo_vide.jpg'">
+                                <span class="avatar-status-dot online"></span>
+                            </div>
+                            <div class="agent-info-wrap">
+                                <div class="agent-name-row">
+                                    <h4>Helena Prado</h4>
+                                    <span class="agent-num-tag" style="color: #F59E0B;">#04</span>
+                                </div>
+                                <p class="agent-role-txt">Direção de Arte & Branding</p>
+                            </div>
+                        </div>
+
+                        <!-- Item 4: Rafael Duarte -->
+                        <div class="chat-sidebar-agent-item" onclick="selecionarAgenteChat('agente_03_desenvolvedor')" id="chat-agent-item-agente_03_desenvolvedor" style="border-left: 3px solid #10B981;">
+                            <div class="agent-avatar-wrap">
+                                <img src="assets/avatars/rafael_duarte.jpg" alt="Rafael Duarte" onerror="this.src='logo_vide.jpg'">
+                                <span class="avatar-status-dot online"></span>
+                            </div>
+                            <div class="agent-info-wrap">
+                                <div class="agent-name-row">
+                                    <h4>Rafael Duarte</h4>
+                                    <span class="agent-num-tag" style="color: #10B981;">#03</span>
+                                </div>
+                                <p class="agent-role-txt">Engenharia Web & Performance</p>
+                            </div>
+                        </div>
+
+                        <!-- Item 5: Camila Silveira -->
+                        <div class="chat-sidebar-agent-item" onclick="selecionarAgenteChat('agente_05_atendimento')" id="chat-agent-item-agente_05_atendimento" style="border-left: 3px solid #EC4899;">
+                            <div class="agent-avatar-wrap">
+                                <img src="assets/avatars/camila_silveira.jpg" alt="Camila Silveira" onerror="this.src='logo_vide.jpg'">
+                                <span class="avatar-status-dot online"></span>
+                            </div>
+                            <div class="agent-info-wrap">
+                                <div class="agent-name-row">
+                                    <h4>Camila Silveira</h4>
+                                    <span class="agent-num-tag" style="color: #EC4899;">#05</span>
+                                </div>
+                                <p class="agent-role-txt">Atendimento & Vendas WhatsApp</p>
+                            </div>
+                        </div>
+
+                        <!-- Item 6: Thiago Meireles -->
+                        <div class="chat-sidebar-agent-item" onclick="selecionarAgenteChat('agente_06_automacao')" id="chat-agent-item-agente_06_automacao" style="border-left: 3px solid #F97316;">
+                            <div class="agent-avatar-wrap">
+                                <img src="assets/avatars/thiago_meireles.jpg" alt="Thiago Meireles" onerror="this.src='logo_vide.jpg'">
+                                <span class="avatar-status-dot online"></span>
+                            </div>
+                            <div class="agent-info-wrap">
+                                <div class="agent-name-row">
+                                    <h4>Thiago Meireles</h4>
+                                    <span class="agent-num-tag" style="color: #F97316;">#06</span>
+                                </div>
+                                <p class="agent-role-txt">Engenharia de Automações & n8n</p>
+                            </div>
+                        </div>
+
+                        <!-- Item 7: Matheus Barreto -->
+                        <div class="chat-sidebar-agent-item" onclick="selecionarAgenteChat('agente_07_inteligencia_comercial')" id="chat-agent-item-agente_07_inteligencia_comercial" style="border-left: 3px solid #8B5CF6;">
+                            <div class="agent-avatar-wrap">
+                                <img src="assets/avatars/matheus_barreto.jpg" alt="Matheus Barreto" onerror="this.src='logo_vide.jpg'">
+                                <span class="avatar-status-dot online"></span>
+                            </div>
+                            <div class="agent-info-wrap">
+                                <div class="agent-name-row">
+                                    <h4>Matheus Barreto</h4>
+                                    <span class="agent-num-tag" style="color: #8B5CF6;">#07</span>
+                                </div>
+                                <p class="agent-role-txt">Inteligência Comercial & Growth 7D</p>
+                            </div>
+                        </div>
+                    </div>
+                </aside>
+
+                <!-- Painel Central de Mensagens e Despacho -->
+                <div class="chat-main-architectural">
+                    <header class="chat-header-architectural">
+                        <div class="chat-active-profile">
+                            <div class="chat-active-avatar-wrap" id="chat-active-avatar">
+                                <img id="chat-active-avatar-img" src="assets/avatars/gabriel_rocha.jpg" alt="Gabriel Rocha" onerror="this.src='logo_vide.jpg'">
+                                <div class="active-pulse-ring"></div>
+                            </div>
+                            <div class="chat-active-meta">
+                                <div style="display: flex; align-items: center; gap: 8px;">
+                                    <h3 id="chat-active-name">Gabriel Rocha</h3>
+                                    <span class="chat-online-badge"><i class="fas fa-circle"></i> Online</span>
+                                </div>
+                                <p id="chat-active-role">Coordenador Geral & Estrategista da Equipe Digital</p>
+                            </div>
+                        </div>
+
+                        <div class="chat-header-actions">
+                            <div class="chat-project-chip" id="chat-context-chip-projeto">
+                                <i class="fas fa-folder-open" style="color: #00D2FF;"></i>
+                                <span id="chat-context-projeto-txt">AutoPeças Progresso Ltda</span>
+                            </div>
+                            <button class="chat-clean-btn" onclick="limparHistoricoChat()" title="Limpar Conversa">
+                                <i class="fas fa-rotate-right"></i>
                             </button>
                         </div>
                     </header>
 
-                    <!-- Feed de Mensagens -->
+                    <!-- Fluxo de Mensagens -->
                     <div class="chat-messages-scroll" id="chat-messages-feed">
-                        <!-- Mensagens renderizadas via JS -->
+                        <div class="chat-message-bubble agent-bubble">
+                            <div class="bubble-avatar">
+                                <img src="assets/avatars/gabriel_rocha.jpg" alt="Gabriel Rocha" onerror="this.src='logo_vide.jpg'">
+                            </div>
+                            <div class="bubble-content-wrap">
+                                <div class="bubble-header-meta">
+                                    <strong>Gabriel Rocha</strong> <span class="bubble-time">Agora</span>
+                                </div>
+                                <div class="bubble-body-text">
+                                    Olá, Douglas. Estou supervisionando as 4 demandas ativas da VIDE. Como posso orientar a equipe ou despachar novas etapas para o projeto ativo?
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
-                    <!-- Sugestões Rápidas de Mensagens -->
-                    <div class="chat-suggestions-bar" id="chat-suggestions-container">
-                        <!-- Pílulas contextuais inseridas via JS -->
+                    <!-- Sugestões Rápidas de Prompt -->
+                    <div class="chat-quick-suggestions" id="chat-suggestions-container">
+                        <button type="button" class="chat-suggestion-chip" onclick="enviarMensagemRapida('Qual é o status atual da demanda ativa?')">
+                            "Qual é o status atual da demanda ativa?"
+                        </button>
+                        <button type="button" class="chat-suggestion-chip" onclick="enviarMensagemRapida('Revise o briefing e as metas do cliente')">
+                            "Revise o briefing e as metas do cliente"
+                        </button>
+                        <button type="button" class="chat-suggestion-chip" onclick="enviarMensagemRapida('Apresente o plano de trabalho para homologação')">
+                            "Apresente o plano de trabalho para homologação"
+                        </button>
                     </div>
 
-                    <!-- Formulário de Digitação -->
-                    <div class="chat-input-area">
-                        <form class="chat-input-form" onsubmit="enviarMensagemChat(event)">
-                            <textarea 
-                                id="chat-input-textarea" 
-                                class="chat-input-textarea" 
-                                placeholder="Digite sua mensagem para o especialista..."
-                                rows="1"
-                                onkeydown="tratarTeclasChat(event)"></textarea>
-                            <button type="submit" class="btn-chat-send" id="btn-chat-submit" title="Enviar mensagem">
-                                <i class="fas fa-paper-plane"></i>
-                            </button>
-                        </form>
+                    <!-- Input de Envio de Mensagem -->
+                    <div class="chat-input-bar-architectural">
+                        <input type="text" id="chat-input-textarea" placeholder="Escreva sua instrução executiva para o especialista..." onkeydown="if(event.key === 'Enter') enviarMensagemChat(event)">
+                        <button class="chat-send-submit-btn" onclick="enviarMensagemChat(event)">
+                            <span>Enviar</span>
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
                     </div>
-                </main>
+                </div>
             </div>
         </div>
 
         <!-- =================================================================
-         * VIEW 3: EQUIPE (APRESENTAÇÃO COMPLETA DOS ESPECIALISTAS)
+         * VIEW 3: EQUIPE (BANCADAS DOS 7 ESPECIALISTAS SENIORES)
          * ================================================================= -->
         <div id="view-equipe" class="exec-view">
-            <div class="exec-section-header">
-                <h2><i class="fas fa-users-gear" style="color: var(--cyan-core);"></i> Equipe Digital da VIDE</h2>
-                <p>
-                    Conheça os profissionais da sua equipe executiva: especialistas seniores dedicados à execução comercial de alto padrão, liderados diretamente por você.
+            <div class="editorial-section-header">
+                <span class="editorial-kicker">02 / EQUIPE DIGITAL SENIOR</span>
+                <h2 class="editorial-title">Bancadas de Especialistas Seniores</h2>
+                <p class="editorial-subtitle">
+                    Sete profissionais dedicados à liderança, estratégia, design, desenvolvimento, atendimento, processos e inteligência de crescimento da VIDE.
                 </p>
             </div>
 
-            <div class="team-cards-grid" id="team-full-cards-grid">
-                <!-- Renderizado via JS com dados ricos e botões 'Conversar com Especialista' -->
+            <!-- Grid Arquitetônico dos 7 Especialistas Pre-Renderizados -->
+            <div class="team-cards-grid-architectural" id="team-full-cards-grid">
+                <!-- 1. Gabriel Rocha -->
+                <div class="team-dossier-card" style="border-top: 3px solid #00D2FF;">
+                    <div class="dossier-card-header">
+                        <div class="dossier-avatar-wrap">
+                            <img src="assets/avatars/gabriel_rocha.jpg" alt="Gabriel Rocha" onerror="this.src='logo_vide.jpg'" style="border-color: #00D2FF;">
+                            <span class="dossier-online-dot"></span>
+                        </div>
+                        <div class="dossier-identity">
+                            <div class="dossier-num-badge" style="color: #00D2FF;">ESPECIALISTA #02</div>
+                            <h3 class="dossier-agent-name">Gabriel Rocha</h3>
+                            <p class="dossier-agent-role">Coordenador Geral & Estrategista</p>
+                        </div>
+                    </div>
+                    <p class="dossier-agent-desc">
+                        Lidera o planejamento operacional, organiza o fluxo de etapas da equipe, monitora prazos e solicita suas aprovações executivas.
+                    </p>
+                    <div class="dossier-deliverables-box">
+                        <span class="deliverables-label">Entregáveis Oficiais</span>
+                        <p class="deliverables-text">Planos de trabalho, distribuição de tarefas no fluxo e dossiês executivos de conclusão.</p>
+                    </div>
+                    <div class="dossier-actions-bottom">
+                        <button class="btn-dossier-chat" onclick="irParaChatComAgente('agente_02_coordenador')">
+                            <i class="fas fa-comments" style="color: #00D2FF;"></i> Conversar com Gabriel
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 2. Lucas Fontana -->
+                <div class="team-dossier-card" style="border-top: 3px solid #38BDF8;">
+                    <div class="dossier-card-header">
+                        <div class="dossier-avatar-wrap">
+                            <img src="assets/avatars/lucas_fontana.jpg" alt="Lucas Fontana" onerror="this.src='logo_vide.jpg'" style="border-color: #38BDF8;">
+                            <span class="dossier-online-dot"></span>
+                        </div>
+                        <div class="dossier-identity">
+                            <div class="dossier-num-badge" style="color: #38BDF8;">ESPECIALISTA #01</div>
+                            <h3 class="dossier-agent-name">Lucas Fontana</h3>
+                            <p class="dossier-agent-role">Triagem Comercial & Qualificação</p>
+                        </div>
+                    </div>
+                    <p class="dossier-agent-desc">
+                        Acolhe demandas comerciais de clientes, identifica dores reais, analisa maturidade comercial e enquadra no pacote ideal da VIDE.
+                    </p>
+                    <div class="dossier-deliverables-box">
+                        <span class="deliverables-label">Entregáveis Oficiais</span>
+                        <p class="deliverables-text">Fichas de diagnóstico preliminar, perguntas de qualificação e enquadramento de pacote comercial.</p>
+                    </div>
+                    <div class="dossier-actions-bottom">
+                        <button class="btn-dossier-chat" onclick="irParaChatComAgente('agente_01_triagem')">
+                            <i class="fas fa-comments" style="color: #38BDF8;"></i> Conversar com Lucas
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 3. Helena Prado -->
+                <div class="team-dossier-card" style="border-top: 3px solid #F59E0B;">
+                    <div class="dossier-card-header">
+                        <div class="dossier-avatar-wrap">
+                            <img src="assets/avatars/helena_prado.jpg" alt="Helena Prado" onerror="this.src='logo_vide.jpg'" style="border-color: #F59E0B;">
+                            <span class="dossier-online-dot"></span>
+                        </div>
+                        <div class="dossier-identity">
+                            <div class="dossier-num-badge" style="color: #F59E0B;">ESPECIALISTA #04</div>
+                            <h3 class="dossier-agent-name">Helena Prado</h3>
+                            <p class="dossier-agent-role">Diretora de Arte & Brand Designer</p>
+                        </div>
+                    </div>
+                    <p class="dossier-agent-desc">
+                        Responsável pelo design visual de alto padrão, diretrizes de marca, paletas cromáticas, tipografias e ativos institucionais.
+                    </p>
+                    <div class="dossier-deliverables-box">
+                        <span class="deliverables-label">Entregáveis Oficiais</span>
+                        <p class="deliverables-text">Manuais de identidade de marca, protótipos de design, paletas e guias visuais de autoridade.</p>
+                    </div>
+                    <div class="dossier-actions-bottom">
+                        <button class="btn-dossier-chat" onclick="irParaChatComAgente('agente_04_branding_design')">
+                            <i class="fas fa-comments" style="color: #F59E0B;"></i> Conversar com Helena
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 4. Rafael Duarte -->
+                <div class="team-dossier-card" style="border-top: 3px solid #10B981;">
+                    <div class="dossier-card-header">
+                        <div class="dossier-avatar-wrap">
+                            <img src="assets/avatars/rafael_duarte.jpg" alt="Rafael Duarte" onerror="this.src='logo_vide.jpg'" style="border-color: #10B981;">
+                            <span class="dossier-online-dot"></span>
+                        </div>
+                        <div class="dossier-identity">
+                            <div class="dossier-num-badge" style="color: #10B981;">ESPECIALISTA #03</div>
+                            <h3 class="dossier-agent-name">Rafael Duarte</h3>
+                            <p class="dossier-agent-role">Engenheiro & Desenvolvedor Web</p>
+                        </div>
+                    </div>
+                    <p class="dossier-agent-desc">
+                        Desenvolve sites, landing pages de alta conversão, códigos limpos, infraestrutura responsiva e performance de carregamento rápido.
+                    </p>
+                    <div class="dossier-deliverables-box">
+                        <span class="deliverables-label">Entregáveis Oficiais</span>
+                        <p class="deliverables-text">Código front-end completo, landing pages publicadas, validações técnicas e otimizações de velocidade.</p>
+                    </div>
+                    <div class="dossier-actions-bottom">
+                        <button class="btn-dossier-chat" onclick="irParaChatComAgente('agente_03_desenvolvedor')">
+                            <i class="fas fa-comments" style="color: #10B981;"></i> Conversar com Rafael
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 5. Camila Silveira -->
+                <div class="team-dossier-card" style="border-top: 3px solid #EC4899;">
+                    <div class="dossier-card-header">
+                        <div class="dossier-avatar-wrap">
+                            <img src="assets/avatars/camila_silveira.jpg" alt="Camila Silveira" onerror="this.src='logo_vide.jpg'" style="border-color: #EC4899;">
+                            <span class="dossier-online-dot"></span>
+                        </div>
+                        <div class="dossier-identity">
+                            <div class="dossier-num-badge" style="color: #EC4899;">ESPECIALISTA #05</div>
+                            <h3 class="dossier-agent-name">Camila Silveira</h3>
+                            <p class="dossier-agent-role">Atendimento & Vendas WhatsApp</p>
+                        </div>
+                    </div>
+                    <p class="dossier-agent-desc">
+                        Cria scripts persuasivos, fluxos de conversão rápida no WhatsApp, matrizes de objeções e estratégias de fechamento comercial.
+                    </p>
+                    <div class="dossier-deliverables-box">
+                        <span class="deliverables-label">Entregáveis Oficiais</span>
+                        <p class="deliverables-text">Scripts de abordagem, respostas para dúvidas frequentes, funis de qualificação e mensagens de follow-up.</p>
+                    </div>
+                    <div class="dossier-actions-bottom">
+                        <button class="btn-dossier-chat" onclick="irParaChatComAgente('agente_05_atendimento')">
+                            <i class="fas fa-comments" style="color: #EC4899;"></i> Conversar com Camila
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 6. Thiago Meireles -->
+                <div class="team-dossier-card" style="border-top: 3px solid #F97316;">
+                    <div class="dossier-card-header">
+                        <div class="dossier-avatar-wrap">
+                            <img src="assets/avatars/thiago_meireles.jpg" alt="Thiago Meireles" onerror="this.src='logo_vide.jpg'" style="border-color: #F97316;">
+                            <span class="dossier-online-dot"></span>
+                        </div>
+                        <div class="dossier-identity">
+                            <div class="dossier-num-badge" style="color: #F97316;">ESPECIALISTA #06</div>
+                            <h3 class="dossier-agent-name">Thiago Meireles</h3>
+                            <p class="dossier-agent-role">Engenheiro de Automações & n8n</p>
+                        </div>
+                    </div>
+                    <p class="dossier-agent-desc">
+                        Automatiza integrações entre plataformas, fluxos de trabalho no n8n, webhooks, disparos automáticos e conexão de bancos de dados.
+                    </p>
+                    <div class="dossier-deliverables-box">
+                        <span class="deliverables-label">Entregáveis Oficiais</span>
+                        <p class="deliverables-text">Workflows n8n ativos, integrações de webhook, rotinas de sincronização e documentação de processos.</p>
+                    </div>
+                    <div class="dossier-actions-bottom">
+                        <button class="btn-dossier-chat" onclick="irParaChatComAgente('agente_06_automacao')">
+                            <i class="fas fa-comments" style="color: #F97316;"></i> Conversar com Thiago
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 7. Matheus Barreto -->
+                <div class="team-dossier-card" style="border-top: 3px solid #8B5CF6;">
+                    <div class="dossier-card-header">
+                        <div class="dossier-avatar-wrap">
+                            <img src="assets/avatars/matheus_barreto.jpg" alt="Matheus Barreto" onerror="this.src='logo_vide.jpg'" style="border-color: #8B5CF6;">
+                            <span class="dossier-online-dot"></span>
+                        </div>
+                        <div class="dossier-identity">
+                            <div class="dossier-num-badge" style="color: #8B5CF6;">ESPECIALISTA #07</div>
+                            <h3 class="dossier-agent-name">Matheus Barreto</h3>
+                            <p class="dossier-agent-role">Inteligência Comercial & Growth 7D</p>
+                        </div>
+                    </div>
+                    <p class="dossier-agent-desc">
+                        Mapeia mercado, analisa concorrentes, audita as 7 dimensões do negócio e gera relatórios estratégicos para ampliação de receita.
+                    </p>
+                    <div class="dossier-deliverables-box">
+                        <span class="deliverables-label">Entregáveis Oficiais</span>
+                        <p class="deliverables-text">Relatórios de inteligência comercial, auditorias 7D, mapas competitivos e projeções de faturamento.</p>
+                    </div>
+                    <div class="dossier-actions-bottom">
+                        <button class="btn-dossier-chat" onclick="irParaChatComAgente('agente_07_inteligencia_comercial')">
+                            <i class="fas fa-comments" style="color: #8B5CF6;"></i> Conversar com Matheus
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
 
         <!-- =================================================================
-         * VIEW 4: PROJETOS (ACOMPANHAMENTO E GESTÃO DE DEMANDAS)
+         * VIEW 4: PROJETOS (ESTEIRA DE DEMANDAS, BRIEFING INTUITIVO & TAREFAS)
          * ================================================================= -->
-                <div id="view-projetos" class="exec-view">
-            <div class="exec-section-header reveal-on-scroll">
-                <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 6px;">
-                    <div class="avatar-initials-badge" style="width: 32px; height: 32px; font-size: 13px; background: rgba(56, 189, 248, 0.15); color: #38BDF8; border: 1px solid rgba(56, 189, 248, 0.3);">
-                        <i class="fas fa-diagram-project"></i>
-                    </div>
-                    <span style="font-family: var(--font-mono); font-size: 11px; font-weight: 700; color: #38BDF8; letter-spacing: 0.08em; ">
-                        Fluxo de Execução & Entregas
-                    </span>
-                </div>
-                <h2>Esteira de Projetos & Demandas Comerciais</h2>
-                <p>Supervisione a execução ponta a ponta dos serviços contratados, aprove entregáveis físicos e acompanhe cada etapa técnica em tempo real.</p>
+        <div id="view-projetos" class="exec-view">
+            <div class="editorial-section-header">
+                <span class="editorial-kicker">03 / ESTEIRA OPERACIONAL</span>
+                <h2 class="editorial-title">Esteira de Demandas & Gestão de Projetos</h2>
+                <p class="editorial-subtitle">
+                    Supervisione a execução ponta a ponta dos serviços contratados, responda ao briefing estratégico com perguntas guiadas e aprove entregas.
+                </p>
             </div>
 
-            <!-- Toolbar de Controle do Projeto -->
-            <div class="proj-toolbar luxury-card reveal-on-scroll" style="padding: 16px 20px; margin-bottom: 24px; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;">
-                <div class="proj-selector-wrap" style="flex: 1; min-width: 280px; display: flex; align-items: center; gap: 12px;">
-                    <span style="font-family: var(--font-headline); font-size: 12px; font-weight: 700; color: #94A3B8; white-space: nowrap;">
-                        <i class="fas fa-folder-open" style="color: #38BDF8; margin-right: 6px;"></i> Projeto Ativo:
-                    </span>
-                    <select id="select-projeto-ativo" class="proj-selector-dropdown" onchange="selecionarProjetoAtivo(this.value)" style="padding: 10px 14px; width: 100%;">
+            <!-- Toolbar de Controle do Projeto Selecionado -->
+            <div class="proj-toolbar-architectural">
+                <div class="proj-selector-wrap">
+                    <span class="proj-selector-label"><i class="fas fa-folder-open" style="color: #00D2FF;"></i> Demanda Ativa:</span>
+                    <select id="select-projeto-ativo" class="proj-selector-dropdown-architectural" onchange="selecionarProjetoAtivo(this.value)">
                         <option value="">Carregando projetos da VIDE...</option>
                     </select>
                 </div>
 
-                <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
-                    <button class="btn-luxury-primary" onclick="abrirModalNovoProjeto()">
-                        <i class="fas fa-plus"></i> Novo Projeto Comercial
+                <div class="proj-toolbar-actions">
+                    <button class="btn-new-demand-primary" onclick="abrirModalNovoProjeto()">
+                        <i class="fas fa-plus"></i> Iniciar Nova Demanda
                     </button>
                 </div>
             </div>
 
-            <!-- Alerta Chamativo de Governança (caso aguarde autorização de Douglas) -->
-            <div id="proj-governance-alert-box" style="display: none; margin-bottom: 24px;"></div>
-
-            <!-- Cartão Central de Operações do Projeto Selecionado -->
-            <!-- Painel Executivo do Documento Estratégico da Solução (Etapa Mandatória) -->
-            <div id="painel-documento-estrategico" class="luxury-card card-estrategia-painel reveal-on-scroll" style="margin-bottom: 24px; padding: 26px 30px; border-radius: 20px;">
-                <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 20px; flex-wrap: wrap;">
+            <!-- Painel do Documento Estratégico (Fidelidade ao Escopo) -->
+            <div id="painel-documento-estrategico" class="strategy-dossier-banner">
+                <div class="strategy-banner-top">
                     <div>
-                        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 10px; flex-wrap: wrap;">
-                            <span class="selo-fidelidade-ouro">
-                                <i class="fas fa-shield-halved"></i> Garantia de Fidelidade Contratada: Ativa
-                            </span>
-                            <span id="badge-status-doc-estrategico" class="badge-status-estrategia">
-                                Aguardando Aprovação da Diretoria
-                            </span>
+                        <div class="strategy-status-row">
+                            <span class="scope-fidelity-badge"><i class="fas fa-shield-halved"></i> Garantia de Fidelidade ao Escopo: Ativa</span>
+                            <span id="badge-status-doc-estrategico" class="badge-status-estrategia">Aguardando Homologação</span>
                         </div>
-                        <h3 style="font-family: var(--font-headline); font-size: 22px; font-weight: 800; color: #FFF; margin: 0 0 6px 0;">
-                            Documento Estratégico da Solução & Diretrizes Executivas
-                        </h3>
-                        <p style="color: #94A3B8; font-size: 13.5px; margin: 0; max-width: 850px; line-height: 1.55;">
-                            A estratégia orienta a execução técnica sem jamais substituir unilateralmente o serviço contratado. Todas as oportunidades complementares são apresentadas de forma independente.
+                        <h3 class="strategy-banner-title">Documento Estratégico da Solução & Diretrizes Executivas</h3>
+                        <p class="strategy-banner-sub">
+                            A estratégia orienta a execução técnica sem jamais substituir o serviço contratado pelo cliente. Nenhuma tarefa é alterada sem autorização expressa.
                         </p>
                     </div>
-                    <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
-                        <button class="btn-luxury-violet" onclick="abrirModalEstrategiaProjeto()">
-                            <i class="fas fa-book-open-reader"></i> Visualizar & Responder Briefing
+                    <div class="strategy-banner-cta">
+                        <button class="btn-dossier-action primary" onclick="abrirModalEstrategiaProjeto()">
+                            <i class="fas fa-book-open-reader"></i> Visualizar Dossiê Completo
                         </button>
-                        <button class="btn-luxury-emerald" id="btn-aprovar-estrategia-top" onclick="aprovarEstrategiaProjeto()">
+                        <button class="btn-dossier-action secondary" id="btn-aprovar-estrategia-top" onclick="aprovarEstrategiaProjeto()">
                             <i class="fas fa-check-double"></i> Aprovar Estratégia
                         </button>
                     </div>
                 </div>
 
-                <!-- Grid Resumo das Seções Estratégicas -->
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px; margin-top: 22px;">
-                    <div class="secao-estrategica-mini-card">
-                        <div class="secao-mini-label"><i class="fas fa-file-contract" style="color: #38BDF8;"></i> Serviço Contratado Fiel</div>
-                        <div class="secao-mini-val" id="doc-servico-contratado-txt">Carregando...</div>
+                <!-- Grid de Síntese Estratégica -->
+                <div class="strategy-summary-grid">
+                    <div class="strategy-cell">
+                        <span class="cell-label"><i class="fas fa-file-contract" style="color: #00D2FF;"></i> Serviço Contratado</span>
+                        <strong class="cell-val" id="doc-servico-contratado-txt">Presença Comercial & Expansão</strong>
                     </div>
-                    <div class="secao-estrategica-mini-card">
-                        <div class="secao-mini-label"><i class="fas fa-bullseye" style="color: #F472B6;"></i> Público-Alvo & ICP</div>
-                        <div class="secao-mini-val" id="doc-publico-alvo-txt">Carregando...</div>
+                    <div class="strategy-cell">
+                        <span class="cell-label"><i class="fas fa-bullseye" style="color: #EC4899;"></i> Público-Alvo & ICP</span>
+                        <strong class="cell-val" id="doc-publico-alvo-txt">Varejo & Oficinas Mecânicas</strong>
                     </div>
-                    <div class="secao-estrategica-mini-card">
-                        <div class="secao-mini-label"><i class="fas fa-lightbulb" style="color: #FBBF24;"></i> Estratégia Recomendada</div>
-                        <div class="secao-mini-val" id="doc-estrategia-recomendada-txt">Carregando...</div>
-                    </div>
-                </div>
-
-                <!-- Oportunidades Complementares Identificadas (Apresentação Separada Obrigatória) -->
-                <div class="card-oportunidade-separada" id="doc-oportunidades-separadas-box" style="margin-top: 18px;">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; flex-wrap: wrap; gap: 8px;">
-                        <span style="font-family: var(--font-headline); font-size: 13px; font-weight: 800; color: #F59E0B; text-transform: uppercase; letter-spacing: 0.05em; display: flex; align-items: center; gap: 8px;">
-                            <i class="fas fa-sparkles"></i> Oportunidades Complementares Identificadas (Apresentação Separada)
-                        </span>
-                        <span style="font-size: 11px; color: #FBBF24; background: rgba(245, 158, 11, 0.15); border: 1px solid rgba(245, 158, 11, 0.3); border-radius: 6px; padding: 2px 8px; font-weight: 600;">
-                            Não Alteram Escopo Contratado
-                        </span>
-                    </div>
-                    <p style="font-size: 12.5px; color: #CBD5E1; margin: 0 0 12px 0; line-height: 1.5;">
-                        Os agentes identificaram sinergias para acelerar o crescimento do cliente, mas mantêm fidelidade estrita ao escopo contratado. A ativação destes serviços adicionais depende de sua autorização comercial.
-                    </p>
-                    <div id="doc-oportunidades-lista-items" style="display: flex; flex-direction: column; gap: 8px;">
-                        <!-- Injetado via JS -->
+                    <div class="strategy-cell">
+                        <span class="cell-label"><i class="fas fa-lightbulb" style="color: #F59E0B;"></i> Estratégia Recomendada</span>
+                        <strong class="cell-val" id="doc-estrategia-recomendada-txt">Funil de Alta Conversão no WhatsApp</strong>
                     </div>
                 </div>
             </div>
 
-            <div class="proj-active-card luxury-card reveal-on-scroll" id="painel-projeto-detalhes" style="padding: 28px; margin-bottom: 28px;">
-                <div class="proj-card-top-row" style="display: flex; justify-content: space-between; align-items: flex-start; gap: 20px; flex-wrap: wrap; margin-bottom: 24px;">
-                    <div style="flex: 1; min-width: 300px;">
-                        <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
-                            <h3 class="proj-client-name" id="proj-nome-cliente" style="font-size: 26px; font-weight: 800; color: #FFF; letter-spacing: -0.02em;">Carregando Projeto...</h3>
-                            <span id="badge-status-projeto" class="step-status-pill status-pill-execucao" style="font-weight: 700; padding: 4px 12px; border-radius: 999px;">Status</span>
-                        </div>
-                        <p class="proj-demand-text" id="proj-solicitacao-txt" style="font-size: 14px; color: #94A3B8; margin-top: 8px; line-height: 1.6; max-width: 850px;">Descrição da demanda e objetivo comercial.</p>
-                        <div id="proj-catalogo-tag" style="margin-top: 12px; display: flex; gap: 8px; flex-wrap: wrap; align-items: center;"></div>
+            <!-- =============================================================
+             * NOVO BRIEFING ESTRATÉGICO GUIADO (FIM DO "ANEXAR BRIEFING")
+             * Perguntas introdutórias intuitivas, direção básica e salvamento
+             * ============================================================= -->
+            <div class="guided-briefing-master-card" id="secao-briefing-intuitivo">
+                <div class="briefing-card-header">
+                    <div class="briefing-badge-row">
+                        <span class="briefing-tag-pill"><i class="fas fa-compass"></i> Briefing Guiado Intuitivo</span>
+                        <span class="briefing-status-pill"><i class="fas fa-check-circle" style="color: #10B981;"></i> 4 Questões Chave</span>
                     </div>
-
-                    <div class="proj-actions-group" style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
-                        <button onclick="executarEsteiraProjetoAtivo()" class="btn-luxury-primary" id="btn-acao-executar">
-                            <i class="fas fa-bolt"></i> Executar Esteira Completa
-                        </button>
-                        <button onclick="abrirModalAutorizarProjeto()" class="btn-luxury-amber" id="btn-acao-aprovar" style="display: none;">
-                            <i class="fas fa-shield-halved"></i> Autorizar Projeto
-                        </button>
-                        <button onclick="dispararDiagnosticoComercial()" class="btn-luxury-glass" id="btn-acao-diagnostico">
-                            <i class="fas fa-chart-line" style="color: #38BDF8;"></i> Diagnóstico 7D
-                        </button>
-                    </div>
+                    <h3 class="briefing-main-title">Direção Básica & Perguntas Introdutórias da Demanda</h3>
+                    <p class="briefing-desc-text">
+                        Responda às questões fundamentais do negócio do cliente para calibrar as tarefas técnicas dos especialistas. As respostas alimentam a estratégia e o plano de entrega.
+                    </p>
                 </div>
 
-                <!-- Barra de Progresso Luxury Shimmer -->
-                <div style="margin: 24px 0 32px 0; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06); border-radius: 14px; padding: 18px 22px;">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-                        <span style="font-family: var(--font-headline); font-size: 13px; font-weight: 700; color: #CBD5E1;">
-                            <i class="fas fa-bars-progress" style="color: #38BDF8; margin-right: 8px;"></i> Progresso Geral da Entrega:
+                <!-- Form de Perguntas Guiadas -->
+                <form id="form-briefing-guiado-inline" onsubmit="salvarBriefingGuiadoInline(event)" class="briefing-questions-grid">
+                    <!-- Pergunta 1: Ramo & Atuação -->
+                    <div class="briefing-question-box">
+                        <label class="question-label">
+                            <span class="q-num">1</span>
+                            <span>Ramo de Atuação & Modelo de Negócio</span>
+                        </label>
+                        <input type="text" id="inline-briefing-nicho" class="briefing-input-field" value="Varejo de autopeças e componentes mecânicos (AutoPeças Progresso Ltda)" placeholder="Ex: E-commerce de moda feminina, Clínica odontológica...">
+                    </div>
+
+                    <!-- Pergunta 2: Dor Principal & Objetivo -->
+                    <div class="briefing-question-box">
+                        <label class="question-label">
+                            <span class="q-num">2</span>
+                            <span>Dor Central & Objetivo Imediato da Contratação</span>
+                        </label>
+                        <textarea id="inline-briefing-dor" class="briefing-input-field" rows="2" placeholder="Qual o problema que motivou a contratação e o que precisa ser resolvido primeiro?">Dependência excessiva de balcão físico e perda de vendas para concorrentes digitais. Objetivo imediato: criar presença web profissional e canal de cotação rápida no WhatsApp.</textarea>
+                    </div>
+
+                    <!-- Pergunta 3: Público-Alvo & ICP -->
+                    <div class="briefing-question-box">
+                        <label class="question-label">
+                            <span class="q-num">3</span>
+                            <span>Público-Alvo & Cliente Ideal</span>
+                        </label>
+                        <input type="text" id="inline-briefing-publico" class="briefing-input-field" value="Donos de oficinas mecânicas, frotistas e proprietários de veículos leves" placeholder="Ex: Mulheres de 25 a 45 anos da classe B, Profissionais liberais...">
+                    </div>
+
+                    <!-- Pergunta 4: Referências & Tom de Comunicação -->
+                    <div class="briefing-question-box">
+                        <label class="question-label">
+                            <span class="q-num">4</span>
+                            <span>Referências de Mercado & Tom Desejado</span>
+                        </label>
+                        <input type="text" id="inline-briefing-referencias" class="briefing-input-field" value="Tom prático, ágil e de alta autoridade técnica. Foco em facilidade de atendimento." placeholder="Ex: Visual minimalista moderno, linguagem direta...">
+                    </div>
+
+                    <!-- Barra de Ação do Briefing -->
+                    <div class="briefing-actions-bar">
+                        <div class="briefing-save-meta">
+                            <i class="fas fa-circle-check" style="color: #10B981;"></i>
+                            <span>Respostas sincronizadas com Gabriel Rocha e a equipe</span>
+                        </div>
+                        <div style="display: flex; gap: 10px; align-items: center;">
+                            <button type="submit" class="btn-briefing-save">
+                                <i class="fas fa-floppy-disk"></i> Salvar Direção do Briefing
+                            </button>
+                            <button type="button" class="btn-briefing-chat" onclick="irParaChatComAgente('agente_02_coordenador')">
+                                <i class="fas fa-comments"></i> Calibrar com Gabriel
+                            </button>
+                        </div>
+                    </div>
+                </form>
+
+                <!-- Seção Opcional de Materiais de Apoio -->
+                <div class="briefing-supporting-files-drawer">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; flex-wrap: wrap; gap: 8px;">
+                        <span style="font-size: 12px; font-weight: 700; color: #94A3B8; text-transform: uppercase; letter-spacing: 0.05em;">
+                            <i class="fas fa-paperclip"></i> Arquivos & Documentos de Apoio (Opcional)
                         </span>
-                        <span id="proj-progresso-percentual" style="font-family: var(--font-headline); color: #38BDF8; font-weight: 800; font-size: 14px;">--%</span>
-                    </div>
-                    <div class="luxury-progress-track" style="height: 10px;">
-                        <div class="luxury-progress-fill" id="proj-progresso-fill" style="width: 0%;"></div>
-                    </div>
-                </div>
-
-                <!-- Etapas de Trabalho e Tarefas dos Especialistas -->
-                <div class="proj-steps-section">
-                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; flex-wrap: wrap; gap: 8px;">
-                        <h4 style="font-family: var(--font-headline); font-size: 18px; font-weight: 800; color: #FFF; display: flex; align-items: center; gap: 10px;">
-                            <i class="fas fa-list-check" style="color: #38BDF8;"></i> Etapas do Fluxo de Trabalho & Especialistas Responsáveis
-                        </h4>
-                        <span style="font-family: var(--font-mono); font-size: 11px; color: #94A3B8; background: rgba(255,255,255,0.05); padding: 4px 10px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.08);" id="proj-contagem-etapas">-- etapas mapeadas</span>
-                    </div>
-
-                    <div class="steps-container-grid" id="grafo-tarefas-container">
-                        <!-- Preenchido via JS com os cards de tarefas/etapas -->
-                    </div>
-                </div>
-
-                <!-- Envio de Materiais & Briefings do Cliente -->
-                <div style="margin-top: 36px; padding-top: 28px; border-top: 1px solid rgba(255, 255, 255, 0.08);">
-                    <h4 style="font-family: var(--font-headline); font-size: 16px; font-weight: 800; color: #FFF; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
-                        <i class="fas fa-paperclip" style="color: #38BDF8;"></i> Arquivos e Entregáveis do Projeto
-                    </h4>
-                    <div style="display: grid; grid-template-columns: 1fr auto; gap: 12px; margin-bottom: 16px;">
-                        <textarea id="input-briefing-texto" class="input-dark-field" rows="2" placeholder="Insira instruções contextuais, concorrentes ou referências de mercado para a equipe..." style="background: rgba(10, 13, 20, 0.85); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; padding: 12px; color: #FFF; font-size: 13px;"></textarea>
-                        <div style="display: flex; flex-direction: column; gap: 8px;">
-                            <input type="file" id="input-arquivo-upload" class="input-file-styled" style="display: none;" onchange="enviarAnexoProjeto(event)">
-                            <button class="btn-luxury-glass" onclick="document.getElementById('input-arquivo-upload').click()" style="padding: 9px 14px; font-size: 12px;">
-                                <i class="fas fa-upload"></i> Anexar Arquivo
-                            </button>
-                            <button class="btn-luxury-primary" onclick="enviarAnexoProjeto(null)" style="padding: 9px 14px; font-size: 12px;">
-                                <i class="fas fa-floppy-disk"></i> Salvar Briefing
-                            </button>
-                        </div>
-                    </div>
-
-                    <div style="font-size: 12px; color: #94A3B8; margin-bottom: 8px;">
-                        Materiais arquivados no projeto (<span id="total-materiais-anexados">0</span>):
+                        <button type="button" onclick="document.getElementById('input-arquivo-upload').click()" style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); color: #cbd5e1; border-radius: 8px; padding: 5px 12px; font-size: 11.5px; cursor: pointer;">
+                            <i class="fas fa-upload"></i> Adicionar Arquivo Opcional
+                        </button>
+                        <input type="file" id="input-arquivo-upload" style="display: none;" onchange="enviarAnexoProjeto(event)">
                     </div>
                     <div id="lista-materiais-container" style="display: flex; flex-wrap: wrap; gap: 8px;">
-                        <span style="font-size: 12px; color: #64748B;">Nenhum documento anexado até o momento.</span>
+                        <span style="font-size: 12px; color: #64748B;">Nenhum arquivo adicional anexado. O briefing estruturado é suficiente para a equipe.</span>
                     </div>
+                </div>
+            </div>
+
+            <!-- Painel das Etapas e Tarefas dos Especialistas -->
+            <div class="proj-flow-container-architectural">
+                <div class="proj-flow-header">
+                    <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; margin-bottom: 16px;">
+                        <div>
+                            <h4 class="proj-flow-title"><i class="fas fa-list-check" style="color: #00D2FF;"></i> Etapas do Fluxo & Especialistas Responsáveis</h4>
+                            <p class="proj-flow-sub">Cada especialista atua em sua esteira técnica com supervisão de Gabriel Rocha.</p>
+                        </div>
+                        <span class="proj-flow-count" id="proj-contagem-etapas">8 etapas mapeadas</span>
+                    </div>
+
+                    <!-- Barra de Progresso Geral -->
+                    <div class="proj-progress-row">
+                        <div class="progress-meta">
+                            <span>Conclusão Geral do Projeto:</span>
+                            <strong id="proj-progresso-percentual">75%</strong>
+                        </div>
+                        <div class="progress-track-architectural">
+                            <div class="progress-fill-architectural" id="proj-progresso-fill" style="width: 75%;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Container do Grafo de Tarefas (injetado via JS) -->
+                <div class="steps-container-grid" id="grafo-tarefas-container">
+                    <!-- Preenchido via JS com os cards de tarefas/etapas -->
                 </div>
             </div>
         </div>
 
         <!-- =================================================================
-         * VIEW 5: ENTREGAS (GALERIA DE ENTREGÁVEIS FÍSICOS)
+         * VIEW 5: ENTREGAS (GALERIA ARQUITETÔNICA DE ENTREGÁVEIS HOMOLOGADOS)
          * ================================================================= -->
         <div id="view-entregas" class="exec-view">
-            <div class="exec-section-header">
-                <h2><i class="fas fa-box-archive" style="color: var(--cyan-core);"></i> Galeria de Entregáveis Homologados</h2>
-                <p>
-                    Visualize, teste e aprove os ativos físicos produzidos pelos especialistas da VIDE para o projeto ativo.
+            <div class="editorial-section-header">
+                <span class="editorial-kicker">04 / ACERVO DE ATIVOS</span>
+                <h2 class="editorial-title">Galeria de Entregáveis Homologados</h2>
+                <p class="editorial-subtitle">
+                    Ativos técnicos, protótipos de engenharia, manuais de design e fluxos validados pela diretoria da VIDE para o projeto ativo.
                 </p>
             </div>
 
-            <!-- Galeria de Entregáveis -->
-            <div class="entregas-grid-container" id="galeria-entregas-grid">
-                <!-- Preenchido dinamicamente via JS -->
+            <!-- Grid de Entregáveis Pre-Renderizados -->
+            <div class="entregas-grid-architectural" id="galeria-entregas-grid">
+                <!-- Entregável 1: Landing Page -->
+                <div class="deliverable-card-architectural">
+                    <div class="deliverable-card-art" style="background-image: url('assets/images/hero_arquitetura_crescimento.jpg');">
+                        <div class="deliverable-art-overlay"></div>
+                        <span class="deliverable-status-tag homologado"><i class="fas fa-circle-check"></i> Homologado</span>
+                    </div>
+                    <div class="deliverable-card-body">
+                        <div class="deliverable-type-tag" style="color: #10B981;">SITE & LANDING PAGE</div>
+                        <h3 class="deliverable-card-title">Landing Page de Alta Conversão</h3>
+                        <p class="deliverable-card-desc">
+                            Código front-end responsivo, mobile-first, otimizado para carregamento em menos de 1 segundo e integrado ao WhatsApp comercial.
+                        </p>
+                        <div class="deliverable-card-footer">
+                            <div class="deliverable-author">
+                                <img src="assets/avatars/rafael_duarte.jpg" alt="Rafael Duarte" onerror="this.src='logo_vide.jpg'">
+                                <span>Rafael Duarte</span>
+                            </div>
+                            <button class="btn-deliverable-view" onclick="abrirModalEstrategiaProjeto()">
+                                <i class="fas fa-eye"></i> Visualizar Ativo
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Entregável 2: Manual de Marca -->
+                <div class="deliverable-card-architectural">
+                    <div class="deliverable-card-art" style="background-image: url('assets/images/equipe_digital_atelier.jpg');">
+                        <div class="deliverable-art-overlay"></div>
+                        <span class="deliverable-status-tag homologado"><i class="fas fa-circle-check"></i> Homologado</span>
+                    </div>
+                    <div class="deliverable-card-body">
+                        <div class="deliverable-type-tag" style="color: #F59E0B;">BRANDING & DESIGN</div>
+                        <h3 class="deliverable-card-title">Manual de Identidade Visual & Assets</h3>
+                        <p class="deliverable-card-desc">
+                            Guia de marca com paleta cromática, tipografias corporativas, diretrizes de aplicação e pacote completo de assets em SVG e PNG.
+                        </p>
+                        <div class="deliverable-card-footer">
+                            <div class="deliverable-author">
+                                <img src="assets/avatars/helena_prado.jpg" alt="Helena Prado" onerror="this.src='logo_vide.jpg'">
+                                <span>Helena Prado</span>
+                            </div>
+                            <button class="btn-deliverable-view" onclick="abrirModalEstrategiaProjeto()">
+                                <i class="fas fa-eye"></i> Visualizar Ativo
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Entregável 3: Estrutura de Tráfego -->
+                <div class="deliverable-card-architectural">
+                    <div class="deliverable-card-art" style="background-image: url('assets/images/estrategia_redes_conexao.jpg');">
+                        <div class="deliverable-art-overlay"></div>
+                        <span class="deliverable-status-tag homologado"><i class="fas fa-circle-check"></i> Homologado</span>
+                    </div>
+                    <div class="deliverable-card-body">
+                        <div class="deliverable-type-tag" style="color: #00D2FF;">TRÁFEGO & PERFORMANCE</div>
+                        <h3 class="deliverable-card-title">Estratégia de Aquisição & Campanhas</h3>
+                        <p class="deliverable-card-desc">
+                            Mapeamento de público-alvo, criativos persuasivos, pixels de rastreamento no Meta Ads & Google e plano de distribuição de verba.
+                        </p>
+                        <div class="deliverable-card-footer">
+                            <div class="deliverable-author">
+                                <img src="assets/avatars/lucas_fontana.jpg" alt="Lucas Fontana" onerror="this.src='logo_vide.jpg'">
+                                <span>Lucas Fontana</span>
+                            </div>
+                            <button class="btn-deliverable-view" onclick="abrirModalEstrategiaProjeto()">
+                                <i class="fas fa-eye"></i> Visualizar Ativo
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Entregável 4: Automação WhatsApp -->
+                <div class="deliverable-card-architectural">
+                    <div class="deliverable-card-art" style="background-image: url('assets/images/vide_governanca_monolito.jpg');">
+                        <div class="deliverable-art-overlay"></div>
+                        <span class="deliverable-status-tag analysis"><i class="fas fa-clock"></i> Em Homologação</span>
+                    </div>
+                    <div class="deliverable-card-body">
+                        <div class="deliverable-type-tag" style="color: #EC4899;">VENDAS & AUTOMAÇÃO</div>
+                        <h3 class="deliverable-card-title">Fluxo Automatizado de WhatsApp & n8n</h3>
+                        <p class="deliverable-card-desc">
+                            Script de abordagem comercial de alta agilidade, árvore de triagem de dúvidas e fluxo de integração conectado no n8n.
+                        </p>
+                        <div class="deliverable-card-footer">
+                            <div class="deliverable-author">
+                                <img src="assets/avatars/camila_silveira.jpg" alt="Camila Silveira" onerror="this.src='logo_vide.jpg'">
+                                <span>Camila Silveira</span>
+                            </div>
+                            <button class="btn-deliverable-view" onclick="abrirModalEstrategiaProjeto()">
+                                <i class="fas fa-eye"></i> Visualizar Ativo
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
         <!-- =================================================================
-         * VIEW 6: ÁREA AVANÇADA (MOTOR 7D, INGESTÃO E TELEMETRIA)
+         * VIEW 6: ÁREA AVANÇADA (MOTOR 7D, INGESTÃO & TELEMETRIA REAL)
          * ================================================================= -->
         <div id="view-avancado" class="exec-view">
-            <div class="exec-section-header">
-                <h2><i class="fas fa-sliders" style="color: var(--cyan-core);"></i> Módulos Avançados e Infraestrutura</h2>
-                <p>Acesso técnico ao Inteligência Comercial, Ingestão de Dados Multi-fonte e Telemetria do Sistema.</p>
+            <div class="editorial-section-header">
+                <span class="editorial-kicker">05 / GOVERNANÇA & INFRAESTRUTURA</span>
+                <h2 class="editorial-title">Módulos Avançados & Telemetria do Sistema</h2>
+                <p class="editorial-subtitle">
+                    Acesso técnico ao Motor de Inteligência Comercial 7D, ingestão de dados empresariais e monitoramento de saúde da infraestrutura.
+                </p>
             </div>
 
             <!-- Sub-abas da Área Avançada -->
-            <div class="avancado-subtabs luxury-card" style="padding: 6px; display: inline-flex; gap: 8px; margin-bottom: 28px; border-radius: 999px; background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.1); box-shadow: 0 10px 30px -10px rgba(0,0,0,0.6);">
-                <button class="avancado-subtab-btn active" id="subtab-btn-motor" onclick="alternarSubAbaAvancada('motor')" style="border-radius: 999px; padding: 10px 22px; font-weight: 700; font-size: 13.5px; transition: all 0.25s ease; display: inline-flex; align-items: center; gap: 8px;">
-                    <i class="fas fa-chart-pie" style="font-size: 14px;"></i> Motor de Inteligência 7D
+            <div class="avancado-subtabs-architectural">
+                <button class="avancado-subtab-btn active" id="subtab-btn-motor" onclick="alternarSubAbaAvancada('motor')">
+                    <i class="fas fa-chart-pie"></i> Motor de Inteligência 7D
                 </button>
-                <button class="avancado-subtab-btn" id="subtab-btn-ingestao" onclick="alternarSubAbaAvancada('ingestao')" style="border-radius: 999px; padding: 10px 22px; font-weight: 700; font-size: 13.5px; transition: all 0.25s ease; display: inline-flex; align-items: center; gap: 8px;">
-                    <i class="fas fa-database" style="font-size: 14px;"></i> Ingestão de Dados Comerciais
+                <button class="avancado-subtab-btn" id="subtab-btn-ingestao" onclick="alternarSubAbaAvancada('ingestao')">
+                    <i class="fas fa-database"></i> Ingestão de Dados Comerciais
                 </button>
-                <button class="avancado-subtab-btn" id="subtab-btn-telemetria" onclick="alternarSubAbaAvancada('telemetria')" style="border-radius: 999px; padding: 10px 22px; font-weight: 700; font-size: 13.5px; transition: all 0.25s ease; display: inline-flex; align-items: center; gap: 8px;">
-                    <i class="fas fa-server" style="font-size: 14px;"></i> Saúde do Sistema & Telemetria
+                <button class="avancado-subtab-btn" id="subtab-btn-telemetria" onclick="alternarSubAbaAvancada('telemetria')">
+                    <i class="fas fa-server"></i> Saúde do Sistema & Telemetria
                 </button>
             </div>
 
             <!-- Sub-painel 1: Motor 7D -->
             <div id="pane-avancado-motor" class="avancado-pane active">
-                <section class="cockpit-cluster-section" id="secao-motor-inteligencia" class="reveal-on-scroll" style="border-top: 1px solid rgba(0, 229, 255, 0.25);">
-            <div class="cluster-head-row" style="margin-bottom: 24px;">
-                <div>
-                    <div style="font-family: var(--font-mono); font-size: 11px; font-weight: 800; color: #00E5FF; letter-spacing: 0.12em;">
-                        Inteligência Comercial • Metodologia VIDE 7D
-                    </div>
-                    <h2 style="font-size: 24px; font-weight: 800; text-transform: uppercase; margin-top: 4px; color: #FFFFFF;">
-                        Inteligência Comercial 7D
-                    </h2>
-                    <p style="font-size: 13px; color: var(--text-muted); margin-top: 4px; max-width: 800px;">
-                        Diagnóstico dimensional do negócio (7D), retenção e recompras, priorização matemática de gargalos por EPV e governança executiva com o Princípio da Menor Intervenção Viável (MIV).
-                    </p>
-                </div>
-                <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
-                    <div style="display: flex; align-items: center; gap: 8px;">
-                        <span style="font-family: var(--font-mono); font-size: 11px; color: #94A3B8;">EMPRESA:</span>
-                        <select id="motor-empresa-select" onchange="trocarEmpresaMotor(this.value)" class="input-dark-field" style="padding: 8px 12px; font-size: 12px;">
-                            <option value="">Carregando empresas...</option>
-                        </select>
-                    </div>
-                    <button onclick="carregarDossieMotorAtivo()" class="btn-luxury-primary" style="padding: 11px 20px; font-size: 12.5px;"><i class="fas fa-arrows-rotate"></i><span>Atualizar Dossiê</span>
-                    </button>
-                    <button onclick="abrirModalNovoDiagnostico7D()" class="btn-luxury-outline-cyan" style="padding: 11px 20px; font-size: 12.5px;"><i class="fas fa-stethoscope"></i><span>Novo Diagnóstico 7D</span>
-                    </button>
-                </div>
-            </div>
-
-            <!-- Bento Bar de Métricas do Motor -->
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; margin-bottom: 24px;">
-                <div style="background: #080C14; border: 1px solid rgba(255,255,255,0.07); border-radius: var(--radius-card); padding: 14px 18px;">
-                    <div style="font-family: var(--font-mono); font-size: 10px; color: #64748B; font-weight: 800;">CONTATOS AUDITADOS</div>
-                    <div id="motor-metric-contatos" style="font-family: var(--font-headline); font-size: 24px; font-weight: 800; color: #FFF; margin-top: 4px;">--</div>
-                    <div style="font-size: 11px; color: #94A3B8;">Minimização LGPD ativa</div>
-                </div>
-                <div style="background: #080C14; border: 1px solid rgba(255,255,255,0.07); border-radius: var(--radius-card); padding: 14px 18px;">
-                    <div style="font-family: var(--font-mono); font-size: 10px; color: #64748B; font-weight: 800;">INTERAÇÕES RASTREADAS</div>
-                    <div id="motor-metric-interacoes" style="font-family: var(--font-headline); font-size: 24px; font-weight: 800; color: var(--cyan-core); margin-top: 4px;">--</div>
-                    <div style="font-size: 11px; color: #94A3B8;">WhatsApp & Instagram</div>
-                </div>
-                <div style="background: #080C14; border: 1px solid rgba(255,255,255,0.07); border-radius: var(--radius-card); padding: 14px 18px;">
-                    <div style="font-family: var(--font-mono); font-size: 10px; color: #64748B; font-weight: 800;">EVIDÊNCIAS FACTUAIS</div>
-                    <div id="motor-metric-evidencias" style="font-family: var(--font-headline); font-size: 24px; font-weight: 800; color: #10B981; margin-top: 4px;">--</div>
-                    <div style="font-size: 11px; color: #94A3B8;">Fatos e falas isoladas</div>
-                </div>
-                <div style="background: #080C14; border: 1px solid rgba(255,255,255,0.07); border-radius: var(--radius-card); padding: 14px 18px;">
-                    <div style="font-family: var(--font-mono); font-size: 10px; color: #64748B; font-weight: 800;">ÍNDICE DE SAÚDE 7D</div>
-                    <div id="motor-metric-score-7d" style="font-family: var(--font-headline); font-size: 24px; font-weight: 800; color: #F59E0B; margin-top: 4px;">-- / 100</div>
-                    <div style="font-size: 11px; color: #94A3B8;">Média ponderada oficial</div>
-                </div>
-            </div>
-
-            <!-- Bloco 1: Diagnóstico de Crescimento 7D (Com Subdimensões de Retenção e Recompra) -->
-            <div style="margin-bottom: 32px;">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-                    <div style="display: flex; align-items: center; gap: 8px;">
-                        <i class="fas fa-chart-pie" style="color: var(--cyan-core);"></i>
-                        <h3 style="font-size: 16px; font-weight: 800; color: #FFF; text-transform: uppercase;">
-                            Diagnóstico Dimensional de Crescimento (Metodologia VIDE 7D)
-                        </h3>
-                    </div>
-                    <span id="motor-diag-data-badge" style="font-family: var(--font-mono); font-size: 11px; color: #64748B;">--</span>
-                </div>
-
-                <div class="motor-grid-7d" id="motor-grid-7d-cards">
-                    <!-- Cards dimensionais renderizados via JS -->
-                </div>
-            </div>
-
-            <!-- Bloco 2: Ranking EPV de Gargalos Comerciais Priorizados -->
-            <div style="margin-bottom: 32px;">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-                    <div style="display: flex; align-items: center; gap: 8px;">
-                        <i class="fas fa-ranking-star" style="color: #F59E0B;"></i>
-                        <h3 style="font-size: 16px; font-weight: 800; color: #FFF; text-transform: uppercase;">
-                            Gargalos Priorizados por Engenharia de Decisão (Fórmula EPV Versionada)
-                        </h3>
-                    </div>
-                    <div style="font-family: var(--font-mono); font-size: 11px; color: #94A3B8;">
-                        FÓRMULA: <span style="color: var(--cyan-core);">ROUND(((Recorrência*0.35 + Abrangência*0.25 + Severidade*0.40)*100)/Esforço, 2)</span>
-                    </div>
-                </div>
-
-                <div id="motor-epv-ranking-list" style="display: flex; flex-direction: column; gap: 12px;">
-                    <!-- Gargalos ordenados por pontuação EPV decrescente via JS -->
-                </div>
-            </div>
-
-            <!-- Bloco 3: Diferenciação Epistemológica Tripartite (Fatos vs Padrões vs Hipóteses) -->
-            <div style="margin-bottom: 32px;">
-                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
-                    <i class="fas fa-layer-group" style="color: #10B981;"></i>
-                    <h3 style="font-size: 16px; font-weight: 800; color: #FFF; text-transform: uppercase;">
-                        Rastreabilidade Epistemológica: Fatos, Padrões Recorrentes e Hipóteses
-                    </h3>
-                </div>
-
-                <div class="tripartite-grid">
-                    <!-- Coluna 1: Fatos Concretos -->
-                    <div class="tripartite-col">
-                        <div class="tripartite-header" style="color: #00E5FF;">
-                            <i class="fas fa-quote-left"></i>
-                            <span>1. Fatos Factuais (Evidências)</span>
+                <section class="cockpit-7d-section">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 24px; flex-wrap: wrap; gap: 16px;">
+                        <div>
+                            <span style="font-family: var(--font-mono); font-size: 11px; font-weight: 700; color: #8B5CF6; letter-spacing: 0.08em; text-transform: uppercase;">
+                                Análise Multidimensional
+                            </span>
+                            <h3 style="font-family: var(--font-headline); font-size: 20px; font-weight: 800; color: #FFF; margin: 4px 0 0 0;">
+                                Radar das 7 Dimensões do Negócio
+                            </h3>
                         </div>
-                        <p style="font-size: 11px; color: #94A3B8;">Trechos literais extraídos de conversas e atendimentos reais.</p>
-                        <div id="tripartite-fatos-list" style="display: flex; flex-direction: column; gap: 8px; max-height: 280px; overflow-y: auto;">
-                            <!-- Itens via JS -->
-                        </div>
+                        <button class="btn-dossier-action primary" onclick="dispararDiagnosticoComercial()">
+                            <i class="fas fa-rotate"></i> Recalcular Diagnóstico 7D
+                        </button>
                     </div>
 
-                    <!-- Coluna 2: Padrões Recorrentes -->
-                    <div class="tripartite-col">
-                        <div class="tripartite-header" style="color: #F59E0B;">
-                            <i class="fas fa-repeat"></i>
-                            <span>2. Padrões Comportamentais</span>
-                        </div>
-                        <p style="font-size: 11px; color: #94A3B8;">Regularidades identificadas com frequência de ocorrência no funil.</p>
-                        <div id="tripartite-padroes-list" style="display: flex; flex-direction: column; gap: 8px; max-height: 280px; overflow-y: auto;">
-                            <!-- Itens via JS -->
-                        </div>
+                    <div class="dimensions-cards-grid" id="container-dimensoes-7d">
+                        <!-- Injetado dinamicamente via JS -->
                     </div>
-
-                    <!-- Coluna 3: Hipóteses Causais -->
-                    <div class="tripartite-col">
-                        <div class="tripartite-header" style="color: #10B981;">
-                            <i class="fas fa-lightbulb"></i>
-                            <span>3. Hipóteses Causais</span>
-                        </div>
-                        <p style="font-size: 11px; color: #94A3B8;">Causas-raízes prováveis formuladas para embasar intervenções.</p>
-                        <div id="tripartite-hipoteses-list" style="display: flex; flex-direction: column; gap: 8px; max-height: 280px; overflow-y: auto;">
-                            <!-- Itens via JS -->
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Bloco 4: Central de Operações de Deliberação de MIVs (Menor Intervenção Viável) -->
-            <div>
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
-                    <div>
-                        <div style="font-family: var(--font-mono); font-size: 10px; font-weight: 800; color: #00E5FF;">GOVERNANÇA & AUTORIDADE EXECUTIVA</div>
-                        <h3 style="font-size: 18px; font-weight: 800; color: #FFF; text-transform: uppercase;">
-                            Recomendações MIV — Deliberação Formal da Diretoria
-                        </h3>
-                    </div>
-                    <div style="font-size: 12px; color: #94A3B8; font-family: var(--font-mono);">
-                        STATUS: <span style="color: #F59E0B;">AGUARDANDO DECISÃO HUMANA</span>
-                    </div>
-                </div>
-
-                <div id="motor-miv-cards-container" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 16px;">
-                    <!-- MIV Cards com Botão de Aprovação e Inspeção Relacional via JS -->
-                </div>
-            </div>
-
-            <!-- Bloco 5: Feedback Loop & Aprendizado Contínuo MIV -->
-            <div style="margin-top: 24px;">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
-                    <div>
-                        <div style="font-family: var(--font-mono); font-size: 10px; font-weight: 800; color: #10B981;">FEEDBACK LOOP & APRENDIZADO ACUMULADO</div>
-                        <h3 style="font-size: 18px; font-weight: 800; color: #FFF; text-transform: uppercase;">
-                            Avaliação de Eficácia de MIVs (Antes vs Depois)
-                        </h3>
-                    </div>
-                    <button onclick="abrirModalNovaAvaliacaoMIV()" class="btn-black-outline" style="padding: 8px 14px; font-size: 12px; border-color: rgba(16, 185, 129, 0.4); color: #10B981;">
-                        <i class="fas fa-chart-line"></i>
-                        <span>Registrar Aprendizado MIV</span>
-                    </button>
-                </div>
-
-                <div id="motor-aprendizados-cards-container" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 16px;">
-                    <!-- Aprendizados Cards via JS -->
-                </div>
-            </div>
-        </section>
-
-
-        
+                </section>
             </div>
 
             <!-- Sub-painel 2: Ingestão de Dados -->
-            <div id="pane-avancado-ingestao" class="avancado-pane">
-                <section class="cockpit-cluster-section" id="secao-ingestao-dados" class="reveal-on-scroll" style="border-top: 1px solid rgba(16, 185, 129, 0.35);">
-            <div class="cluster-head-row" style="margin-bottom: 24px;">
-                <div>
-                    <div style="font-family: var(--font-mono); font-size: 11px; font-weight: 800; color: #10B981; letter-spacing: 0.12em;">
-                        PIPELINE MULTI-FONTE // INGESTÃO & PREPARAÇÃO DE DADOS (v2.2)
-                    </div>
-                    <h2 style="font-size: 24px; font-weight: 800; text-transform: uppercase; margin-top: 4px; color: #FFFFFF;">
-                        Central de Ingestão de Dados Comerciais
-                    </h2>
-                    <p style="font-size: 13px; color: var(--text-muted); margin-top: 4px; max-width: 820px;">
-                        Recepção unificada, validação semântica e deduplicação de dados de vendas, interações, contatos e retenção (CSV, XLSX, Formulários e APIs). Alimenta o Motor 7D com dados factuais preservando a natureza de cada registro.
-                    </p>
-                </div>
-                <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
-                    <div style="display: flex; align-items: center; gap: 8px;">
-                        <span style="font-family: var(--font-mono); font-size: 11px; color: #94A3B8;">EMPRESA:</span>
-                        <select id="ingestao-empresa-select" onchange="trocarEmpresaIngestao(this.value)" class="input-dark-field" style="padding: 8px 12px; font-size: 12px; max-width: 220px;">
-                            <option value="">Carregando empresas...</option>
-                        </select>
-                    </div>
-                    <button onclick="carregarLotesIngestao()" class="btn-luxury-primary" style="padding: 11px 20px; font-size: 12.5px;"><i class="fas fa-arrows-rotate"></i><span>Atualizar Lotes</span>
-                    </button>
-                    <button onclick="abrirModalNovaIngestao()" class="btn-luxury-outline-emerald" style="padding: 11px 20px; font-size: 12.5px;"><i class="fas fa-cloud-arrow-up"></i><span>Nova Ingestão de Dados</span>
-                    </button>
-                </div>
-            </div>
-
-            <!-- Bento Bar de Métricas de Ingestão -->
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; margin-bottom: 24px;">
-                <div style="background: #080C14; border: 1px solid rgba(255,255,255,0.07); border-radius: var(--radius-card); padding: 14px 18px;">
-                    <div style="font-family: var(--font-mono); font-size: 10px; color: #64748B; font-weight: 800;">LOTES PROCESSADOS</div>
-                    <div id="ingestao-metric-lotes" style="font-family: var(--font-headline); font-size: 24px; font-weight: 800; color: #FFF; margin-top: 4px;">--</div>
-                    <div style="font-size: 11px; color: #94A3B8;">Histórico multiempresa</div>
-                </div>
-                <div style="background: #080C14; border: 1px solid rgba(255,255,255,0.07); border-radius: var(--radius-card); padding: 14px 18px;">
-                    <div style="font-family: var(--font-mono); font-size: 10px; color: #64748B; font-weight: 800;">REGISTROS VÁLIDOS</div>
-                    <div id="ingestao-metric-validos" style="font-family: var(--font-headline); font-size: 24px; font-weight: 800; color: #10B981; margin-top: 4px;">--</div>
-                    <div style="font-size: 11px; color: #94A3B8;">Aptos para o Motor 7D</div>
-                </div>
-                <div style="background: #080C14; border: 1px solid rgba(255,255,255,0.07); border-radius: var(--radius-card); padding: 14px 18px;">
-                    <div style="font-family: var(--font-mono); font-size: 10px; color: #64748B; font-weight: 800;">DUPLICADOS BARRADOS</div>
-                    <div id="ingestao-metric-duplicados" style="font-family: var(--font-headline); font-size: 24px; font-weight: 800; color: #F59E0B; margin-top: 4px;">--</div>
-                    <div style="font-size: 11px; color: #94A3B8;">Deduplicação SHA-256</div>
-                </div>
-                <div style="background: #080C14; border: 1px solid rgba(255,255,255,0.07); border-radius: var(--radius-card); padding: 14px 18px;">
-                    <div style="font-family: var(--font-mono); font-size: 10px; color: #64748B; font-weight: 800;">ALERTAS & INCONSISTÊNCIAS</div>
-                    <div id="ingestao-metric-alertas" style="font-family: var(--font-headline); font-size: 24px; font-weight: 800; color: #EC4899; margin-top: 4px;">--</div>
-                    <div style="font-size: 11px; color: #94A3B8;">Campos ausentes rastreados</div>
-                </div>
-            </div>
-
-            <!-- Grade de Lotes Recentes -->
-            <div style="margin-bottom: 24px;">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-                    <div style="display: flex; align-items: center; gap: 8px;">
-                        <i class="fas fa-boxes-stacked" style="color: #10B981;"></i>
-                        <h3 style="font-size: 16px; font-weight: 800; color: #FFF; text-transform: uppercase;">
-                            Lotes de Ingestão e Status de Preparação
-                        </h3>
-                    </div>
-                </div>
-                <div id="ingestao-lotes-container" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 16px;">
-                    <!-- Cards de Lotes via JS -->
-                    <div style="padding: 24px; background: #0A0F1D; border: 1px dashed rgba(255,255,255,0.15); border-radius: var(--radius-card); text-align: center; color: var(--text-muted); font-size: 13px;">
-                        Carregando lotes de ingestão...
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- =====================================================================
-         * SEÇÃO: MOTOR DE INTELIGÊNCIA COMERCIAL (v2.2) — DIAGNÓSTICO 7D & MIV
-         * ===================================================================== -->
-        
-            </div>
-
-            <!-- Sub-painel 3: Telemetria & Infraestrutura -->
-            <div id="pane-avancado-telemetria" class="avancado-pane">
-                <div class="exec-card">
-                    <h3 style="font-family: var(--font-headline); font-size: 18px; font-weight: 800; color: #FFF; margin-bottom: 16px;">
-                        <i class="fas fa-heart-pulse" style="color: var(--green-emerald);"></i> Saúde da Infraestrutura e Banco de Dados
+            <div id="pane-avancado-ingestao" class="avancado-pane" style="display: none;">
+                <section class="ingestao-dados-section" style="background: rgba(13, 17, 26, 0.7); border: 1px solid var(--vide-border-hairline); border-radius: 20px; padding: 28px;">
+                    <h3 style="font-family: var(--font-headline); font-size: 18px; font-weight: 800; color: #FFF; margin-bottom: 8px;">
+                        Ingestão de Dados Multi-fonte
                     </h3>
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px;">
-                        <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); padding: 16px; border-radius: 10px;">
+                    <p style="font-size: 13px; color: #94A3B8; margin-bottom: 24px;">
+                        Carregue planilhas de clientes, extratos de vendas ou históricos comerciais para calibrar as projeções de receita da VIDE.
+                    </p>
+
+                    <div style="display: flex; gap: 14px; flex-wrap: wrap; align-items: center;">
+                        <input type="file" id="input-arquivo-ingestao" style="display: none;" onchange="processarArquivoIngestao(event)">
+                        <button class="btn-dossier-action primary" onclick="document.getElementById('input-arquivo-ingestao').click()">
+                            <i class="fas fa-file-arrow-up"></i> Selecionar Arquivo para Ingestão
+                        </button>
+                        <span id="ingestao-status-txt" style="font-size: 12px; color: #64748B;">Nenhum arquivo em processamento</span>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Sub-painel 3: Telemetria Real do Sistema (FIM DOS DADOS FICTÍCIOS) -->
+            <div id="pane-avancado-telemetria" class="avancado-pane" style="display: none;">
+                <section class="telemetria-section" style="background: rgba(13, 17, 26, 0.7); border: 1px solid var(--vide-border-hairline); border-radius: 20px; padding: 28px;">
+                    <h3 style="font-family: var(--font-headline); font-size: 18px; font-weight: 800; color: #FFF; margin-bottom: 8px;">
+                        Telemetria & Integridade da Infraestrutura
+                    </h3>
+                    <p style="font-size: 13px; color: #94A3B8; margin-bottom: 24px;">
+                        Métricas reais de integridade operacional do backend e conformidade de governança da VIDE.
+                    </p>
+
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px;">
+                        <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); padding: 18px; border-radius: 12px;">
                             <div style="font-family: var(--font-mono); font-size: 11px; color: #94A3B8;">STATUS DO BACKEND</div>
-                            <div style="font-size: 20px; font-weight: 800; color: var(--green-emerald); margin-top: 4px;" id="servidor-status-val">ONLINE</div>
+                            <div style="font-size: 20px; font-weight: 800; color: #10B981; margin-top: 4px;" id="servidor-status-val">ONLINE</div>
                         </div>
-                        <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); padding: 16px; border-radius: 10px;">
-                            <div style="font-family: var(--font-mono); font-size: 11px; color: #94A3B8;">RECEITA PROTEGIDA ESTIMADA</div>
-                            <div style="font-size: 20px; font-weight: 800; color: var(--cyan-core); margin-top: 4px;" id="receita-protegida-val">R$ 54.200</div>
+                        <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); padding: 18px; border-radius: 12px;">
+                            <div style="font-family: var(--font-mono); font-size: 11px; color: #94A3B8;">DEMANDAS NO SISTEMA</div>
+                            <div style="font-size: 20px; font-weight: 800; color: #00D2FF; margin-top: 4px;" id="projetos-auditados-val">4 Projetos</div>
                         </div>
-                        <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); padding: 16px; border-radius: 10px;">
-                            <div style="font-family: var(--font-mono); font-size: 11px; color: #94A3B8;">LEADS E CONTATOS AUDITADOS</div>
-                            <div style="font-size: 20px; font-weight: 800; color: #FFF; margin-top: 4px;" id="leads-auditados-val">184</div>
+                        <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); padding: 18px; border-radius: 12px;">
+                            <div style="font-family: var(--font-mono); font-size: 11px; color: #94A3B8;">ETAPAS MAPEADAS</div>
+                            <div style="font-size: 20px; font-weight: 800; color: #FFFFFF; margin-top: 4px;" id="telemetria-tarefas-val">8 Tarefas</div>
                         </div>
-                        <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); padding: 16px; border-radius: 10px;">
-                            <div style="font-family: var(--font-mono); font-size: 11px; color: #94A3B8;">CONFORMIDADE DE GOVERNANÇA</div>
-                            <div style="font-size: 20px; font-weight: 800; color: var(--amber-gold); margin-top: 4px;" id="projetos-auditados-val">100%</div>
+                        <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); padding: 18px; border-radius: 12px;">
+                            <div style="font-family: var(--font-mono); font-size: 11px; color: #94A3B8;">CONFORMIDADE DE ESCOPO</div>
+                            <div style="font-size: 20px; font-weight: 800; color: #F59E0B; margin-top: 4px;" id="telemetria-conformidade-val">100% Homologada</div>
                         </div>
                     </div>
-
-                <!-- Auditoria e Registro de Atividades da Equipe Executiva -->
-                <div style="margin-top: 24px;">
-                    <section class="luxury-card" style="overflow: hidden; border-radius: 16px;">
-                        <div style="background: rgba(10, 15, 29, 0.85); padding: 16px 22px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid rgba(255, 255, 255, 0.08);">
-                            <div style="display: flex; align-items: center; gap: 12px;">
-                                <div class="avatar-initials-badge" style="width: 32px; height: 32px; font-size: 13px; background: rgba(16, 185, 129, 0.15); color: #10B981; border: 1px solid rgba(16, 185, 129, 0.3);">
-                                    <i class="fas fa-clock-rotate-left"></i>
-                                </div>
-                                <div>
-                                    <h4 style="font-family: var(--font-headline); font-size: 14.5px; font-weight: 800; color: #FFF; margin: 0;">
-                                        Registro de Auditoria & Atividades da Equipe
-                                    </h4>
-                                    <p style="font-size: 11.5px; color: #94A3B8; margin: 2px 0 0 0;">
-                                        Histórico executivo em tempo real de diagnósticos, aprovações e telemetria relacional.
-                                    </p>
-                                </div>
-                            </div>
-                            <div style="display: flex; align-items: center; gap: 8px;">
-                                <span class="catalogo-pill-tag" style="background: rgba(16, 185, 129, 0.15); color: #10B981; border-color: rgba(16, 185, 129, 0.35);">
-                                    <span style="display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: #10B981; margin-right: 6px;"></span>
-                                    Sincronia Ativa
-                                </span>
-                            </div>
-                        </div>
-
-                        <div id="terminal-feed" style="padding: 18px 22px; max-height: 280px; overflow-y: auto; background: rgba(6, 9, 17, 0.65); font-size: 13px; line-height: 1.6; color: #CBD5E1; display: flex; flex-direction: column; gap: 6px;">
-                            <div class="audit-stream-row" style="display: flex; align-items: flex-start; gap: 12px; padding: 6px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.04);">
-                                <span style="color: #64748B; font-size: 11.5px; font-weight: 600; min-width: 65px;">[00:00:00]</span>
-                                <span style="background: rgba(56, 189, 248, 0.12); color: #38BDF8; font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 6px; white-space: nowrap;">Sistema VIDE</span>
-                                <span id="terminal-host-init" style="color: #E2E8F0;">Central Executiva operacional inicializada. Sincronia de telemetria estabelecida.</span>
-                            </div>
-                            <div class="audit-stream-row" style="display: flex; align-items: flex-start; gap: 12px; padding: 6px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.04);">
-                                <span style="color: #64748B; font-size: 11.5px; font-weight: 600; min-width: 65px;">[00:00:01]</span>
-                                <span style="background: rgba(37, 99, 235, 0.15); color: #60A5FA; font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 6px; white-space: nowrap;">Gabriel Rocha (Coordenação)</span>
-                                <span style="color: #E2E8F0;">Ambiente executivo seguro ativo. 7 especialistas seniores sincronizados e prontos para diretrizes.</span>
-                            </div>
-                            <div class="audit-stream-row" style="display: flex; align-items: flex-start; gap: 12px; padding: 6px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.04);">
-                                <span style="color: #64748B; font-size: 11.5px; font-weight: 600; min-width: 65px;">[00:00:02]</span>
-                                <span style="background: rgba(139, 92, 246, 0.15); color: #A78BFA; font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 6px; white-space: nowrap;">Matheus Barreto (Inteligência 7D)</span>
-                                <span style="color: #E2E8F0;">Verificação de integridade: rotas operacionais (HTTP 200). Banco relacional e persistência monitorados.</span>
-                            </div>
-                        </div>
-                    </section>
-                </div>
-            </div>
+                </section>
             </div>
         </div>
-
     </main>
 
     <!-- MODAL EXECUTIVO DE BRIEFING E DOCUMENTO ESTRATÉGICO DA SOLUÇÃO -->
@@ -8731,7 +10048,7 @@ body {
                 mensagens = parsed.map(m => {
                     m.texto = limparTextoSeguro(m.texto)
                         .replace(/\(Agente 002\)|\(Agente 02\)|\(Agente 0\d\)/g, '')
-                        .replace(/Coordenador Geral/g, 'Gabriel Rocha');
+                        // cleaned
                     return m;
                 });
                 if (mensagens.length > 0 && mensagens[0].remetente === 'agente' && (mensagens[0].texto.includes('Agente') || mensagens[0].texto.includes('Coordenador Geral ('))) {
@@ -9204,6 +10521,30 @@ window.addEventListener('DOMContentLoaded', () => {
         alternarAbaPrincipal('inicio');
     }
 });
+
+
+    function salvarBriefingGuiadoInline(e) {
+        if (e && e.preventDefault) e.preventDefault();
+        const nicho = document.getElementById('inline-briefing-nicho').value.trim();
+        const dor = document.getElementById('inline-briefing-dor').value.trim();
+        const publico = document.getElementById('inline-briefing-publico').value.trim();
+        const ref = document.getElementById('inline-briefing-referencias').value.trim();
+
+        if (typeof DB !== 'undefined' && DB.estrategia) {
+            DB.estrategia.briefing_respostas = {
+                nicho: nicho,
+                dor: dor,
+                publico_alvo: publico,
+                referencias: ref
+            };
+        }
+
+        const elPublico = document.getElementById('doc-publico-alvo-txt');
+        if (elPublico && publico) elPublico.textContent = publico;
+
+        adicionarLogTerminal('Douglas Paz (Diretor Executivo)', 'Briefing estratégico atualizado com sucesso. Especialistas recalibrados.');
+        alert('Briefing estratégico atualizado com sucesso! Gabriel Rocha e a equipe foram notificados.');
+    }
 
 </script>
 
