@@ -14496,7 +14496,7 @@ window.addEventListener('DOMContentLoaded', () => {
     }
 
     function renderizarCards7D(diag) {
-        const container = document.getElementById('motor-grid-7d-cards');
+        const container = document.getElementById('container-dimensoes-7d') || document.getElementById('motor-grid-7d-cards');
         if (!container) return;
 
         if (!diag || !diag.notas_por_dimensao) {
@@ -14522,16 +14522,22 @@ window.addEventListener('DOMContentLoaded', () => {
             const nota = Math.round(notas[dim.key] || 0);
             let cls = 'saudavel';
             let statusTxt = 'SAUDÁVEL';
-            let barColor = '#10B981';
+            let barColor = '#0D7A52';
+            let badgeBg = '#E8F5EF';
+            let badgeBorder = '#B8E2D0';
 
             if (nota < 50) {
                 cls = 'critico';
                 statusTxt = 'CRÍTICO';
-                barColor = '#EF4444';
+                barColor = '#B91C1C';
+                badgeBg = '#FEE2E2';
+                badgeBorder = '#F5B5B5';
             } else if (nota < 70) {
                 cls = 'atencao';
                 statusTxt = 'ATENÇÃO';
-                barColor = '#F59E0B';
+                barColor = '#B45309';
+                badgeBg = '#FEF3C7';
+                badgeBorder = '#F5D08A';
             }
 
             let subchipsHtml = '';
@@ -14546,16 +14552,16 @@ window.addEventListener('DOMContentLoaded', () => {
             }
 
             html += `
-                <div class="dim-card ${cls}">
-                    <div class="dim-head">
-                        <span class="dim-title">${dim.nome}</span>
-                        <span class="dim-score-badge ${cls}">${nota} pts • ${statusTxt}</span>
+                <div class="dim-card editorial-7d-spec-card ${cls}" style="border-top: 2px solid ${barColor} !important;">
+                    <div class="dim-head" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; gap: 8px;">
+                        <span class="dim-title" style="font-family: var(--font-headline); font-size: 15.5px; font-weight: 800; color: #111315;">${dim.nome}</span>
+                        <span class="dim-score-badge ${cls}" style="font-family: var(--font-mono); font-size: 11px; font-weight: 800; color: ${barColor}; background: ${badgeBg}; border: 1px solid ${badgeBorder}; padding: 3px 9px; border-radius: 6px; white-space: nowrap;">${nota} pts · ${statusTxt}</span>
                     </div>
-                    <div class="dim-progress-track">
-                        <div class="dim-progress-fill" style="width: ${nota}%; background: ${barColor};"></div>
+                    <div class="dim-progress-track" style="height: 6px; background: #EFECE6; border-radius: 4px; overflow: hidden; margin-bottom: 10px;">
+                        <div class="dim-progress-fill" style="height: 100%; width: ${nota}%; background: ${barColor}; border-radius: 4px;"></div>
                     </div>
-                    <div style="font-size: 11px; color: #5F666D;">
-                        ${nota < 50 ? 'Gargalo operacional identificado necessitando MIV.' : (nota < 70 ? 'Estável com pontos pontuais de fricção.' : 'Performance otimizada e estruturada.')}
+                    <div style="font-size: 12.5px; color: #4A5056; line-height: 1.5;">
+                        ${nota < 50 ? 'Gargalo operacional identificado necessitando intervenção imediata (MIV).' : (nota < 70 ? 'Operação estável com pontos específicos de fricção comercial.' : 'Performance otimizada e estruturada dentro dos parâmetros VIDE.')}
                     </div>
                     ${subchipsHtml}
                 </div>
