@@ -160,6 +160,8 @@ class BancoDadosRelacionalVIDE {
                 ALTER TABLE projetos ADD COLUMN IF NOT EXISTS limites_trabalho TEXT;
                 ALTER TABLE projetos ADD COLUMN IF NOT EXISTS responsavel_aprovacao VARCHAR(255);
                 ALTER TABLE projetos ADD COLUMN IF NOT EXISTS natureza_projeto VARCHAR(32) DEFAULT 'SIMULADO';
+                ALTER TABLE projetos ADD COLUMN IF NOT EXISTS briefing_estrategico JSONB;
+                ALTER TABLE projetos ADD COLUMN IF NOT EXISTS documento_estrategico JSONB;
 
                 ALTER TABLE tarefas ADD COLUMN IF NOT EXISTS objetivo TEXT;
                 ALTER TABLE tarefas ADD COLUMN IF NOT EXISTS entradas_necessarias JSONB DEFAULT '[]'::jsonb;
@@ -673,7 +675,7 @@ class BancoDadosRelacionalVIDE {
 
             queryCli.then(() => {
                 return this.pgPool.query(`
-                    INSERT INTO projetos (id, cliente_id, id_demanda_origem, solicitacao_original, situacao_projeto, autorizacao_status, servicos_autorizados, data_autorizacao, observacao_autorizacao, prioridade, frentes_comerciais, escopo_autorizado, entregaveis, limites_trabalho, responsavel_aprovacao, natureza_projeto, criado_em, atualizado_em)
+                    INSERT INTO projetos (id, cliente_id, id_demanda_origem, solicitacao_original, situacao_projeto, autorizacao_status, servicos_autorizados, data_autorizacao, observacao_autorizacao, prioridade, frentes_comerciais, escopo_autorizado, entregaveis, limites_trabalho, responsavel_aprovacao, natureza_projeto, briefing_estrategico, documento_estrategico, criado_em, atualizado_em)
                     VALUES ($1, $2, $3, $4, $5, $6, $7::jsonb, $8, $9, $10, $11::jsonb, $12, $13::jsonb, $14, $15, $16, $17, $18)
                     ON CONFLICT (id) DO UPDATE SET
                         situacao_projeto = EXCLUDED.situacao_projeto,
@@ -733,7 +735,7 @@ class BancoDadosRelacionalVIDE {
             const servicos = (projeto.autorizacao_comercial && projeto.autorizacao_comercial.servicos_autorizados) || projeto.servicos_autorizados || [];
             await this.pgPool.query(`
                 INSERT INTO projetos (id, cliente_id, id_demanda_origem, solicitacao_original, situacao_projeto, autorizacao_status, servicos_autorizados, data_autorizacao, observacao_autorizacao, prioridade, frentes_comerciais, escopo_autorizado, entregaveis, limites_trabalho, responsavel_aprovacao, natureza_projeto, criado_em, atualizado_em)
-                VALUES ($1, $2, $3, $4, $5, $6, $7::jsonb, $8, $9, $10, $11::jsonb, $12, $13::jsonb, $14, $15, $16, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+                VALUES ($1, $2, $3, $4, $5, $6, $7::jsonb, $8, $9, $10, $11::jsonb, $12, $13::jsonb, $14, $15, $16, $17::jsonb, $18::jsonb, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
                 ON CONFLICT (id) DO UPDATE SET
                     situacao_projeto = EXCLUDED.situacao_projeto,
                     autorizacao_status = EXCLUDED.autorizacao_status,
@@ -747,6 +749,8 @@ class BancoDadosRelacionalVIDE {
                     limites_trabalho = EXCLUDED.limites_trabalho,
                     responsavel_aprovacao = EXCLUDED.responsavel_aprovacao,
                     natureza_projeto = EXCLUDED.natureza_projeto,
+                    briefing_estrategico = COALESCE(EXCLUDED.briefing_estrategico, projetos.briefing_estrategico),
+                    documento_estrategico = COALESCE(EXCLUDED.documento_estrategico, projetos.documento_estrategico),
                     atualizado_em = CURRENT_TIMESTAMP
             `, [
                 idProjeto,
@@ -764,7 +768,9 @@ class BancoDadosRelacionalVIDE {
                 JSON.stringify(projeto.entregaveis || (projeto.autorizacao_comercial && projeto.autorizacao_comercial.entregaveis) || []),
                 projeto.limites_trabalho || (projeto.autorizacao_comercial && projeto.autorizacao_comercial.limites_trabalho) || null,
                 projeto.responsavel_aprovacao || (projeto.autorizacao_comercial && projeto.autorizacao_comercial.responsavel_aprovacao) || null,
-                projeto.natureza_projeto || 'SIMULADO'
+                projeto.natureza_projeto || 'SIMULADO',
+                projeto.briefing_estrategico ? JSON.stringify(projeto.briefing_estrategico) : null,
+                projeto.documento_estrategico ? JSON.stringify(projeto.documento_estrategico) : null
             ]);
 
             // 3. Garante Tarefas se houver
@@ -885,6 +891,8 @@ class BancoDadosRelacionalVIDE {
                 limites_trabalho: p.limites_trabalho,
                 responsavel_aprovacao: p.responsavel_aprovacao,
                 natureza_projeto: p.natureza_projeto || 'SIMULADO',
+                briefing_estrategico: typeof p.briefing_estrategico === 'string' ? JSON.parse(p.briefing_estrategico) : (p.briefing_estrategico || null),
+                documento_estrategico: typeof p.documento_estrategico === 'string' ? JSON.parse(p.documento_estrategico) : (p.documento_estrategico || null),
                 autorizacao_comercial: {
                     status: p.autorizacao_status,
                     frentes_comerciais: frentes,
