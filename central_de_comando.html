@@ -9367,6 +9367,21 @@ body {
     <!-- =====================================================================
      * NOVO BRIEFING ESTRATÉGICO GUIADO E INTUITIVO (ZERO BUROCRACIA DE ANEXOS)
      * ===================================================================== -->
+    <div id="modal-visualizador-entregavel" class="modal-overlay" style="display: none; position: fixed; inset: 0; background: rgba(5, 7, 12, 0.88); backdrop-filter: blur(20px); z-index: 100001; align-items: center; justify-content: center; padding: 20px;">
+        <div style="background: #0A0F1A; border: 1px solid rgba(0, 229, 255, 0.28); border-radius: 20px; max-width: 960px; width: 100%; height: 82vh; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 30px 70px rgba(0,0,0,0.85);">
+            <div style="display: flex; justify-content: space-between; align-items: center; padding: 16px 22px; border-bottom: 1px solid rgba(255,255,255,0.08);">
+                <span id="modal-vis-titulo" style="font-family: var(--font-headline); font-weight: 800; color: #FFF; font-size: 15px;">Visualizador de Arquivo</span>
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <a id="modal-vis-link-externo" href="#" class="btn-deliverable-view" style="display: inline-flex; text-decoration: none;"><i class="fas fa-download"></i> Baixar</a>
+                    <button type="button" onclick="fecharModalVisualizadorEntregavel()" style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); color: #CBD5E1; width: 34px; height: 34px; border-radius: 50%; cursor: pointer;"><i class="fas fa-times"></i></button>
+                </div>
+            </div>
+            <div style="flex: 1; display: flex; padding: 14px; background: #050810; overflow: hidden;">
+                <iframe id="modal-vis-iframe" style="width: 100%; height: 100%; border: none; border-radius: 10px; background: #FFF;"></iframe>
+            </div>
+        </div>
+    </div>
+
     <div id="modal-novo-projeto" class="modal-overlay" style="display: none; position: fixed; inset: 0; background: rgba(5, 7, 12, 0.88); backdrop-filter: blur(28px); -webkit-backdrop-filter: blur(28px); z-index: 100000; align-items: center; justify-content: center; padding: 20px;">
         <div style="background: linear-gradient(155deg, rgba(16, 21, 34, 0.96) 0%, rgba(9, 12, 19, 0.98) 100%); border: 1px solid rgba(0, 210, 255, 0.25); border-radius: 28px; max-width: 720px; width: 100%; max-height: 90vh; overflow-y: auto; box-shadow: 0 35px 80px -20px rgba(0,0,0,0.9), 0 0 50px rgba(0, 210, 255, 0.12); padding: 36px 40px; position: relative;">
             
@@ -11692,6 +11707,7 @@ window.addEventListener('DOMContentLoaded', () => {
             const headers = token ? { 'Authorization': 'Bearer ' + token } : {};
             const res = await fetch('/api/projetos/' + encodeURIComponent(idProjeto) + '/detalhes', { headers });
             const data = await res.json();
+            if (projetoAtivoId !== idProjeto) return;
             if (!res.ok || !data.sucesso) return;
 
             dadosProjetoAtivo = data;
@@ -11720,6 +11736,7 @@ window.addEventListener('DOMContentLoaded', () => {
                 const resBr = await fetch('/api/projetos/' + encodeURIComponent(idProjeto) + '/briefing', { headers });
                 if (resBr.ok) {
                     const brData = await resBr.json();
+                    if (projetoAtivoId !== idProjeto) return;
                     if (brData.sucesso) {
                         if (brData.briefing && brData.briefing.respostas_coletadas) {
                             respostasBriefing = brData.briefing.respostas_coletadas;
