@@ -685,7 +685,7 @@ class BancoDadosRelacionalVIDE {
 
             queryCli.then(() => {
                 return this.pgPool.query(`
-                    INSERT INTO projetos (id, cliente_id, id_demanda_origem, solicitacao_original, situacao_projeto, autorizacao_status, servicos_autorizados, data_autorizacao, observacao_autorizacao, prioridade, frentes_comerciais, escopo_autorizado, entregaveis, limites_trabalho, responsavel_aprovacao, natureza_projeto, briefing_estrategico, documento_estrategico, criado_em, atualizado_em)
+                    INSERT INTO projetos (id, cliente_id, id_demanda_origem, solicitacao_original, situacao_projeto, autorizacao_status, servicos_autorizados, data_autorizacao, observacao_autorizacao, prioridade, frentes_comerciais, escopo_autorizado, entregaveis, limites_trabalho, responsavel_aprovacao, natureza_projeto, criado_em, atualizado_em)
                     VALUES ($1, $2, $3, $4, $5, $6, $7::jsonb, $8, $9, $10, $11::jsonb, $12, $13::jsonb, $14, $15, $16, $17, $18)
                     ON CONFLICT (id) DO UPDATE SET
                         situacao_projeto = EXCLUDED.situacao_projeto,
@@ -744,7 +744,7 @@ class BancoDadosRelacionalVIDE {
             // 2. Garante Projeto
             const servicos = (projeto.autorizacao_comercial && projeto.autorizacao_comercial.servicos_autorizados) || projeto.servicos_autorizados || [];
             await this.pgPool.query(`
-                INSERT INTO projetos (id, cliente_id, id_demanda_origem, solicitacao_original, situacao_projeto, autorizacao_status, servicos_autorizados, data_autorizacao, observacao_autorizacao, prioridade, frentes_comerciais, escopo_autorizado, entregaveis, limites_trabalho, responsavel_aprovacao, natureza_projeto, criado_em, atualizado_em)
+                INSERT INTO projetos (id, cliente_id, id_demanda_origem, solicitacao_original, situacao_projeto, autorizacao_status, servicos_autorizados, data_autorizacao, observacao_autorizacao, prioridade, frentes_comerciais, escopo_autorizado, entregaveis, limites_trabalho, responsavel_aprovacao, natureza_projeto, briefing_estrategico, documento_estrategico, criado_em, atualizado_em)
                 VALUES ($1, $2, $3, $4, $5, $6, $7::jsonb, $8, $9, $10, $11::jsonb, $12, $13::jsonb, $14, $15, $16, $17::jsonb, $18::jsonb, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
                 ON CONFLICT (id) DO UPDATE SET
                     situacao_projeto = EXCLUDED.situacao_projeto,
