@@ -237,6 +237,14 @@ class BancoDadosRelacionalVIDE {
                     entregaveis = typeof row.entregaveis === 'string' ? JSON.parse(row.entregaveis) : (row.entregaveis || []);
                 } catch (_) {}
 
+                const existenteMem = this.tabelas.projetos.get(row.id);
+                let briefRow = null;
+                try { briefRow = typeof row.briefing_estrategico === 'string' ? JSON.parse(row.briefing_estrategico) : (row.briefing_estrategico || null); } catch (_) {}
+                let docRow = null;
+                try { docRow = typeof row.documento_estrategico === 'string' ? JSON.parse(row.documento_estrategico) : (row.documento_estrategico || null); } catch (_) {}
+                if (!briefRow && existenteMem && existenteMem.briefing_estrategico) briefRow = existenteMem.briefing_estrategico;
+                if (!docRow && existenteMem && existenteMem.documento_estrategico) docRow = existenteMem.documento_estrategico;
+
                 const clienteObj = this.tabelas.clientes.get(row.cliente_id);
                 const clienteNome = clienteObj ? clienteObj.nome : row.cliente_id;
 
@@ -256,6 +264,8 @@ class BancoDadosRelacionalVIDE {
                     limites_trabalho: row.limites_trabalho,
                     responsavel_aprovacao: row.responsavel_aprovacao,
                     natureza_projeto: row.natureza_projeto || 'SIMULADO',
+                    briefing_estrategico: briefRow,
+                    documento_estrategico: docRow,
                     autorizacao_comercial: {
                         status: row.autorizacao_status,
                         servicos_autorizados: servicos,
