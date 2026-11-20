@@ -9238,6 +9238,417 @@ input.briefing-input-field::placeholder,
     margin-bottom: 8px !important;
     display: block !important;
 }
+
+/* =========================================================================
+ * VIDE EDITORIAL ATELIER v2 — COMPOSIÇÃO ARQUITETÔNICA, ESPAÇO NEGATIVO & PRECISÃO
+ * ========================================================================= */
+
+/* 1. Masthead Superior Arquitetônico (Sem colisão com barras internas) */
+header.exec-topbar {
+    position: sticky !important;
+    top: 0 !important;
+    margin: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    border-radius: 0 !important;
+    height: 68px !important;
+    padding: 0 36px !important;
+    background: rgba(246, 245, 241, 0.95) !important;
+    border: none !important;
+    border-bottom: 1px solid #DEDAD0 !important;
+    box-shadow: none !important;
+    z-index: 1000 !important;
+}
+
+.exec-main-content {
+    max-width: 1420px !important;
+    margin: 0 auto !important;
+    padding: 28px 36px 72px 36px !important;
+}
+
+/* 2. Hero Editorial Spread & Dossiê em Foco */
+.edition-hero-stage-widescreen {
+    border-radius: 14px !important;
+    border: 1px solid #DEDAD0 !important;
+    background: #FFFFFF !important;
+    position: relative !important;
+}
+
+.hero-operations-centerpiece {
+    background: #FAF9F6 !important;
+    border: 1px solid #E2DFD7 !important;
+    border-radius: 12px !important;
+    padding: 18px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0 !important;
+}
+
+.hero-centerpiece-art {
+    height: 190px !important;
+    opacity: 0.92 !important;
+    filter: grayscale(15%) contrast(105%) !important;
+    border-radius: 8px !important;
+    border: 1px solid #E2DFD7 !important;
+    margin-bottom: -24px !important;
+    position: relative !important;
+    z-index: 1 !important;
+}
+
+.centerpiece-gradient-overlay {
+    display: none !important;
+}
+
+.centerpiece-dossier-card {
+    position: relative !important;
+    z-index: 2 !important;
+    margin: 0 8px !important;
+    background: #FFFFFF !important;
+    border: 1px solid #DEDAD0 !important;
+    border-radius: 10px !important;
+    padding: 22px 24px !important;
+    box-shadow: 0 12px 28px -12px rgba(17, 19, 21, 0.08) !important;
+}
+
+/* Fix .btn-dossier-action width so buttons outside .dossier-actions-row NEVER stretch to 100% */
+.btn-dossier-action {
+    width: auto !important;
+    flex: 0 0 auto !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    padding: 10px 18px !important;
+    border-radius: 8px !important;
+    font-size: 12.5px !important;
+    font-weight: 700 !important;
+    cursor: pointer !important;
+}
+
+.dossier-actions-row .btn-dossier-action {
+    flex: 1 1 0% !important;
+}
+
+/* 3. Capítulo 2 (6 Passos Estratégicos) & Capítulo 3 (Ledger de Portais) */
+.strategic-steps-list {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 1px !important;
+    background: #E2DFD7 !important;
+    border: 1px solid #E2DFD7 !important;
+    border-radius: 10px !important;
+    overflow: hidden !important;
+}
+
+.strat-step-item {
+    background: #FFFFFF !important;
+    border: none !important;
+    border-radius: 0 !important;
+    padding: 16px 18px !important;
+    margin: 0 !important;
+}
+
+.workbench-gateway-grid {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 1px !important;
+    background: #DEDAD0 !important;
+    border: 1px solid #DEDAD0 !important;
+    border-radius: 12px !important;
+    overflow: hidden !important;
+}
+
+.workbench-gateway-card {
+    background: #FFFFFF !important;
+    border: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    padding: 32px 28px !important;
+}
+
+.workbench-gateway-card:hover {
+    background: #FAF9F6 !important;
+    transform: none !important;
+}
+
+/* 4. View Conversar — Limpeza de Sombras Legadas e Scrollbar */
+.chat-bubble-content,
+.chat-message-bubble,
+.agent-bubble .bubble-content-wrap {
+    box-shadow: none !important;
+}
+
+.chat-bubble-row.agent-row .chat-bubble-content {
+    background: #FAF9F6 !important;
+    border: 1px solid #E2DFD7 !important;
+    border-left: 3px solid #0098B8 !important;
+    border-radius: 4px 12px 12px 12px !important;
+}
+
+.chat-quick-suggestions {
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
+}
+.chat-quick-suggestions::-webkit-scrollbar {
+    display: none !important;
+}
+
+/* 5. View Equipe — Editorial Flagship Lead + 2-Column Atelier Matrix */
+#team-full-cards-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 20px !important;
+}
+
+.editorial-lead-spread {
+    grid-column: 1 / -1 !important;
+    display: grid !important;
+    grid-template-columns: 1.05fr 1.35fr 1.1fr !important;
+    gap: 28px !important;
+    background: #FFFFFF !important;
+    border: 1px solid #DEDAD0 !important;
+    border-top: 3px solid #0098B8 !important;
+    border-radius: 12px !important;
+    padding: 28px 32px !important;
+    align-items: start !important;
+}
+
+.lead-spread-col-identity {
+    padding-right: 24px !important;
+    border-right: 1px solid #EFECE6 !important;
+}
+
+.lead-spread-col-mandate {
+    padding-right: 24px !important;
+    border-right: 1px solid #EFECE6 !important;
+}
+
+.lead-spread-kicker {
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+}
+
+.lead-index-num {
+    font-family: var(--font-mono) !important;
+    font-size: 11px !important;
+    font-weight: 800 !important;
+    color: #FFFFFF !important;
+    background: #0098B8 !important;
+    padding: 2px 8px !important;
+    border-radius: 4px !important;
+}
+
+.lead-celula-tag,
+.workbench-celula-label {
+    font-family: var(--font-mono) !important;
+    font-size: 10.5px !important;
+    font-weight: 700 !important;
+    color: #007691 !important;
+    letter-spacing: 0.06em !important;
+    text-transform: uppercase !important;
+}
+
+.atelier-micro-label {
+    font-family: var(--font-mono) !important;
+    font-size: 10px !important;
+    font-weight: 700 !important;
+    color: #767D84 !important;
+    letter-spacing: 0.07em !important;
+    text-transform: uppercase !important;
+}
+
+.editorial-workbench-row {
+    background: #FFFFFF !important;
+    border: 1px solid #E2DFD7 !important;
+    border-top: 2px solid #111315 !important;
+    border-radius: 12px !important;
+    padding: 24px 26px !important;
+}
+
+.workbench-top-bar {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    padding-bottom: 12px !important;
+    border-bottom: 1px solid #EFECE6 !important;
+}
+
+.workbench-index-num {
+    font-family: var(--font-mono) !important;
+    font-size: 11px !important;
+    font-weight: 800 !important;
+    color: #111315 !important;
+}
+
+.workbench-spec-row {
+    background: #FAF9F6 !important;
+    border-left: 2px solid #D5D1C8 !important;
+    padding: 10px 14px !important;
+    border-radius: 0 6px 6px 0 !important;
+}
+
+.btn-workbench-inline-chat {
+    background: #F6F5F1 !important;
+    border: 1px solid #D5D1C8 !important;
+    color: #111315 !important;
+    border-radius: 8px !important;
+    padding: 8px 14px !important;
+    font-size: 12px !important;
+    font-weight: 700 !important;
+    cursor: pointer !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    transition: all 0.18s ease !important;
+    flex-shrink: 0 !important;
+}
+
+.btn-workbench-inline-chat:hover {
+    background: #111315 !important;
+    border-color: #111315 !important;
+    color: #FFFFFF !important;
+}
+
+/* 6. View Projetos — Portfolio Ledger (2 Colunas) & Sem Colisão de Scroll */
+#projetos-deck-geral,
+#painel-projeto-detalhes {
+    scroll-margin-top: 90px !important;
+}
+
+.proj-context-bar {
+    position: relative !important;
+    top: auto !important;
+    z-index: 10 !important;
+    margin-bottom: 24px !important;
+    background: #FAF9F6 !important;
+    border: 1px solid #E2DFD7 !important;
+    border-radius: 10px !important;
+    padding: 12px 18px !important;
+}
+
+#deck-projetos-container {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 20px !important;
+}
+
+.proj-deck-card {
+    padding: 24px 26px !important;
+    border-radius: 12px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+}
+
+.proj-deck-header-row {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    padding-bottom: 12px !important;
+    border-bottom: 1px solid #EFECE6 !important;
+}
+
+.proj-deck-index-num {
+    font-family: var(--font-mono) !important;
+    font-size: 11px !important;
+    font-weight: 800 !important;
+    color: #111315 !important;
+    background: #EFECE6 !important;
+    padding: 2px 7px !important;
+    border-radius: 4px !important;
+}
+
+.proj-deck-card.card-foco .proj-deck-index-num {
+    background: #0098B8 !important;
+    color: #FFFFFF !important;
+}
+
+.proj-deck-excerpt {
+    font-size: 13px !important;
+    color: #4A5056 !important;
+    line-height: 1.5 !important;
+    margin: 0 !important;
+    display: -webkit-box !important;
+    -webkit-line-clamp: 2 !important;
+    -webkit-box-orient: vertical !important;
+    overflow: hidden !important;
+}
+
+.proj-deck-ledger-grid {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 18px !important;
+    padding: 14px 0 !important;
+    border-top: 1px solid #EFECE6 !important;
+    border-bottom: 1px solid #EFECE6 !important;
+    margin-bottom: 14px !important;
+}
+
+.ledger-col-progress {
+    padding-right: 14px !important;
+    border-right: 1px solid #EFECE6 !important;
+}
+
+.deck-inline-gov-note {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    font-size: 11px !important;
+    font-weight: 600 !important;
+    color: #B45309 !important;
+}
+
+.proj-deck-footer-bar {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 12px !important;
+}
+
+.proj-deck-footer-bar .btn-deck-abrir {
+    width: auto !important;
+    padding: 8px 16px !important;
+    font-size: 12px !important;
+    border-radius: 8px !important;
+}
+
+/* 7. Área Avançada & Grid 7D */
+#container-dimensoes-7d,
+.dimensions-cards-grid {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)) !important;
+    gap: 16px !important;
+    margin-top: 18px !important;
+}
+
+.editorial-7d-spec-card,
+.dim-card {
+    background: #FAF9F6 !important;
+    border: 1px solid #E2DFD7 !important;
+    border-top: 2px solid #111315 !important;
+    border-radius: 10px !important;
+    padding: 18px 20px !important;
+}
+
+@media (max-width: 1024px) {
+    .editorial-lead-spread,
+    #team-full-cards-grid,
+    #deck-projetos-container,
+    .proj-deck-ledger-grid,
+    .workbench-gateway-grid,
+    .strategic-steps-list {
+        grid-template-columns: 1fr !important;
+    }
+    .lead-spread-col-identity,
+    .lead-spread-col-mandate,
+    .ledger-col-progress {
+        padding-right: 0 !important;
+        border-right: none !important;
+        border-bottom: 1px solid #EFECE6 !important;
+        padding-bottom: 16px !important;
+    }
+}
 </style>
 </head>
 <body>
@@ -9360,6 +9771,23 @@ input.briefing-input-field::placeholder,
                 <!-- Fundo Escultural Imersivo com Parallax -->
                 <div class="edition-hero-bg-layer parallax-bg" style="background-image: url('assets/images/vide_arbor_crescimento.jpg');"></div>
                 <div class="edition-hero-ambient-glow"></div>
+                <!-- Elemento Gráfico Vetorial VIDE: Arquitetura de Ramificações, Conexões & Crescimento -->
+                <svg class="vide-hero-vector-network" viewBox="0 0 1200 620" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; opacity: 0.75;">
+                    <g stroke="#E2DFD7" stroke-width="1">
+                        <line x1="0" y1="120" x2="1200" y2="120" stroke-dasharray="4 6"/>
+                        <line x1="0" y1="480" x2="1200" y2="480" stroke-dasharray="4 6"/>
+                        <line x1="680" y1="0" x2="680" y2="620"/>
+                    </g>
+                    <!-- Ramificações orgânicas de crescimento e estratégia -->
+                    <path d="M480 480 C 560 480, 600 340, 680 340 C 760 340, 810 210, 920 210 L 1080 210" stroke="#0098B8" stroke-width="1.5" stroke-opacity="0.28"/>
+                    <path d="M560 480 C 620 480, 640 410, 730 410 C 820 410, 860 310, 980 310" stroke="#111315" stroke-width="1.2" stroke-opacity="0.14"/>
+                    <path d="M680 340 C 730 340, 760 120, 860 120 L 1020 120" stroke="#0098B8" stroke-width="1.2" stroke-opacity="0.22" stroke-dasharray="3 4"/>
+                    <circle cx="680" cy="340" r="4.5" fill="#0098B8" fill-opacity="0.45"/>
+                    <circle cx="680" cy="340" r="9.5" stroke="#0098B8" stroke-opacity="0.25" stroke-width="1"/>
+                    <circle cx="860" cy="120" r="3.5" fill="#111315" fill-opacity="0.3"/>
+                    <circle cx="920" cy="210" r="4" fill="#0098B8" fill-opacity="0.4"/>
+                    <circle cx="730" cy="410" r="3.5" fill="#111315" fill-opacity="0.25"/>
+                </svg>
 
                 <div class="edition-hero-widescreen-inner">
                     <!-- COLUNA ESQUERDA: COMANDO, ORIENTAÇÃO & DESPACHO DIRETO -->
@@ -11288,7 +11716,7 @@ input.briefing-input-field::placeholder,
         "foto": "assets/avatars/gabriel_rocha.jpg",
         "papel": "Coordenador Geral & Estrategista",
         "icone": "fa-diagram-project",
-        "cor": "#3B82F6",
+        "cor": "#0098B8",
         "descricao": "Lidera o planejamento operacional, organiza o fluxo de etapas da equipe, monitora prazos e solicita suas aprovações executivas.",
         "o_que_faz": "Recebe seus objetivos em linguagem natural, estrutura o plano de etapas no fluxo de trabalho, orquestra a esteira e reúne todos os entregáveis para sua decisão.",
         "quando_acionar": "Sempre que você quiser iniciar um novo projeto, tirar dúvidas sobre o andamento geral, ou delegar uma demanda completa que envolva vários especialistas.",
@@ -11310,7 +11738,7 @@ input.briefing-input-field::placeholder,
         "foto": "assets/avatars/lucas_fontana.jpg",
         "papel": "Triagem Comercial & Qualificação",
         "icone": "fa-filter",
-        "cor": "#0EA5E9",
+        "cor": "#111315",
         "descricao": "Acolhe demandas comerciais de clientes, identifica dores reais, analisa maturidade comercial e enquadra no pacote ideal da VIDE.",
         "o_que_faz": "Avalia o perfil da empresa interessada, separa sintomas de causas reais e prepara o resumo inicial de qualificação para o Coordenador.",
         "quando_acionar": "Ao receber um novo contato interessado ou quando precisar qualificar o ticket médio e o perfil de uma empresa.",
@@ -11331,7 +11759,7 @@ input.briefing-input-field::placeholder,
         "foto": "assets/avatars/helena_prado.jpg",
         "papel": "Diretora de Arte & Brand Designer",
         "icone": "fa-palette",
-        "cor": "#EC4899",
+        "cor": "#111315",
         "descricao": "Desenvolve identidades visuais sofisticadas, logotipos vetoriais em SVG, diretrizes de marca e tokens de design de alto padrão.",
         "o_que_faz": "Cria ativos visuais refinados que transmitem autoridade imediata, sofisticação e profissionalismo aos clientes do negócio.",
         "quando_acionar": "Para criar ou renovar a marca de um cliente, definir cores e tipografia de um site ou aprovar padrões visuais.",
@@ -11352,7 +11780,7 @@ input.briefing-input-field::placeholder,
         "foto": "assets/avatars/rafael_duarte.jpg",
         "papel": "Engenheiro & Desenvolvedor Web",
         "icone": "fa-code",
-        "cor": "#2563EB",
+        "cor": "#111315",
         "descricao": "Programa landing pages de alta conversão, responsivas, mobile-first, limpas e ultrarrápidas em HTML5/CSS/JS.",
         "o_que_faz": "Constrói a vitrine digital da empresa, integrando botões de contato direto para WhatsApp e garantindo tempos de abertura inferiores a 1,2s.",
         "quando_acionar": "Para construir uma página de alta conversão, ajustar formulários, revisar a velocidade de um site ou integrar chamadas de ação.",
@@ -11373,7 +11801,7 @@ input.briefing-input-field::placeholder,
         "foto": "assets/avatars/camila_silveira.jpg",
         "papel": "Especialista em Atendimento & Vendas WhatsApp",
         "icone": "fa-comments",
-        "cor": "#10B981",
+        "cor": "#111315",
         "descricao": "Estrutura roteiros comerciais para WhatsApp, quebra as 5 maiores objeções de vendas e redige mensagens persuasivas.",
         "o_que_faz": "Capacita a recepção ou equipe de vendas da empresa a atender clientes com velocidade, quebrar resistências de preço e fechar negócios.",
         "quando_acionar": "Quando o cliente recebe leads mas perde vendas por demora no atendimento, respostas fracas ou dificuldade de contornar objeções.",
@@ -11394,7 +11822,7 @@ input.briefing-input-field::placeholder,
         "foto": "assets/avatars/thiago_meireles.jpg",
         "papel": "Engenheiro de Automações & Processos",
         "icone": "fa-gears",
-        "cor": "#F59E0B",
+        "cor": "#111315",
         "descricao": "Mapeia fluxos de trabalho, desenha integrações via webhooks/n8n e automatiza processos operacionais repetitivos.",
         "o_que_faz": "Conecta formulários de sites a CRMs, cria notificações instantâneas e evita retrabalho operacional para não perder nenhum lead.",
         "quando_acionar": "Para integrar o formulário do site com o WhatsApp, automatizar alertas de novos leads ou configurar fluxos no n8n.",
@@ -11415,7 +11843,7 @@ input.briefing-input-field::placeholder,
         "foto": "assets/avatars/matheus_barreto.jpg",
         "papel": "Inteligência Comercial & Growth 7D",
         "icone": "fa-chart-line",
-        "cor": "#8B5CF6",
+        "cor": "#0098B8",
         "descricao": "Audita gargalos nas 7 dimensões do negócio, investiga causas-raiz e conecta métricas de marketing aos resultados de faturamento.",
         "o_que_faz": "Analisa taxas de conversão, custos de aquisição e indicadores de funil, indicando onde a empresa está perdendo dinheiro e o que priorizar.",
         "quando_acionar": "Para rodar um diagnóstico do negócio, avaliar por que os anúncios não convertem ou mensurar o impacto das melhorias implementadas.",
@@ -11481,6 +11909,10 @@ input.briefing-input-field::placeholder,
             if (typeof renderizarCardsEquipeCompleta === 'function') renderizarCardsEquipeCompleta();
         } else if (abaId === 'projetos') {
             if (typeof carregarProjetosSelect === 'function') carregarProjetosSelect();
+            if (typeof garantirRenderizacaoInicial7D === 'function') garantirRenderizacaoInicial7D();
+        } else if (abaId === 'avancado') {
+            if (typeof garantirRenderizacaoInicial7D === 'function') garantirRenderizacaoInicial7D();
+            if (typeof carregarTelemetriaReal === 'function') carregarTelemetriaReal();
         } else if (abaId === 'entregas') {
             if (typeof renderizarGaleriaEntregas === 'function') renderizarGaleriaEntregas();
         }
@@ -11559,70 +11991,116 @@ input.briefing-input-field::placeholder,
         const container = document.getElementById('team-full-cards-grid');
         if (!container) return;
 
-        const colorMap = {
-            'agente_02_coordenador': { cor: '#0098B8', glow: 'rgba(0, 152, 184, 0.14)', badge: 'Liderança Executiva' },
-            'agente_01_triagem': { cor: '#1F2428', glow: 'rgba(31, 36, 40, 0.08)', badge: 'Qualificação Comercial' },
-            'agente_04_branding_design': { cor: '#1F2428', glow: 'rgba(31, 36, 40, 0.08)', badge: 'Direção de Arte & Marca' },
-            'agente_03_desenvolvedor': { cor: '#1F2428', glow: 'rgba(31, 36, 40, 0.08)', badge: 'Engenharia Web & Tech' },
-            'agente_05_atendimento': { cor: '#1F2428', glow: 'rgba(31, 36, 40, 0.08)', badge: 'Conversão & WhatsApp' },
-            'agente_06_automacao': { cor: '#1F2428', glow: 'rgba(31, 36, 40, 0.08)', badge: 'Processos & Integrações' },
-            'agente_07_inteligencia_comercial': { cor: '#0098B8', glow: 'rgba(0, 152, 184, 0.12)', badge: 'Inteligência & Métricas 7D' }
+        const celulaMap = {
+            'agente_02_coordenador': { celula: 'DIREÇÃO & ORQUESTRAÇÃO', cor: '#0098B8' },
+            'agente_01_triagem': { celula: 'CÉLULA 01 · QUALIFICAÇÃO COMERCIAL', cor: '#111315' },
+            'agente_04_branding_design': { celula: 'CÉLULA 02 · DIREÇÃO DE ARTE & MARCA', cor: '#111315' },
+            'agente_03_desenvolvedor': { celula: 'CÉLULA 03 · ENGENHARIA WEB & SISTEMAS', cor: '#111315' },
+            'agente_05_atendimento': { celula: 'CÉLULA 04 · CONVERSÃO & WHATSAPP', cor: '#111315' },
+            'agente_06_automacao': { celula: 'CÉLULA 05 · AUTOMAÇÃO & INTEGRAÇÕES', cor: '#111315' },
+            'agente_07_inteligencia_comercial': { celula: 'CÉLULA 06 · INTELIGÊNCIA & MÉTRICAS 7D', cor: '#0098B8' }
         };
 
         container.innerHTML = CATALOGO_EQUIPE.map(ag => {
-            const theme = colorMap[ag.id] || { cor: ag.cor || '#00D2FF', glow: 'rgba(0, 210, 255, 0.35)', badge: ag.papel };
+            const meta = celulaMap[ag.id] || { celula: 'ESPECIALISTA SÊNIOR', cor: '#111315' };
             const isCoord = ag.id === 'agente_02_coordenador';
-            const accent = isCoord ? '#0098B8' : '#111315';
             const sugestoesHTML = (ag.sugestoes || []).slice(0, 3).map(s => `
-                <button onclick="enviarMensagemRapida('${ag.id}', '${s.replace(/'/g, "\\'")}')" class="team-prompt-btn">
+                <button onclick="enviarMensagemRapida('${s.replace(/'/g, "\\'")}')" class="team-prompt-btn">
                     <span>"${s}"</span>
-                    <i class="fas fa-arrow-right" style="font-size: 10px; color: #0098B8; margin-left: 8px;"></i>
+                    <i class="fas fa-arrow-up-right-from-square" style="font-size: 10px; color: #0098B8; margin-left: 10px; flex-shrink: 0;"></i>
                 </button>
             `).join('');
 
-            return `
-            <div class="team-agent-card-master ${isCoord ? 'is-coordinator' : ''}">
-                <div>
-                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px;">
-                        <div style="display: flex; align-items: center; gap: 14px;">
-                            <div style="position: relative; width: 60px; height: 60px; flex-shrink: 0;">
-                                <img src="${ag.foto}" alt="${ag.nome}" onerror="this.src='logo_vide.jpg'" style="width: 100%; height: 100%; object-fit: cover; border-radius: 14px; border: 1.5px solid ${isCoord ? '#0098B8' : '#D5D1C8'};">
-                                <div style="position: absolute; bottom: -2px; right: -2px; width: 12px; height: 12px; border-radius: 50%; background: #0D7A52; border: 2px solid #FFFFFF;"></div>
+            if (isCoord) {
+                return `
+                <article class="team-agent-card-master is-coordinator editorial-lead-spread">
+                    <div class="lead-spread-col-identity">
+                        <div class="lead-spread-kicker">
+                            <span class="lead-index-num">02</span>
+                            <span class="lead-celula-tag">${meta.celula}</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 18px; margin: 16px 0 18px 0;">
+                            <div style="position: relative; width: 76px; height: 76px; flex-shrink: 0;">
+                                <img src="${ag.foto}" alt="${ag.nome}" onerror="this.src='logo_vide.jpg'" style="width: 100%; height: 100%; object-fit: cover; border-radius: 12px; border: 1.5px solid #0098B8;">
+                                <div style="position: absolute; bottom: -3px; right: -3px; width: 13px; height: 13px; border-radius: 50%; background: #0D7A52; border: 2px solid #FFFFFF;"></div>
                             </div>
                             <div>
-                                <span style="display: inline-block; font-family: var(--font-mono); font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: ${isCoord ? '#007691' : '#5F666D'}; background: ${isCoord ? '#E6F6F9' : '#EFECE6'}; border: 1px solid ${isCoord ? '#B6E6F0' : '#E2DFD7'}; padding: 2px 9px; border-radius: 6px; margin-bottom: 4px;">#${ag.numero} · ${theme.badge}</span>
-                                <h3 style="margin: 0 0 2px 0; font-size: 18px; font-weight: 800; color: #111315; letter-spacing: -0.02em;">${ag.nome}</h3>
-                                <p style="margin: 0; font-size: 12.5px; font-weight: 600; color: #5F666D;">${ag.papel}</p>
+                                <h3 style="margin: 0 0 4px 0; font-family: var(--font-headline); font-size: 24px; font-weight: 800; color: #111315; letter-spacing: -0.03em;">${ag.nome}</h3>
+                                <p style="margin: 0; font-size: 13.5px; font-weight: 600; color: #007691;">${ag.papel}</p>
                             </div>
+                        </div>
+                        <button onclick="irParaChatComAgente('${ag.id}')" class="team-cta-action-btn primary-cyan" style="width: 100%;">
+                            <span>Despachar com ${ag.primeiro_nome}</span>
+                            <i class="fas fa-arrow-right" style="font-size: 11px;"></i>
+                        </button>
+                    </div>
+
+                    <div class="lead-spread-col-mandate">
+                        <span class="atelier-micro-label">ATRIBUIÇÃO EXECUTIVA & GOVERNANÇA</span>
+                        <p style="font-size: 14.5px; line-height: 1.65; color: #111315; margin: 8px 0 18px 0; font-weight: 500;">
+                            ${ag.o_que_faz || ag.descricao}
+                        </p>
+                        <div style="padding-top: 14px; border-top: 1px solid #E2DFD7;">
+                            <span class="atelier-micro-label">ENTREGÁVEIS OFICIAIS</span>
+                            <p style="margin: 6px 0 0 0; font-size: 13px; color: #4A5056; line-height: 1.5;">${ag.entregaveis}</p>
                         </div>
                     </div>
 
-                    <p style="font-size: 13.5px; line-height: 1.6; color: #2C3136; margin-bottom: 16px; border-left: 2px solid ${accent}; padding-left: 12px;">
-                        ${ag.o_que_faz || ag.descricao}
-                    </p>
-
-                    <div style="margin-bottom: 18px; background: #F6F5F1; border: 1px solid #E6E3DC; border-radius: 10px; padding: 12px 14px;">
-                        <span style="display: block; font-family: var(--font-mono); font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: #5F666D; margin-bottom: 4px;">Entregáveis Oficiais</span>
-                        <p style="margin: 0; font-size: 12.5px; color: #2C3136; line-height: 1.45;">${ag.entregaveis || 'Ativos estratégicos e operacionais homologados.'}</p>
-                    </div>
-
-                    <div style="margin-bottom: 20px;">
-                        <span style="display: block; font-family: var(--font-mono); font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: #5F666D; margin-bottom: 8px;">Comandos Diretos</span>
-                        <div style="display: flex; flex-direction: column; gap: 6px;">
+                    <div class="lead-spread-col-prompts">
+                        <span class="atelier-micro-label">DESPACHOS RÁPIDOS AO COORDENADOR</span>
+                        <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 10px;">
                             ${sugestoesHTML}
                         </div>
                     </div>
+                </article>
+                `;
+            }
+
+            return `
+            <article class="team-agent-card-master editorial-workbench-row">
+                <div>
+                    <div class="workbench-top-bar">
+                        <span class="workbench-index-num">ESPECIALISTA #${ag.numero}</span>
+                        <span class="workbench-celula-label">${meta.celula}</span>
+                    </div>
+
+                    <div style="display: flex; align-items: center; justify-content: space-between; gap: 16px; margin: 16px 0;">
+                        <div style="display: flex; align-items: center; gap: 14px;">
+                            <div style="position: relative; width: 58px; height: 58px; flex-shrink: 0;">
+                                <img src="${ag.foto}" alt="${ag.nome}" onerror="this.src='logo_vide.jpg'" style="width: 100%; height: 100%; object-fit: cover; border-radius: 10px; border: 1px solid #D5D1C8;">
+                                <div style="position: absolute; bottom: -2px; right: -2px; width: 11px; height: 11px; border-radius: 50%; background: #0D7A52; border: 2px solid #FFFFFF;"></div>
+                            </div>
+                            <div>
+                                <h3 style="margin: 0 0 3px 0; font-family: var(--font-headline); font-size: 19px; font-weight: 800; color: #111315; letter-spacing: -0.025em;">${ag.nome}</h3>
+                                <p style="margin: 0; font-size: 12.5px; font-weight: 600; color: #5F666D;">${ag.papel}</p>
+                            </div>
+                        </div>
+                        <button onclick="irParaChatComAgente('${ag.id}')" class="btn-workbench-inline-chat">
+                            <span>Acionar ${ag.primeiro_nome}</span>
+                            <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+
+                    <p style="font-size: 13.5px; line-height: 1.6; color: #2C3136; margin: 0 0 16px 0;">
+                        ${ag.o_que_faz || ag.descricao}
+                    </p>
+
+                    <div class="workbench-spec-row">
+                        <span class="atelier-micro-label">ATIVOS & ENTREGÁVEIS HOMOLOGÁVEIS</span>
+                        <p style="margin: 4px 0 0 0; font-size: 12.5px; color: #4A5056; line-height: 1.45;">${ag.entregaveis || 'Ativos estratégicos e operacionais homologados.'}</p>
+                    </div>
                 </div>
 
-                <button onclick="irParaChatComAgente('${ag.id}')" class="team-cta-action-btn ${isCoord ? 'primary-cyan' : ''}">
-                    <span>Conversar com ${ag.primeiro_nome}</span>
-                    <i class="fas fa-arrow-up-right-from-square" style="font-size: 11px;"></i>
-                </button>
-            </div>
+                <div style="margin-top: 16px; padding-top: 14px; border-top: 1px solid #EFECE6;">
+                    <span class="atelier-micro-label" style="margin-bottom: 8px; display: block;">INSTRUÇÕES DIRETAS SUGERIDAS</span>
+                    <div style="display: flex; flex-direction: column; gap: 6px;">
+                        ${sugestoesHTML}
+                    </div>
+                </div>
+            </article>
             `;
         }).join('');
     }
-
 
     function irParaChatComAgente(agenteId) {
         agenteChatAtivoId = agenteId;
@@ -11649,7 +12127,7 @@ input.briefing-input-field::placeholder,
             elAvatar.innerHTML = `<div class="avatar-photo-badge" style="width: 44px; height: 44px;"><img src="${agente.foto}" alt="${agente.nome}"><div class="online-indicator-dot"></div></div>`;
         }
         if (elName) {
-            elName.innerHTML = `${agente.nome} <span style="font-family: var(--font-mono); font-size: 10px; color: var(--green-emerald); font-weight: 700; background: rgba(16,185,129,0.12); border: 1px solid rgba(16,185,129,0.3); padding: 2px 7px; border-radius: 4px; margin-left: 8px;">Online</span>`;
+            elName.textContent = agente.nome;
         }
         if (elRole) {
             elRole.innerText = `${agente.papel} • Equipe Digital VIDE`;
@@ -11970,6 +12448,33 @@ input.briefing-input-field::placeholder,
     }
 
     // 11. Atualizar Resumos do Início com base nos Projetos Reais
+    
+    function atualizarStepperHeroReal(concluidas, totalTarefas, situacaoProjeto) {
+        const steps = document.querySelectorAll('.dossier-stepper .stepper-step');
+        if (!steps || steps.length === 0) return;
+        const sit = String(situacaoProjeto || '').toUpperCase();
+        let activeIdx = 0;
+        if (totalTarefas > 0) {
+            if (concluidas >= totalTarefas) {
+                activeIdx = steps.length; // todas concluidas
+            } else if (concluidas > 0) {
+                activeIdx = Math.max(1, Math.min(steps.length - 1, Math.round((concluidas / totalTarefas) * (steps.length - 1))));
+            } else {
+                activeIdx = sit === 'AGUARDANDO_AUTORIZACAO_COMERCIAL' ? 0 : 1;
+            }
+        }
+        steps.forEach((st, idx) => {
+            st.classList.remove('completed', 'active', 'pending');
+            if (idx < activeIdx) {
+                st.classList.add('completed');
+            } else if (idx === activeIdx) {
+                st.classList.add('active');
+            } else {
+                st.classList.add('pending');
+            }
+        });
+    }
+
     async function atualizarResumosInicio() {
         try {
             const token = sessionStorage.getItem('vide_jwt') || localStorage.getItem('token_auth_cockpit');
@@ -12011,6 +12516,7 @@ input.briefing-input-field::placeholder,
                     const elBar = document.getElementById('inicio-proj-progress-bar');
                     const elTxt = document.getElementById('inicio-proj-progress-txt');
                     if (elBar) elBar.style.width = percent + '%';
+                    if (typeof atualizarStepperHeroReal === 'function') atualizarStepperHeroReal(concluidas, tarefas.length, ativo.situacao_projeto);
                     if (elTxt) elTxt.innerText = tarefas.length > 0 ? `${concluidas} de ${tarefas.length} etapas concluídas (${percent}%)` : 'Sem tarefas cadastradas (0%)';
 
                     const autSt = (ativo.autorizacao_status || ativo.autorizacao_comercial?.status || '').toUpperCase();
@@ -12144,7 +12650,7 @@ input.briefing-input-field::placeholder,
 
         const construirHtml = () => {
             if (entregaveis.length === 0 && arqs.length === 0) {
-                return '<div style="grid-column: 1 / -1; background: #F6F5F1; border: 1px dashed rgba(255,255,255,0.12); border-radius: 16px; padding: 32px; text-align: center; color: #5F666D; font-size: 14px;"><i class="fas fa-box-open" style="font-size: 24px; color: #767D84; display: block; margin-bottom: 10px;"></i>Nenhum entregável registrado para este projeto.</div>';
+                return '<div style="grid-column: 1 / -1; background: #F6F5F1; border: 1px dashed #D5D1C8; border-radius: 16px; padding: 32px; text-align: center; color: #5F666D; font-size: 14px;"><i class="fas fa-box-open" style="font-size: 24px; color: #767D84; display: block; margin-bottom: 10px;"></i>Nenhum entregável registrado para este projeto.</div>';
             }
 
             const cardsEntregaveis = entregaveis.map((ent, idx) => {
@@ -12798,7 +13304,7 @@ window.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        container.innerHTML = lista.map(p => {
+        container.innerHTML = lista.map((p, index) => {
             const id = p.id_projeto || p.id;
             const clienteLimpo = resolverNomeClienteProjeto(p);
             const sit = (p.situacao_projeto || p.status || 'EM_EXECUCAO').toUpperCase();
@@ -12810,17 +13316,15 @@ window.addEventListener('DOMContentLoaded', () => {
             } else if (sit === 'CONCLUIDO' || sit === 'APROVADO') {
                 badgeStatusHtml = '<span class="step-status-pill status-concluido"><i class="fas fa-check-circle"></i> Concluído</span>';
             } else {
-                badgeStatusHtml = '<span class="step-status-pill status-execucao"><i class="fas fa-spinner fa-spin"></i> Em Execução</span>';
+                badgeStatusHtml = '<span class="step-status-pill status-execucao"><i class="fas fa-circle-dot"></i> Em Execução</span>';
             }
 
-            // Cálculo Real de Progresso Matemático
             const tarefas = p.grafo_tarefas || [];
             const total = tarefas.length;
-            const concluidas = tarefas.filter(t => t.estado === 'CONCLUIDO' || t.estado === 'APROVADO' || t.estado === 'FINALIZADO' || t.estado === 'CONCLUIDA' || t.estado === 'APROVADA').length;
+            const concluidas = tarefas.filter(t => ['CONCLUIDO', 'APROVADO', 'FINALIZADO', 'CONCLUIDA', 'APROVADA'].includes(t.estado)).length;
             const pct = total > 0 ? Math.round((concluidas / total) * 100) : 0;
             const progressoTexto = total > 0 ? concluidas + ' de ' + total + ' tarefas (' + pct + '%)' : 'Sem tarefas (0%)';
 
-            // Serviço Contratado
             let servico = 'Presença Comercial & Sistema';
             if (p.frentes_comerciais && p.frentes_comerciais.length > 0) {
                 servico = p.frentes_comerciais.map(f => {
@@ -12831,7 +13335,8 @@ window.addEventListener('DOMContentLoaded', () => {
                 }).join(' & ');
             }
 
-            // Próxima Tarefa & Responsável
+            const resumoDemanda = limparTextoSeguro(p.solicitacao_original || p.escopo_autorizado || 'Estruturação comercial e posicionamento digital sob governança da VIDE.');
+
             let proximaTarefa = 'Esteira pronta para inicialização';
             let especialistaNome = 'Gabriel Rocha';
             let pendenciaHtml = '';
@@ -12848,58 +13353,62 @@ window.addEventListener('DOMContentLoaded', () => {
 
             const tBloqueada = tarefas.find(t => t.estado === 'BLOQUEADO' || (t.estado && t.estado.includes('BLOQUEADA')));
             if (sit === 'AGUARDANDO_AUTORIZACAO_COMERCIAL') {
-                pendenciaHtml = '<div class="proj-deck-pending-badge"><i class="fas fa-shield-halved"></i> Requer Autorização de Douglas Paz</div>';
+                pendenciaHtml = '<span class="deck-inline-gov-note"><i class="fas fa-shield-halved"></i> Requer Autorização de Douglas Paz</span>';
             } else if (tBloqueada) {
-                pendenciaHtml = '<div class="proj-deck-pending-badge"><i class="fas fa-lock"></i> Tarefa aguardando dependência anterior</div>';
+                pendenciaHtml = '<span class="deck-inline-gov-note"><i class="fas fa-lock"></i> Etapa seguinte aguarda dependência anterior</span>';
             }
 
             const isSimulado = (p.cliente || '').includes('[SIMULADO]') || (p.empresa_contratante || '').includes('(SIMULADO)');
+            const numIdx = String(index + 1).padStart(2, '0');
 
             return `
-                <div class="proj-deck-card ${isFoco ? 'card-foco' : ''}" id="deck-card-${id}">
-                    <div>
-                        <div class="proj-deck-top">
+                <article class="proj-deck-card ${isFoco ? 'card-foco' : ''}" id="deck-card-${id}" onclick="abrirAmbienteProjeto('${id}')" style="cursor: pointer;">
+                    <div class="proj-deck-header-row">
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <span class="proj-deck-index-num">${numIdx}</span>
                             <span class="proj-deck-id">[${id}]</span>
-                            ${badgeStatusHtml}
                         </div>
-                        <h4 class="proj-deck-title">
-                            ${clienteLimpo}
-                            ${isSimulado ? '<span style="font-size: 10px; font-weight: 600; color: #5F666D; background: #F6F5F1; padding: 2px 6px; border-radius: 4px; margin-left: 6px;">Homologação</span>' : ''}
-                        </h4>
-                        <div class="proj-deck-service">
-                            <i class="fas fa-layer-group"></i> ${servico}
-                        </div>
+                        ${badgeStatusHtml}
                     </div>
 
-                    <!-- Progresso Real -->
-                    <div class="proj-deck-progress-box">
-                        <div class="proj-deck-progress-meta">
-                            <span style="color: #5F666D;">Avanço Matemático:</span>
-                            <span class="proj-deck-progress-txt">${progressoTexto}</span>
+                    <div style="margin: 14px 0 16px 0;">
+                        <div class="proj-deck-service" style="margin-bottom: 4px;">
+                            ${servico}
+                            ${isSimulado ? '<span style="font-size: 10px; font-weight: 600; color: #5F666D; background: #EFECE6; padding: 2px 7px; border-radius: 4px; margin-left: 8px;">Homologação</span>' : ''}
                         </div>
-                        <div class="proj-deck-progress-track">
-                            <div class="proj-deck-progress-fill" style="width: ${pct}%;"></div>
-                        </div>
+                        <h4 class="proj-deck-title" style="margin: 0 0 6px 0;">${clienteLimpo}</h4>
+                        <p class="proj-deck-excerpt">${resumoDemanda}</p>
                     </div>
 
-                    <!-- Próxima Ação & Responsável -->
-                    <div style="display: flex; flex-direction: column; gap: 8px;">
-                        <div class="proj-deck-next-step">
-                            <i class="fas fa-arrow-right" style="color: var(--cyan-core); margin-top: 3px; font-size: 11px;"></i>
-                            <div>
-                                <span style="font-size: 11px; color: #767D84; text-transform: uppercase; font-family: var(--font-mono);">Próxima Ação:</span><br>
-                                <strong>${proximaTarefa}</strong>
-                                <div style="font-size: 11px; color: #5F666D; margin-top: 2px;"><i class="fas fa-user-gear"></i> ${especialistaNome}</div>
+                    <div class="proj-deck-ledger-grid">
+                        <div class="ledger-col-progress">
+                            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px;">
+                                <span class="atelier-micro-label">AVANÇO MATEMÁTICO</span>
+                                <strong style="font-family: var(--font-mono); font-size: 12px; color: #111315;">${progressoTexto}</strong>
                             </div>
+                            <div class="proj-deck-progress-track">
+                                <div class="proj-deck-progress-fill" style="width: ${pct}%;"></div>
+                            </div>
+                            ${pendenciaHtml ? `<div style="margin-top: 8px;">${pendenciaHtml}</div>` : ''}
                         </div>
-                        ${pendenciaHtml}
+
+                        <div class="ledger-col-next">
+                            <span class="atelier-micro-label">PRÓXIMA ETAPA & RESPONSÁVEL</span>
+                            <div style="font-size: 13px; font-weight: 700; color: #111315; margin-top: 3px; line-height: 1.35;">${proximaTarefa}</div>
+                            <div style="font-size: 11.5px; color: #5F666D; margin-top: 3px;"><i class="fas fa-user-check" style="color: #0098B8; margin-right: 4px;"></i> ${especialistaNome}</div>
+                        </div>
                     </div>
 
-                    <!-- Ação -->
-                    <button class="btn-deck-abrir" onclick="abrirAmbienteProjeto('${id}')">
-                        <i class="fas fa-folder-open"></i> ${isFoco ? 'Ambiente em Foco' : 'Abrir Ambiente do Projeto'}
-                    </button>
-                </div>
+                    <div class="proj-deck-footer-bar">
+                        <span style="font-family: var(--font-mono); font-size: 11px; color: ${isFoco ? '#007691' : '#5F666D'}; font-weight: 700;">
+                            ${isFoco ? '● PROJETO SELECIONADO NO AMBIENTE ABAIXO' : 'CLIQUE PARA INSPECIONAR AS 5 ABAS OPERACIONAIS'}
+                        </span>
+                        <button type="button" class="btn-deck-abrir" onclick="event.stopPropagation(); abrirAmbienteProjeto('${id}')">
+                            <span>${isFoco ? 'Ambiente em Foco' : 'Inspecionar Projeto'}</span>
+                            <i class="fas fa-arrow-down-right"></i>
+                        </button>
+                    </div>
+                </article>
             `;
         }).join('');
     }
@@ -13262,6 +13771,7 @@ window.addEventListener('DOMContentLoaded', () => {
                 if (inicioTxt) inicioTxt.innerText = totTsk > 0 ? concluidas + ' de ' + totTsk + ' tarefas validadas (' + perc + '%)' : 'Sem tarefas cadastradas (0%)';
                 const inicioBar = document.getElementById('inicio-proj-progress-bar');
                 if (inicioBar) inicioBar.style.width = perc + '%';
+                if (typeof atualizarStepperHeroReal === 'function') atualizarStepperHeroReal(concluidas, totTsk, p.situacao_projeto);
                 const inicioNome = document.getElementById('inicio-proj-nome-val');
                 if (inicioNome) {
                     const servico = (p.frentes_comerciais && p.frentes_comerciais.length > 0) 
@@ -13955,6 +14465,36 @@ window.addEventListener('DOMContentLoaded', () => {
         renderizarAprendizadosMIV(dossie.aprendizadosMIV || []);
     }
 
+    
+    function garantirRenderizacaoInicial7D() {
+        const container = document.getElementById('container-dimensoes-7d');
+        if (!container) return;
+        if (dossieMotorAtivo && dossieMotorAtivo.diagnosticoMaisRecente) {
+            renderizarCards7D(dossieMotorAtivo.diagnosticoMaisRecente);
+            return;
+        }
+        if (container.children.length > 0) return;
+        const dimensoesBase = [
+            { num: '01', nome: 'Comunicação & Posicionamento', desc: 'Clareza de proposta de valor, autoridade visual e diferenciação competitiva.', status: 'Auditável no Projeto Ativo' },
+            { num: '02', nome: 'Aquisição & Tráfego Qualificado', desc: 'Canais de entrada, previsibilidade de demanda e custo de captação.', status: 'Auditável no Projeto Ativo' },
+            { num: '03', nome: 'Atendimento & Tempo de Resposta', desc: 'Velocidade de acolhimento no WhatsApp e roteiros de triagem inicial.', status: 'Foco Operacional VIDE' },
+            { num: '04', nome: 'Processo & Qualificação Comercial', desc: 'Separação entre curiosos e compradores reais com enquadramento de escopo.', status: 'Foco Operacional VIDE' },
+            { num: '05', nome: 'Conversão & Fechamento', desc: 'Matriz de contorno de objeções, ancoragem de valor e taxa de aceite.', status: 'Foco Operacional VIDE' },
+            { num: '06', nome: 'Estrutura Digital & Engenharia Web', desc: 'Performance de página, webhooks ativos e automação de funil sem perda de leads.', status: 'Foco Operacional VIDE' },
+            { num: '07', nome: 'Gestão, Retenção & LTV', desc: 'Governança de indicadores, recorrência de receita e expansão de carteira.', status: 'Supervisão Diretoria' }
+        ];
+        container.innerHTML = dimensoesBase.map(d => `
+            <div class="dim-card editorial-7d-spec-card">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                    <span style="font-family: var(--font-mono); font-size: 11px; font-weight: 700; color: #0098B8;">DIMENSÃO ${d.num}</span>
+                    <span style="font-family: var(--font-mono); font-size: 10px; font-weight: 700; color: #4A5056; background: #F6F5F1; border: 1px solid #E2DFD7; padding: 2px 8px; border-radius: 4px;">${d.status}</span>
+                </div>
+                <h4 style="font-family: var(--font-headline); font-size: 16px; font-weight: 800; color: #111315; margin: 0 0 6px 0;">${d.nome}</h4>
+                <p style="font-size: 12.5px; color: #4A5056; line-height: 1.5; margin: 0;">${d.desc}</p>
+            </div>
+        `).join('');
+    }
+
     function renderizarCards7D(diag) {
         const container = document.getElementById('motor-grid-7d-cards');
         if (!container) return;
@@ -14616,7 +15156,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
             if (lotes.length === 0) {
                 container.innerHTML = `
-                    <div style="grid-column: 1 / -1; padding: 28px; background: #F6F5F1; border: 1px dashed rgba(255,255,255,0.15); border-radius: var(--radius-card); text-align: center; color: var(--text-muted); font-size: 13px;">
+                    <div style="grid-column: 1 / -1; padding: 28px; background: #F6F5F1; border: 1px dashed #D5D1C8; border-radius: var(--radius-card); text-align: center; color: var(--text-muted); font-size: 13px;">
                         <i class="fas fa-file-circle-question" style="font-size: 24px; color: #767D84; margin-bottom: 8px;"></i>
                         <div>Nenhum lote comercial importado ainda para esta empresa.</div>
                         <div style="margin-top: 8px;">
