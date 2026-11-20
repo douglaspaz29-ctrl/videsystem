@@ -14500,7 +14500,8 @@ window.addEventListener('DOMContentLoaded', () => {
         if (!container) return;
 
         if (!diag || !diag.notas_por_dimensao) {
-            container.innerHTML = '<div style="color: #767D84; font-size: 13px; grid-column: 1/-1;">Nenhum diagnóstico dimensional registrado para esta empresa. Clique em "Novo Diagnóstico 7D".</div>';
+            container.innerHTML = '';
+            garantirRenderizacaoInicial7D();
             return;
         }
 
