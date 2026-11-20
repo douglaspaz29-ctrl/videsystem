@@ -8166,11 +8166,11 @@ body {
                         <div class="centerpiece-dossier-card">
                             <div class="dossier-card-top">
                                 <span class="dossier-tag"><i class="fas fa-bolt" style="color: #00D2FF;"></i> Demanda em Foco</span>
-                                <span class="dossier-status-badge">Em Execução</span>
+                                <span class="dossier-status-badge" id="inicio-proj-status-badge">--</span>
                             </div>
 
-                            <h3 class="dossier-proj-title" id="inicio-proj-nome-val">Presença Comercial & Expansão de Vendas</h3>
-                            <p class="dossier-client-name" id="inicio-proj-cliente-sub">Cliente: AutoPeças Progresso Ltda</p>
+                            <h3 class="dossier-proj-title" id="inicio-proj-nome-val">Carregando demanda...</h3>
+                            <p class="dossier-client-name" id="inicio-proj-cliente-sub">Cliente: --</p>
 
                             <!-- Mini Stepper de 7 Etapas Estratégicas -->
                             <div class="dossier-stepper">
@@ -8227,7 +8227,7 @@ body {
 
                     <div class="spec-sheet-cell">
                         <div class="spec-sheet-label">Aprovações Pendentes</div>
-                        <div class="spec-sheet-val amber" id="inicio-pendencias-count">0 Pendências</div>
+                        <div class="spec-sheet-val amber" id="inicio-pendencias-count">--</div>
                         <div class="spec-sheet-status" id="inicio-status-gov-badge">
                             <i class="fas fa-shield-check" style="color: #10B981;"></i> Regularidade Plena
                         </div>
@@ -8235,7 +8235,7 @@ body {
 
                     <div class="spec-sheet-cell">
                         <div class="spec-sheet-label">Entregas Homologadas</div>
-                        <div class="spec-sheet-val purple" id="inicio-total-entregas-badge">4 Arquivos</div>
+                        <div class="spec-sheet-val purple" id="inicio-total-entregas-badge">--</div>
                         <div class="spec-sheet-status">
                             Prontos para Consulta
                         </div>
@@ -8990,7 +8990,7 @@ body {
                                     <span class="q-num">1</span>
                                     <span>Nicho de Atuação & Segmento do Negócio</span>
                                 </label>
-                                <input type="text" id="inline-briefing-nicho" class="briefing-input-field" value="Autopeças, mecânica pesada, suspensão e freios para frotas e varejo." placeholder="Ex: Varejo de moda, tecnologia B2B, clínica médica...">
+                                <input type="text" id="inline-briefing-nicho" class="briefing-input-field" value="" placeholder="Ex: Varejo de moda, tecnologia B2B, clínica médica...">
                             </div>
 
                             <div class="briefing-field-group">
@@ -8998,7 +8998,7 @@ body {
                                     <span class="q-num">2</span>
                                     <span>Principal Dor Comercial ou Gargalo a Resolver</span>
                                 </label>
-                                <input type="text" id="inline-briefing-dor" class="briefing-input-field" value="Atendimento lento no balcão e perda de cotações de peças por demora no WhatsApp." placeholder="Ex: Clientes desistem no checkout, baixa autoridade visual...">
+                                <input type="text" id="inline-briefing-dor" class="briefing-input-field" value="" placeholder="Ex: Clientes desistem no checkout, baixa autoridade visual...">
                             </div>
 
                             <div class="briefing-field-group">
@@ -9006,7 +9006,7 @@ body {
                                     <span class="q-num">3</span>
                                     <span>Público-Alvo, ICP & Perfil do Comprador</span>
                                 </label>
-                                <input type="text" id="inline-briefing-publico" class="briefing-input-field" value="Mecânicos independentes, gestores de oficinas e proprietários de veículos linha leve." placeholder="Ex: Pequenos empresários, jovens de 20 a 35 anos...">
+                                <input type="text" id="inline-briefing-publico" class="briefing-input-field" value="" placeholder="Ex: Pequenos empresários, jovens de 20 a 35 anos...">
                             </div>
 
                             <div class="briefing-field-group">
@@ -9014,14 +9014,14 @@ body {
                                     <span class="q-num">4</span>
                                     <span>Referências de Mercado & Tom Desejado</span>
                                 </label>
-                                <input type="text" id="inline-briefing-referencias" class="briefing-input-field" value="Tom prático, ágil e de alta autoridade técnica. Foco em facilidade de atendimento." placeholder="Ex: Visual minimalista moderno, linguagem direta...">
+                                <input type="text" id="inline-briefing-referencias" class="briefing-input-field" value="" placeholder="Ex: Visual minimalista moderno, linguagem direta...">
                             </div>
 
                             <!-- Barra de Ação do Briefing -->
                             <div class="briefing-actions-bar">
-                                <div class="briefing-save-meta">
-                                    <i class="fas fa-circle-check" style="color: #10B981;"></i>
-                                    <span>Respostas sincronizadas com Gabriel Rocha e a equipe</span>
+                                <div class="briefing-save-meta" id="briefing-inline-feedback">
+                                    <i class="fas fa-circle-info" style="color: #94A3B8;"></i>
+                                    <span>Preencha e salve para sincronizar com o projeto ativo.</span>
                                 </div>
                                 <div style="display: flex; gap: 10px; align-items: center;">
                                     <button type="submit" class="btn-briefing-save">
@@ -9061,7 +9061,7 @@ body {
                             <div>
                                 <div class="strategy-status-row">
                                     <span class="scope-fidelity-badge"><i class="fas fa-shield-halved"></i> Garantia de Fidelidade ao Escopo: Ativa</span>
-                                    <span id="badge-status-doc-estrategico" class="badge-status-estrategia">Aguardando Homologação</span>
+                                    <span id="badge-status-doc-estrategico" class="badge-status-estrategia">Sem dados disponíveis</span>
                                 </div>
                                 <h3 class="strategy-banner-title">Documento Estratégico da Solução & Diretrizes Executivas</h3>
                                 <p class="strategy-banner-sub">
@@ -9082,15 +9082,15 @@ body {
                         <div class="strategy-summary-grid">
                             <div class="strategy-cell">
                                 <span class="cell-label"><i class="fas fa-file-contract" style="color: #00D2FF;"></i> Serviço Contratado</span>
-                                <strong class="cell-val" id="doc-servico-contratado-txt">Presença Comercial & Expansão</strong>
+                                <strong class="cell-val" id="doc-servico-contratado-txt">Sem dados disponíveis</strong>
                             </div>
                             <div class="strategy-cell">
                                 <span class="cell-label"><i class="fas fa-bullseye" style="color: #EC4899;"></i> Público-Alvo & ICP</span>
-                                <strong class="cell-val" id="doc-publico-alvo-txt">Varejo & Oficinas Mecânicas</strong>
+                                <strong class="cell-val" id="doc-publico-alvo-txt">Sem dados disponíveis</strong>
                             </div>
                             <div class="strategy-cell">
                                 <span class="cell-label"><i class="fas fa-lightbulb" style="color: #F59E0B;"></i> Estratégia Recomendada</span>
-                                <strong class="cell-val" id="doc-estrategia-recomendada-txt">Funil de Alta Conversão no WhatsApp</strong>
+                                <strong class="cell-val" id="doc-estrategia-recomendada-txt">Sem dados disponíveis</strong>
                             </div>
                         </div>
                     </div>
@@ -9137,51 +9137,7 @@ body {
 
                     <!-- Grid de Entregáveis deste Projeto -->
                     <div class="proj-entregas-grid" id="proj-entregas-grid">
-                        <div class="deliverable-card-architectural">
-                            <div class="deliverable-card-art" style="background-image: url('assets/images/hero_arquitetura_crescimento.jpg');">
-                                <div class="deliverable-art-overlay"></div>
-                                <span class="deliverable-status-tag homologado"><i class="fas fa-circle-check"></i> Homologado</span>
-                            </div>
-                            <div class="deliverable-card-body">
-                                <div class="deliverable-type-tag" style="color: #10B981;">SITE & LANDING PAGE</div>
-                                <h3 class="deliverable-card-title">Landing Page de Alta Conversão</h3>
-                                <p class="deliverable-card-desc">
-                                    Código front-end responsivo, mobile-first, otimizado para carregamento em menos de 1 segundo e integrado ao WhatsApp comercial.
-                                </p>
-                                <div class="deliverable-card-footer">
-                                    <div class="deliverable-author">
-                                        <img src="assets/avatars/rafael_duarte.jpg" alt="Rafael Duarte" onerror="this.src='logo_vide.jpg'">
-                                        <span>Rafael Duarte</span>
-                                    </div>
-                                    <button class="btn-deliverable-view" onclick="abrirModalEstrategiaProjeto()">
-                                        <i class="fas fa-eye"></i> Visualizar Ativo
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="deliverable-card-architectural">
-                            <div class="deliverable-card-art" style="background-image: url('assets/images/equipe_digital_atelier.jpg');">
-                                <div class="deliverable-art-overlay"></div>
-                                <span class="deliverable-status-tag homologado"><i class="fas fa-circle-check"></i> Homologado</span>
-                            </div>
-                            <div class="deliverable-card-body">
-                                <div class="deliverable-type-tag" style="color: #F59E0B;">BRANDING & DESIGN</div>
-                                <h3 class="deliverable-card-title">Manual de Identidade Visual & Assets</h3>
-                                <p class="deliverable-card-desc">
-                                    Guia de marca com paleta cromática, tipografias corporativas, diretrizes de aplicação e pacote completo de assets em SVG e PNG.
-                                </p>
-                                <div class="deliverable-card-footer">
-                                    <div class="deliverable-author">
-                                        <img src="assets/avatars/helena_prado.jpg" alt="Helena Prado" onerror="this.src='logo_vide.jpg'">
-                                        <span>Helena Prado</span>
-                                    </div>
-                                    <button class="btn-deliverable-view" onclick="abrirModalEstrategiaProjeto()">
-                                        <i class="fas fa-eye"></i> Visualizar Ativo
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
+                        <div style="color: #64748B; font-size: 13px; padding: 18px; grid-column: 1 / -1;">Carregando entregáveis do projeto...</div>
                     </div>
 
                     <!-- Acervo de Arquivos Físicos do Projeto -->
@@ -9210,101 +9166,7 @@ body {
 
             <!-- Grid de Entregáveis Pre-Renderizados -->
             <div class="entregas-grid-architectural" id="galeria-entregas-grid">
-                <!-- Entregável 1: Landing Page -->
-                <div class="deliverable-card-architectural">
-                    <div class="deliverable-card-art" style="background-image: url('assets/images/hero_arquitetura_crescimento.jpg');">
-                        <div class="deliverable-art-overlay"></div>
-                        <span class="deliverable-status-tag homologado"><i class="fas fa-circle-check"></i> Homologado</span>
-                    </div>
-                    <div class="deliverable-card-body">
-                        <div class="deliverable-type-tag" style="color: #10B981;">SITE & LANDING PAGE</div>
-                        <h3 class="deliverable-card-title">Landing Page de Alta Conversão</h3>
-                        <p class="deliverable-card-desc">
-                            Código front-end responsivo, mobile-first, otimizado para carregamento em menos de 1 segundo e integrado ao WhatsApp comercial.
-                        </p>
-                        <div class="deliverable-card-footer">
-                            <div class="deliverable-author">
-                                <img src="assets/avatars/rafael_duarte.jpg" alt="Rafael Duarte" onerror="this.src='logo_vide.jpg'">
-                                <span>Rafael Duarte</span>
-                            </div>
-                            <button class="btn-deliverable-view" onclick="abrirModalEstrategiaProjeto()">
-                                <i class="fas fa-eye"></i> Visualizar Ativo
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Entregável 2: Manual de Marca -->
-                <div class="deliverable-card-architectural">
-                    <div class="deliverable-card-art" style="background-image: url('assets/images/equipe_digital_atelier.jpg');">
-                        <div class="deliverable-art-overlay"></div>
-                        <span class="deliverable-status-tag homologado"><i class="fas fa-circle-check"></i> Homologado</span>
-                    </div>
-                    <div class="deliverable-card-body">
-                        <div class="deliverable-type-tag" style="color: #F59E0B;">BRANDING & DESIGN</div>
-                        <h3 class="deliverable-card-title">Manual de Identidade Visual & Assets</h3>
-                        <p class="deliverable-card-desc">
-                            Guia de marca com paleta cromática, tipografias corporativas, diretrizes de aplicação e pacote completo de assets em SVG e PNG.
-                        </p>
-                        <div class="deliverable-card-footer">
-                            <div class="deliverable-author">
-                                <img src="assets/avatars/helena_prado.jpg" alt="Helena Prado" onerror="this.src='logo_vide.jpg'">
-                                <span>Helena Prado</span>
-                            </div>
-                            <button class="btn-deliverable-view" onclick="abrirModalEstrategiaProjeto()">
-                                <i class="fas fa-eye"></i> Visualizar Ativo
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Entregável 3: Estrutura de Tráfego -->
-                <div class="deliverable-card-architectural">
-                    <div class="deliverable-card-art" style="background-image: url('assets/images/estrategia_redes_conexao.jpg');">
-                        <div class="deliverable-art-overlay"></div>
-                        <span class="deliverable-status-tag homologado"><i class="fas fa-circle-check"></i> Homologado</span>
-                    </div>
-                    <div class="deliverable-card-body">
-                        <div class="deliverable-type-tag" style="color: #00D2FF;">TRÁFEGO & PERFORMANCE</div>
-                        <h3 class="deliverable-card-title">Estratégia de Aquisição & Campanhas</h3>
-                        <p class="deliverable-card-desc">
-                            Mapeamento de público-alvo, criativos persuasivos, pixels de rastreamento no Meta Ads & Google e plano de distribuição de verba.
-                        </p>
-                        <div class="deliverable-card-footer">
-                            <div class="deliverable-author">
-                                <img src="assets/avatars/lucas_fontana.jpg" alt="Lucas Fontana" onerror="this.src='logo_vide.jpg'">
-                                <span>Lucas Fontana</span>
-                            </div>
-                            <button class="btn-deliverable-view" onclick="abrirModalEstrategiaProjeto()">
-                                <i class="fas fa-eye"></i> Visualizar Ativo
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Entregável 4: Automação WhatsApp -->
-                <div class="deliverable-card-architectural">
-                    <div class="deliverable-card-art" style="background-image: url('assets/images/vide_governanca_monolito.jpg');">
-                        <div class="deliverable-art-overlay"></div>
-                        <span class="deliverable-status-tag analysis"><i class="fas fa-clock"></i> Em Homologação</span>
-                    </div>
-                    <div class="deliverable-card-body">
-                        <div class="deliverable-type-tag" style="color: #EC4899;">VENDAS & AUTOMAÇÃO</div>
-                        <h3 class="deliverable-card-title">Fluxo Automatizado de WhatsApp & n8n</h3>
-                        <p class="deliverable-card-desc">
-                            Script de abordagem comercial de alta agilidade, árvore de triagem de dúvidas e fluxo de integração conectado no n8n.
-                        </p>
-                        <div class="deliverable-card-footer">
-                            <div class="deliverable-author">
-                                <img src="assets/avatars/camila_silveira.jpg" alt="Camila Silveira" onerror="this.src='logo_vide.jpg'">
-                                <span>Camila Silveira</span>
-                            </div>
-                            <button class="btn-deliverable-view" onclick="abrirModalEstrategiaProjeto()">
-                                <i class="fas fa-eye"></i> Visualizar Ativo
-                            </button>
-                        </div>
-                    </div>
-                </div>
+                <div style="color: #64748B; font-size: 13px; padding: 20px; grid-column: 1 / -1;">Carregando entregáveis do projeto ativo...</div>
             </div>
         </div>
 
@@ -9389,19 +9251,19 @@ body {
                     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px;">
                         <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); padding: 18px; border-radius: 12px;">
                             <div style="font-family: var(--font-mono); font-size: 11px; color: #94A3B8;">STATUS DO BACKEND</div>
-                            <div style="font-size: 20px; font-weight: 800; color: #10B981; margin-top: 4px;" id="servidor-status-val">ONLINE</div>
+                            <div style="font-size: 20px; font-weight: 800; color: #10B981; margin-top: 4px;" id="servidor-status-val">--</div>
                         </div>
                         <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); padding: 18px; border-radius: 12px;">
                             <div style="font-family: var(--font-mono); font-size: 11px; color: #94A3B8;">DEMANDAS NO SISTEMA</div>
-                            <div style="font-size: 20px; font-weight: 800; color: #00D2FF; margin-top: 4px;" id="projetos-auditados-val">4 Projetos</div>
+                            <div style="font-size: 20px; font-weight: 800; color: #00D2FF; margin-top: 4px;" id="projetos-auditados-val">--</div>
                         </div>
                         <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); padding: 18px; border-radius: 12px;">
                             <div style="font-family: var(--font-mono); font-size: 11px; color: #94A3B8;">ETAPAS MAPEADAS</div>
-                            <div style="font-size: 20px; font-weight: 800; color: #FFFFFF; margin-top: 4px;" id="telemetria-tarefas-val">8 Tarefas</div>
+                            <div style="font-size: 20px; font-weight: 800; color: #FFFFFF; margin-top: 4px;" id="telemetria-tarefas-val">--</div>
                         </div>
                         <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); padding: 18px; border-radius: 12px;">
                             <div style="font-family: var(--font-mono); font-size: 11px; color: #94A3B8;">CONFORMIDADE DE ESCOPO</div>
-                            <div style="font-size: 20px; font-weight: 800; color: #F59E0B; margin-top: 4px;" id="telemetria-conformidade-val">100% Homologada</div>
+                            <div style="font-size: 20px; font-weight: 800; color: #F59E0B; margin-top: 4px;" id="telemetria-conformidade-val">--</div>
                         </div>
                     </div>
                 </section>
@@ -9628,12 +9490,29 @@ body {
     let documentoEstrategicoAtivo = null;
     let briefingEstrategicoAtivo = null;
 
+    function resetarPainelDocumentoEstrategico() {
+        documentoEstrategicoAtivo = null;
+        const elBadge = document.getElementById('badge-status-doc-estrategico');
+        if (elBadge) {
+            elBadge.className = 'badge-status-estrategia';
+            elBadge.textContent = 'Sem dados disponíveis';
+        }
+        ['doc-servico-contratado-txt', 'doc-publico-alvo-txt', 'doc-estrategia-recomendada-txt'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.textContent = 'Sem dados disponíveis';
+        });
+    }
+
     async function carregarDocumentoEstrategicoProjeto(idProjeto) {
-        if (!idProjeto) return;
+        if (!idProjeto) {
+            resetarPainelDocumentoEstrategico();
+            return;
+        }
+        resetarPainelDocumentoEstrategico();
         try {
             const token = sessionStorage.getItem('vide_jwt');
             const headers = token ? { 'Authorization': 'Bearer ' + token } : {};
-            const res = await fetch('/api/projetos/' + idProjeto + '/documento-estrategico', { headers });
+            const res = await fetch('/api/projetos/' + encodeURIComponent(idProjeto) + '/documento-estrategico', { headers });
             if (!res.ok) return;
             const data = await res.json();
             if (data.sucesso && data.documento_estrategico) {
@@ -9664,9 +9543,9 @@ body {
         }
 
         // 2. Textos do Painel
-        const servico = doc.secao_01_demanda_e_servico_contratado?.servico_contratado || doc.garantia_fidelidade_contratada?.servico_contratado_imutavel || 'Serviço Personalizado';
-        const publico = doc.secao_04_publico_alvo_e_icp?.perfil_ideal || doc.secao_02_contexto_negocio_e_nicho?.publico_alvo_declarado || 'Clientes qualificados no nicho';
-        const estrategia = doc.secao_06_estrategia_solucao_recomendada?.diretriz_mestra || 'Desenvolver a solução contratada com foco em conversão e fricção zero.';
+        const servico = doc.secao_01_demanda_e_servico_contratado?.servico_contratado || doc.garantia_fidelidade_contratada?.servico_contratado_imutavel || 'Sem dados disponíveis';
+        const publico = doc.secao_04_publico_alvo_e_icp?.perfil_ideal || doc.secao_02_contexto_negocio_e_nicho?.publico_alvo_declarado || 'Sem dados disponíveis';
+        const estrategia = doc.secao_06_estrategia_solucao_recomendada?.diretriz_mestra || 'Sem dados disponíveis';
 
         const elServ = document.getElementById('doc-servico-contratado-txt');
         if (elServ) elServ.textContent = servico;
@@ -10786,6 +10665,32 @@ body {
         }
     }
 
+    function resolverNomeClienteProjeto(p) {
+        if (!p) return 'Cliente não identificado';
+        const candidatos = [p.empresa_contratante, p.cliente];
+        for (const raw of candidatos) {
+            if (!raw || typeof raw !== 'string') continue;
+            const limpo = limparTextoSeguro(raw).replace(/\[SIMULADO\]/gi, '').trim();
+            if (limpo && !/^cliente sem nome$/i.test(limpo)) {
+                return limpo;
+            }
+        }
+        return 'Cliente não identificado';
+    }
+
+    function formatarFrentesProjeto(p) {
+        const frentes = (p && p.frentes_comerciais && p.frentes_comerciais.length > 0)
+            ? p.frentes_comerciais
+            : ((p && p.autorizacao_comercial && (p.autorizacao_comercial.frentes_comerciais || p.autorizacao_comercial.servicos_autorizados)) || []);
+        if (frentes.length === 0) return limparTextoSeguro(p?.servico_contratado || '') || 'Demanda Comercial';
+        return frentes.map(f => {
+            if (f === 'PRESENCA_COMERCIAL') return 'Presença Comercial';
+            if (f === 'SISTEMA_COMERCIAL') return 'Sistema Comercial';
+            if (f === 'INTELIGENCIA_OTIMIZACAO') return 'Inteligência Comercial';
+            return String(f).replace(/_/g, ' ');
+        }).join(' & ');
+    }
+
     // 11. Atualizar Resumos do Início com base nos Projetos Reais
     async function atualizarResumosInicio() {
         try {
@@ -10793,41 +10698,56 @@ body {
             const res = await fetch('/api/projetos', {
                 headers: token ? { 'Authorization': 'Bearer ' + token } : {}
             });
+            if (!res.ok) return;
             const data = await res.json();
-            if (data.sucesso && data.projetos) {
+            if (data.sucesso && Array.isArray(data.projetos)) {
                 const total = data.projetos.length;
                 const badgeTotal = document.getElementById('inicio-total-projetos-badge');
-                if (badgeTotal) badgeTotal.innerText = total + ' Ativos';
+                if (badgeTotal) badgeTotal.innerText = total + (total === 1 ? ' Ativo' : ' Ativos');
 
-                // Buscar projeto ativo atual
-                const ativo = data.projetos.find(p => (p.id || p.id_projeto) === (window.projetoAtivoId || (typeof projetoAtivoId !== 'undefined' ? projetoAtivoId : null))) || data.projetos[0];
+                const idAtual = window.projetoAtivoId || (typeof projetoAtivoId !== 'undefined' ? projetoAtivoId : null);
+                const ativo = data.projetos.find(p => (p.id || p.id_projeto) === idAtual) || data.projetos[0];
                 if (ativo) {
-                    window.projetoAtivoId = ativo.id || ativo.id_projeto;
-                    carregarDocumentoEstrategicoProjeto(ativo.id || ativo.id_projeto);
-                    const elCli = document.getElementById('inicio-projeto-cliente-val');
-                    const elEsc = document.getElementById('inicio-projeto-escopo-val');
-                    if (elCli) elCli.innerText = limparTextoSeguro((ativo.cliente || ativo.empresa_contratante || 'AutoPeças Progresso').replace(/\[SIMULADO\]/gi, '').trim());
-                    if (elEsc) elEsc.innerText = limparTextoSeguro(ativo.solicitacao_original || 'Estruturação de presença digital e roteiro de vendas');
+                    const idAtivo = ativo.id || ativo.id_projeto;
+                    window.projetoAtivoId = idAtivo;
+                    if (typeof projetoAtivoId === 'undefined' || !projetoAtivoId) projetoAtivoId = idAtivo;
+                    if (!documentoEstrategicoAtivo) carregarDocumentoEstrategicoProjeto(idAtivo);
 
-                    // Calcular progresso baseado nas tarefas do DAG
+                    const elNomeVal = document.getElementById('inicio-proj-nome-val');
+                    if (elNomeVal) elNomeVal.innerText = formatarFrentesProjeto(ativo);
+
+                    const elCliSub = document.getElementById('inicio-proj-cliente-sub');
+                    if (elCliSub) elCliSub.innerText = 'Cliente: ' + resolverNomeClienteProjeto(ativo);
+
+                    const elStatusBadge = document.getElementById('inicio-proj-status-badge');
+                    if (elStatusBadge) {
+                        const sit = (ativo.situacao_projeto || 'EM_EXECUCAO').toUpperCase();
+                        elStatusBadge.innerText = sit === 'AGUARDANDO_AUTORIZACAO_COMERCIAL' ? 'Aguardando Autorização'
+                            : (sit === 'CONCLUIDO' || sit === 'APROVADO' ? 'Concluído' : 'Em Execução');
+                    }
+
                     const tarefas = ativo.grafo_tarefas || [];
-                    const concluidas = tarefas.filter(t => t.estado === 'CONCLUIDO' || t.estado === 'CONCLUIDA' || t.estado === 'APROVADO' || t.estado === 'APROVADA' || t.estado === 'FINALIZADO').length;
+                    const concluidas = tarefas.filter(t => ['CONCLUIDO', 'CONCLUIDA', 'APROVADO', 'APROVADA', 'FINALIZADO'].includes(t.estado)).length;
                     const percent = tarefas.length > 0 ? Math.round((concluidas / tarefas.length) * 100) : 0;
 
                     const elBar = document.getElementById('inicio-proj-progress-bar');
                     const elTxt = document.getElementById('inicio-proj-progress-txt');
                     if (elBar) elBar.style.width = percent + '%';
-                    if (elTxt) elTxt.innerText = `${concluidas} de ${tarefas.length} etapas concluídas (${percent}%)`;
+                    if (elTxt) elTxt.innerText = tarefas.length > 0 ? `${concluidas} de ${tarefas.length} etapas concluídas (${percent}%)` : 'Sem tarefas cadastradas (0%)';
 
-                    // Verificar se aguarda autorização
-                    const aguardaAut = ativo.autorizacao_status === 'AGUARDANDO_AUTORIZACAO' || ativo.situacao_projeto === 'AGUARDANDO_AUTORIZACAO';
+                    const autSt = (ativo.autorizacao_status || ativo.autorizacao_comercial?.status || '').toUpperCase();
+                    const sitSt = (ativo.situacao_projeto || '').toUpperCase();
+                    const aguardaAut = sitSt === 'AGUARDANDO_AUTORIZACAO_COMERCIAL' || sitSt === 'AGUARDANDO_AUTORIZACAO' || autSt === 'PENDENTE' || autSt === 'AGUARDANDO_AUTORIZACAO';
                     const elPendCount = document.getElementById('inicio-pendencias-count');
                     const elGovDesc = document.getElementById('inicio-gov-desc-txt');
                     const elGovAlert = document.getElementById('inicio-gov-alert-container');
                     const elGovBadge = document.getElementById('inicio-status-gov-badge');
 
                     if (aguardaAut) {
-                        if (elPendCount) elPendCount.innerText = '1 Decisão Pendente';
+                        if (elPendCount) {
+                            elPendCount.innerText = '1 Decisão Pendente';
+                            elPendCount.style.color = '#F59E0B';
+                        }
                         if (elGovDesc) elGovDesc.innerText = 'Este projeto necessita de sua autorização formal para liberar os especialistas.';
                         if (elGovBadge) {
                             elGovBadge.innerText = 'Ação Necessária';
@@ -10840,7 +10760,7 @@ body {
                                         <i class="fas fa-triangle-exclamation"></i>
                                         <div class="gov-alert-text">
                                             <h4>Autorização Comercial Requerida</h4>
-                                            <p>${limparTextoSeguro(ativo.cliente || ativo.empresa_contratante)}: Projeto estruturado aguarda sua aprovação.</p>
+                                            <p>${resolverNomeClienteProjeto(ativo)}: Projeto aguarda sua aprovação.</p>
                                         </div>
                                     </div>
                                     <button class="btn-gov-autorizar" onclick="abrirModalAutorizarProjeto()">
@@ -10855,143 +10775,198 @@ body {
                             elPendCount.style.color = 'var(--green-emerald)';
                         }
                         if (elGovDesc) elGovDesc.innerText = 'Todas as etapas autorizadas. Equipe digital executando normalmente.';
+                        if (elGovBadge) {
+                            elGovBadge.innerHTML = '<i class="fas fa-shield-check" style="color: #10B981;"></i> Regularidade Plena';
+                            elGovBadge.style.color = '';
+                        }
                         if (elGovAlert) elGovAlert.innerHTML = '';
                     }
 
-                    // Atualizar entregas
                     const totalEntregas = (ativo.entregaveis || []).length;
                     const elTotEnt = document.getElementById('inicio-total-entregas-badge');
-                    if (elTotEnt) elTotEnt.innerText = totalEntregas + ' Arquivos';
+                    if (elTotEnt) elTotEnt.innerText = totalEntregas + (totalEntregas === 1 ? ' Entregável' : ' Entregáveis');
 
-                    // Atualizar chip de contexto no chat
                     const chipProj = document.getElementById('chat-context-projeto-txt');
-                    if (chipProj) chipProj.innerText = 'Projeto: ' + (ativo.cliente || ativo.empresa_contratante);
+                    if (chipProj) chipProj.innerText = 'Projeto: ' + resolverNomeClienteProjeto(ativo);
                 }
             }
         } catch (_) {}
     }
 
-    // 12. Renderização da Galeria de Entregas
-    
-    function renderizarGaleriaEntregas() {
-        const container = document.getElementById('galeria-entregas-grid');
-        if (!container) return;
+    async function abrirArquivoAutenticado(idProjeto, caminhoArquivo, baixar = false) {
+        const token = sessionStorage.getItem('vide_jwt') || localStorage.getItem('token_auth_cockpit');
+        if (!token) {
+            alert('Sessão não autenticada. Faça login para acessar arquivos do projeto.');
+            return;
+        }
+        const safeId = encodeURIComponent(idProjeto);
+        const safePath = String(caminhoArquivo).split('/').map(encodeURIComponent).join('/');
+        const url = '/api/projetos/' + safeId + '/arquivos/' + safePath;
 
-        const entregaveisMock = [
-            {
-                id: 'ent_01',
-                titulo: 'Landing Page de Alta Conversão',
-                tipo: 'Site & Landing Page',
-                autor: 'Rafael Duarte',
-                fotoAutor: 'assets/avatars/rafael_duarte.jpg',
-                data: 'Hoje, 14:30',
-                status: 'Homologado',
-                cor: '#10B981',
-                icone: 'fa-globe',
-                desc: 'Código front-end completo responsivo, mobile-first, otimizado para carregamento em menos de 1 segundo.',
-                link: '#'
-            },
-            {
-                id: 'ent_02',
-                titulo: 'Manual de Identidade Visual & Brand Assets',
-                tipo: 'Branding & Design',
-                autor: 'Helena Prado',
-                fotoAutor: 'assets/avatars/helena_prado.jpg',
-                data: 'Hoje, 11:15',
-                status: 'Homologado',
-                cor: '#F59E0B',
-                icone: 'fa-palette',
-                desc: 'Manual de marca com paleta cromática, tipografias corporativas, ícones e assets em SVG e PNG.',
-                link: '#'
-            },
-            {
-                id: 'ent_03',
-                titulo: 'Estratégia de Aquisição & Estrutura de Campanhas',
-                tipo: 'Tráfego & Performance',
-                autor: 'Lucas Fontana',
-                fotoAutor: 'assets/avatars/lucas_fontana.jpg',
-                data: 'Ontem, 18:40',
-                status: 'Homologado',
-                cor: '#00D2FF',
-                icone: 'fa-chart-line',
-                desc: 'Mapeamento de público-alvo, criativos persuasivos, pixels de rastreamento e distribuição de verba.',
-                link: '#'
-            },
-            {
-                id: 'ent_04',
-                titulo: 'Fluxo Automatizado de Atendimento WhatsApp',
-                tipo: 'Vendas & Automação',
-                autor: 'Camila Silveira',
-                fotoAutor: 'assets/avatars/camila_silveira.jpg',
-                data: 'Ontem, 16:20',
-                status: 'Em Análise',
-                cor: '#EC4899',
-                icone: 'fa-comments',
-                desc: 'Script de abordagem comercial, árvore de decisão de qualificação e integração pronta no n8n.',
-                link: '#'
+        try {
+            const res = await fetch(url, {
+                headers: { 'Authorization': 'Bearer ' + token }
+            });
+            if (!res.ok) {
+                let errMsg = 'Falha ao acessar arquivo (HTTP ' + res.status + ').';
+                try {
+                    const errJson = await res.json();
+                    if (errJson && errJson.erro) errMsg = errJson.erro;
+                } catch (_) {}
+                alert(errMsg);
+                return;
             }
-        ];
 
-        container.innerHTML = entregaveisMock.map(ent => `
-            <div class="entrega-card-master" style="position: relative; border-radius: 24px; padding: 26px; background: linear-gradient(155deg, rgba(16, 21, 32, 0.85) 0%, rgba(9, 12, 18, 0.95) 100%); border: 1px solid rgba(255, 255, 255, 0.08); border-top: 3px solid ${ent.cor}; box-shadow: 0 16px 40px -10px rgba(0,0,0,0.6); backdrop-filter: blur(14px); display: flex; flex-direction: column; justify-content: space-between; transition: all 0.28s ease;">
-                <div>
-                    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px;">
-                        <span style="font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.8px; color: ${ent.cor}; background: ${ent.cor}18; border: 1px solid ${ent.cor}33; padding: 4px 10px; border-radius: 999px;">
-                            <i class="fas ${ent.icone}" style="margin-right: 5px;"></i> ${ent.tipo}
-                        </span>
-                        <span style="font-size: 11px; font-weight: 700; color: ${ent.status === 'Homologado' ? '#10B981' : '#F59E0B'}; display: inline-flex; align-items: center; gap: 5px;">
-                            <i class="fas fa-circle" style="font-size: 7px;"></i> ${ent.status}
-                        </span>
-                    </div>
+            const blob = await res.blob();
+            const blobUrl = URL.createObjectURL(blob);
+            const nomeArquivo = String(caminhoArquivo).split('/').pop() || 'arquivo';
 
-                    <h3 style="font-size: 18px; font-weight: 800; color: #FFFFFF; margin: 0 0 10px 0; line-height: 1.35;">${ent.titulo}</h3>
-                    <p style="font-size: 13px; color: #94a3b8; line-height: 1.55; margin-bottom: 18px;">${ent.desc}</p>
+            if (baixar) {
+                const a = document.createElement('a');
+                a.href = blobUrl;
+                a.download = nomeArquivo;
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+                setTimeout(() => URL.revokeObjectURL(blobUrl), 15000);
+                return;
+            }
 
-                    <div style="display: flex; align-items: center; gap: 10px; padding: 10px 12px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; margin-bottom: 20px;">
-                        <img src="${ent.fotoAutor}" alt="${ent.autor}" onerror="this.src='logo_vide.jpg'" style="width: 28px; height: 28px; border-radius: 50%; object-fit: cover; border: 1.5px solid ${ent.cor};">
-                        <div style="font-size: 11.5px;">
-                            <span style="color: #cbd5e1; font-weight: 600;">${ent.autor}</span>
-                            <span style="color: #64748b; margin-left: 6px;">• ${ent.data}</span>
-                        </div>
-                    </div>
-                </div>
+            const modal = document.getElementById('modal-visualizador-entregavel');
+            const tituloEl = document.getElementById('modal-vis-titulo');
+            const iframe = document.getElementById('modal-vis-iframe');
+            const link = document.getElementById('modal-vis-link-externo');
+            const placeholder = document.getElementById('modal-vis-placeholder');
 
-                <div style="display: flex; gap: 10px;">
-                    <button onclick="visualizarEntregavelModal('${ent.id}', '${ent.titulo.replace(/'/g, "\\'")}', '${ent.tipo}')" style="flex: 1; background: linear-gradient(135deg, ${ent.cor} 0%, ${ent.cor}cc 100%); color: #040810; border: none; border-radius: 12px; padding: 11px 16px; font-size: 12.5px; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 7px; box-shadow: 0 4px 16px ${ent.cor}33;">
-                        <i class="fas fa-eye"></i> Visualizar Ativo
-                    </button>
-                    <button onclick="alert('Iniciando download do pacote homologado: ' + '${ent.titulo}')" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #FFFFFF; border-radius: 12px; padding: 11px 14px; font-size: 12.5px; font-weight: 600; cursor: pointer;" title="Baixar Pacote Oficial">
-                        <i class="fas fa-download"></i>
-                    </button>
-                </div>
-            </div>
-        `).join('');
+            if (modal && iframe) {
+                if (tituloEl) tituloEl.textContent = nomeArquivo;
+                if (placeholder) placeholder.style.display = 'none';
+                iframe.style.display = 'block';
+                iframe.src = blobUrl;
+                if (link) {
+                    link.href = blobUrl;
+                    link.download = nomeArquivo;
+                    link.style.display = 'inline-flex';
+                }
+                modal.style.display = 'flex';
+            } else {
+                window.open(blobUrl, '_blank');
+            }
+        } catch (err) {
+            alert('Erro ao carregar arquivo: ' + err.message);
+        }
     }
 
+    function renderizarEntregaveisDoProjeto(p, arquivos, idProjeto) {
+        const entregaveis = Array.isArray(p?.entregaveis) ? p.entregaveis : [];
+        const arqs = Array.isArray(arquivos) ? arquivos : [];
+        const tarefas = Array.isArray(p?.grafo_tarefas) ? p.grafo_tarefas : [];
+        const todasConcluidas = tarefas.length > 0 && tarefas.every(t => ['CONCLUIDO', 'CONCLUIDA', 'APROVADO', 'APROVADA', 'FINALIZADO'].includes(t.estado));
+        const algumaConcluida = tarefas.some(t => ['CONCLUIDO', 'CONCLUIDA', 'APROVADO', 'APROVADA', 'FINALIZADO'].includes(t.estado));
 
-    function visualizarEntregavelModal(url, titulo) {
+        const construirHtml = () => {
+            if (entregaveis.length === 0 && arqs.length === 0) {
+                return '<div style="grid-column: 1 / -1; background: rgba(255,255,255,0.02); border: 1px dashed rgba(255,255,255,0.12); border-radius: 16px; padding: 32px; text-align: center; color: #94A3B8; font-size: 14px;"><i class="fas fa-box-open" style="font-size: 24px; color: #64748B; display: block; margin-bottom: 10px;"></i>Nenhum entregável registrado para este projeto.</div>';
+            }
+
+            const cardsEntregaveis = entregaveis.map((ent, idx) => {
+                const titulo = typeof ent === 'string' ? limparTextoSeguro(ent) : limparTextoSeguro(ent.titulo || ent.nome || 'Entregável');
+                const tipo = typeof ent === 'object' && ent.tipo ? limparTextoSeguro(ent.tipo) : 'ESCOPO CONTRATADO';
+                const desc = typeof ent === 'object' && ent.descricao ? limparTextoSeguro(ent.descricao) : 'Entregável previsto no escopo contratado deste projeto.';
+                const statusReal = (typeof ent === 'object' && ent.status)
+                    ? ent.status
+                    : (todasConcluidas ? 'Homologado' : (algumaConcluida ? 'Em Produção' : 'Pendente'));
+                const isHomologado = /homologad|aprovad|conclu/i.test(statusReal);
+                const imgFundo = idx % 2 === 0 ? 'assets/images/hero_arquitetura_crescimento.jpg' : 'assets/images/equipe_digital_atelier.jpg';
+                const arqRelacionado = arqs[idx] || arqs[0] || null;
+
+                return `
+                    <div class="deliverable-card-architectural">
+                        <div class="deliverable-card-art" style="background-image: url('${imgFundo}');">
+                            <div class="deliverable-art-overlay"></div>
+                            <span class="deliverable-status-tag ${isHomologado ? 'homologado' : 'analysis'}">
+                                <i class="fas ${isHomologado ? 'fa-circle-check' : 'fa-clock'}"></i> ${statusReal}
+                            </span>
+                        </div>
+                        <div class="deliverable-card-body">
+                            <div class="deliverable-type-tag" style="color: ${isHomologado ? '#10B981' : '#F59E0B'};">${tipo}</div>
+                            <h3 class="deliverable-card-title">${titulo}</h3>
+                            <p class="deliverable-card-desc">${desc}</p>
+                            <div class="deliverable-card-footer">
+                                <div class="deliverable-author">
+                                    <span>Projeto ${idProjeto}</span>
+                                </div>
+                                ${arqRelacionado
+                                    ? `<button type="button" class="btn-deliverable-view" onclick="abrirArquivoAutenticado('${idProjeto}', '${arqRelacionado}', false)"><i class="fas fa-eye"></i> Abrir Arquivo</button>`
+                                    : `<span style="font-size: 11px; color: #64748B;">Sem arquivo vinculado</span>`}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            if (cardsEntregaveis.length === 0 && arqs.length > 0) {
+                return arqs.map(a => `
+                    <div class="deliverable-card-architectural">
+                        <div class="deliverable-card-body">
+                            <div class="deliverable-type-tag" style="color: #00D2FF;">ARQUIVO DO REPOSITÓRIO</div>
+                            <h3 class="deliverable-card-title" style="word-break: break-word;">${limparTextoSeguro(a)}</h3>
+                            <p class="deliverable-card-desc">Arquivo técnico armazenado para o projeto ${idProjeto}.</p>
+                            <div class="deliverable-card-footer" style="gap: 8px;">
+                                <button type="button" class="btn-deliverable-view" onclick="abrirArquivoAutenticado('${idProjeto}', '${a}', false)"><i class="fas fa-eye"></i> Visualizar</button>
+                                <button type="button" class="btn-deliverable-view" onclick="abrirArquivoAutenticado('${idProjeto}', '${a}', true)"><i class="fas fa-download"></i> Baixar</button>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            return cardsEntregaveis.join('');
+        };
+
+        const htmlCards = construirHtml();
+        const gridProj = document.getElementById('proj-entregas-grid');
+        if (gridProj) gridProj.innerHTML = htmlCards;
+        const gridGlobal = document.getElementById('galeria-entregas-grid');
+        if (gridGlobal) gridGlobal.innerHTML = htmlCards;
+    }
+
+    // 12. Renderização da Galeria de Entregas (vinculada ao projeto ativo)
+    function renderizarGaleriaEntregas() {
+        if (dadosProjetoAtivo && dadosProjetoAtivo.projeto) {
+            const p = dadosProjetoAtivo.projeto;
+            renderizarEntregaveisDoProjeto(p, dadosProjetoAtivo.arquivos || [], p.id_projeto || p.id || projetoAtivoId);
+            return;
+        }
+        const gridGlobal = document.getElementById('galeria-entregas-grid');
+        if (gridGlobal) {
+            gridGlobal.innerHTML = '<div style="grid-column: 1 / -1; color: #94A3B8; font-size: 13px; padding: 24px; text-align: center;">Nenhum entregável registrado para este projeto.</div>';
+        }
+    }
+
+    // 13. Visualizador de Entregáveis
+    function visualizarEntregavelModal(id, titulo, tipo, url) {
         const modal = document.getElementById('modal-visualizador-entregavel');
+        const tituloEl = document.getElementById('modal-vis-titulo');
         const iframe = document.getElementById('modal-vis-iframe');
-        const tit = document.getElementById('modal-vis-titulo');
         const link = document.getElementById('modal-vis-link-externo');
-        if (!modal || !iframe) return;
 
-        tit.innerText = titulo || 'Pré-Visualização do Entregável';
-        
-        // Se a URL for inválida ou não houver arquivo real gerado ainda
-        if (!url || url === '#' || url.includes('/undefined/') || url.endsWith('/')) {
+        if (!modal) return;
+        if (tituloEl) tituloEl.textContent = (tipo ? '[' + tipo + '] ' : '') + (titulo || 'Visualização de Entregável');
+
+        if (!url || url === '#') {
             iframe.style.display = 'none';
             let placeholder = document.getElementById('modal-vis-placeholder');
             if (!placeholder) {
                 placeholder = document.createElement('div');
                 placeholder.id = 'modal-vis-placeholder';
-                placeholder.style.cssText = 'height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; background: #070B14; color: #FFF; padding: 40px; text-align: center;';
-                iframe.parentNode.appendChild(placeholder);
+                placeholder.style.cssText = 'flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px; text-align: center; color: #E2E8F0; background: #0B111E; border-radius: 12px; border: 1px solid rgba(255,255,255,0.06);';
+                iframe.parentElement.appendChild(placeholder);
             }
             placeholder.style.display = 'flex';
             placeholder.innerHTML = '<div style="width: 60px; height: 60px; border-radius: 14px; background: rgba(0,229,255,0.1); border: 1px solid rgba(0,229,255,0.3); display: flex; align-items: center; justify-content: center; font-size: 26px; color: #00E5FF; margin-bottom: 20px;"><i class="fas fa-file-shield"></i></div>' +
-                '<h3 style="font-family: var(--font-headline); font-size: 20px; font-weight: 800; margin-bottom: 8px;">' + (titulo || 'Entregável Homologado') + '</h3>' +
-                '<p style="font-size: 14px; color: #94A3B8; max-width: 500px; line-height: 1.5; margin-bottom: 24px;">Este ativo foi estruturado pela Equipe Digital da VIDE e encontra-se registrado no repositório de entregas do projeto ativo.</p>' +
+                '<h3 style="font-family: var(--font-headline); font-size: 20px; font-weight: 800; margin-bottom: 8px;">' + (titulo || 'Entregável do Projeto') + '</h3>' +
+                '<p style="font-size: 14px; color: #94A3B8; max-width: 500px; line-height: 1.5; margin-bottom: 24px;">Selecione um arquivo vinculado no repositório para visualização direta.</p>' +
                 '<button onclick="fecharModalVisualizadorEntregavel()" class="btn-brand-cyan" style="padding: 10px 20px;"><i class="fas fa-check"></i> Fechar Pré-Visualização</button>';
             if (link) link.style.display = 'none';
         } else {
@@ -11007,7 +10982,7 @@ body {
         modal.style.display = 'flex';
     }
 
-    function fecharModalVisualizadorEntregavel() {
+        function fecharModalVisualizadorEntregavel() {
         const modal = document.getElementById('modal-visualizador-entregavel');
         const iframe = document.getElementById('modal-vis-iframe');
         if (iframe) iframe.src = '';
@@ -11040,27 +11015,82 @@ window.addEventListener('DOMContentLoaded', () => {
 });
 
 
-    function salvarBriefingGuiadoInline(e) {
+    async function salvarBriefingInline(e) {
         if (e && e.preventDefault) e.preventDefault();
-        const nicho = document.getElementById('inline-briefing-nicho').value.trim();
-        const dor = document.getElementById('inline-briefing-dor').value.trim();
-        const publico = document.getElementById('inline-briefing-publico').value.trim();
-        const ref = document.getElementById('inline-briefing-referencias').value.trim();
+        const idProj = projetoAtivoId || (dadosProjetoAtivo && dadosProjetoAtivo.projeto && (dadosProjetoAtivo.projeto.id_projeto || dadosProjetoAtivo.projeto.id));
+        const feedbackEl = document.getElementById('briefing-inline-feedback');
+        const setFeedback = (icone, cor, msg) => {
+            if (feedbackEl) {
+                feedbackEl.innerHTML = `<i class="fas ${icone}" style="color: ${cor};"></i><span>${msg}</span>`;
+            }
+        };
 
-        if (typeof DB !== 'undefined' && DB.estrategia) {
-            DB.estrategia.briefing_respostas = {
-                nicho: nicho,
-                dor: dor,
-                publico_alvo: publico,
-                referencias: ref
-            };
+        if (!idProj) {
+            setFeedback('fa-triangle-exclamation', '#EF4444', 'Nenhum projeto selecionado para salvar o briefing.');
+            return;
         }
 
-        const elPublico = document.getElementById('doc-publico-alvo-txt');
-        if (elPublico && publico) elPublico.textContent = publico;
+        const token = sessionStorage.getItem('vide_jwt') || localStorage.getItem('token_auth_cockpit');
+        if (!token) {
+            setFeedback('fa-lock', '#EF4444', 'Sessão expirada. Autentique-se novamente para salvar.');
+            return;
+        }
 
-        adicionarLogTerminal('Douglas Paz (Diretor Executivo)', 'Briefing estratégico atualizado com sucesso. Especialistas recalibrados.');
-        alert('Briefing estratégico atualizado com sucesso! Gabriel Rocha e a equipe foram notificados.');
+        const nicho = (document.getElementById('inline-briefing-nicho')?.value || '').trim();
+        const dor = (document.getElementById('inline-briefing-dor')?.value || '').trim();
+        const publico = (document.getElementById('inline-briefing-publico')?.value || '').trim();
+        const ref = (document.getElementById('inline-briefing-referencias')?.value || '').trim();
+
+        const btnSubmit = document.querySelector('#form-briefing-intuitivo button[type="submit"]');
+        if (btnSubmit) btnSubmit.disabled = true;
+        setFeedback('fa-spinner fa-spin', '#00D2FF', 'Salvando briefing no projeto [' + idProj + ']...');
+
+        try {
+            const res = await fetch('/api/projetos/' + encodeURIComponent(idProj) + '/briefing/responder', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + token
+                },
+                body: JSON.stringify({
+                    respostas: {
+                        nicho_atuacao: nicho,
+                        dor_principal: dor,
+                        publico_alvo: publico,
+                        referencias_mercado: ref
+                    }
+                })
+            });
+
+            const data = await res.json().catch(() => ({}));
+            if (!res.ok || !data.sucesso) {
+                const msgErro = data.erro || ('Erro HTTP ' + res.status + ' ao salvar briefing.');
+                setFeedback('fa-triangle-exclamation', '#EF4444', msgErro);
+                return;
+            }
+
+            briefingEstrategicoAtivo = data.briefing || briefingEstrategicoAtivo;
+            if (data.documento_estrategico) {
+                documentoEstrategicoAtivo = data.documento_estrategico;
+                renderizarPainelDocumentoEstrategico(data.documento_estrategico);
+            }
+            if (dadosProjetoAtivo && dadosProjetoAtivo.projeto) {
+                dadosProjetoAtivo.projeto.briefing_estrategico = data.briefing;
+            }
+
+            setFeedback('fa-circle-check', '#10B981', 'Briefing salvo e persistido em [' + idProj + ']');
+            if (typeof adicionarLogTerminal === 'function') {
+                adicionarLogTerminal('Douglas Paz (Diretor Executivo)', 'Briefing de [' + idProj + '] persistido no backend com sucesso.');
+            }
+        } catch (err) {
+            setFeedback('fa-triangle-exclamation', '#EF4444', 'Falha de comunicação ao salvar briefing: ' + err.message);
+        } finally {
+            if (btnSubmit) btnSubmit.disabled = false;
+        }
+    }
+
+    function salvarBriefingGuiadoInline(e) {
+        return salvarBriefingInline(e);
     }
 
 </script>
@@ -11092,18 +11122,54 @@ window.addEventListener('DOMContentLoaded', () => {
         }
 
         try {
-            const token = sessionStorage.getItem('vide_jwt');
+            const token = sessionStorage.getItem('vide_jwt') || localStorage.getItem('token_auth_cockpit');
             const headers = token ? { 'Authorization': 'Bearer ' + token } : {};
             const resPrj = await fetch('/api/projetos', { headers });
+            const elPrj = document.getElementById('projetos-auditados-val');
+            const elTsk = document.getElementById('telemetria-tarefas-val');
+            const elConf = document.getElementById('telemetria-conformidade-val');
+
             if (resPrj.ok) {
-                const prjs = await resPrj.json();
-                const total = Array.isArray(prjs) ? prjs.length : (prjs.total || 0);
-                const elPrj = document.getElementById('projetos-auditados-val');
-                if (elPrj && total > 0) {
-                    elPrj.textContent = total + ' ATIVOS';
+                const payload = await resPrj.json();
+                const lista = Array.isArray(payload) ? payload : (Array.isArray(payload.projetos) ? payload.projetos : []);
+                const totalProjetos = lista.length;
+
+                const idsVistos = new Set();
+                let totalTarefas = 0;
+                let totalConcluidas = 0;
+                lista.forEach(p => {
+                    const pid = p.id_projeto || p.id || '';
+                    (p.grafo_tarefas || []).forEach((t, idx) => {
+                        const chave = (t.id_tarefa || t.id) ? (pid + '::' + (t.id_tarefa || t.id)) : (pid + '::idx_' + idx);
+                        if (idsVistos.has(chave)) return;
+                        idsVistos.add(chave);
+                        totalTarefas++;
+                        if (['CONCLUIDO', 'CONCLUIDA', 'APROVADO', 'APROVADA', 'FINALIZADO'].includes(t.estado)) {
+                            totalConcluidas++;
+                        }
+                    });
+                });
+
+                if (elPrj) elPrj.textContent = totalProjetos + (totalProjetos === 1 ? ' Projeto' : ' Projetos');
+                if (elTsk) elTsk.textContent = totalProjetos > 0 ? (totalTarefas + (totalTarefas === 1 ? ' Tarefa' : ' Tarefas')) : 'Sem dados disponíveis';
+                if (elConf) {
+                    elConf.textContent = totalTarefas > 0
+                        ? (Math.round((totalConcluidas / totalTarefas) * 100) + '% Concluída (' + totalConcluidas + '/' + totalTarefas + ')')
+                        : 'Sem dados disponíveis';
                 }
+            } else {
+                if (elPrj) elPrj.textContent = 'Sem dados disponíveis';
+                if (elTsk) elTsk.textContent = 'Sem dados disponíveis';
+                if (elConf) elConf.textContent = 'Sem dados disponíveis';
             }
-        } catch(e) {}
+        } catch(e) {
+            const elPrj = document.getElementById('projetos-auditados-val');
+            const elTsk = document.getElementById('telemetria-tarefas-val');
+            const elConf = document.getElementById('telemetria-conformidade-val');
+            if (elPrj) elPrj.textContent = 'Sem dados disponíveis';
+            if (elTsk) elTsk.textContent = 'Sem dados disponíveis';
+            if (elConf) elConf.textContent = 'Sem dados disponíveis';
+        }
     }
 
     async function enviarComandoTerminal(e) {
@@ -11456,7 +11522,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
         container.innerHTML = lista.map(p => {
             const id = p.id_projeto || p.id;
-            const clienteLimpo = limparTextoSeguro(p.cliente || p.empresa_contratante || 'Cliente Sem Nome').replace(/\[SIMULADO\]/gi, '').trim();
+            const clienteLimpo = resolverNomeClienteProjeto(p);
             const sit = (p.situacao_projeto || p.status || 'EM_EXECUCAO').toUpperCase();
             const isFoco = projetoAtivoId === id;
 
@@ -11583,7 +11649,7 @@ window.addEventListener('DOMContentLoaded', () => {
                 const opt = document.createElement('option');
                 const id = p.id_projeto || p.id;
                 opt.value = id;
-                opt.textContent = '[' + id + '] ' + limparTextoSeguro(p.cliente || p.empresa_contratante || 'Sem Nome').replace(/\[SIMULADO\]/gi, '').trim() + ' (' + (function(s){ if(!s) return 'Em andamento'; const u=s.toUpperCase(); if(u==='AGUARDANDO_AUTORIZACAO_COMERCIAL') return 'Aguardando autorização'; if(u==='EM_EXECUCAO') return 'Em execução'; if(u==='CONCLUIDO') return 'Concluído'; return s.replace(/_/g,' '); })(p.situacao_projeto || p.status) + ')';
+                opt.textContent = '[' + id + '] ' + resolverNomeClienteProjeto(p) + ' (' + (function(s){ if(!s) return 'Em andamento'; const u=s.toUpperCase(); if(u==='AGUARDANDO_AUTORIZACAO_COMERCIAL') return 'Aguardando autorização'; if(u==='EM_EXECUCAO') return 'Em execução'; if(u==='CONCLUIDO') return 'Concluído'; return s.replace(/_/g,' '); })(p.situacao_projeto || p.status) + ')';
                 select.appendChild(opt);
             });
 
@@ -11610,10 +11676,21 @@ window.addEventListener('DOMContentLoaded', () => {
         }
 
         projetoAtivoId = idProjeto;
+        window.projetoAtivoId = idProjeto;
+
+        // Limpar imediatamente dados do projeto anterior (Briefing, Estratégia, Entregáveis)
+        ['inline-briefing-nicho', 'inline-briefing-dor', 'inline-briefing-publico', 'inline-briefing-referencias'].forEach(fid => {
+            const el = document.getElementById(fid);
+            if (el) el.value = '';
+        });
+        const fbBrief = document.getElementById('briefing-inline-feedback');
+        if (fbBrief) fbBrief.innerHTML = '<i class="fas fa-spinner fa-spin" style="color: #00D2FF;"></i><span>Carregando briefing do projeto...</span>';
+        resetarPainelDocumentoEstrategico();
+
         try {
-            const token = sessionStorage.getItem('vide_jwt');
+            const token = sessionStorage.getItem('vide_jwt') || localStorage.getItem('token_auth_cockpit');
             const headers = token ? { 'Authorization': 'Bearer ' + token } : {};
-            const res = await fetch('/api/projetos/' + idProjeto + '/detalhes', { headers });
+            const res = await fetch('/api/projetos/' + encodeURIComponent(idProjeto) + '/detalhes', { headers });
             const data = await res.json();
             if (!res.ok || !data.sucesso) return;
 
@@ -11637,20 +11714,47 @@ window.addEventListener('DOMContentLoaded', () => {
             const elGov = document.getElementById('proj-escopo-governanca');
             if (elGov) elGov.textContent = 'Homologação formal: ' + (p.responsavel_aprovacao || 'Douglas Paz (Diretor Executivo)') + ' | Governança estrita: alteração de escopo bloqueada sem aditivo formal.';
 
-            // Preencher Aba 2: Briefing Estratégico Guiado
-            const bResp = p.briefing_respostas || p.briefing_estruturado || {};
+            // Preencher Aba 2: Briefing Estratégico Guiado (via endpoint /briefing para garantir respostas reais persistidas)
+            let respostasBriefing = p.briefing_estrategico?.respostas_coletadas || p.briefing_respostas || p.briefing_estruturado || {};
+            try {
+                const resBr = await fetch('/api/projetos/' + encodeURIComponent(idProjeto) + '/briefing', { headers });
+                if (resBr.ok) {
+                    const brData = await resBr.json();
+                    if (brData.sucesso) {
+                        if (brData.briefing && brData.briefing.respostas_coletadas) {
+                            respostasBriefing = brData.briefing.respostas_coletadas;
+                        }
+                        if (brData.documento_estrategico) {
+                            documentoEstrategicoAtivo = brData.documento_estrategico;
+                            renderizarPainelDocumentoEstrategico(brData.documento_estrategico);
+                        }
+                    }
+                }
+            } catch (_) {}
+
             const inNicho = document.getElementById('inline-briefing-nicho');
-            if (inNicho && bResp.nicho_atuacao) inNicho.value = bResp.nicho_atuacao;
+            if (inNicho) inNicho.value = respostasBriefing.nicho_atuacao || respostasBriefing.nicho || '';
             const inDor = document.getElementById('inline-briefing-dor');
-            if (inDor && bResp.dor_principal) inDor.value = bResp.dor_principal;
+            if (inDor) inDor.value = respostasBriefing.dor_principal || respostasBriefing.dor || '';
             const inPub = document.getElementById('inline-briefing-publico');
-            if (inPub && bResp.publico_alvo) inPub.value = bResp.publico_alvo;
+            if (inPub) inPub.value = respostasBriefing.publico_alvo || '';
             const inRef = document.getElementById('inline-briefing-referencias');
-            if (inRef && bResp.referencias_mercado) inRef.value = bResp.referencias_mercado;
+            if (inRef) inRef.value = respostasBriefing.referencias_mercado || respostasBriefing.referencias || '';
+            if (fbBrief) {
+                const temResp = !!(inNicho?.value || inDor?.value || inPub?.value || inRef?.value);
+                fbBrief.innerHTML = temResp
+                    ? '<i class="fas fa-circle-check" style="color: #10B981;"></i><span>Respostas carregadas do projeto [' + idProjeto + '].</span>'
+                    : '<i class="fas fa-circle-info" style="color: #94A3B8;"></i><span>Nenhuma resposta salva ainda para [' + idProjeto + '].</span>';
+            }
+
+            // Carregar Síntese Estratégica (Aba 3) se ainda não veio no /briefing
+            if (!documentoEstrategicoAtivo) {
+                carregarDocumentoEstrategicoProjeto(idProjeto);
+            }
 
             // 1. Header do Projeto
             const elCliente = document.getElementById('proj-nome-cliente');
-            if (elCliente) elCliente.textContent = limparTextoSeguro(p.cliente) || 'Cliente Sem Nome';
+            if (elCliente) elCliente.textContent = resolverNomeClienteProjeto(p);
 
             const elSol = document.getElementById('proj-solicitacao-txt');
             if (elSol) elSol.textContent = limparTextoSeguro(p.solicitacao_original) || 'Sem solicitação declarada.';
@@ -11718,10 +11822,10 @@ window.addEventListener('DOMContentLoaded', () => {
                     containerMat.innerHTML = '<div style="font-size: 12px; color: #64748B;">Nenhum arquivo anexado ainda.</div>';
                 } else {
                     containerMat.innerHTML = mats.map(m => {
-                        const link = '/api/projetos/' + idProjeto + '/arquivos/' + m.caminho_relativo;
+                        const cam = String(m.caminho_relativo || '').replace(/'/g, "\'");
                         return '<div class="material-item-row">' +
-                            '<span><i class="fas fa-file-lines" style="color: #00E5FF; margin-right: 6px;"></i>' + m.nome_arquivo + '</span>' +
-                            '<a href="' + link + '" target="_blank" class="entrega-chip-link" style="padding: 2px 8px; font-size: 10px;"><i class="fas fa-eye"></i> Ver</a>' +
+                            '<span><i class="fas fa-file-lines" style="color: #00E5FF; margin-right: 6px;"></i>' + limparTextoSeguro(m.nome_arquivo) + '</span>' +
+                            '<button type="button" onclick="abrirArquivoAutenticado(\'' + idProjeto + '\', \'' + cam + '\', false)" class="entrega-chip-link" style="padding: 2px 8px; font-size: 10px; cursor: pointer;"><i class="fas fa-eye"></i> Ver</button>' +
                         '</div>';
                     }).join('');
                 }
@@ -11838,18 +11942,22 @@ window.addEventListener('DOMContentLoaded', () => {
                 }
             }
 
-            // 4. Entregáveis Físicos
+            // 4. Entregáveis & Arquivos Físicos do Projeto
             const containerEnt = document.getElementById('lista-entregas-container');
             const totalEnt = document.getElementById('total-entregas-arquivos');
             const arqs = data.arquivos || [];
             if (totalEnt) totalEnt.textContent = arqs.length;
+            renderizarEntregaveisDoProjeto(p, arqs, idProjeto);
             if (containerEnt) {
                 if (arqs.length === 0) {
-                    containerEnt.innerHTML = '<div style="font-size: 12px; color: #64748B;">Nenhum entregável gerado ainda.</div>';
+                    containerEnt.innerHTML = '<div style="font-size: 12px; color: #64748B;">Nenhum arquivo físico gerado para este projeto.</div>';
                 } else {
                     containerEnt.innerHTML = arqs.map(a => {
-                        const link = '/api/projetos/' + idProjeto + '/arquivos/' + a;
-                        return '<a href="' + link + '" target="_blank" class="entrega-chip-link"><i class="fas fa-file-code"></i> ' + a + '</a>';
+                        const cam = String(a).replace(/'/g, "\'");
+                        return '<div style="display: inline-flex; align-items: center; gap: 6px;">' +
+                            '<button type="button" onclick="abrirArquivoAutenticado(\'' + idProjeto + '\', \'' + cam + '\', false)" class="entrega-chip-link" style="cursor: pointer;"><i class="fas fa-file-code"></i> ' + limparTextoSeguro(a) + '</button>' +
+                            '<button type="button" onclick="abrirArquivoAutenticado(\'' + idProjeto + '\', \'' + cam + '\', true)" title="Baixar arquivo" style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); color: #CBD5E1; border-radius: 6px; padding: 5px 8px; cursor: pointer; font-size: 11px;"><i class="fas fa-download"></i></button>' +
+                        '</div>';
                     }).join('');
                 }
             }
@@ -11887,11 +11995,19 @@ window.addEventListener('DOMContentLoaded', () => {
                     inicioNome.innerText = servico;
                 }
                 const inicioCli = document.getElementById('inicio-proj-cliente-sub');
-                if (inicioCli) inicioCli.innerText = 'Cliente: ' + (limparTextoSeguro(p.cliente || p.empresa_contratante) || 'Cliente Ativo').replace(/\[SIMULADO\]/gi, '').trim();
+                if (inicioCli) inicioCli.innerText = 'Cliente: ' + resolverNomeClienteProjeto(p);
+                const inicioBadge = document.getElementById('inicio-proj-status-badge');
+                if (inicioBadge) {
+                    const sit = (p.situacao_projeto || 'EM_EXECUCAO').toUpperCase();
+                    inicioBadge.innerText = sit === 'AGUARDANDO_AUTORIZACAO_COMERCIAL' ? 'Aguardando Autorização'
+                        : (sit === 'CONCLUIDO' || sit === 'APROVADO' ? 'Concluído' : 'Em Execução');
+                }
 
                 const govBox = document.getElementById('proj-governance-alert-box');
                 if (govBox) {
-                    if (p.autorizacao_status === 'AGUARDANDO_AUTORIZACAO' || p.situacao_projeto === 'AGUARDANDO_AUTORIZACAO') {
+                    const autSt = (p.autorizacao_status || p.autorizacao_comercial?.status || '').toUpperCase();
+                    const sitSt = (p.situacao_projeto || '').toUpperCase();
+                    if (sitSt === 'AGUARDANDO_AUTORIZACAO_COMERCIAL' || sitSt === 'AGUARDANDO_AUTORIZACAO' || autSt === 'PENDENTE' || autSt === 'AGUARDANDO_AUTORIZACAO') {
                         govBox.style.display = 'block';
                         govBox.innerHTML = '<div class="gov-alert-banner">' +
                             '<div class="gov-alert-info">' +
@@ -13689,8 +13805,8 @@ window.addEventListener('DOMContentLoaded', () => {
                 }
                 if (typeof carregarTelemetriaReal === 'function') carregarTelemetriaReal();
                 if (typeof carregarEmpresasMotor === 'function') carregarEmpresasMotor();
-                if (typeof carregarProjetosSelect === 'function') carregarProjetosSelect();
-                if (typeof atualizarResumosInicio === 'function') atualizarResumosInicio();
+                if (typeof carregarProjetosSelect === 'function') await carregarProjetosSelect();
+                if (typeof atualizarResumosInicio === 'function') await atualizarResumosInicio();
             } else {
                 if (erroEl) {
                     erroEl.textContent = data.erro || 'Credenciais inválidas. Verifique usuário e credencial.';
