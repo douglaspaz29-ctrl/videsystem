@@ -11221,6 +11221,856 @@ input.briefing-input-field:focus,
         box-sizing: border-box !important;
     }
 }
+
+
+/* =========================================================================
+ * VIDE — SISTEMA CROMÁTICO GLOBAL: SOVEREIGN NAVY & CYAN REFINADA
+ * Combinação aprovada: Estrutura de comando da Proposta 3 (#081829 / #0098B8)
+ * com distribuição de superfícies da Proposta 1 (Fundo Marfim #F7F6F2,
+ * Painéis Azul-Glacial #DCE6F0 / #CBD9E7, Cards Brancos #FFFFFF com borda
+ * azul-aço #869FB8, Campos Azul-Gelo #EDF3F8, Secundários #122B47, Auxiliares #C7D6E4).
+ * ========================================================================= */
+
+:root {
+    --vide-bg-ivory: #F7F6F2;
+    --vide-navy-sovereign: #081829;
+    --vide-navy-secondary: #122B47;
+    --vide-navy-rail: #10263E;
+    --vide-panel-glacier-1: #DCE6F0;
+    --vide-panel-glacier-2: #CBD9E7;
+    --vide-panel-glacier-3: #BFCFDF;
+    --vide-card-white: #FFFFFF;
+    --vide-field-ice: #EDF3F8;
+    --vide-border-steel: #869FB8;
+    --vide-border-panel: #8FA8BE;
+    --vide-border-field: #5B7A96;
+    --vide-cyan-primary: #0098B8;
+    --vide-cyan-bright: #00C8EE;
+    --vide-aux-slate: #C7D6E4;
+    --vide-text-ink: #081829;
+    --vide-text-body: #2B4259;
+    --vide-text-muted: #3E5A74;
+}
+
+/* 1. FUNDO GERAL (MARFIM LUMINOSO #F7F6F2) & TIPOGRAFIA BASE */
+html, body {
+    background-color: #F7F6F2 !important;
+    color: #081829 !important;
+}
+
+.editorial-title,
+.edition-chapter-title,
+.hero-main-title,
+.dossier-project-name,
+.proj-deck-title,
+.proj-hero-title,
+.lead-spread-col-narrative h4,
+.workbench-agent-name {
+    color: #081829 !important;
+    -webkit-text-fill-color: #081829 !important;
+}
+
+.editorial-subtitle,
+.edition-chapter-sub,
+.hero-desc-prose,
+.proj-deck-desc,
+.proj-hero-desc {
+    color: #2B4259 !important;
+}
+
+.editorial-kicker,
+.edition-chapter-kicker,
+.hero-brand-kicker span {
+    color: #0098B8 !important;
+}
+
+/* 2. MASTHEAD E ÁREAS DE COMANDO (AZUL-MARINHO SOBERANO #081829) */
+header.exec-topbar {
+    background: #081829 !important;
+    border-bottom: 2px solid #0098B8 !important;
+    box-shadow: 0 6px 18px -6px rgba(8, 24, 41, 0.25) !important;
+}
+
+.exec-brand-info h1 {
+    color: #FFFFFF !important;
+}
+
+.exec-brand-info p {
+    color: #9BB4CC !important;
+}
+
+.exec-nav-tabs {
+    background: #10263E !important;
+    border: 1.5px solid #214060 !important;
+    padding: 4px !important;
+    border-radius: 10px !important;
+}
+
+.exec-tab-btn {
+    background: transparent !important;
+    color: #D0E0F0 !important;
+    border: 1px solid transparent !important;
+    font-weight: 700 !important;
+}
+
+.exec-tab-btn i {
+    color: #82A4C4 !important;
+}
+
+.exec-tab-btn:hover:not(.active):not(.exec-tab-btn-avancado) {
+    background: #173452 !important;
+    color: #FFFFFF !important;
+    border-color: #2B5278 !important;
+}
+
+.exec-tab-btn:hover:not(.active):not(.exec-tab-btn-avancado) i {
+    color: #00C8EE !important;
+}
+
+.exec-tab-btn.active {
+    background: #0098B8 !important;
+    color: #FFFFFF !important;
+    border: 1.5px solid #00C2E0 !important;
+    box-shadow: 0 3px 10px rgba(0, 152, 184, 0.35) !important;
+}
+
+.exec-tab-btn.active i {
+    color: #FFFFFF !important;
+}
+
+.exec-user-chip {
+    background: #10263E !important;
+    border: 1.5px solid #25486B !important;
+}
+
+.exec-user-name {
+    color: #FFFFFF !important;
+}
+
+.exec-user-role {
+    color: #8FB2D4 !important;
+}
+
+/* Console de Despacho Direto na Home, Faixa Arquitetônica, Card de Liderança, Coluna Flagship e Barra de Progresso do Projeto */
+.hero-directive-deck {
+    background: #081829 !important;
+    border: 1.5px solid #1A3A5C !important;
+    border-left: 4px solid #0098B8 !important;
+    box-shadow: 0 8px 20px -6px rgba(8, 24, 41, 0.22) !important;
+}
+
+.hero-directive-deck .directive-deck-title h4 {
+    color: #FFFFFF !important;
+}
+
+.hero-directive-deck .directive-deck-title p {
+    color: #00C8EE !important;
+}
+
+.edition-spec-sheet {
+    background: #081829 !important;
+    border-top: 2px solid #0098B8 !important;
+}
+
+.spec-sheet-cell {
+    background: #081829 !important;
+    border-right: 1px solid #1B3652 !important;
+}
+
+.spec-sheet-label {
+    color: #9BB4CC !important;
+}
+
+.spec-sheet-val,
+.spec-sheet-val.cyan,
+.spec-sheet-val.blue,
+.spec-sheet-val.purple {
+    color: #FFFFFF !important;
+}
+
+.spec-sheet-val.amber {
+    color: #FBBF24 !important;
+}
+
+.spec-sheet-status {
+    color: #00C8EE !important;
+}
+
+.side-leader-card {
+    background: #081829 !important;
+    border: 1.5px solid #1A3A5C !important;
+    border-top: 3px solid #0098B8 !important;
+    color: #FFFFFF !important;
+    box-shadow: 0 8px 22px -8px rgba(8, 24, 41, 0.22) !important;
+}
+
+.side-leader-card .leader-card-meta h4 {
+    color: #FFFFFF !important;
+}
+
+.side-leader-card .leader-card-meta p {
+    color: #00C8EE !important;
+}
+
+.side-leader-card .leader-statement-quote {
+    color: #D8E6F3 !important;
+}
+
+.editorial-lead-spread .lead-spread-col-identity {
+    background: #081829 !important;
+    border: 1.5px solid #1A3A5C !important;
+    border-radius: 10px !important;
+    padding: 22px !important;
+    color: #FFFFFF !important;
+}
+
+.editorial-lead-spread .lead-spread-col-identity h3 {
+    color: #FFFFFF !important;
+}
+
+.editorial-lead-spread .lead-spread-col-identity p,
+.editorial-lead-spread .lead-spread-col-identity .lead-celula-tag {
+    color: #00C8EE !important;
+}
+
+.proj-progress-architectural-box {
+    background: #081829 !important;
+    border: 1.5px solid #1A3A5C !important;
+    border-left: 4px solid #0098B8 !important;
+    color: #FFFFFF !important;
+    box-shadow: 0 4px 14px rgba(8, 24, 41, 0.18) !important;
+}
+
+.proj-progress-architectural-box span {
+    color: #D0E0F0 !important;
+}
+
+.proj-progress-architectural-box #proj-progresso-percentual {
+    color: #00C8EE !important;
+}
+
+.proj-progress-architectural-box .progress-track-architectural {
+    background: #173452 !important;
+}
+
+.gateway-icon-badge,
+.proj-deck-index-num {
+    background: #081829 !important;
+    background-color: #081829 !important;
+    color: #00C8EE !important;
+    border: 1.5px solid #1A3A5C !important;
+}
+
+.gateway-icon-badge i {
+    color: #00C8EE !important;
+}
+
+/* Barra de Navegação Mobile Fixa Inferior (#081829) */
+.exec-mobile-dock {
+    background: #081829 !important;
+    border-top: 2px solid #0098B8 !important;
+    box-shadow: 0 -8px 22px rgba(8, 24, 41, 0.45) !important;
+}
+
+.exec-mobile-dock-btn {
+    color: #B8CDE0 !important;
+}
+
+.exec-mobile-dock-btn i {
+    color: #82A4C4 !important;
+}
+
+.exec-mobile-dock-btn.active {
+    background: rgba(0, 152, 184, 0.20) !important;
+    color: #FFFFFF !important;
+}
+
+.exec-mobile-dock-btn.active i {
+    color: #00C8EE !important;
+}
+
+/* 3. PAINÉIS AGRUPADORES: AZUL-GLACIAL PERCEPTÍVEL (#DCE6F0 E #CBD9E7) */
+.edition-hero-stage-widescreen,
+.demand-master-panel,
+.projetos-deck-section,
+.proj-environment-container,
+#team-full-cards-grid,
+.chat-workspace-architectural,
+.cockpit-7d-section,
+.ingestao-dados-section,
+.telemetria-section {
+    background: #DCE6F0 !important;
+    background-color: #DCE6F0 !important;
+    border: 1.5px solid #8FA8BE !important;
+    box-shadow: 0 10px 26px -10px rgba(8, 24, 41, 0.10) !important;
+}
+
+.hero-operations-centerpiece,
+.proj-context-bar,
+.guided-briefing-master-card,
+.strategy-dossier-banner,
+.proj-flow-container-architectural,
+.reposit-arquivos-tray,
+.chat-sidebar-architectural,
+.chat-header-architectural,
+.chat-quick-suggestions,
+.chat-input-bar-architectural {
+    background: #CBD9E7 !important;
+    background-color: #CBD9E7 !important;
+    border: 1.5px solid #829EB8 !important;
+}
+
+.governance-shield-card {
+    background: #CBD9E7 !important;
+    background-color: #CBD9E7 !important;
+    border: 1.5px solid #829EB8 !important;
+    border-left: 4px solid #0098B8 !important;
+}
+
+.chat-sidebar-header-architectural,
+.proj-subtabs-nav,
+.avancado-subtabs-architectural {
+    background: #BFCFDF !important;
+    background-color: #BFCFDF !important;
+    border: 1.5px solid #7896B2 !important;
+}
+
+.proj-subtab-btn,
+.avancado-subtab-btn {
+    background: transparent !important;
+    border: 1px solid transparent !important;
+    color: #081829 !important;
+    font-weight: 700 !important;
+    border-radius: 8px !important;
+}
+
+.proj-subtab-btn i,
+.avancado-subtab-btn i {
+    color: #122B47 !important;
+}
+
+.proj-subtab-btn:hover:not(.active),
+.avancado-subtab-btn:hover:not(.active) {
+    background: #DCE6F0 !important;
+    border-color: #869FB8 !important;
+    color: #081829 !important;
+}
+
+.proj-subtab-btn.active,
+.avancado-subtab-btn.active {
+    background: #081829 !important;
+    border: 1.5px solid #0098B8 !important;
+    color: #FFFFFF !important;
+    box-shadow: 0 3px 8px rgba(8, 24, 41, 0.22) !important;
+}
+
+.proj-subtab-btn.active i,
+.avancado-subtab-btn.active i {
+    color: #00C8EE !important;
+}
+
+.strategic-steps-list,
+.workbench-gateway-grid {
+    background: #8FA8BE !important;
+    border: 1.5px solid #7896B2 !important;
+}
+
+/* Sub-blocos internos dentro de cards (Azul-Glacial #DCE6F0) */
+.workbench-spec-row,
+.proj-deck-ledger-grid,
+.briefing-supporting-files-drawer,
+.dossier-deliverables-box {
+    background: #DCE6F0 !important;
+    background-color: #DCE6F0 !important;
+    border: 1.5px solid #8FA8BE !important;
+    border-left: 3px solid #0098B8 !important;
+    border-radius: 8px !important;
+}
+
+.centerpiece-telemetry-strip {
+    background: #DCE6F0 !important;
+    border-top: 1.5px solid #8FA8BE !important;
+}
+
+.telemetry-strip-cell {
+    background: #DCE6F0 !important;
+    border-right: 1px solid #96ADC2 !important;
+}
+
+.telemetry-cell-val {
+    color: #081829 !important;
+}
+
+.telemetry-cell-lbl {
+    color: #334E68 !important;
+}
+
+/* Grupos de pergunta do Briefing em Azul-Glacial (#DCE6F0) para destacar os campos Azul-Gelo (#EDF3F8) */
+.briefing-field-group {
+    background: #DCE6F0 !important;
+    background-color: #DCE6F0 !important;
+    border: 1.5px solid #869FB8 !important;
+    border-left: 4px solid #081829 !important;
+    border-radius: 10px !important;
+}
+
+/* Conversar: área de leitura das mensagens e lista lateral de agentes */
+.chat-main-architectural,
+.chat-messages-scroll {
+    background: #E4ECF4 !important;
+    background-color: #E4ECF4 !important;
+}
+
+.chat-sidebar-agent-item {
+    background: #EDF3F8 !important;
+    background-color: #EDF3F8 !important;
+    border: 1.5px solid #869FB8 !important;
+    margin-bottom: 8px !important;
+}
+
+.chat-sidebar-agent-item:hover:not(.active) {
+    background: #FFFFFF !important;
+    border-color: #0098B8 !important;
+}
+
+.chat-sidebar-agent-item.active {
+    background: #081829 !important;
+    background-color: #081829 !important;
+    border-color: #0098B8 !important;
+    border-left: 4px solid #00C8EE !important;
+}
+
+.chat-sidebar-agent-item.active h4 {
+    color: #FFFFFF !important;
+}
+
+.chat-sidebar-agent-item.active p {
+    color: #B8CDE0 !important;
+}
+
+.chat-sidebar-agent-item.active span {
+    color: #00C8EE !important;
+}
+
+/* 4. CARDS: BRANCO #FFFFFF COM BORDAS AZUL-AÇO VISÍVEIS (#869FB8) E HIERARQUIA BEM DEFINIDA */
+.hero-command-hub,
+.centerpiece-dossier-card,
+.strat-step-item,
+.workbench-gateway-card,
+.editorial-lead-spread,
+article.team-agent-card-master.is-coordinator.editorial-lead-spread,
+.editorial-workbench-row,
+.proj-deck-card,
+.proj-hero-architectural,
+.scope-card-item,
+.strategy-cell,
+.pipeline-step-card,
+.deliverable-card-architectural,
+.dim-card,
+.editorial-7d-spec-card,
+.epv-item-card,
+.miv-card,
+#pane-avancado-telemetria .telemetria-section > div > div {
+    background: #FFFFFF !important;
+    background-color: #FFFFFF !important;
+    border: 1.5px solid #869FB8 !important;
+    box-shadow: 0 6px 18px -6px rgba(8, 24, 41, 0.10) !important;
+    color: #081829 !important;
+}
+
+.hero-command-hub,
+.strat-step-item,
+.workbench-gateway-card,
+.editorial-workbench-row,
+.proj-deck-card,
+.proj-hero-architectural,
+.scope-card-item,
+.strategy-cell,
+.pipeline-step-card,
+.deliverable-card-architectural,
+.editorial-7d-spec-card,
+#pane-avancado-telemetria .telemetria-section > div > div {
+    border-top: 3px solid #081829 !important;
+}
+
+.centerpiece-dossier-card,
+.strat-step-item.active {
+    border: 1.5px solid #0098B8 !important;
+    border-top: 3px solid #0098B8 !important;
+}
+
+.editorial-lead-spread,
+article.team-agent-card-master.is-coordinator.editorial-lead-spread {
+    border-top: 4px solid #0098B8 !important;
+}
+
+.proj-deck-card.card-foco {
+    background: #FFFFFF !important;
+    background-color: #FFFFFF !important;
+    border: 2px solid #0098B8 !important;
+    border-top: 4px solid #0098B8 !important;
+    box-shadow: 0 10px 24px -6px rgba(0, 152, 184, 0.22) !important;
+}
+
+.workbench-gateway-card:hover {
+    background: #F4F8FC !important;
+    border-color: #0098B8 !important;
+    border-top: 3px solid #0098B8 !important;
+}
+
+.chat-bubble-row.agent-row .chat-bubble-content {
+    background: #FFFFFF !important;
+    background-color: #FFFFFF !important;
+    border: 1.5px solid #869FB8 !important;
+    border-left: 4px solid #0098B8 !important;
+    box-shadow: 0 4px 12px rgba(8, 24, 41, 0.08) !important;
+    color: #081829 !important;
+}
+
+/* Trilhas de Progresso e Badges de Status */
+.dossier-progress-track,
+.proj-deck-progress-track,
+.dim-progress-track {
+    background: #D5E2EE !important;
+    background-color: #D5E2EE !important;
+    border: 1px solid #8FA8BE !important;
+}
+
+.dossier-progress-fill,
+.proj-deck-progress-fill {
+    background: linear-gradient(90deg, #081829 0%, #0098B8 100%) !important;
+}
+
+.hero-live-pill,
+.catalogo-pill-tag,
+.briefing-mode-tag,
+.gateway-status-pill,
+.chat-project-chip,
+.dossier-status-pill {
+    background: #E6EFF7 !important;
+    border: 1.5px solid #6E8BA6 !important;
+    color: #081829 !important;
+    font-weight: 700 !important;
+}
+
+/* 5. CAMPOS DE FORMULÁRIO: AZUL-GELO #EDF3F8 COM BORDAS CONTRASTANTES (#5B7A96 / #0098B8) */
+input[type="text"],
+input[type="password"],
+input[type="email"],
+input[type="number"],
+input[type="search"],
+textarea,
+select,
+input.briefing-input-field,
+.briefing-input-field,
+.input-dark-field,
+#inicio-quick-prompt,
+#chat-input-textarea,
+#select-projeto-ativo,
+.proj-selector-dropdown-architectural {
+    background: #EDF3F8 !important;
+    background-color: #EDF3F8 !important;
+    border: 2px solid #5B7A96 !important;
+    color: #081829 !important;
+    font-weight: 600 !important;
+    box-shadow: inset 0 1px 3px rgba(8, 24, 41, 0.08) !important;
+}
+
+.hero-directive-deck #inicio-quick-prompt {
+    background: #EDF3F8 !important;
+    background-color: #EDF3F8 !important;
+    border: 2px solid #0098B8 !important;
+    color: #081829 !important;
+}
+
+input[type="text"]::placeholder,
+textarea::placeholder,
+input.briefing-input-field::placeholder,
+#inicio-quick-prompt::placeholder,
+#chat-input-textarea::placeholder {
+    color: #3E5A74 !important;
+    font-weight: 500 !important;
+}
+
+select.proj-selector-dropdown-architectural option,
+#select-projeto-ativo option {
+    background: #EDF3F8 !important;
+    color: #081829 !important;
+}
+
+input[type="text"]:hover,
+textarea:hover,
+select:hover,
+input.briefing-input-field:hover,
+#select-projeto-ativo:hover {
+    border-color: #122B47 !important;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="email"]:focus,
+input[type="number"]:focus,
+input[type="search"]:focus,
+textarea:focus,
+select:focus,
+input.briefing-input-field:focus,
+.input-dark-field:focus,
+#inicio-quick-prompt:focus,
+#chat-input-textarea:focus,
+#select-projeto-ativo:focus {
+    background: #FFFFFF !important;
+    background-color: #FFFFFF !important;
+    border-color: #0098B8 !important;
+    box-shadow: 0 0 0 3px rgba(0, 152, 184, 0.25) !important;
+    outline: none !important;
+}
+
+/* 6. BOTÕES: HIERARQUIA CROMÁTICA SOVEREIGN NAVY & CYAN */
+
+/* 6.1 Ações Principais: Ciano VIDE #0098B8 com texto branco */
+.btn-deck-send,
+.btn-new-demand-primary,
+.hero-shortcut-btn.primary,
+.btn-dossier-action.primary,
+.btn-briefing-save,
+.chat-send-submit-btn,
+.team-cta-action-btn.primary-cyan,
+.btn-gov-autorizar,
+.btn-luxury-primary,
+.btn-luxury-emerald,
+.btn-luxury-violet,
+.btn-blue-action,
+.proj-deck-card.card-foco .btn-deck-abrir {
+    background: #0098B8 !important;
+    background-image: none !important;
+    border: 1.5px solid #006B82 !important;
+    color: #FFFFFF !important;
+    font-weight: 700 !important;
+    box-shadow: 0 3px 10px rgba(0, 152, 184, 0.25) !important;
+}
+
+.btn-deck-send i,
+.btn-new-demand-primary i,
+.hero-shortcut-btn.primary i,
+.btn-dossier-action.primary i,
+.btn-briefing-save i,
+.chat-send-submit-btn i,
+.team-cta-action-btn.primary-cyan i,
+.btn-gov-autorizar i,
+.btn-luxury-primary i,
+.btn-luxury-emerald i,
+.btn-luxury-violet i,
+.btn-blue-action i,
+.proj-deck-card.card-foco .btn-deck-abrir i {
+    color: #FFFFFF !important;
+}
+
+.btn-deck-send:hover,
+.btn-new-demand-primary:hover,
+.hero-shortcut-btn.primary:hover,
+.btn-dossier-action.primary:hover,
+.btn-briefing-save:hover,
+.chat-send-submit-btn:hover,
+.team-cta-action-btn.primary-cyan:hover,
+.btn-gov-autorizar:hover,
+.btn-luxury-primary:hover,
+.btn-luxury-emerald:hover,
+.btn-luxury-violet:hover,
+.btn-blue-action:hover,
+.proj-deck-card.card-foco .btn-deck-abrir:hover {
+    background: #007691 !important;
+    border-color: #005266 !important;
+    color: #FFFFFF !important;
+    box-shadow: 0 5px 14px rgba(0, 118, 145, 0.35) !important;
+    transform: translateY(-1px) !important;
+}
+
+/* 6.2 Ações Secundárias: Azul-Marinho #122B47 com texto branco */
+.btn-dossier-action.secondary,
+.exec-tab-btn-avancado,
+.workbench-cta-chip,
+.btn-voltar-deck,
+.btn-briefing-chat,
+.btn-workbench-inline-chat,
+.proj-deck-card:not(.card-foco) .btn-deck-abrir,
+.btn-deliverable-view {
+    background: #122B47 !important;
+    border: 1.5px solid #25486B !important;
+    color: #FFFFFF !important;
+    font-weight: 700 !important;
+    box-shadow: 0 2px 6px rgba(8, 24, 41, 0.18) !important;
+}
+
+.btn-dossier-action.secondary i,
+.exec-tab-btn-avancado i,
+.workbench-cta-chip i,
+.btn-voltar-deck i,
+.btn-briefing-chat i,
+.btn-workbench-inline-chat i,
+.proj-deck-card:not(.card-foco) .btn-deck-abrir i,
+.btn-deliverable-view i {
+    color: #00C8EE !important;
+}
+
+.btn-dossier-action.secondary:hover,
+.exec-tab-btn-avancado:hover,
+.exec-tab-btn-avancado.active,
+.workbench-cta-chip:hover,
+.btn-voltar-deck:hover,
+.btn-briefing-chat:hover,
+.btn-workbench-inline-chat:hover,
+.proj-deck-card:not(.card-foco) .btn-deck-abrir:hover,
+.btn-deliverable-view:hover {
+    background: #0098B8 !important;
+    border-color: #006B82 !important;
+    color: #FFFFFF !important;
+}
+
+.btn-dossier-action.secondary:hover i,
+.exec-tab-btn-avancado:hover i,
+.exec-tab-btn-avancado.active i,
+.workbench-cta-chip:hover i,
+.btn-voltar-deck:hover i,
+.btn-briefing-chat:hover i,
+.btn-workbench-inline-chat:hover i,
+.proj-deck-card:not(.card-foco) .btn-deck-abrir:hover i,
+.btn-deliverable-view:hover i {
+    color: #FFFFFF !important;
+}
+
+/* 6.3 Ações Auxiliares: Azul Acinzentado (#C7D6E4), sem aparência de botão cinza neutro */
+.hero-shortcut-btn:not(.primary),
+.btn-luxury-glass,
+.btn-outline-subtle,
+.chat-clean-btn {
+    background: #C7D6E4 !important;
+    border: 1.5px solid #6E8BA6 !important;
+    color: #081829 !important;
+    font-weight: 700 !important;
+    box-shadow: 0 1px 3px rgba(8, 24, 41, 0.08) !important;
+}
+
+.hero-shortcut-btn:not(.primary) i,
+.btn-luxury-glass i,
+.btn-outline-subtle i,
+.chat-clean-btn i {
+    color: #081829 !important;
+}
+
+.hero-shortcut-btn:not(.primary):hover,
+.btn-luxury-glass:hover,
+.btn-outline-subtle:hover,
+.chat-clean-btn:hover {
+    background: #122B47 !important;
+    border-color: #081829 !important;
+    color: #FFFFFF !important;
+}
+
+.hero-shortcut-btn:not(.primary):hover i,
+.btn-luxury-glass:hover i,
+.btn-outline-subtle:hover i,
+.chat-clean-btn:hover i {
+    color: #00C8EE !important;
+}
+
+/* 6.4 Chips de Prompts e Sugestões Clicáveis */
+.team-prompt-btn,
+.chat-suggestion-chip,
+.suggestion-chip,
+.entrega-chip-link {
+    background: #DCE6F0 !important;
+    border: 1.5px solid #7896B2 !important;
+    color: #081829 !important;
+    font-weight: 700 !important;
+}
+
+.team-prompt-btn:hover,
+.chat-suggestion-chip:hover,
+.suggestion-chip:hover,
+.entrega-chip-link:hover {
+    background: #0098B8 !important;
+    border-color: #006B82 !important;
+    color: #FFFFFF !important;
+}
+
+/* 7. MODAIS, FORMULÁRIOS E TABELAS INTERNAS */
+#lockscreen-privado {
+    background: rgba(8, 24, 41, 0.90) !important;
+}
+
+#lockscreen-privado .luxury-card,
+.modal-card-box,
+#modal-novo-projeto > div,
+#modal-visualizador-entregavel > div,
+#modal-nova-ingestao > div,
+#modal-inspecionar-lote > div,
+#modal-novo-diagnostico-7d > div {
+    background: #DCE6F0 !important;
+    background-color: #DCE6F0 !important;
+    border: 2px solid #6E8BA6 !important;
+    box-shadow: 0 24px 60px -15px rgba(8, 24, 41, 0.35) !important;
+    color: #081829 !important;
+}
+
+.modal-header {
+    background: #081829 !important;
+    background-color: #081829 !important;
+    border-bottom: 2px solid #0098B8 !important;
+    color: #FFFFFF !important;
+}
+
+.modal-header h3,
+.modal-header h2,
+#modal-estrategia-titulo {
+    color: #FFFFFF !important;
+}
+
+.modal-header p,
+#modal-estrategia-subtitulo,
+#modal-estrategia-servico-txt {
+    color: #B8CDE0 !important;
+}
+
+.briefing-service-card {
+    background: #FFFFFF !important;
+    background-color: #FFFFFF !important;
+    border: 1.5px solid #869FB8 !important;
+}
+
+.briefing-service-card.active {
+    background: #E6EFF7 !important;
+    background-color: #E6EFF7 !important;
+    border: 2px solid #0098B8 !important;
+}
+
+.btn-close-modal {
+    background: #122B47 !important;
+    background-color: #122B47 !important;
+    border: 1.5px solid #25486B !important;
+    color: #FFFFFF !important;
+}
+
+.btn-close-modal:hover {
+    background: #B91C1C !important;
+    border-color: #7F1D1D !important;
+    color: #FFFFFF !important;
+}
+
+/* 8. AJUSTES COMPLEMENTARES MOBILE 390x844 (BOTÕES E BARRA INFERIOR FIXA SEM COBRIR CONTEÚDO) */
+@media (max-width: 900px) {
+    .exec-main-content {
+        padding: 14px 10px 96px 10px !important;
+    }
+
+    .hero-shortcut-btn {
+        font-size: 11.5px !important;
+        padding: 9px 8px !important;
+        white-space: nowrap !important;
+        height: auto !important;
+        min-height: 36px !important;
+    }
+}
+
 </style>
 </head>
 <body>
@@ -11229,7 +12079,7 @@ input.briefing-input-field:focus,
      * LOCKSCREEN DE ACESSO EXECUTIVO (ZERO TRUST // DIRETORIA EXECUTIVA)
      * ===================================================================== -->
     <div id="lockscreen-privado" style="display: none; position: fixed; inset: 0; background: radial-gradient(circle at 50% 30%, rgba(30, 58, 138, 0.28) 0%, rgba(7, 9, 14, 0.98) 75%); backdrop-filter: blur(32px); -webkit-backdrop-filter: blur(32px); z-index: 100000; align-items: center; justify-content: center; padding: 24px;">
-        <div class="luxury-card" style="max-width: 460px; width: 100%; padding: 44px 40px; box-shadow: 0 35px 80px -20px rgba(0, 0, 0, 0.85), 0 0 50px rgba(37, 99, 235, 0.15); text-align: left; border: 1.5px solid #827A6A; border-radius: 20px;">
+        <div class="luxury-card" style="max-width: 460px; width: 100%; padding: 44px 40px; box-shadow: 0 35px 80px -20px rgba(0, 0, 0, 0.85), 0 0 50px rgba(37, 99, 235, 0.15); text-align: left; border: 1.5px solid #6E8BA6; border-radius: 20px;">
             <div style="display: inline-flex; align-items: center; gap: 8px; padding: 5px 14px; background: rgba(56, 189, 248, 0.1); border: 1px solid rgba(56, 189, 248, 0.25); border-radius: 999px; margin-bottom: 22px;">
                 <img src="logo_vide.jpg" alt="Logo VIDE" style="width: 18px; height: 18px; object-fit: contain; border-radius: 4px; box-shadow: 0 0 8px rgba(56, 189, 248, 0.4);">
                 <span style="font-size: 11px; font-weight: 700; color: #0098B8; letter-spacing: 0.06em; text-transform: uppercase;">Governança Executiva VIDE</span>
@@ -11345,7 +12195,7 @@ input.briefing-input-field:focus,
                 <div class="edition-hero-ambient-glow"></div>
                 <!-- Elemento Gráfico Vetorial VIDE: Arquitetura de Ramificações, Conexões & Crescimento -->
                 <svg class="vide-hero-vector-network" viewBox="0 0 1200 620" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; opacity: 0.75;">
-                    <g stroke="#E2DFD7" stroke-width="1">
+                    <g stroke="#B8CBE0" stroke-width="1">
                         <line x1="0" y1="120" x2="1200" y2="120" stroke-dasharray="4 6"/>
                         <line x1="0" y1="480" x2="1200" y2="480" stroke-dasharray="4 6"/>
                         <line x1="680" y1="0" x2="680" y2="620"/>
@@ -11716,7 +12566,7 @@ input.briefing-input-field:focus,
                         </div>
 
                         <!-- Item 2: Lucas Fontana -->
-                        <div class="chat-sidebar-agent-item" onclick="selecionarAgenteChat('agente_01_triagem')" id="chat-agent-item-agente_01_triagem" style="border-left: 2px solid #D5D1C8;">
+                        <div class="chat-sidebar-agent-item" onclick="selecionarAgenteChat('agente_01_triagem')" id="chat-agent-item-agente_01_triagem" style="border-left: 2px solid #8FA8BE;">
                             <div class="agent-avatar-wrap">
                                 <img src="assets/avatars/lucas_fontana.jpg" alt="Lucas Fontana" onerror="this.src='logo_vide.jpg'">
                                 <span class="avatar-status-dot online"></span>
@@ -11731,7 +12581,7 @@ input.briefing-input-field:focus,
                         </div>
 
                         <!-- Item 3: Helena Prado -->
-                        <div class="chat-sidebar-agent-item" onclick="selecionarAgenteChat('agente_04_branding_design')" id="chat-agent-item-agente_04_branding_design" style="border-left: 2px solid #D5D1C8;">
+                        <div class="chat-sidebar-agent-item" onclick="selecionarAgenteChat('agente_04_branding_design')" id="chat-agent-item-agente_04_branding_design" style="border-left: 2px solid #8FA8BE;">
                             <div class="agent-avatar-wrap">
                                 <img src="assets/avatars/helena_prado.jpg" alt="Helena Prado" onerror="this.src='logo_vide.jpg'">
                                 <span class="avatar-status-dot online"></span>
@@ -11746,7 +12596,7 @@ input.briefing-input-field:focus,
                         </div>
 
                         <!-- Item 4: Rafael Duarte -->
-                        <div class="chat-sidebar-agent-item" onclick="selecionarAgenteChat('agente_03_desenvolvedor')" id="chat-agent-item-agente_03_desenvolvedor" style="border-left: 2px solid #D5D1C8;">
+                        <div class="chat-sidebar-agent-item" onclick="selecionarAgenteChat('agente_03_desenvolvedor')" id="chat-agent-item-agente_03_desenvolvedor" style="border-left: 2px solid #8FA8BE;">
                             <div class="agent-avatar-wrap">
                                 <img src="assets/avatars/rafael_duarte.jpg" alt="Rafael Duarte" onerror="this.src='logo_vide.jpg'">
                                 <span class="avatar-status-dot online"></span>
@@ -11761,7 +12611,7 @@ input.briefing-input-field:focus,
                         </div>
 
                         <!-- Item 5: Camila Silveira -->
-                        <div class="chat-sidebar-agent-item" onclick="selecionarAgenteChat('agente_05_atendimento')" id="chat-agent-item-agente_05_atendimento" style="border-left: 2px solid #D5D1C8;">
+                        <div class="chat-sidebar-agent-item" onclick="selecionarAgenteChat('agente_05_atendimento')" id="chat-agent-item-agente_05_atendimento" style="border-left: 2px solid #8FA8BE;">
                             <div class="agent-avatar-wrap">
                                 <img src="assets/avatars/camila_silveira.jpg" alt="Camila Silveira" onerror="this.src='logo_vide.jpg'">
                                 <span class="avatar-status-dot online"></span>
@@ -11776,7 +12626,7 @@ input.briefing-input-field:focus,
                         </div>
 
                         <!-- Item 6: Thiago Meireles -->
-                        <div class="chat-sidebar-agent-item" onclick="selecionarAgenteChat('agente_06_automacao')" id="chat-agent-item-agente_06_automacao" style="border-left: 2px solid #D5D1C8;">
+                        <div class="chat-sidebar-agent-item" onclick="selecionarAgenteChat('agente_06_automacao')" id="chat-agent-item-agente_06_automacao" style="border-left: 2px solid #8FA8BE;">
                             <div class="agent-avatar-wrap">
                                 <img src="assets/avatars/thiago_meireles.jpg" alt="Thiago Meireles" onerror="this.src='logo_vide.jpg'">
                                 <span class="avatar-status-dot online"></span>
@@ -11791,7 +12641,7 @@ input.briefing-input-field:focus,
                         </div>
 
                         <!-- Item 7: Matheus Barreto -->
-                        <div class="chat-sidebar-agent-item" onclick="selecionarAgenteChat('agente_07_inteligencia_comercial')" id="chat-agent-item-agente_07_inteligencia_comercial" style="border-left: 2px solid #D5D1C8;">
+                        <div class="chat-sidebar-agent-item" onclick="selecionarAgenteChat('agente_07_inteligencia_comercial')" id="chat-agent-item-agente_07_inteligencia_comercial" style="border-left: 2px solid #8FA8BE;">
                             <div class="agent-avatar-wrap">
                                 <img src="assets/avatars/matheus_barreto.jpg" alt="Matheus Barreto" onerror="this.src='logo_vide.jpg'">
                                 <span class="avatar-status-dot online"></span>
@@ -12160,12 +13010,12 @@ input.briefing-input-field:focus,
                     </div>
 
                     <!-- Progresso Numérico Real Derivado do Grafo de Tarefas -->
-                    <div class="proj-progress-architectural-box" style="min-width: 280px; max-width: 380px; background: #E2DBD0; padding: 16px 20px; border-radius: 14px; border: 1.5px solid #8E8676;">
+                    <div class="proj-progress-architectural-box" style="min-width: 280px; max-width: 380px; background: #DCE6F0; padding: 16px 20px; border-radius: 14px; border: 1.5px solid #869FB8;">
                         <div class="progress-meta" style="display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 8px;">
                             <span style="color: #5F666D;">Avanço Real das Tarefas:</span>
                             <strong id="proj-progresso-percentual" style="color: #0098B8; font-family: var(--font-mono); font-weight: 800; font-size: 13px;">--%</strong>
                         </div>
-                        <div class="progress-track-architectural" style="height: 8px; background: #E2DBD0; border-radius: 4px; overflow: hidden;">
+                        <div class="progress-track-architectural" style="height: 8px; background: #DCE6F0; border-radius: 4px; overflow: hidden;">
                             <div class="progress-fill-architectural" id="proj-progresso-fill" style="width: 0%; height: 100%; background: linear-gradient(90deg, #00D2FF, #10B981); transition: width 0.6s ease;"></div>
                         </div>
                         <div style="display: flex; justify-content: space-between; font-size: 11px; color: #767D84; margin-top: 8px;">
@@ -12407,7 +13257,7 @@ input.briefing-input-field:focus,
                     </div>
 
                     <!-- Acervo de Arquivos Físicos do Projeto -->
-                    <div class="reposit-arquivos-tray" style="margin-top: 28px; background: #CBC3B2; border: 1.5px solid #827A6A; border-radius: 12px; padding: 20px;">
+                    <div class="reposit-arquivos-tray" style="margin-top: 28px; background: #CBD9E7; border: 1.5px solid #6E8BA6; border-radius: 12px; padding: 20px;">
                         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
                             <span style="font-family: var(--font-headline); font-size: 13px; font-weight: 700; color: #111315;">
                                 <i class="fas fa-folder-tree" style="color: var(--cyan-core); margin-right: 6px;"></i> Arquivos Físicos no Repositório (<span id="total-entregas-arquivos">0</span>)
@@ -12490,7 +13340,7 @@ input.briefing-input-field:focus,
                         <div class="dim-card editorial-7d-spec-card">
                             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
                                 <span style="font-family: var(--font-mono); font-size: 11px; font-weight: 700; color: #0098B8;">DIMENSÃO 02</span>
-                                <span style="font-family: var(--font-mono); font-size: 10px; font-weight: 700; color: #4A5056; background: #DCD5C7; border: 1.5px solid #8E8676; color: #14171A; padding: 2px 8px; border-radius: 4px;">Captação</span>
+                                <span style="font-family: var(--font-mono); font-size: 10px; font-weight: 700; color: #4A5056; background: #C7D6E4; border: 1.5px solid #869FB8; color: #14171A; padding: 2px 8px; border-radius: 4px;">Captação</span>
                             </div>
                             <h4 style="font-family: var(--font-headline); font-size: 16px; font-weight: 800; color: #111315; margin: 0 0 6px 0;">Aquisição & Tráfego Qualificado</h4>
                             <p style="font-size: 12.5px; color: #4A5056; line-height: 1.5; margin: 0;">Eficiência dos canais de entrada, previsibilidade de geração de oportunidades e aderência ao perfil ideal de cliente (ICP).</p>
@@ -12506,7 +13356,7 @@ input.briefing-input-field:focus,
                         <div class="dim-card editorial-7d-spec-card">
                             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
                                 <span style="font-family: var(--font-mono); font-size: 11px; font-weight: 700; color: #0098B8;">DIMENSÃO 04</span>
-                                <span style="font-family: var(--font-mono); font-size: 10px; font-weight: 700; color: #4A5056; background: #DCD5C7; border: 1.5px solid #8E8676; color: #14171A; padding: 2px 8px; border-radius: 4px;">Triagem</span>
+                                <span style="font-family: var(--font-mono); font-size: 10px; font-weight: 700; color: #4A5056; background: #C7D6E4; border: 1.5px solid #869FB8; color: #14171A; padding: 2px 8px; border-radius: 4px;">Triagem</span>
                             </div>
                             <h4 style="font-family: var(--font-headline); font-size: 16px; font-weight: 800; color: #111315; margin: 0 0 6px 0;">Processo & Qualificação Comercial</h4>
                             <p style="font-size: 12.5px; color: #4A5056; line-height: 1.5; margin: 0;">Diagnóstico de maturidade do comprador, separação entre sintomas e causas reais e enquadramento no pacote contratado.</p>
@@ -12570,19 +13420,19 @@ input.briefing-input-field:focus,
                     </p>
 
                     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px;">
-                        <div style="background: #E2DBD0; border: 1.5px solid #8E8676; padding: 18px; border-radius: 12px;">
+                        <div style="background: #DCE6F0; border: 1.5px solid #869FB8; padding: 18px; border-radius: 12px;">
                             <div style="font-family: var(--font-mono); font-size: 11px; color: #5F666D;">STATUS DO BACKEND</div>
                             <div style="font-size: 20px; font-weight: 800; color: #0D7A52; margin-top: 4px;" id="servidor-status-val">--</div>
                         </div>
-                        <div style="background: #E2DBD0; border: 1.5px solid #8E8676; padding: 18px; border-radius: 12px;">
+                        <div style="background: #DCE6F0; border: 1.5px solid #869FB8; padding: 18px; border-radius: 12px;">
                             <div style="font-family: var(--font-mono); font-size: 11px; color: #5F666D;">DEMANDAS NO SISTEMA</div>
                             <div style="font-size: 20px; font-weight: 800; color: #0098B8; margin-top: 4px;" id="projetos-auditados-val">--</div>
                         </div>
-                        <div style="background: #E2DBD0; border: 1.5px solid #8E8676; padding: 18px; border-radius: 12px;">
+                        <div style="background: #DCE6F0; border: 1.5px solid #869FB8; padding: 18px; border-radius: 12px;">
                             <div style="font-family: var(--font-mono); font-size: 11px; color: #5F666D;">ETAPAS MAPEADAS</div>
                             <div style="font-size: 20px; font-weight: 800; color: #111315; margin-top: 4px;" id="telemetria-tarefas-val">--</div>
                         </div>
-                        <div style="background: #E2DBD0; border: 1.5px solid #8E8676; padding: 18px; border-radius: 12px;">
+                        <div style="background: #DCE6F0; border: 1.5px solid #869FB8; padding: 18px; border-radius: 12px;">
                             <div style="font-family: var(--font-mono); font-size: 11px; color: #5F666D;">CONFORMIDADE DE ESCOPO</div>
                             <div style="font-size: 20px; font-weight: 800; color: #B45309; margin-top: 4px;" id="telemetria-conformidade-val">--</div>
                         </div>
@@ -12614,7 +13464,7 @@ input.briefing-input-field:focus,
             </div>
 
             <!-- Tabs Internas do Modal -->
-            <div style="display: flex; border-bottom: 1px solid #E2DFD7; background: #E2DBD0; padding: 0 24px; gap: 8px;">
+            <div style="display: flex; border-bottom: 1px solid #B8CBE0; background: #DCE6F0; padding: 0 24px; gap: 8px;">
                 <button class="modal-subtab-btn active" id="modal-subtab-btn-doc" onclick="alternarSubtabEstrategia('doc')" style="padding: 12px 16px; font-size: 12.5px; font-weight: 700; background: none; border: none; border-bottom: 2px solid #8B5CF6; color: #111315; cursor: pointer;">
                     <i class="fas fa-file-lines" style="color: #007691; margin-right: 6px;"></i> Documento Estratégico Completo (10 Seções)
                 </button>
@@ -12665,7 +13515,7 @@ input.briefing-input-field:focus,
             </div>
 
             <!-- Rodapé com Ações Executivas -->
-            <div style="padding: 16px 24px; background: #E2DBD0; border-top: 1px solid #E2DFD7; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+            <div style="padding: 16px 24px; background: #DCE6F0; border-top: 1px solid #B8CBE0; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
                 <button class="btn-outline-subtle" onclick="solicitarAjustesEstrategiaProjeto()">
                     <i class="fas fa-pen-to-square"></i> Solicitar Ajustes
                 </button>
@@ -12690,14 +13540,14 @@ input.briefing-input-field:focus,
      * ===================================================================== -->
     <div id="modal-visualizador-entregavel" class="modal-overlay" style="display: none; position: fixed; inset: 0; background: rgba(5, 7, 12, 0.88); backdrop-filter: blur(20px); z-index: 100001; align-items: center; justify-content: center; padding: 20px;">
         <div style="background: #FFFFFF; border: 1px solid rgba(0, 229, 255, 0.28); border-radius: 20px; max-width: 960px; width: 100%; height: 82vh; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 30px 70px rgba(0,0,0,0.85);">
-            <div style="display: flex; justify-content: space-between; align-items: center; padding: 16px 22px; border-bottom: 1px solid #E2DFD7;">
+            <div style="display: flex; justify-content: space-between; align-items: center; padding: 16px 22px; border-bottom: 1px solid #B8CBE0;">
                 <span id="modal-vis-titulo" style="font-family: var(--font-headline); font-weight: 800; color: #111315; font-size: 15px;">Visualizador de Arquivo</span>
                 <div style="display: flex; align-items: center; gap: 10px;">
                     <a id="modal-vis-link-externo" href="#" class="btn-deliverable-view" style="display: inline-flex; text-decoration: none;"><i class="fas fa-download"></i> Baixar</a>
                     <button type="button" onclick="fecharModalVisualizadorEntregavel()" class="btn-close-modal"><i class="fas fa-times"></i></button>
                 </div>
             </div>
-            <div style="flex: 1; display: flex; padding: 14px; background: #E2DBD0; overflow: hidden;">
+            <div style="flex: 1; display: flex; padding: 14px; background: #DCE6F0; overflow: hidden;">
                 <iframe id="modal-vis-iframe" style="width: 100%; height: 100%; border: none; border-radius: 10px; background: #FFF;"></iframe>
             </div>
         </div>
@@ -12707,7 +13557,7 @@ input.briefing-input-field:focus,
         <div style="background: linear-gradient(155deg, rgba(16, 21, 34, 0.96) 0%, rgba(9, 12, 19, 0.98) 100%); border: 1px solid rgba(0, 210, 255, 0.25); border-radius: 28px; max-width: 720px; width: 100%; max-height: 90vh; overflow-y: auto; box-shadow: 0 35px 80px -20px rgba(0,0,0,0.9), 0 0 50px rgba(0, 210, 255, 0.12); padding: 36px 40px; position: relative;">
             
             <!-- Header do Modal -->
-            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 26px; border-bottom: 1px solid #E2DFD7; padding-bottom: 18px;">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 26px; border-bottom: 1px solid #B8CBE0; padding-bottom: 18px;">
                 <div>
                     <span style="display: inline-flex; align-items: center; gap: 7px; padding: 4px 12px; background: rgba(0, 210, 255, 0.12); border: 1px solid rgba(0, 210, 255, 0.35); border-radius: 999px; font-size: 11px; font-weight: 800; color: #0098B8; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;">
                         <i class="fas fa-compass"></i> Briefing & Estratégia da Solução
@@ -12732,31 +13582,31 @@ input.briefing-input-field:focus,
                         <p style="margin: 0; font-size: 12px; color: #5F666D;">Páginas de alta conversão, engenharia web e velocidade extrema.</p>
                     </div>
 
-                    <div class="briefing-service-card" onclick="selecionarServicoBriefing('BRANDING_IDENTIDADE', this)" style="border-radius: 18px; padding: 18px; background: #E2DBD0; border: 1.5px solid #8E8676; cursor: pointer; transition: all 0.2s ease;">
+                    <div class="briefing-service-card" onclick="selecionarServicoBriefing('BRANDING_IDENTIDADE', this)" style="border-radius: 18px; padding: 18px; background: #DCE6F0; border: 1.5px solid #869FB8; cursor: pointer; transition: all 0.2s ease;">
                         <i class="fas fa-palette" style="font-size: 20px; color: #B45309; margin-bottom: 10px; display: block;"></i>
                         <h4 style="margin: 0 0 4px 0; font-size: 14.5px; font-weight: 700; color: #111315;">Branding & Design</h4>
                         <p style="margin: 0; font-size: 12px; color: #5F666D;">Identidade visual, posicionamento de autoridade e direção de arte.</p>
                     </div>
 
-                    <div class="briefing-service-card" onclick="selecionarServicoBriefing('TRAFEGO_PERFORMANCE', this)" style="border-radius: 18px; padding: 18px; background: #E2DBD0; border: 1.5px solid #8E8676; cursor: pointer; transition: all 0.2s ease;">
+                    <div class="briefing-service-card" onclick="selecionarServicoBriefing('TRAFEGO_PERFORMANCE', this)" style="border-radius: 18px; padding: 18px; background: #DCE6F0; border: 1.5px solid #869FB8; cursor: pointer; transition: all 0.2s ease;">
                         <i class="fas fa-chart-line" style="font-size: 20px; color: #0098B8; margin-bottom: 10px; display: block;"></i>
                         <h4 style="margin: 0 0 4px 0; font-size: 14.5px; font-weight: 700; color: #111315;">Marketing & Tráfego Pago</h4>
                         <p style="margin: 0; font-size: 12px; color: #5F666D;">Campanhas no Meta & Google Ads, captação de leads qualificados.</p>
                     </div>
 
-                    <div class="briefing-service-card" onclick="selecionarServicoBriefing('VENDAS_WHATSAPP', this)" style="border-radius: 18px; padding: 18px; background: #E2DBD0; border: 1.5px solid #8E8676; cursor: pointer; transition: all 0.2s ease;">
+                    <div class="briefing-service-card" onclick="selecionarServicoBriefing('VENDAS_WHATSAPP', this)" style="border-radius: 18px; padding: 18px; background: #DCE6F0; border: 1.5px solid #869FB8; cursor: pointer; transition: all 0.2s ease;">
                         <i class="fas fa-comments" style="font-size: 20px; color: #4A5056; margin-bottom: 10px; display: block;"></i>
                         <h4 style="margin: 0 0 4px 0; font-size: 14.5px; font-weight: 700; color: #111315;">Vendas & WhatsApp</h4>
                         <p style="margin: 0; font-size: 12px; color: #5F666D;">Scripts comerciais, atendimento ágil e fechamento de clientes.</p>
                     </div>
 
-                    <div class="briefing-service-card" onclick="selecionarServicoBriefing('AUTOMACOES_INTEGRACOES', this)" style="border-radius: 18px; padding: 18px; background: #E2DBD0; border: 1.5px solid #8E8676; cursor: pointer; transition: all 0.2s ease;">
+                    <div class="briefing-service-card" onclick="selecionarServicoBriefing('AUTOMACOES_INTEGRACOES', this)" style="border-radius: 18px; padding: 18px; background: #DCE6F0; border: 1.5px solid #869FB8; cursor: pointer; transition: all 0.2s ease;">
                         <i class="fas fa-network-wired" style="font-size: 20px; color: #F97316; margin-bottom: 10px; display: block;"></i>
                         <h4 style="margin: 0 0 4px 0; font-size: 14.5px; font-weight: 700; color: #111315;">Automações & Integrações</h4>
                         <p style="margin: 0; font-size: 12px; color: #5F666D;">Fluxos n8n, automação de funil comercial e integração de sistemas.</p>
                     </div>
 
-                    <div class="briefing-service-card" onclick="selecionarServicoBriefing('INTELIGENCIA_GROWTH', this)" style="border-radius: 18px; padding: 18px; background: #E2DBD0; border: 1.5px solid #8E8676; cursor: pointer; transition: all 0.2s ease;">
+                    <div class="briefing-service-card" onclick="selecionarServicoBriefing('INTELIGENCIA_GROWTH', this)" style="border-radius: 18px; padding: 18px; background: #DCE6F0; border: 1.5px solid #869FB8; cursor: pointer; transition: all 0.2s ease;">
                         <i class="fas fa-brain" style="font-size: 20px; color: #007691; margin-bottom: 10px; display: block;"></i>
                         <h4 style="margin: 0 0 4px 0; font-size: 14.5px; font-weight: 700; color: #111315;">Inteligência Comercial 7D</h4>
                         <p style="margin: 0; font-size: 12px; color: #5F666D;">Diagnóstico profundo, benchmarking concorrencial e telemetria de vendas.</p>
@@ -12776,32 +13626,32 @@ input.briefing-input-field:focus,
                 <form id="form-briefing-intuitivo" onsubmit="concluirBriefingEstrategico(event)" style="display: flex; flex-direction: column; gap: 16px;">
                     <div>
                         <label style="display: block; font-size: 12.5px; font-weight: 700; color: #111315; margin-bottom: 6px;">1. Nome da Empresa ou Cliente:</label>
-                        <input type="text" id="briefing-cliente" class="input-dark-field" required placeholder="Ex: AutoPeças Progresso, Bella Moda Feminina..." style="width: 100%; padding: 12px 14px; background: #FFFFFF; border: 1.5px solid #827A6A; border-radius: 12px; color: #111315;">
+                        <input type="text" id="briefing-cliente" class="input-dark-field" required placeholder="Ex: AutoPeças Progresso, Bella Moda Feminina..." style="width: 100%; padding: 12px 14px; background: #FFFFFF; border: 1.5px solid #6E8BA6; border-radius: 12px; color: #111315;">
                     </div>
 
                     <div>
                         <label style="display: block; font-size: 12.5px; font-weight: 700; color: #111315; margin-bottom: 6px;">2. Nicho / Ramo de Atuação:</label>
-                        <input type="text" id="briefing-nicho" class="input-dark-field" required placeholder="Ex: Varejo automotivo, E-commerce de moda, Clínica médica..." style="width: 100%; padding: 12px 14px; background: #FFFFFF; border: 1.5px solid #827A6A; border-radius: 12px; color: #111315;">
+                        <input type="text" id="briefing-nicho" class="input-dark-field" required placeholder="Ex: Varejo automotivo, E-commerce de moda, Clínica médica..." style="width: 100%; padding: 12px 14px; background: #FFFFFF; border: 1.5px solid #6E8BA6; border-radius: 12px; color: #111315;">
                     </div>
 
                     <div>
                         <label style="display: block; font-size: 12.5px; font-weight: 700; color: #111315; margin-bottom: 6px;">3. Qual é o Objetivo Principal ou Dor que motivou a contratação?</label>
                         <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 8px;">
-                            <span onclick="preencherDorBriefing(this)" style="cursor: pointer; background: #E2DBD0; border: 1.5px solid #827A6A; padding: 5px 12px; border-radius: 999px; font-size: 11.5px; color: #4A5056;">Aumentar Vendas</span>
-                            <span onclick="preencherDorBriefing(this)" style="cursor: pointer; background: #E2DBD0; border: 1.5px solid #827A6A; padding: 5px 12px; border-radius: 999px; font-size: 11.5px; color: #4A5056;">Modernizar Imagem</span>
-                            <span onclick="preencherDorBriefing(this)" style="cursor: pointer; background: #E2DBD0; border: 1.5px solid #827A6A; padding: 5px 12px; border-radius: 999px; font-size: 11.5px; color: #4A5056;">Gerar Mais Leads</span>
-                            <span onclick="preencherDorBriefing(this)" style="cursor: pointer; background: #E2DBD0; border: 1.5px solid #827A6A; padding: 5px 12px; border-radius: 999px; font-size: 11.5px; color: #4A5056;">Automatizar Atendimento</span>
+                            <span onclick="preencherDorBriefing(this)" style="cursor: pointer; background: #DCE6F0; border: 1.5px solid #6E8BA6; padding: 5px 12px; border-radius: 999px; font-size: 11.5px; color: #4A5056;">Aumentar Vendas</span>
+                            <span onclick="preencherDorBriefing(this)" style="cursor: pointer; background: #DCE6F0; border: 1.5px solid #6E8BA6; padding: 5px 12px; border-radius: 999px; font-size: 11.5px; color: #4A5056;">Modernizar Imagem</span>
+                            <span onclick="preencherDorBriefing(this)" style="cursor: pointer; background: #DCE6F0; border: 1.5px solid #6E8BA6; padding: 5px 12px; border-radius: 999px; font-size: 11.5px; color: #4A5056;">Gerar Mais Leads</span>
+                            <span onclick="preencherDorBriefing(this)" style="cursor: pointer; background: #DCE6F0; border: 1.5px solid #6E8BA6; padding: 5px 12px; border-radius: 999px; font-size: 11.5px; color: #4A5056;">Automatizar Atendimento</span>
                         </div>
-                        <textarea id="briefing-dor" class="input-dark-field" rows="2" required placeholder="Descreva brevemente a necessidade..." style="width: 100%; padding: 12px 14px; background: #FFFFFF; border: 1.5px solid #827A6A; border-radius: 12px; color: #111315;"></textarea>
+                        <textarea id="briefing-dor" class="input-dark-field" rows="2" required placeholder="Descreva brevemente a necessidade..." style="width: 100%; padding: 12px 14px; background: #FFFFFF; border: 1.5px solid #6E8BA6; border-radius: 12px; color: #111315;"></textarea>
                     </div>
 
                     <div>
                         <label style="display: block; font-size: 12.5px; font-weight: 700; color: #111315; margin-bottom: 6px;">4. Público-Alvo ou Perfil do Cliente:</label>
-                        <input type="text" id="briefing-publico" class="input-dark-field" placeholder="Ex: Donos de carros nacionais, Mulheres de 25 a 45 anos..." style="width: 100%; padding: 12px 14px; background: #FFFFFF; border: 1.5px solid #827A6A; border-radius: 12px; color: #111315;">
+                        <input type="text" id="briefing-publico" class="input-dark-field" placeholder="Ex: Donos de carros nacionais, Mulheres de 25 a 45 anos..." style="width: 100%; padding: 12px 14px; background: #FFFFFF; border: 1.5px solid #6E8BA6; border-radius: 12px; color: #111315;">
                     </div>
 
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px;">
-                        <button type="button" onclick="voltarParaEtapa1Briefing()" style="background: none; border: 1.5px solid #827A6A; color: #4A5056; border-radius: 12px; padding: 10px 18px; font-size: 12.5px; font-weight: 600; cursor: pointer;">
+                        <button type="button" onclick="voltarParaEtapa1Briefing()" style="background: none; border: 1.5px solid #6E8BA6; color: #4A5056; border-radius: 12px; padding: 10px 18px; font-size: 12.5px; font-weight: 600; cursor: pointer;">
                             <i class="fas fa-arrow-left"></i> Voltar
                         </button>
 
@@ -12911,7 +13761,7 @@ input.briefing-input-field:focus,
                 elOportunidades.innerHTML = '<span style="font-size: 12px; color: #5F666D;">Nenhuma oportunidade adicional registrada. Escopo 100% focado no contrato.</span>';
             } else {
                 elOportunidades.innerHTML = listaOps.map(op => `
-                    <div style="background: #E5DFD2; border: 1px solid rgba(245, 158, 11, 0.25); border-radius: 10px; padding: 12px 16px; display: flex; justify-content: space-between; align-items: flex-start; gap: 14px; flex-wrap: wrap;">
+                    <div style="background: #DCE6F0; border: 1px solid rgba(245, 158, 11, 0.25); border-radius: 10px; padding: 12px 16px; display: flex; justify-content: space-between; align-items: flex-start; gap: 14px; flex-wrap: wrap;">
                         <div style="flex: 1; min-width: 250px;">
                             <div style="font-weight: 800; font-size: 13.5px; color: #B45309; display: flex; align-items: center; gap: 8px;">
                                 <i class="fas fa-lightbulb"></i> ${op.titulo}
@@ -12994,28 +13844,28 @@ input.briefing-input-field:focus,
             .replace(/PRESENCA_COMERCIAL/gi, 'Presença Comercial Digital');
 
         c.innerHTML = `
-            <div style="background: #E2DBD0; border: 1.5px solid #8E8676; border-radius: 14px; padding: 18px 22px;">
+            <div style="background: #DCE6F0; border: 1.5px solid #869FB8; border-radius: 14px; padding: 18px 22px;">
                 <div style="font-size: 11px; font-weight: 800; color: #0098B8; text-transform: uppercase;">1. Demanda e Serviço Contratado</div>
                 <h4 style="font-size: 16px; font-weight: 800; color: #111315; margin: 4px 0 6px 0;">${servicoNome}</h4>
                 <p style="font-size: 13px; color: #4A5056; margin: 0;">${doc.secao_01_demanda_e_servico_contratado.demanda_declarada}</p>
             </div>
 
-            <div style="background: #E2DBD0; border: 1.5px solid #8E8676; border-radius: 14px; padding: 18px 22px;">
+            <div style="background: #DCE6F0; border: 1.5px solid #869FB8; border-radius: 14px; padding: 18px 22px;">
                 <div style="font-size: 11px; font-weight: 800; color: #4A5056; text-transform: uppercase;">2. Contexto do Negócio e Nicho</div>
                 <p style="font-size: 13px; color: #4A5056; margin: 4px 0 0 0;">${doc.secao_02_contexto_negocio_e_nicho.contexto_adicional}</p>
             </div>
 
-            <div style="background: #E2DBD0; border: 1.5px solid #8E8676; border-radius: 14px; padding: 18px 22px;">
+            <div style="background: #DCE6F0; border: 1.5px solid #869FB8; border-radius: 14px; padding: 18px 22px;">
                 <div style="font-size: 11px; font-weight: 800; color: #B91C1C; text-transform: uppercase;">3. Diagnóstico Comercial e Causa-Raiz</div>
                 <p style="font-size: 13px; color: #B91C1C; font-weight: 600; margin: 4px 0 0 0;">${doc.secao_03_diagnostico_e_dores.problema_central}</p>
             </div>
 
-            <div style="background: #E2DBD0; border: 1.5px solid #8E8676; border-radius: 14px; padding: 18px 22px;">
+            <div style="background: #DCE6F0; border: 1.5px solid #869FB8; border-radius: 14px; padding: 18px 22px;">
                 <div style="font-size: 11px; font-weight: 800; color: #A78BFA; text-transform: uppercase;">4. Público-Alvo e ICP</div>
                 <p style="font-size: 13px; color: #4A5056; margin: 4px 0 0 0;">${doc.secao_04_publico_alvo_e_icp.perfil_ideal}</p>
             </div>
 
-            <div style="background: #E2DBD0; border: 1.5px solid #8E8676; border-radius: 14px; padding: 18px 22px;">
+            <div style="background: #DCE6F0; border: 1.5px solid #869FB8; border-radius: 14px; padding: 18px 22px;">
                 <div style="font-size: 11px; font-weight: 800; color: #0D7A52; text-transform: uppercase;">5. Objetivos Mensuráveis</div>
                 <p style="font-size: 13px; color: #111315; font-weight: 700; margin: 4px 0 6px 0;">${doc.secao_05_objetivos_mensuraveis.macro_objetivo}</p>
                 <ul style="margin: 0; padding-left: 20px; font-size: 12.5px; color: #4A5056;">
@@ -13029,19 +13879,19 @@ input.briefing-input-field:focus,
                 <div style="font-size: 12px; color: #4A5056;">CTA Principal: <strong>${doc.secao_06_estrategia_solucao_recomendada.chamada_para_acao_principal}</strong></div>
             </div>
 
-            <div style="background: #E2DBD0; border: 1.5px solid #8E8676; border-radius: 14px; padding: 18px 22px;">
+            <div style="background: #DCE6F0; border: 1.5px solid #869FB8; border-radius: 14px; padding: 18px 22px;">
                 <div style="font-size: 11px; font-weight: 800; color: #B45309; text-transform: uppercase;">7. Direcionamento Específico da Execução</div>
                 <p style="font-size: 13px; color: #4A5056; margin: 4px 0 0 0;">${(doc.secao_07_direcionamento_especifico_execucao && (doc.secao_07_direcionamento_especifico_execucao.diretrizes_equipe || doc.secao_07_direcionamento_especifico_execucao.diretriz)) || 'Execução técnica alinhada rigorosamente à estratégia aprovada.'}</p>
             </div>
 
-            <div style="background: #E2DBD0; border: 1.5px solid #8E8676; border-radius: 14px; padding: 18px 22px;">
+            <div style="background: #DCE6F0; border: 1.5px solid #869FB8; border-radius: 14px; padding: 18px 22px;">
                 <div style="font-size: 11px; font-weight: 800; color: #0098B8; text-transform: uppercase;">8. Escopo Formal e Entregáveis Contratados</div>
                 <ul style="margin: 6px 0 0 0; padding-left: 20px; font-size: 12.5px; color: #4A5056;">
                     ${(doc.secao_08_escopo_formal_e_entregaveis || []).map(e => '<li>' + e + '</li>').join('')}
                 </ul>
             </div>
 
-            <div style="background: #E2DBD0; border: 1.5px solid #8E8676; border-radius: 14px; padding: 18px 22px;">
+            <div style="background: #DCE6F0; border: 1.5px solid #869FB8; border-radius: 14px; padding: 18px 22px;">
                 <div style="font-size: 11px; font-weight: 800; color: #0D7A52; text-transform: uppercase;">9. Critérios de Sucesso & Qualidade</div>
                 <ul style="margin: 6px 0 0 0; padding-left: 20px; font-size: 12.5px; color: #4A5056;">
                     ${(doc.secao_09_criterios_sucesso_e_qualidade || []).map(c => '<li>' + c + '</li>').join('')}
@@ -13053,7 +13903,7 @@ input.briefing-input-field:focus,
                 <div style="margin-top: 8px;">
                     ${(doc.secao_10_oportunidades_complementares_identificadas && doc.secao_10_oportunidades_complementares_identificadas.length > 0)
                         ? doc.secao_10_oportunidades_complementares_identificadas.map(op => `
-                            <div style="background: #E2DBD0; border: 1px solid rgba(245, 158, 11, 0.2); border-radius: 8px; padding: 10px 14px; margin-bottom: 8px;">
+                            <div style="background: #DCE6F0; border: 1px solid rgba(245, 158, 11, 0.2); border-radius: 8px; padding: 10px 14px; margin-bottom: 8px;">
                                 <div style="font-weight: 700; font-size: 13px; color: #B45309;">${op.titulo} <span style="font-size: 11px; color: #5F666D;">(${op.especialista_sugerido})</span></div>
                                 <p style="font-size: 12px; color: #4A5056; margin: 4px 0 0 0;">${op.justificativa}</p>
                             </div>
@@ -13078,7 +13928,7 @@ input.briefing-input-field:focus,
                 return `
                     <div style="display: flex; flex-direction: column; gap: 6px;">
                         <label style="font-size: 13px; font-weight: 700; color: #2C3136;">${p.pergunta} ${p.obrigatoria ? '<span style="color:#F43F5E;">*</span>' : ''}</label>
-                        <select name="${p.id}" class="input-dark-field" style="background: #FFFFFF; border: 1.5px solid #827A6A; color: #111315; padding: 10px 14px; border-radius: 8px;">
+                        <select name="${p.id}" class="input-dark-field" style="background: #FFFFFF; border: 1.5px solid #6E8BA6; color: #111315; padding: 10px 14px; border-radius: 8px;">
                             ${p.opcoes.map(op => `<option value="${op}" ${valAtual === op ? 'selected' : ''}>${op}</option>`).join('')}
                         </select>
                     </div>
@@ -13087,7 +13937,7 @@ input.briefing-input-field:focus,
             return `
                 <div style="display: flex; flex-direction: column; gap: 6px;">
                     <label style="font-size: 13px; font-weight: 700; color: #2C3136;">${p.pergunta} ${p.obrigatoria ? '<span style="color:#F43F5E;">*</span>' : ''}</label>
-                    <input type="text" name="${p.id}" value="${valAtual}" class="input-dark-field" placeholder="${p.exemplo || 'Digite sua resposta...'}" style="background: #FFFFFF; border: 1.5px solid #827A6A; color: #111315; padding: 10px 14px; border-radius: 8px;">
+                    <input type="text" name="${p.id}" value="${valAtual}" class="input-dark-field" placeholder="${p.exemplo || 'Digite sua resposta...'}" style="background: #FFFFFF; border: 1.5px solid #6E8BA6; color: #111315; padding: 10px 14px; border-radius: 8px;">
                 </div>
             `;
         }).join('');
@@ -13099,7 +13949,7 @@ input.briefing-input-field:focus,
 
         const lista = doc.secao_07_direcionamento_especifico_execucao || [];
         c.innerHTML = lista.map(item => `
-            <div style="background: #E2DBD0; border: 1.5px solid #8E8676; border-radius: 12px; padding: 14px 18px;">
+            <div style="background: #DCE6F0; border: 1.5px solid #869FB8; border-radius: 12px; padding: 14px 18px;">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
                     <strong style="color: #111315; font-size: 14px;">${item.agente}</strong>
                     <span style="font-size: 11px; color: #007691; font-weight: 700; background: rgba(168, 85, 247, 0.12); padding: 2px 8px; border-radius: 6px;">${item.papel}</span>
@@ -13667,7 +14517,7 @@ input.briefing-input-field:focus,
                         <p style="font-size: 14.5px; line-height: 1.65; color: #111315; margin: 8px 0 18px 0; font-weight: 500;">
                             ${ag.o_que_faz || ag.descricao}
                         </p>
-                        <div style="padding-top: 14px; border-top: 1px solid #E2DFD7;">
+                        <div style="padding-top: 14px; border-top: 1px solid #B8CBE0;">
                             <span class="atelier-micro-label">ENTREGÁVEIS OFICIAIS</span>
                             <p style="margin: 6px 0 0 0; font-size: 13px; color: #4A5056; line-height: 1.5;">${ag.entregaveis}</p>
                         </div>
@@ -13694,7 +14544,7 @@ input.briefing-input-field:focus,
                     <div style="display: flex; align-items: center; justify-content: space-between; gap: 16px; margin: 16px 0;">
                         <div style="display: flex; align-items: center; gap: 14px;">
                             <div style="position: relative; width: 58px; height: 58px; flex-shrink: 0;">
-                                <img src="${ag.foto}" alt="${ag.nome}" onerror="this.src='logo_vide.jpg'" style="width: 100%; height: 100%; object-fit: cover; border-radius: 10px; border: 1.5px solid #827A6A;">
+                                <img src="${ag.foto}" alt="${ag.nome}" onerror="this.src='logo_vide.jpg'" style="width: 100%; height: 100%; object-fit: cover; border-radius: 10px; border: 1.5px solid #6E8BA6;">
                                 <div style="position: absolute; bottom: -2px; right: -2px; width: 11px; height: 11px; border-radius: 50%; background: #0D7A52; border: 2px solid #FFFFFF;"></div>
                             </div>
                             <div>
@@ -13796,7 +14646,7 @@ input.briefing-input-field:focus,
             return `
             <div class="chat-sidebar-agent-item ${isActive ? 'active' : ''}" onclick="selecionarAgenteChat('${ag.id}')">
                 <div style="position: relative; width: 40px; height: 40px; flex-shrink: 0;">
-                    <img src="${ag.foto}" alt="${ag.nome}" onerror="this.src='logo_vide.jpg'" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%; border: 1.5px solid ${isActive ? '#0098B8' : '#D5D1C8'};">
+                    <img src="${ag.foto}" alt="${ag.nome}" onerror="this.src='logo_vide.jpg'" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%; border: 1.5px solid ${isActive ? '#0098B8' : '#8FA8BE'};">
                     <div style="position: absolute; bottom: -1px; right: -1px; width: 10px; height: 10px; border-radius: 50%; background: #0D7A52; border: 2px solid #FFFFFF;"></div>
                 </div>
                 <div style="flex: 1; min-width: 0;">
@@ -14277,7 +15127,7 @@ input.briefing-input-field:focus,
 
         const construirHtml = () => {
             if (entregaveis.length === 0 && arqs.length === 0) {
-                return '<div style="grid-column: 1 / -1; background: #E2DBD0; border: 1px dashed #D5D1C8; border-radius: 16px; padding: 32px; text-align: center; color: #5F666D; font-size: 14px;"><i class="fas fa-box-open" style="font-size: 24px; color: #767D84; display: block; margin-bottom: 10px;"></i>Nenhum entregável registrado para este projeto.</div>';
+                return '<div style="grid-column: 1 / -1; background: #DCE6F0; border: 1px dashed #8FA8BE; border-radius: 16px; padding: 32px; text-align: center; color: #5F666D; font-size: 14px;"><i class="fas fa-box-open" style="font-size: 24px; color: #767D84; display: block; margin-bottom: 10px;"></i>Nenhum entregável registrado para este projeto.</div>';
             }
 
             const cardsEntregaveis = entregaveis.map((ent, idx) => {
@@ -14371,7 +15221,7 @@ input.briefing-input-field:focus,
             if (!placeholder) {
                 placeholder = document.createElement('div');
                 placeholder.id = 'modal-vis-placeholder';
-                placeholder.style.cssText = 'flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px; text-align: center; color: #2C3136; background: #E2DBD0; border-radius: 12px; border: 1.5px solid #8E8676;';
+                placeholder.style.cssText = 'flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px; text-align: center; color: #2C3136; background: #DCE6F0; border-radius: 12px; border: 1.5px solid #869FB8;';
                 iframe.parentElement.appendChild(placeholder);
             }
             placeholder.style.display = 'flex';
@@ -16114,7 +16964,7 @@ window.addEventListener('DOMContentLoaded', () => {
             <div class="dim-card editorial-7d-spec-card">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
                     <span style="font-family: var(--font-mono); font-size: 11px; font-weight: 700; color: #0098B8;">DIMENSÃO ${d.num}</span>
-                    <span style="font-family: var(--font-mono); font-size: 10px; font-weight: 700; color: #4A5056; background: #DCD5C7; border: 1.5px solid #8E8676; color: #14171A; padding: 2px 8px; border-radius: 4px;">${d.status}</span>
+                    <span style="font-family: var(--font-mono); font-size: 10px; font-weight: 700; color: #4A5056; background: #C7D6E4; border: 1.5px solid #869FB8; color: #14171A; padding: 2px 8px; border-radius: 4px;">${d.status}</span>
                 </div>
                 <h4 style="font-family: var(--font-headline); font-size: 16px; font-weight: 800; color: #111315; margin: 0 0 6px 0;">${d.nome}</h4>
                 <p style="font-size: 12.5px; color: #4A5056; line-height: 1.5; margin: 0;">${d.desc}</p>
@@ -16221,7 +17071,7 @@ window.addEventListener('DOMContentLoaded', () => {
             const scoreVal = g.epv_score ? (!isNaN(Number(g.epv_score)) ? Number(g.epv_score).toFixed(1) : g.epv_score) : '--';
 
             html += `
-                <div class="epv-item-card" style="${isTop ? 'border-color: rgba(0, 229, 255, 0.4); background: #E2DBD0;' : ''}">
+                <div class="epv-item-card" style="${isTop ? 'border-color: rgba(0, 229, 255, 0.4); background: #DCE6F0;' : ''}">
                     <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
                         <div style="display: flex; align-items: center; gap: 10px;">
                             <span class="epv-badge-pill" style="${isTop ? 'background: rgba(0,229,255,0.25); color: #111315;' : ''}">#${idx + 1} PRIORIDADE</span>
@@ -16237,7 +17087,7 @@ window.addEventListener('DOMContentLoaded', () => {
                             </span>
                         </div>
                     </div>
-                    <div style="display: flex; gap: 14px; font-family: var(--font-mono); font-size: 11px; color: #767D84; flex-wrap: wrap; padding-top: 4px; border-top: 1px solid #E2DFD7;">
+                    <div style="display: flex; gap: 14px; font-family: var(--font-mono); font-size: 11px; color: #767D84; flex-wrap: wrap; padding-top: 4px; border-top: 1px solid #B8CBE0;">
                         <span>Recorrência: <b style="color: #111315;">${rec}</b></span>
                         <span>Abrangência: <b style="color: #111315;">${abr}</b></span>
                         <span>Severidade: <b style="color: #111315;">${sev}</b></span>
@@ -16278,7 +17128,7 @@ window.addEventListener('DOMContentLoaded', () => {
                         ${m.titulo_miv}
                     </h4>
 
-                    <div style="font-size: 13px; color: var(--text-silver); background: #E2DBD0; padding: 10px; border-radius: 8px; border: 1.5px solid #8E8676;">
+                    <div style="font-size: 13px; color: var(--text-silver); background: #DCE6F0; padding: 10px; border-radius: 8px; border: 1.5px solid #869FB8;">
                         <b style="color: #0098B8; font-family: var(--font-mono); font-size: 11px;">INTERVENÇÃO PROPOSTA:</b>
                         <p style="margin-top: 4px;">${m.acao_proposta}</p>
                     </div>
@@ -16293,7 +17143,7 @@ window.addEventListener('DOMContentLoaded', () => {
                         </div>
                     ` : ''}
 
-                    <div style="display: flex; gap: 10px; margin-top: auto; padding-top: 10px; border-top: 1px solid #E2DFD7;">
+                    <div style="display: flex; gap: 10px; margin-top: auto; padding-top: 10px; border-top: 1px solid #B8CBE0;">
                         <button onclick="abrirModalRastreabilidade('${m.id}')" class="btn-luxury-glass" style="flex: 1; font-size: 12px; padding: 11px 14px; justify-content: center;">
                             <i class="fas fa-link" style="color: var(--cyan-core);"></i>
                             <span>Analisar Evidências</span>
@@ -16408,7 +17258,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
         if (!aprendizados || aprendizados.length === 0) {
             container.innerHTML = `
-                <div style="color: #767D84; font-size: 13px; grid-column: 1/-1; background: #E2DBD0; padding: 16px; border-radius: 8px; border: 1px dashed rgba(255,255,255,0.08);">
+                <div style="color: #767D84; font-size: 13px; grid-column: 1/-1; background: #DCE6F0; padding: 16px; border-radius: 8px; border: 1px dashed rgba(255,255,255,0.08);">
                     Nenhuma avaliação empírica de MIV registrada para esta empresa. Conforme as intervenções forem aplicadas, registre o baseline vs pós-intervenção para alimentar o aprendizado contínuo da VIDE.
                 </div>
             `;
@@ -16442,7 +17292,7 @@ window.addEventListener('DOMContentLoaded', () => {
                         ${a.titulo_miv || 'Intervenção MIV'}
                     </h4>
 
-                    <div style="display: flex; align-items: center; justify-content: space-around; background: #E2DBD0; padding: 10px; border-radius: 8px; border: 1.5px solid #8E8676; margin: 6px 0;">
+                    <div style="display: flex; align-items: center; justify-content: space-around; background: #DCE6F0; padding: 10px; border-radius: 8px; border: 1.5px solid #869FB8; margin: 6px 0;">
                         <div style="text-align: center;">
                             <div style="font-family: var(--font-mono); font-size: 9px; color: #5F666D;">BASELINE</div>
                             <div style="font-size: 16px; font-weight: 800; color: #111315;">${a.indicador_baseline !== null ? a.indicador_baseline + a.unidade_medida : 'N/A'}</div>
@@ -16466,7 +17316,7 @@ window.addEventListener('DOMContentLoaded', () => {
                         <b>Resultado Observado:</b> ${a.resultado_observado}
                     </div>
 
-                    <div style="font-size: 11px; color: #5F666D; background: #E2DBD0; padding: 8px; border-radius: 6px; border: 1.5px solid #8E8676;">
+                    <div style="font-size: 11px; color: #5F666D; background: #DCE6F0; padding: 8px; border-radius: 6px; border: 1.5px solid #869FB8;">
                         <b style="color: #0098B8; font-family: var(--font-mono); font-size: 10px;">APRENDIZADO CONSOLIDADO:</b>
                         <p style="margin-top: 3px;">${a.aprendizados_consolidados}</p>
                     </div>
@@ -16788,7 +17638,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
             if (lotes.length === 0) {
                 container.innerHTML = `
-                    <div style="grid-column: 1 / -1; padding: 28px; background: #E2DBD0; border: 1px dashed #D5D1C8; border-radius: var(--radius-card); text-align: center; color: var(--text-muted); font-size: 13px;">
+                    <div style="grid-column: 1 / -1; padding: 28px; background: #DCE6F0; border: 1px dashed #8FA8BE; border-radius: var(--radius-card); text-align: center; color: var(--text-muted); font-size: 13px;">
                         <i class="fas fa-file-circle-question" style="font-size: 24px; color: #767D84; margin-bottom: 8px;"></i>
                         <div>Nenhum lote comercial importado ainda para esta empresa.</div>
                         <div style="margin-top: 8px;">
@@ -16812,17 +17662,17 @@ window.addEventListener('DOMContentLoaded', () => {
                 const taxaQualidade = resumo.taxaQualidadePercentual !== undefined ? resumo.taxaQualidadePercentual + '%' : '--';
 
                 return `
-                    <div style="background: #FFFFFF; border: 1.5px solid #8E8676; border-radius: var(--radius-card); padding: 18px; display: flex; flex-direction: column; justify-content: space-between;">
+                    <div style="background: #FFFFFF; border: 1.5px solid #869FB8; border-radius: var(--radius-card); padding: 18px; display: flex; flex-direction: column; justify-content: space-between;">
                         <div>
                             <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;">
                                 <div style="font-family: var(--font-mono); font-size: 11px; color: #5F666D; font-weight: 800;">
                                     LOTE #${l.id.substring(0, 8)}
                                 </div>
                                 <div style="display: flex; gap: 6px;">
-                                    <span style="font-family: var(--font-mono); font-size: 9px; padding: 2px 6px; border-radius: 4px; background: #E2DBD0; color: ${naturezaCor}; border: 1px solid ${naturezaCor}44; font-weight: 800;">
+                                    <span style="font-family: var(--font-mono); font-size: 9px; padding: 2px 6px; border-radius: 4px; background: #DCE6F0; color: ${naturezaCor}; border: 1px solid ${naturezaCor}44; font-weight: 800;">
                                         ${l.natureza_dado}
                                     </span>
-                                    <span style="font-family: var(--font-mono); font-size: 9px; padding: 2px 6px; border-radius: 4px; background: #E2DBD0; color: ${statusCor}; border: 1px solid ${statusCor}44; font-weight: 800;">
+                                    <span style="font-family: var(--font-mono); font-size: 9px; padding: 2px 6px; border-radius: 4px; background: #DCE6F0; color: ${statusCor}; border: 1px solid ${statusCor}44; font-weight: 800;">
                                         ${l.status_processamento}
                                     </span>
                                 </div>
@@ -16835,7 +17685,7 @@ window.addEventListener('DOMContentLoaded', () => {
                                 Fonte: ${l.fonte_origem} • ${dataFormatada}
                             </div>
 
-                            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; background: #E2DBD0; padding: 10px; border-radius: 6px; margin-bottom: 14px; text-align: center;">
+                            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; background: #DCE6F0; padding: 10px; border-radius: 6px; margin-bottom: 14px; text-align: center;">
                                 <div>
                                     <div style="font-size: 9px; color: #767D84; font-family: var(--font-mono);">TOTAL</div>
                                     <div style="font-size: 14px; font-weight: 800; color: #111315;">${l.total_registros || 0}</div>
@@ -16855,7 +17705,7 @@ window.addEventListener('DOMContentLoaded', () => {
                             </div>
                         </div>
 
-                        <div style="display: flex; gap: 8px; justify-content: flex-end; border-top: 1px solid #E2DFD7; padding-top: 12px;">
+                        <div style="display: flex; gap: 8px; justify-content: flex-end; border-top: 1px solid #B8CBE0; padding-top: 12px;">
                             <button onclick="abrirModalInspecionarLote('${l.id}')" class="btn-luxury-glass" style="padding: 8px 16px; font-size: 12px;">
                                 <i class="fas fa-eye"></i> Inspecionar
                             </button>
@@ -17109,19 +17959,19 @@ window.addEventListener('DOMContentLoaded', () => {
 
             if (sumario) {
                 sumario.innerHTML = `
-                    <div style="background: #E2DBD0; padding: 12px; border-radius: 6px; border: 1.5px solid #8E8676;">
+                    <div style="background: #DCE6F0; padding: 12px; border-radius: 6px; border: 1.5px solid #869FB8;">
                         <div style="font-size: 10px; color: #767D84; font-family: var(--font-mono);">FONTE & ARQUIVO</div>
                         <div style="font-size: 13px; font-weight: 800; color: #111315; margin-top: 2px;">${lote.nome_arquivo || lote.fonte_origem}</div>
                     </div>
-                    <div style="background: #E2DBD0; padding: 12px; border-radius: 6px; border: 1.5px solid #8E8676;">
+                    <div style="background: #DCE6F0; padding: 12px; border-radius: 6px; border: 1.5px solid #869FB8;">
                         <div style="font-size: 10px; color: #767D84; font-family: var(--font-mono);">NATUREZA DO DADO</div>
                         <div style="font-size: 13px; font-weight: 800; color: #0098B8; margin-top: 2px;">${lote.natureza_dado}</div>
                     </div>
-                    <div style="background: #E2DBD0; padding: 12px; border-radius: 6px; border: 1.5px solid #8E8676;">
+                    <div style="background: #DCE6F0; padding: 12px; border-radius: 6px; border: 1.5px solid #869FB8;">
                         <div style="font-size: 10px; color: #767D84; font-family: var(--font-mono);">VÁLIDOS / TOTAL</div>
                         <div style="font-size: 13px; font-weight: 800; color: #0D7A52; margin-top: 2px;">${lote.registros_validos} / ${lote.total_registros}</div>
                     </div>
-                    <div style="background: #E2DBD0; padding: 12px; border-radius: 6px; border: 1.5px solid #8E8676;">
+                    <div style="background: #DCE6F0; padding: 12px; border-radius: 6px; border: 1.5px solid #869FB8;">
                         <div style="font-size: 10px; color: #767D84; font-family: var(--font-mono);">STATUS PROCESSAMENTO</div>
                         <div style="font-size: 13px; font-weight: 800; color: #B45309; margin-top: 2px;">${lote.status_processamento}</div>
                     </div>
@@ -17141,14 +17991,14 @@ window.addEventListener('DOMContentLoaded', () => {
                         const dadosResumo = norm.nome || norm.conteudo_texto || norm.valor || norm.sku || JSON.stringify(norm).substring(0, 45);
 
                         return `
-                            <tr style="border-bottom: 1px solid #E2DFD7;">
+                            <tr style="border-bottom: 1px solid #B8CBE0;">
                                 <td style="padding: 10px 12px; font-family: var(--font-mono); font-size: 11px; color: #5F666D;">${it.tipo_registro}</td>
                                 <td style="padding: 10px 12px; color: #111315; font-weight: 600;">
                                     <div>${dadosResumo}</div>
                                     ${norm.telefone || norm.email ? `<div style="font-size: 10px; color: #767D84;">${[norm.telefone, norm.email].filter(Boolean).join(' • ')}</div>` : ''}
                                 </td>
                                 <td style="padding: 10px 12px;">
-                                    <span style="font-family: var(--font-mono); font-size: 10px; padding: 2px 6px; border-radius: 4px; background: #E2DBD0; color: ${statusBadgeCor}; border: 1px solid ${statusBadgeCor}44;">
+                                    <span style="font-family: var(--font-mono); font-size: 10px; padding: 2px 6px; border-radius: 4px; background: #DCE6F0; color: ${statusBadgeCor}; border: 1px solid ${statusBadgeCor}44;">
                                         ${it.status_validacao}
                                     </span>
                                 </td>
@@ -17303,7 +18153,7 @@ let servicoBriefingSelecionado = 'SITES_LANDING_PAGES';
 function selecionarServicoBriefing(servico, el) {
     servicoBriefingSelecionado = servico;
     document.querySelectorAll('.briefing-service-card').forEach(c => {
-        c.style.background = '#E2DBD0'; c.style.border = '1.5px solid #8E8676';
+        c.style.background = '#DCE6F0'; c.style.border = '1.5px solid #869FB8';
     });
     if (el) {
         el.style.background = 'rgba(0, 210, 255, 0.12)';
