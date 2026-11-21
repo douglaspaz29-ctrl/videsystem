@@ -9649,6 +9649,536 @@ header.exec-topbar {
         padding-bottom: 16px !important;
     }
 }
+
+/* =========================================================================
+ * VIDE EDITORIAL ATELIER v3 — CALIBRAÇÃO DE CONTRASTE, PROFUNDIDADE & HIERARQUIA
+ * 4 Níveis Distintos de Superfície + Hierarquia Ciano/Grafite/Pedra Quente
+ * ========================================================================= */
+
+:root {
+    --vide-canvas-bg: #F4F2EC;
+    --vide-tray-bg: #EAE6DD;
+    --vide-tray-deep: #E2DDD2;
+    --vide-card-bg: #FFFFFF;
+    --vide-anchor-graphite: #14171A;
+    --vide-border-card: #C2BCB0;
+    --vide-border-tray: #C6C0B2;
+    --vide-border-input: #ABA496;
+    --vide-cyan-primary: #0098B8;
+    --vide-cyan-hover: #007691;
+}
+
+/* NÍVEL 0: FUNDO PRINCIPAL (ALABASTRO QUENTE) & MASTHEAD */
+html, body {
+    background-color: #F4F2EC !important;
+    background-image: none !important;
+    color: #1F2428 !important;
+}
+
+header.exec-topbar {
+    background: #E8E4DB !important;
+    border-bottom: 1.5px solid #C4BEB0 !important;
+    box-shadow: 0 2px 8px rgba(17, 19, 21, 0.05) !important;
+}
+
+.exec-nav-tabs {
+    background: #DDD8CE !important;
+    border: 1px solid #BEB8AA !important;
+    padding: 4px !important;
+    border-radius: 10px !important;
+}
+
+.exec-tab-btn {
+    color: #2C3136 !important;
+    font-weight: 700 !important;
+}
+
+.exec-tab-btn:hover {
+    background: #EAE6DD !important;
+    color: #111315 !important;
+}
+
+.exec-tab-btn.active {
+    background: #FFFFFF !important;
+    color: #111315 !important;
+    border: 1px solid #B5AFA2 !important;
+    box-shadow: 0 2px 5px rgba(17, 19, 21, 0.08) !important;
+}
+
+.exec-tab-btn.active i {
+    color: #0098B8 !important;
+}
+
+/* NÍVEL 1: PAINÉIS E ÁREAS AGRUPADAS (CINZA-PEDRA QUENTE #EAE6DD / #E2DDD2) */
+.edition-hero-stage-widescreen {
+    background: #EAE6DD !important;
+    border: 1.5px solid #C4BEB0 !important;
+    box-shadow: 0 8px 24px -10px rgba(17, 19, 21, 0.08) !important;
+}
+
+.hero-command-hub {
+    background: #FFFFFF !important;
+    border: 1px solid #C6C0B4 !important;
+    border-radius: 12px !important;
+    padding: 32px 34px !important;
+    box-shadow: 0 3px 10px -2px rgba(17, 19, 21, 0.06) !important;
+}
+
+.hero-operations-centerpiece {
+    background: #E0DBD0 !important;
+    border: 1.5px solid #C2BCB0 !important;
+    border-radius: 12px !important;
+    padding: 20px !important;
+}
+
+.edition-spec-sheet {
+    background: #E2DDD2 !important;
+    border-top: 1.5px solid #C2BCB0 !important;
+}
+
+.spec-sheet-cell {
+    background: #FAF9F5 !important;
+    border-right: 1px solid #C6C0B4 !important;
+    padding: 20px 24px !important;
+}
+
+.demand-master-panel {
+    background: #EAE6DD !important;
+    border: 1.5px solid #C4BEB0 !important;
+    padding: 28px !important;
+}
+
+.projetos-deck-section {
+    background: #EAE6DD !important;
+    border: 1.5px solid #C4BEB0 !important;
+    border-radius: 14px !important;
+    padding: 26px 28px !important;
+    margin-bottom: 32px !important;
+}
+
+.proj-environment-container {
+    background: #EAE6DD !important;
+    border: 1.5px solid #C2BCB0 !important;
+    border-radius: 16px !important;
+    padding: 28px 30px !important;
+    box-shadow: 0 8px 28px -12px rgba(17, 19, 21, 0.08) !important;
+}
+
+.proj-context-bar {
+    background: #DDD8CE !important;
+    border: 1.5px solid #BDB7A8 !important;
+    border-radius: 10px !important;
+    padding: 14px 18px !important;
+}
+
+.proj-hero-architectural {
+    background: #FFFFFF !important;
+    border: 1px solid #C4BEB0 !important;
+    border-radius: 12px !important;
+    padding: 22px 26px !important;
+    box-shadow: 0 2px 6px rgba(17, 19, 21, 0.05) !important;
+}
+
+.proj-subtabs-nav {
+    background: #DDD8CE !important;
+    border: 1px solid #BEB8AA !important;
+    border-radius: 10px !important;
+    padding: 6px !important;
+    margin-bottom: 22px !important;
+}
+
+.proj-subtab-btn {
+    background: transparent !important;
+    border: 1px solid transparent !important;
+    color: #2C3136 !important;
+    font-weight: 700 !important;
+    border-radius: 8px !important;
+}
+
+.proj-subtab-btn:hover {
+    background: #EAE6DD !important;
+    color: #111315 !important;
+}
+
+.proj-subtab-btn.active {
+    background: #14171A !important;
+    border-color: #14171A !important;
+    color: #FFFFFF !important;
+    box-shadow: 0 2px 6px rgba(17, 19, 21, 0.16) !important;
+}
+
+.proj-subtab-btn.active i {
+    color: #00C2E0 !important;
+}
+
+.guided-briefing-master-card,
+.strategy-dossier-banner,
+.proj-flow-container-architectural {
+    background: #E2DDD2 !important;
+    border: 1.5px solid #C2BCB0 !important;
+    border-radius: 12px !important;
+    padding: 24px 26px !important;
+}
+
+.cockpit-7d-section,
+.ingestao-dados-section,
+.telemetria-section {
+    background: #EAE6DD !important;
+    border: 1.5px solid #C2BCB0 !important;
+    border-radius: 14px !important;
+    padding: 28px !important;
+    box-shadow: 0 4px 14px -4px rgba(17, 19, 21, 0.06) !important;
+}
+
+.avancado-subtabs-architectural {
+    background: #DDD8CE !important;
+    border: 1.5px solid #BEB8AA !important;
+    padding: 5px !important;
+    border-radius: 10px !important;
+}
+
+.avancado-subtab-btn.active {
+    background: #FFFFFF !important;
+    border: 1px solid #B5AFA2 !important;
+    color: #111315 !important;
+    box-shadow: 0 2px 5px rgba(17, 19, 21, 0.08) !important;
+}
+
+/* Conversar Trays */
+.chat-workspace-architectural {
+    background: #EAE6DD !important;
+    border: 1.5px solid #C2BCB0 !important;
+    box-shadow: 0 8px 24px -10px rgba(17, 19, 21, 0.08) !important;
+}
+
+.chat-sidebar-architectural {
+    background: #E4DFD4 !important;
+    border-right: 1.5px solid #C2BCB0 !important;
+}
+
+.chat-sidebar-header-architectural {
+    background: #DDD8CE !important;
+    border-bottom: 1px solid #C2BCB0 !important;
+}
+
+.chat-header-architectural,
+.chat-quick-suggestions,
+.chat-input-bar-architectural {
+    background: #EAE6DD !important;
+    border-color: #C4BEB0 !important;
+}
+
+.chat-messages-scroll {
+    background: #FAF9F5 !important;
+}
+
+.chat-bubble-row.agent-row .chat-bubble-content {
+    background: #FFFFFF !important;
+    border: 1.5px solid #C4BEB0 !important;
+    border-left: 4px solid #0098B8 !important;
+    box-shadow: 0 2px 6px rgba(17, 19, 21, 0.05) !important;
+}
+
+/* NÍVEL 2: CARDS E SUPERFÍCIES DE CONTEÚDO (BRANCO PURO #FFFFFF COM BORDA NÍTIDA) */
+.centerpiece-dossier-card,
+.proj-deck-card,
+.editorial-workbench-row,
+.scope-card-item,
+.briefing-field-group,
+.strategy-cell,
+.pipeline-step-card,
+.deliverable-card-architectural,
+.dim-card,
+.editorial-7d-spec-card,
+.epv-item-card,
+.miv-card {
+    background: #FFFFFF !important;
+    border: 1.5px solid #C2BCB0 !important;
+    box-shadow: 0 3px 10px -2px rgba(17, 19, 21, 0.07), 0 1px 3px rgba(17, 19, 21, 0.04) !important;
+}
+
+.proj-deck-card {
+    border-top: 3px solid #14171A !important;
+}
+
+.proj-deck-card.card-foco {
+    border: 1.5px solid #0098B8 !important;
+    border-top: 4px solid #0098B8 !important;
+    box-shadow: 0 8px 22px -6px rgba(0, 152, 184, 0.20) !important;
+}
+
+.editorial-workbench-row {
+    border-top: 3px solid #14171A !important;
+}
+
+.workbench-spec-row {
+    background: #EFECE4 !important;
+    border: 1px solid #D0CABE !important;
+    border-left: 3px solid #0098B8 !important;
+    padding: 12px 14px !important;
+    border-radius: 6px !important;
+}
+
+.proj-deck-ledger-grid {
+    background: #F4F2EC !important;
+    border: 1px solid #D2CCC0 !important;
+    border-radius: 8px !important;
+    padding: 12px 16px !important;
+    margin-bottom: 14px !important;
+}
+
+/* Cards de Telemetria em Branco Puro sobre a Bandeja #EAE6DD */
+#pane-avancado-telemetria .telemetria-section > div > div {
+    background: #FFFFFF !important;
+    border: 1.5px solid #C2BCB0 !important;
+    box-shadow: 0 2px 6px rgba(17, 19, 21, 0.05) !important;
+}
+
+/* NÍVEL 3: ÁREAS DE DESTAQUE EM GRAFITE PROFUNDO (#14171A) */
+.hero-directive-deck {
+    background: #14171A !important;
+    border: 1.5px solid #2C3238 !important;
+    border-left: 4px solid #0098B8 !important;
+    padding: 20px 22px !important;
+    border-radius: 12px !important;
+    box-shadow: 0 8px 20px -6px rgba(17, 19, 21, 0.18) !important;
+}
+
+.hero-directive-deck .directive-deck-title h4 {
+    color: #FFFFFF !important;
+}
+
+.hero-directive-deck .directive-deck-title p {
+    color: #00C2E0 !important;
+}
+
+.side-leader-card {
+    background: #14171A !important;
+    border: 1.5px solid #2C3238 !important;
+    border-top: 3px solid #0098B8 !important;
+    color: #FFFFFF !important;
+    box-shadow: 0 8px 22px -8px rgba(17, 19, 21, 0.18) !important;
+}
+
+.side-leader-card .leader-card-meta h4 {
+    color: #FFFFFF !important;
+}
+
+.side-leader-card .leader-card-meta p {
+    color: #00C2E0 !important;
+}
+
+.side-leader-card .leader-statement-quote {
+    color: #E6E2D8 !important;
+}
+
+.editorial-lead-spread {
+    background: #FFFFFF !important;
+    border: 1.5px solid #BFB9AC !important;
+    border-top: 4px solid #0098B8 !important;
+    box-shadow: 0 6px 20px -6px rgba(17, 19, 21, 0.09) !important;
+}
+
+.editorial-lead-spread .lead-spread-col-identity {
+    background: #14171A !important;
+    border-radius: 10px !important;
+    padding: 22px !important;
+    border-right: none !important;
+    color: #FFFFFF !important;
+}
+
+.editorial-lead-spread .lead-spread-col-identity h3 {
+    color: #FFFFFF !important;
+}
+
+.editorial-lead-spread .lead-spread-col-identity p {
+    color: #00C2E0 !important;
+}
+
+.editorial-lead-spread .lead-spread-col-identity .lead-celula-tag {
+    color: #00C2E0 !important;
+}
+
+.proj-progress-architectural-box {
+    background: #14171A !important;
+    border: 1.5px solid #2C3238 !important;
+    border-left: 4px solid #0098B8 !important;
+    color: #FFFFFF !important;
+    box-shadow: 0 4px 14px rgba(17, 19, 21, 0.14) !important;
+}
+
+.proj-progress-architectural-box span {
+    color: #D5D1C8 !important;
+}
+
+.proj-progress-architectural-box #proj-progresso-percentual {
+    color: #00C2E0 !important;
+}
+
+.proj-progress-architectural-box .progress-track-architectural {
+    background: #2C3238 !important;
+}
+
+/* NÍVEL 4: CAMPOS DE FORMULÁRIO (BRANCOS COM BORDAS FIRMES E VISÍVEIS) */
+input[type="text"],
+input[type="password"],
+input[type="email"],
+input[type="number"],
+textarea,
+select,
+input.briefing-input-field,
+.briefing-input-field,
+.input-dark-field,
+#inicio-quick-prompt,
+#chat-input-textarea,
+#select-projeto-ativo,
+.proj-selector-dropdown-architectural {
+    background: #FFFFFF !important;
+    background-color: #FFFFFF !important;
+    border: 1.5px solid #ACA596 !important;
+    color: #111315 !important;
+    box-shadow: inset 0 1px 3px rgba(17, 19, 21, 0.08) !important;
+    font-weight: 500 !important;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus,
+textarea:focus,
+select:focus,
+input.briefing-input-field:focus,
+.input-dark-field:focus,
+#inicio-quick-prompt:focus,
+#chat-input-textarea:focus,
+#select-projeto-ativo:focus {
+    border-color: #0098B8 !important;
+    box-shadow: 0 0 0 3px rgba(0, 152, 184, 0.22), inset 0 1px 2px rgba(17, 19, 21, 0.04) !important;
+    outline: none !important;
+}
+
+/* NÍVEL 5: HIERARQUIA DE BOTÕES (PRIMÁRIO CIANO #0098B8, SECUNDÁRIO PEDRA QUENTE, TERCIÁRIO) */
+
+/* 5.1 Ação Principal — Ciano VIDE #0098B8 com texto branco e contraste forte */
+.btn-deck-send,
+.btn-new-demand-primary,
+.hero-shortcut-btn.primary,
+.btn-dossier-action.primary,
+.btn-briefing-save,
+.chat-send-submit-btn,
+.team-cta-action-btn.primary-cyan,
+.btn-gov-autorizar,
+.btn-luxury-primary,
+.btn-luxury-emerald,
+.btn-luxury-violet,
+.btn-blue-action,
+.proj-deck-card.card-foco .btn-deck-abrir {
+    background: #0098B8 !important;
+    background-image: none !important;
+    border: 1.5px solid #007691 !important;
+    color: #FFFFFF !important;
+    font-weight: 700 !important;
+    box-shadow: 0 2px 6px rgba(0, 152, 184, 0.28) !important;
+    transition: all 0.18s cubic-bezier(0.22, 1, 0.36, 1) !important;
+}
+
+.btn-deck-send i,
+.btn-new-demand-primary i,
+.hero-shortcut-btn.primary i,
+.btn-dossier-action.primary i,
+.btn-briefing-save i,
+.chat-send-submit-btn i,
+.team-cta-action-btn.primary-cyan i,
+.btn-gov-autorizar i,
+.btn-luxury-primary i,
+.proj-deck-card.card-foco .btn-deck-abrir i {
+    color: #FFFFFF !important;
+}
+
+.btn-deck-send:hover,
+.btn-new-demand-primary:hover,
+.hero-shortcut-btn.primary:hover,
+.btn-dossier-action.primary:hover,
+.btn-briefing-save:hover,
+.chat-send-submit-btn:hover,
+.team-cta-action-btn.primary-cyan:hover,
+.btn-gov-autorizar:hover,
+.btn-luxury-primary:hover,
+.btn-luxury-emerald:hover,
+.btn-luxury-violet:hover,
+.btn-blue-action:hover,
+.proj-deck-card.card-foco .btn-deck-abrir:hover {
+    background: #007691 !important;
+    border-color: #005A70 !important;
+    color: #FFFFFF !important;
+    box-shadow: 0 4px 12px rgba(0, 118, 145, 0.36) !important;
+    transform: translateY(-1px) !important;
+}
+
+/* 5.2 Ação Secundária — Cinza-pedra quente #E5E0D5 com borda visível #ABA496 e texto grafite #14171A */
+.hero-shortcut-btn:not(.primary),
+.btn-dossier-action.secondary,
+.btn-briefing-chat,
+.btn-workbench-inline-chat,
+.proj-deck-card:not(.card-foco) .btn-deck-abrir,
+.btn-voltar-deck,
+.btn-deliverable-view,
+.btn-luxury-glass,
+.btn-outline-subtle,
+.exec-tab-btn-avancado,
+.btn-exec-logout {
+    background: #E5E0D5 !important;
+    border: 1.5px solid #B0A99A !important;
+    color: #14171A !important;
+    font-weight: 700 !important;
+    box-shadow: 0 1px 2px rgba(17, 19, 21, 0.05) !important;
+    transition: all 0.18s ease !important;
+}
+
+.hero-shortcut-btn:not(.primary):hover,
+.btn-dossier-action.secondary:hover,
+.btn-briefing-chat:hover,
+.btn-workbench-inline-chat:hover,
+.proj-deck-card:not(.card-foco) .btn-deck-abrir:hover,
+.btn-voltar-deck:hover,
+.btn-deliverable-view:hover,
+.btn-luxury-glass:hover,
+.btn-outline-subtle:hover,
+.exec-tab-btn-avancado:hover,
+.exec-tab-btn-avancado.active {
+    background: #14171A !important;
+    border-color: #14171A !important;
+    color: #FFFFFF !important;
+    box-shadow: 0 3px 8px rgba(17, 19, 21, 0.15) !important;
+}
+
+.hero-shortcut-btn:not(.primary):hover i,
+.btn-dossier-action.secondary:hover i,
+.btn-briefing-chat:hover i,
+.btn-workbench-inline-chat:hover i,
+.proj-deck-card:not(.card-foco) .btn-deck-abrir:hover i,
+.btn-voltar-deck:hover i,
+.btn-deliverable-view:hover i {
+    color: #00C2E0 !important;
+}
+
+/* 5.3 Ações Terciárias (Prompts Rápidos, Sugestões & Links Técnicos) */
+.team-prompt-btn,
+.chat-suggestion-chip,
+.suggestion-chip,
+.entrega-chip-link {
+    background: #EFECE4 !important;
+    border: 1px solid #C2BCB0 !important;
+    color: #1F2428 !important;
+    font-weight: 600 !important;
+}
+
+.team-prompt-btn:hover,
+.chat-suggestion-chip:hover,
+.suggestion-chip:hover,
+.entrega-chip-link:hover {
+    background: #E2F4F8 !important;
+    border-color: #0098B8 !important;
+    color: #005A70 !important;
+}
 </style>
 </head>
 <body>
