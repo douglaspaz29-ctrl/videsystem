@@ -10940,6 +10940,273 @@ input.briefing-input-field:focus,
     border-color: #7F1D1D !important;
     color: #FFFFFF !important;
 }
+
+/* =========================================================================
+ * CORREÇÃO PONTUAL DE RESPONSIVIDADE MOBILE (<= 900px / 390x844)
+ * Preserva 100% da paleta v5 e do layout desktop (1440x920).
+ * Elimina overflow horizontal da topbar, cards de projetos, selects e grids.
+ * ========================================================================= */
+@media (max-width: 900px) {
+    html, body {
+        overflow-x: hidden !important;
+        max-width: 100vw !important;
+        width: 100% !important;
+    }
+
+    /* 1. Navegação Superior Compacta em 2 Linhas sem Corte Horizontal */
+    header.exec-topbar {
+        height: auto !important;
+        min-height: 0 !important;
+        padding: 8px 10px !important;
+        display: flex !important;
+        flex-wrap: wrap !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        gap: 6px !important;
+        width: 100% !important;
+        max-width: 100vw !important;
+        box-sizing: border-box !important;
+    }
+
+    .exec-brand {
+        flex: 0 1 auto !important;
+        min-width: 0 !important;
+        gap: 8px !important;
+    }
+
+    .exec-brand-logo {
+        width: 32px !important;
+        height: 32px !important;
+        flex-shrink: 0 !important;
+    }
+
+    .exec-brand-info h1 {
+        font-size: 15px !important;
+    }
+
+    .exec-brand-info p,
+    .brand-badge-exec {
+        display: none !important;
+    }
+
+    .exec-user-area {
+        order: 2 !important;
+        display: flex !important;
+        align-items: center !important;
+        gap: 5px !important;
+        flex-shrink: 0 !important;
+    }
+
+    .exec-user-chip,
+    .exec-system-status span {
+        display: none !important;
+    }
+
+    .exec-system-status {
+        padding: 5px 7px !important;
+    }
+
+    .exec-tab-btn-avancado,
+    .btn-exec-logout {
+        padding: 6px 9px !important;
+        font-size: 11px !important;
+        white-space: nowrap !important;
+    }
+
+    nav.exec-nav-tabs {
+        order: 3 !important;
+        display: grid !important;
+        grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+        gap: 3px !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        padding: 3px !important;
+        margin: 0 !important;
+        box-sizing: border-box !important;
+    }
+
+    .exec-tab-btn {
+        padding: 6px 2px !important;
+        font-size: 10.5px !important;
+        gap: 3px !important;
+        justify-content: center !important;
+        align-items: center !important;
+        min-width: 0 !important;
+        width: 100% !important;
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        box-sizing: border-box !important;
+    }
+
+    .exec-tab-btn i {
+        font-size: 10px !important;
+    }
+
+    /* 2. Container Principal e Espaçamentos Laterais em 390px */
+    .exec-main-content {
+        padding: 14px 10px 84px 10px !important;
+        width: 100% !important;
+        max-width: 100vw !important;
+        box-sizing: border-box !important;
+        overflow-x: hidden !important;
+    }
+
+    .exec-view {
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+        overflow-x: hidden !important;
+    }
+
+    /* 3. Containers de Seção, Painéis e Cards: Largura 100% e Zero Min-Width Fixo */
+    .edition-hero-stage-widescreen,
+    .edition-hero-widescreen-inner,
+    .hero-command-hub,
+    .hero-operations-centerpiece,
+    .centerpiece-dossier-card,
+    .demand-master-panel,
+    .side-leader-card,
+    .governance-shield-card,
+    .projetos-deck-section,
+    .proj-environment-container,
+    .proj-context-bar,
+    .proj-hero-architectural,
+    .guided-briefing-master-card,
+    .strategy-dossier-banner,
+    .proj-flow-container-architectural,
+    #team-full-cards-grid,
+    .editorial-lead-spread,
+    .editorial-workbench-row,
+    .proj-deck-card,
+    .cockpit-7d-section,
+    .ingestao-dados-section,
+    .telemetria-section,
+    .chat-workspace-architectural,
+    .chat-sidebar-architectural,
+    .chat-main-architectural {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+        padding: 14px !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        box-sizing: border-box !important;
+    }
+
+    /* 4. Grids Responsivos de 1 Coluna com minmax(0, 1fr) */
+    #deck-projetos-container,
+    .projetos-deck-grid,
+    #team-full-cards-grid,
+    .editorial-lead-spread,
+    #container-dimensoes-7d,
+    .dimensions-cards-grid,
+    .scope-summary-grid,
+    .strategy-summary-grid,
+    .proj-entregas-grid,
+    .entregas-grid-architectural,
+    .edition-spec-sheet,
+    .strategic-steps-list,
+    .workbench-gateway-grid,
+    .proj-deck-ledger-grid {
+        display: grid !important;
+        grid-template-columns: minmax(0, 1fr) !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+        box-sizing: border-box !important;
+    }
+
+    /* 5. Eliminação de min-width Inline/Fixos em Projetos, Equipe, Home e Chat */
+    .proj-selector-wrap,
+    #select-projeto-ativo,
+    .proj-selector-dropdown-architectural,
+    .proj-hero-info,
+    .proj-progress-architectural-box,
+    .proj-status-row,
+    #proj-catalogo-tag,
+    .proj-deck-header-row,
+    .proj-deck-footer-bar,
+    .hero-live-pill,
+    .hero-title-group,
+    .hero-brand-kicker,
+    .directive-deck-input-row,
+    .hero-quick-shortcuts,
+    .dossier-actions-row {
+        min-width: 0 !important;
+        max-width: 100% !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+        flex-wrap: wrap !important;
+    }
+
+    .hero-live-pill span,
+    .hero-brand-kicker span {
+        white-space: normal !important;
+        word-break: break-word !important;
+    }
+
+    .proj-deck-header-row,
+    .proj-deck-footer-bar,
+    .editorial-workbench-row > div > div:nth-child(2) {
+        flex-wrap: wrap !important;
+        gap: 8px !important;
+    }
+
+    .btn-workbench-inline-chat {
+        width: 100% !important;
+        justify-content: center !important;
+    }
+
+    /* 6. Sub-abas de Projetos e Área Avançada sem Overflow */
+    .proj-subtabs-nav,
+    .avancado-subtabs-architectural {
+        display: flex !important;
+        flex-wrap: wrap !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+        gap: 4px !important;
+    }
+
+    .proj-subtab-btn,
+    .avancado-subtab-btn {
+        flex: 1 1 calc(50% - 4px) !important;
+        min-width: 0 !important;
+        max-width: 100% !important;
+        font-size: 11px !important;
+        padding: 8px 6px !important;
+        white-space: normal !important;
+        text-align: center !important;
+        justify-content: center !important;
+        box-sizing: border-box !important;
+    }
+
+    /* 7. Barra Lateral do Chat em Mobile sem Estourar 390px */
+    .chat-sidebar-architectural {
+        max-height: none !important;
+        height: auto !important;
+        overflow: hidden !important;
+    }
+
+    .chat-agents-list-architectural {
+        display: grid !important;
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        gap: 6px !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        overflow: hidden !important;
+    }
+
+    .chat-sidebar-agent-item {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+        padding: 8px !important;
+        margin-bottom: 0 !important;
+        box-sizing: border-box !important;
+    }
+}
 </style>
 </head>
 <body>
