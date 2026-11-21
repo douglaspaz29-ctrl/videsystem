@@ -344,6 +344,39 @@ function processarTriagemRevisada(params = {}) {
         comunicacaoCliente = 'Olá! Para que eu possa encaminhar a sua solicitação para a área adequada da nossa equipe: qual é o principal objetivo que a sua empresa busca resolver neste momento?';
     }
 
+    // =========================================================================
+    // REGRA INEGOCIÁVEL DE GOVERNANÇA COMERCIAL:
+    // Interesse, sondagem, pedido de orçamento ou dúvida de preço NUNCA equivalem
+    // a autorização comercial para execução técnica pelos especialistas.
+    // =========================================================================
+    const ehInteresseSemContratacao =
+        params.apenasInteresse === true ||
+        params.contratado === false ||
+        params.autorizadoComercialmente === false ||
+        texto.includes('orçamento') ||
+        texto.includes('orcamento') ||
+        texto.includes('cotação') ||
+        texto.includes('cotacao') ||
+        texto.includes('quanto custa') ||
+        texto.includes('qual o valor') ||
+        texto.includes('qual o preço') ||
+        texto.includes('qual o preco') ||
+        texto.includes('tenho interesse') ||
+        texto.includes('apenas interesse') ||
+        texto.includes('gostaria de saber') ||
+        texto.includes('ainda não contratei') ||
+        texto.includes('ainda nao contratei') ||
+        texto.includes('não contratei') ||
+        texto.includes('nao contratei') ||
+        texto.includes('sem contrato') ||
+        texto.includes('avaliando proposta') ||
+        texto.includes('sondagem');
+
+    if (ehInteresseSemContratacao) {
+        servicosAutorizados = 'Nenhum serviço autorizado até o alinhamento de proposta e contratação formal pelo cliente.';
+        observacoes = `[GOVERNANÇA COMERCIAL: INTERESSE SEM CONTRATAÇÃO] O cliente demonstrou interesse/sondagem comercial em (${servicoSolicitado || 'serviços da VIDE'}), mas ainda NÃO contratou formalmente. Proibido interpretar interesse como autorização ou acionar especialistas executores antes do aceite comercial. ` + (observacoes || '');
+    }
+
     return {
         idDemanda,
         cenario: identificadorCenario,
@@ -354,6 +387,9 @@ function processarTriagemRevisada(params = {}) {
         servicoSolicitado,
         servicosAutorizados,
         servicosRecomendados,
+        statusComercialTriagem: ehInteresseSemContratacao
+            ? 'INTERESSE_SEM_CONTRATACAO'
+            : ((servicosAutorizados || '').toLowerCase().includes('nenhum serviço') ? 'SINTOMA_SEM_CONTRATACAO' : 'DEMANDA_PARA_EXECUCAO'),
         especialistasConfirmados,
         especialistasCondicionais,
         ordemExecucao,

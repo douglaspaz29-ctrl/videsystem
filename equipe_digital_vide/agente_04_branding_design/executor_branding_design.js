@@ -58,8 +58,16 @@ function validarPermissaoExecucaoBranding(idProjeto, idTarefa) {
         throw new Error(`[ERRO_ESPECIALISTA] Tarefa [${idTarefa}] está atribuída para [${tarefa.especialista}], não para Branding e Design.`);
     }
 
-    // Regra 4: Validação de Estado
-    if (tarefa.estado === 'BLOQUEADA_POR_DEPENDENCIA') {
+    // Regra 3.1: Validação de Escopo Comercial Contratado (Proibido ampliar escopo por iniciativa própria)
+    if (tarefa.frente && Array.isArray(projeto.frentes_comerciais) && projeto.frentes_comerciais.length > 0 && !projeto.frentes_comerciais.includes(tarefa.frente)) {
+        throw new Error(
+            `[BLOQUEIO_ESCOPO_NAO_CONTRATADO] A frente [${tarefa.frente}] da tarefa [${idTarefa}] não pertence ao escopo comercial autorizado [${projeto.frentes_comerciais.join(', ')}]. ` +
+            `O Agente Branding e Design não pode ampliar serviços fora do escopo contratado.`
+        );
+    }
+
+    // Regra 4: Validação de Estado e Dependências
+    if (tarefa.estado === 'BLOQUEADA_POR_DEPENDENCIA' || tarefa.estado === 'BLOQUEADO') {
         const deps = (tarefa.dependencias || []).join(', ');
         throw new Error(
             `[BLOQUEIO_DEPENDENCIA] Tarefa [${idTarefa}] está BLOQUEADA_POR_DEPENDENCIA. ` +
@@ -67,7 +75,19 @@ function validarPermissaoExecucaoBranding(idProjeto, idTarefa) {
         );
     }
 
-    if (tarefa.estado === 'BLOQUEADA_POR_AUTORIZACAO') {
+    if (tarefa.dependencias && tarefa.dependencias.length > 0) {
+        for (const depId of tarefa.dependencias) {
+            const depTarefa = (projeto.grafo_tarefas || []).find(t => (t.id_tarefa === depId || t.id === depId));
+            if (!depTarefa || (depTarefa.estado !== 'APROVADA' && depTarefa.estado !== 'CONCLUIDO' && depTarefa.estado !== 'CONCLUIDA')) {
+                throw new Error(
+                    `[BLOQUEIO_DEPENDENCIA] Tarefa [${idTarefa}] está BLOQUEADA_POR_DEPENDENCIA. ` +
+                    `Aguardando conclusão prévia de [${depId}] (${depTarefa ? depTarefa.especialista : 'Desconhecida'}).`
+                );
+            }
+        }
+    }
+
+    if (tarefa.estado === 'BLOQUEADA_POR_AUTORIZACAO' || tarefa.estado === 'AGUARDANDO_AUTORIZACAO_COMERCIAL') {
         throw new Error(`[BLOQUEIO_COMERCIAL] Tarefa [${idTarefa}] bloqueada por falta de autorização comercial.`);
     }
 

@@ -328,13 +328,13 @@ function executarEsteiraCompletaEspecialistas(idProjeto) {
 
     const resultados = [];
     if (projeto.autorizacao_comercial?.status !== 'AUTORIZADO' && projeto.autorizacao_status !== 'AUTORIZADO') {
-        autorizarProjetoComercialmente(idProjeto, 'Homologação e Ativação Operacional Integrada');
+        throw new Error('[BLOQUEIO_AUTORIZACAO_COMERCIAL] Projeto [' + idProjeto + '] está em AGUARDANDO_AUTORIZACAO_COMERCIAL. Nenhum especialista pode iniciar execução sem autorização comercial formal da Diretoria Executiva.');
     }
 
     let prjAtual = obterProjetoPorId(idProjeto);
 
     // Multi-pass topological runner: executa as tarefas desbloqueadas até resolver o grafo DAG
-    for (let passada = 1; passada <= 5; passada++) {
+    for (let passada = 1; passada <= 6; passada++) {
         let executouNestaPassada = false;
         prjAtual = obterProjetoPorId(idProjeto);
         const tarefas = prjAtual.grafo_tarefas || [];
@@ -352,16 +352,28 @@ function executarEsteiraCompletaEspecialistas(idProjeto) {
 
         for (const tsk of tarefasProntas) {
             try {
+                const idTsk = tsk.id_tarefa || tsk.id;
                 const resExec = executarTarefaProjeto({
                     idProjeto,
-                    idTarefa: tsk.id_tarefa || tsk.id,
+                    idTarefa: idTsk,
                     usuarioExecucao: 'Coordenador Geral (Esteira Automática)'
                 });
+                let estadoFinalTarefa = resExec.estado || 'AGUARDANDO_APROVACAO';
+                if (resExec.sucesso) {
+                    const resAval = avaliarEntregaTarefa({
+                        idProjeto,
+                        idTarefa: idTsk,
+                        aprovado: true,
+                        parecer: 'Entrega auditada e homologada automaticamente na esteira integrada pelo Coordenador Geral Gabriel Rocha.',
+                        responsavelAvaliacao: 'Gabriel Rocha — Coordenador Geral'
+                    });
+                    estadoFinalTarefa = resAval.novo_estado || 'CONCLUIDO';
+                }
                 resultados.push({
                     especialista: tsk.especialista,
-                    tarefa: tsk.id_tarefa || tsk.id,
+                    tarefa: idTsk,
                     arquivos: resExec.arquivos || [],
-                    estado: resExec.estado || 'AGUARDANDO_APROVACAO'
+                    estado: estadoFinalTarefa
                 });
                 executouNestaPassada = true;
             } catch (eTsk) {
@@ -1713,15 +1725,18 @@ Diretrizes obrigatórias de resposta:
             const body = await lerCorpoJson(req);
             const idProjeto = body.idProjeto || body.id_projeto;
             const entregaveis = executarEsteiraCompletaEspecialistas(idProjeto);
+            const prjFinal = obterProjetoPorId(idProjeto);
+            if (prjFinal && db.pgPool) await db.sincronizarProjetoCompletoPostgres(prjFinal);
             res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
             return res.end(JSON.stringify({
                 sucesso: true,
                 id_projeto: idProjeto,
-                projeto: obterProjetoPorId(idProjeto),
+                projeto: prjFinal,
                 entregaveis
             }));
         } catch (e) {
-            res.writeHead(500, { 'Content-Type': 'application/json; charset=utf-8' });
+            const statusHttp = e.message.includes('[BLOQUEIO_AUTORIZACAO_COMERCIAL]') ? 403 : 500;
+            res.writeHead(statusHttp, { 'Content-Type': 'application/json; charset=utf-8' });
             return res.end(JSON.stringify({ sucesso: false, erro: e.message }));
         }
     }

@@ -56,6 +56,11 @@ function assumirTarefaInteligencia({ idProjeto, idTarefa }) {
         throw new Error(`[DESVIO_FUNCAO] Agente de Inteligência Comercial rejeitou assumir tarefa de responsabilidade de [${tarefa.especialista}].`);
     }
 
+    // 1.3.1. Validação de Escopo Comercial Contratado
+    if (tarefa.frente && Array.isArray(projeto.frentes_comerciais) && projeto.frentes_comerciais.length > 0 && !projeto.frentes_comerciais.includes(tarefa.frente)) {
+        throw new Error(`[BLOQUEIO_ESCOPO_NAO_CONTRATADO] A frente [${tarefa.frente}] da tarefa [${idTarefa}] não pertence ao escopo comercial autorizado [${projeto.frentes_comerciais.join(', ')}].`);
+    }
+
     // 1.4. Verificação de Dependências no Grafo
     if (tarefa.dependencias && tarefa.dependencias.length > 0) {
         for (const depId of tarefa.dependencias) {

@@ -673,6 +673,14 @@ function verificarAutorizacaoEPredecessores(idProjeto, idTarefa) {
     const tarefa = (projeto.grafo_tarefas || []).find(t => t.id_tarefa === idTarefa || t.id === idTarefa);
     if (!tarefa) throw new Error(`[ERRO_EXECUCAO] Tarefa [${idTarefa}] não encontrada no grafo do projeto.`);
 
+    // 2.1. Validação de Escopo Comercial Contratado (Proibido ampliar serviços fora do escopo autorizado)
+    if (tarefa.frente && Array.isArray(projeto.frentes_comerciais) && projeto.frentes_comerciais.length > 0 && !projeto.frentes_comerciais.includes(tarefa.frente)) {
+        throw new Error(
+            `[BLOQUEIO_ESCOPO_NAO_CONTRATADO] A frente [${tarefa.frente}] da tarefa [${idTarefa}] não pertence ao escopo comercial autorizado [${projeto.frentes_comerciais.join(', ')}]. ` +
+            `Necessidades adicionais fora do escopo contratado exigem aditivo comercial e nova autorização da Diretoria.`
+        );
+    }
+
     // 3. Validação de Conclusão Prévia
     if ((tarefa.estado === ESTADOS_SISTEMA.CONCLUIDO || tarefa.estado === 'APROVADA') && !tarefa.necessita_correcao) {
         throw new Error(`[AVISO_EXECUCAO] Tarefa [${idTarefa}] já está concluída e homologada com sucesso.`);
@@ -1045,6 +1053,79 @@ function obterDossieExecucaoProjeto(idProjeto) {
     };
 }
 
+/**
+ * 10. REGISTRO ISOLADO DE NECESSIDADE ADICIONAL FORA DO ESCOPO CONTRATADO
+ * Garante que oportunidades ou demandas extras identificadas durante a operação
+ * NÃO ampliem o escopo por iniciativa própria dos agentes e exijam decisão comercial.
+ * @param {Object} params
+ * @returns {Object} Registro da necessidade isolada sem alterar o grafo de tarefas
+ */
+function registrarNecessidadeAdicionalForaDoEscopo(params = {}) {
+    const idProjeto = params.idProjeto || params.id_projeto;
+    const necessidade = params.necessidadeAdicional || params.necessidade || params.descricao || '';
+    const frenteSugerida = params.frenteSugerida || params.frente || 'ESCOPO_ADICIONAL';
+    const especialistaSugerido = params.especialistaSugerido || params.especialista || 'Coordenador Geral (Avaliação Comercial)';
+    const origem = params.origem || 'Identificado durante execução operacional';
+
+    const projeto = obterProjetoPorId(idProjeto);
+    if (!projeto) throw new Error(`[ERRO_GOVERNANCA] Projeto [${idProjeto}] não encontrado.`);
+
+    if (!necessidade || !necessidade.trim()) {
+        throw new Error('[ERRO_GOVERNANCA] A descrição da necessidade adicional é obrigatória.');
+    }
+
+    const totalTarefasAntes = (projeto.grafo_tarefas || []).length;
+    const escopoAntes = projeto.escopo_autorizado;
+    const frentesAntes = [...(projeto.frentes_comerciais || [])];
+
+    const registroAdicional = {
+        id_oportunidade: `OP-EXTRA-${crypto.randomBytes(3).toString('hex').toUpperCase()}`,
+        timestamp: new Date().toISOString(),
+        titulo: params.titulo || `Necessidade Adicional Fora do Escopo (${frenteSugerida})`,
+        necessidade_identificada: necessidade,
+        frente_sugerida: frenteSugerida,
+        especialista_sugerido: especialistaSugerido,
+        origem,
+        escopo_contratado_atual: frentesAntes,
+        acao_automatica_bloqueada: true,
+        status_comercial: 'BLOQUEADA_FORA_DO_ESCOPO_CONTRATADO (Requer proposta adicional e autorização formal da Diretoria)'
+    };
+
+    if (!projeto.oportunidades_fora_escopo) projeto.oportunidades_fora_escopo = [];
+    projeto.oportunidades_fora_escopo.push(registroAdicional);
+
+    if (projeto.documento_estrategico && Array.isArray(projeto.documento_estrategico.secao_10_oportunidades_complementares_identificadas)) {
+        projeto.documento_estrategico.secao_10_oportunidades_complementares_identificadas.push({
+            titulo: registroAdicional.titulo,
+            especialista_sugerido: especialistaSugerido,
+            justificativa: necessidade,
+            impacto_estimado: params.impactoEstimado || 'Expansão complementar sujeita a aditivo comercial.',
+            status_comercial: registroAdicional.status_comercial
+        });
+    }
+
+    if (!projeto.registro_operacional) projeto.registro_operacional = [];
+    projeto.registro_operacional.push({
+        timestamp: new Date().toISOString(),
+        evento: `[GOVERNANÇA DE ESCOPO] Necessidade adicional fora do escopo registrada separadamente (${registroAdicional.id_oportunidade}). O escopo contratado [${frentesAntes.join(', ')}] e o grafo de tarefas (${totalTarefasAntes} tarefas) foram mantidos inalterados.`,
+        detalhes: registroAdicional
+    });
+    projeto.historico_operacional = projeto.registro_operacional;
+
+    salvarProjeto(projeto);
+
+    return {
+        sucesso: true,
+        id_projeto: idProjeto,
+        escopo_ampliado_automaticamente: false,
+        tarefas_adicionadas_ao_grafo: 0,
+        total_tarefas_preservado: (projeto.grafo_tarefas || []).length === totalTarefasAntes,
+        escopo_autorizado_preservado: projeto.escopo_autorizado === escopoAntes,
+        oportunidade_registrada: registroAdicional,
+        projeto
+    };
+}
+
 module.exports = {
     FRENTES_COMERCIAIS,
     ESTADOS_SISTEMA,
@@ -1055,5 +1136,6 @@ module.exports = {
     executarTarefaProjeto,
     avaliarEntregaTarefa,
     executarCorrecaoTarefa,
-    obterDossieExecucaoProjeto
+    obterDossieExecucaoProjeto,
+    registrarNecessidadeAdicionalForaDoEscopo
 };

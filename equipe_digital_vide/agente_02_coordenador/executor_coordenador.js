@@ -945,6 +945,16 @@ Responda com o máximo rigor técnico, postura de liderança operacional e clare
     }
 }
 
+/**
+ * 8. FUNÇÃO 8: Registrar Necessidade Adicional Fora do Escopo Contratado
+ * Impede ampliação unilateral de escopo pelos agentes e isola oportunidades extras
+ * para decisão comercial formal da Diretoria Executiva.
+ */
+function registrarNecessidadeAdicionalForaDoEscopo(params = {}) {
+    const { registrarNecessidadeAdicionalForaDoEscopo: regServico } = require('../servico_execucao_servicos');
+    return regServico(params);
+}
+
 module.exports = {
     receberRegistroTriagem,
     gerarPlanoTarefas,
@@ -952,5 +962,6 @@ module.exports = {
     conferirEntrega,
     autorizarProjetoComercialmente,
     interpretarComandoDiretora,
-    interpretarComandoDiretoraComIA
+    interpretarComandoDiretoraComIA,
+    registrarNecessidadeAdicionalForaDoEscopo
 };
