@@ -10179,6 +10179,526 @@ input.briefing-input-field:focus,
     border-color: #0098B8 !important;
     color: #005A70 !important;
 }
+
+/* =========================================================================
+ * VIDE EDITORIAL ATELIER v4 — CORREÇÃO DEFINITIVA DE CONTRASTE & HIERARQUIA
+ * Eliminação de branco-sobre-branco, painéis em cinza-pedra real (#D8D1C2),
+ * cards em marfim editorial (#FAF8F3) com bordas firmes (#8E8676),
+ * âncoras em grafite (#14171A) e zero botões brancos.
+ * ========================================================================= */
+
+/* 1. FUNDO GERAL (ALABASTRO QUENTE) & MASTHEAD */
+html, body {
+    background-color: #F2EFE9 !important;
+    color: #1A1E22 !important;
+}
+
+header.exec-topbar {
+    background: #D8D1C2 !important;
+    border-bottom: 2px solid #948C7C !important;
+    box-shadow: 0 2px 10px rgba(20, 23, 26, 0.08) !important;
+}
+
+.exec-nav-tabs {
+    background: #C2B9A7 !important;
+    border: 1.5px solid #857D6D !important;
+    padding: 4px !important;
+    border-radius: 10px !important;
+}
+
+.exec-tab-btn {
+    color: #1A1E22 !important;
+    font-weight: 700 !important;
+    background: transparent !important;
+    border: 1px solid transparent !important;
+}
+
+.exec-tab-btn i {
+    color: #3A4046 !important;
+}
+
+.exec-tab-btn:hover {
+    background: #DDD6C7 !important;
+    color: #111315 !important;
+}
+
+.exec-tab-btn.active {
+    background: #14171A !important;
+    color: #FFFFFF !important;
+    border: 1px solid #14171A !important;
+    box-shadow: 0 2px 6px rgba(20, 23, 26, 0.22) !important;
+}
+
+.exec-tab-btn.active i {
+    color: #00C2E0 !important;
+}
+
+.exec-user-chip {
+    background: #E5DFD2 !important;
+    border: 1.5px solid #8E8676 !important;
+}
+
+.exec-system-status,
+.chat-online-badge,
+.scope-fidelity-badge,
+.briefing-status-tag,
+.step-status-pill.status-concluido,
+.badge-status-pill.status-concluido,
+.deliverable-status-tag.homologado,
+.badge-status-estrategia.aprovado {
+    background: #CDEADF !important;
+    border: 1.5px solid #0D7A52 !important;
+    color: #064E35 !important;
+    font-weight: 700 !important;
+}
+
+.step-status-pill.status-execucao,
+.badge-status-pill.status-execucao,
+.dossier-tag {
+    background: #CBEAF2 !important;
+    border: 1.5px solid #007691 !important;
+    color: #003D4C !important;
+    font-weight: 700 !important;
+}
+
+.step-status-pill.status-pendente,
+.badge-status-pill.status-pendente,
+.deliverable-status-tag.analysis,
+.badge-status-estrategia:not(.aprovado),
+.dossier-status-badge {
+    background: #FDE6B8 !important;
+    border: 1.5px solid #B45309 !important;
+    color: #7C2D12 !important;
+    font-weight: 700 !important;
+}
+
+.hero-live-pill,
+.catalogo-pill-tag,
+.briefing-mode-tag,
+.gateway-status-pill,
+.chat-project-chip {
+    background: #D8D1C2 !important;
+    border: 1.5px solid #8A8272 !important;
+    color: #14171A !important;
+    font-weight: 700 !important;
+}
+
+/* 2. PAINÉIS E ÁREAS DE AGRUPAMENTO (CINZA-PEDRA CLARAMENTE DISTINTO #D8D1C2 / #CBC3B2) */
+.edition-hero-stage-widescreen,
+.projetos-deck-section,
+.proj-environment-container,
+.cockpit-7d-section,
+.ingestao-dados-section,
+.telemetria-section,
+.chat-workspace-architectural,
+.demand-master-panel {
+    background: #D8D1C2 !important;
+    border: 1.5px solid #948C7C !important;
+    box-shadow: 0 8px 24px -10px rgba(20, 23, 26, 0.10) !important;
+}
+
+.hero-operations-centerpiece,
+.proj-context-bar,
+.guided-briefing-master-card,
+.strategy-dossier-banner,
+.proj-flow-container-architectural,
+.chat-sidebar-architectural,
+.chat-header-architectural,
+.chat-quick-suggestions,
+.chat-input-bar-architectural {
+    background: #CBC3B2 !important;
+    border: 1.5px solid #8A8272 !important;
+}
+
+.chat-sidebar-header-architectural {
+    background: #C0B7A5 !important;
+    border-bottom: 1.5px solid #8A8272 !important;
+}
+
+.proj-subtabs-nav,
+.avancado-subtabs-architectural {
+    background: #C2B9A7 !important;
+    border: 1.5px solid #827A6A !important;
+    padding: 6px !important;
+    border-radius: 10px !important;
+}
+
+.proj-subtab-btn,
+.avancado-subtab-btn {
+    background: transparent !important;
+    border: 1px solid transparent !important;
+    color: #14171A !important;
+    font-weight: 700 !important;
+    border-radius: 8px !important;
+}
+
+.proj-subtab-btn:hover,
+.avancado-subtab-btn:hover {
+    background: #D8D1C2 !important;
+    color: #111315 !important;
+}
+
+.proj-subtab-btn.active,
+.avancado-subtab-btn.active {
+    background: #14171A !important;
+    border-color: #14171A !important;
+    color: #FFFFFF !important;
+    box-shadow: 0 2px 6px rgba(20, 23, 26, 0.22) !important;
+}
+
+.proj-subtab-btn.active i,
+.avancado-subtab-btn.active i {
+    color: #00C2E0 !important;
+}
+
+/* 3. CARDS E CAIXAS DE CONTEÚDO (MARFIM EDITORIAL #FAF8F3 COM BORDAS VISÍVEIS #8E8676) */
+.hero-command-hub,
+.centerpiece-dossier-card,
+.proj-deck-card,
+.proj-hero-architectural,
+.editorial-workbench-row,
+.scope-card-item,
+.strategy-cell,
+.pipeline-step-card,
+.deliverable-card-architectural,
+.dim-card,
+.editorial-7d-spec-card,
+.epv-item-card,
+.miv-card,
+#pane-avancado-telemetria .telemetria-section > div > div {
+    background: #FAF8F3 !important;
+    border: 1.5px solid #8E8676 !important;
+    box-shadow: 0 3px 10px -2px rgba(20, 23, 26, 0.09) !important;
+}
+
+.proj-deck-card,
+.editorial-workbench-row,
+.editorial-7d-spec-card,
+.scope-card-item,
+.strategy-cell {
+    border-top: 3px solid #14171A !important;
+}
+
+.proj-deck-card.card-foco {
+    background: #FFFFFF !important;
+    border: 2px solid #008AA8 !important;
+    border-top: 4px solid #008AA8 !important;
+    box-shadow: 0 10px 24px -6px rgba(0, 138, 168, 0.25) !important;
+}
+
+/* Grupos de pergunta do Briefing em pedra clara (#E5DFD2) para destacar os inputs brancos (#FFFFFF) */
+.briefing-field-group {
+    background: #E5DFD2 !important;
+    border: 1.5px solid #8E8676 !important;
+    border-left: 4px solid #14171A !important;
+    border-radius: 10px !important;
+    padding: 18px 20px !important;
+}
+
+/* Blocos internos de especificação dentro dos cards */
+.workbench-spec-row,
+.proj-deck-ledger-grid,
+.briefing-supporting-files-drawer,
+.dossier-deliverables-box {
+    background: #E5DFD2 !important;
+    border: 1.5px solid #9A9282 !important;
+    border-left: 3px solid #008AA8 !important;
+    border-radius: 8px !important;
+}
+
+.chat-messages-scroll {
+    background: #ECE7DC !important;
+}
+
+.chat-sidebar-agent-item {
+    background: #DAD3C4 !important;
+    border: 1px solid #9E9686 !important;
+    margin-bottom: 8px !important;
+}
+
+.chat-sidebar-agent-item:hover {
+    background: #E8E2D5 !important;
+    border-color: #6E675A !important;
+}
+
+.chat-sidebar-agent-item.active {
+    background: #14171A !important;
+    border-color: #14171A !important;
+    border-left: 4px solid #00C2E0 !important;
+}
+
+.chat-sidebar-agent-item.active h4 {
+    color: #FFFFFF !important;
+}
+
+.chat-sidebar-agent-item.active p {
+    color: #D0CABE !important;
+}
+
+.chat-sidebar-agent-item.active span {
+    color: #00C2E0 !important;
+}
+
+.chat-bubble-row.agent-row .chat-bubble-content {
+    background: #FAF8F3 !important;
+    border: 1.5px solid #8E8676 !important;
+    border-left: 4px solid #008AA8 !important;
+    box-shadow: 0 2px 8px rgba(20, 23, 26, 0.08) !important;
+}
+
+/* 4. ÁREAS DE DESTAQUE EM GRAFITE PROFUNDO (#14171A) */
+.edition-spec-sheet {
+    background: #14171A !important;
+    border-top: 2px solid #0098B8 !important;
+}
+
+.spec-sheet-cell {
+    background: #14171A !important;
+    border-right: 1px solid #2E353C !important;
+    padding: 20px 24px !important;
+}
+
+.spec-sheet-label {
+    color: #A3ABB2 !important;
+}
+
+.spec-sheet-val,
+.spec-sheet-val.cyan,
+.spec-sheet-val.blue,
+.spec-sheet-val.purple {
+    color: #FFFFFF !important;
+}
+
+.spec-sheet-val.amber {
+    color: #FBBF24 !important;
+}
+
+.spec-sheet-status {
+    color: #00C2E0 !important;
+}
+
+/* 5. CAMPOS DE FORMULÁRIO (FUNDO BRANCO #FFFFFF SOBRE BASE PEDRA + BORDA 2PX #6E675A + FOCO CIANO) */
+input[type="text"],
+input[type="password"],
+input[type="email"],
+input[type="number"],
+textarea,
+select,
+input.briefing-input-field,
+.briefing-input-field,
+.input-dark-field,
+#inicio-quick-prompt,
+#chat-input-textarea,
+#select-projeto-ativo,
+.proj-selector-dropdown-architectural {
+    background: #FFFFFF !important;
+    background-color: #FFFFFF !important;
+    border: 2px solid #6E675A !important;
+    color: #111315 !important;
+    font-weight: 600 !important;
+    box-shadow: inset 0 1px 3px rgba(20, 23, 26, 0.10) !important;
+}
+
+input[type="text"]::placeholder,
+textarea::placeholder,
+input.briefing-input-field::placeholder,
+#inicio-quick-prompt::placeholder,
+#chat-input-textarea::placeholder {
+    color: #5C6268 !important;
+    font-weight: 500 !important;
+}
+
+input[type="text"]:hover,
+textarea:hover,
+select:hover,
+input.briefing-input-field:hover,
+#select-projeto-ativo:hover {
+    border-color: #14171A !important;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus,
+textarea:focus,
+select:focus,
+input.briefing-input-field:focus,
+.input-dark-field:focus,
+#inicio-quick-prompt:focus,
+#chat-input-textarea:focus,
+#select-projeto-ativo:focus {
+    background: #FFFFFF !important;
+    border-color: #008AA8 !important;
+    box-shadow: 0 0 0 4px rgba(0, 152, 184, 0.28) !important;
+    outline: none !important;
+}
+
+/* 6. BOTÕES: CORREÇÃO PRIORITÁRIA (ZERO RETÂNGULOS BRANCOS) */
+
+/* 6.1 Ação Principal: Ciano VIDE preenchido (#008AA8 / #0098B8) com texto branco */
+.btn-deck-send,
+.btn-new-demand-primary,
+.hero-shortcut-btn.primary,
+.btn-dossier-action.primary,
+.btn-briefing-save,
+.chat-send-submit-btn,
+.team-cta-action-btn.primary-cyan,
+.btn-gov-autorizar,
+.btn-luxury-primary,
+.btn-luxury-emerald,
+.btn-luxury-violet,
+.btn-blue-action,
+.proj-deck-card.card-foco .btn-deck-abrir {
+    background: #008AA8 !important;
+    border: 1.5px solid #005A70 !important;
+    color: #FFFFFF !important;
+    font-weight: 700 !important;
+    box-shadow: 0 2px 6px rgba(0, 90, 112, 0.30) !important;
+}
+
+.btn-deck-send:hover,
+.btn-new-demand-primary:hover,
+.hero-shortcut-btn.primary:hover,
+.btn-dossier-action.primary:hover,
+.btn-briefing-save:hover,
+.chat-send-submit-btn:hover,
+.team-cta-action-btn.primary-cyan:hover,
+.btn-gov-autorizar:hover,
+.btn-luxury-primary:hover,
+.btn-luxury-emerald:hover,
+.btn-luxury-violet:hover,
+.btn-blue-action:hover,
+.proj-deck-card.card-foco .btn-deck-abrir:hover {
+    background: #006B82 !important;
+    border-color: #004454 !important;
+    color: #FFFFFF !important;
+    box-shadow: 0 4px 12px rgba(0, 68, 84, 0.38) !important;
+    transform: translateY(-1px) !important;
+}
+
+/* 6.2 Ação Secundária em Grafite / Cinza-Pedra Escuro com Borda Forte */
+.btn-voltar-deck,
+.btn-dossier-action.secondary,
+.btn-briefing-chat,
+.btn-workbench-inline-chat,
+.proj-deck-card:not(.card-foco) .btn-deck-abrir,
+.btn-deliverable-view,
+.exec-tab-btn-avancado {
+    background: #23282D !important;
+    border: 1.5px solid #14171A !important;
+    color: #FFFFFF !important;
+    font-weight: 700 !important;
+    box-shadow: 0 2px 5px rgba(20, 23, 26, 0.16) !important;
+}
+
+.btn-voltar-deck i,
+.btn-dossier-action.secondary i,
+.btn-briefing-chat i,
+.btn-workbench-inline-chat i,
+.proj-deck-card:not(.card-foco) .btn-deck-abrir i,
+.btn-deliverable-view i,
+.exec-tab-btn-avancado i {
+    color: #00C2E0 !important;
+}
+
+.btn-voltar-deck:hover,
+.btn-dossier-action.secondary:hover,
+.btn-briefing-chat:hover,
+.btn-workbench-inline-chat:hover,
+.proj-deck-card:not(.card-foco) .btn-deck-abrir:hover,
+.btn-deliverable-view:hover,
+.exec-tab-btn-avancado:hover,
+.exec-tab-btn-avancado.active {
+    background: #008AA8 !important;
+    border-color: #005A70 !important;
+    color: #FFFFFF !important;
+}
+
+.btn-voltar-deck:hover i,
+.btn-dossier-action.secondary:hover i,
+.btn-briefing-chat:hover i,
+.btn-workbench-inline-chat:hover i,
+.proj-deck-card:not(.card-foco) .btn-deck-abrir:hover i,
+.btn-deliverable-view:hover i,
+.exec-tab-btn-avancado:hover i,
+.exec-tab-btn-avancado.active i {
+    color: #FFFFFF !important;
+}
+
+/* Botões Secundários de Atalho (Cinza-Pedra Definido #C4BBA9 com borda #6E675A) */
+.hero-shortcut-btn:not(.primary),
+.btn-luxury-glass,
+.btn-outline-subtle,
+.chat-clean-btn {
+    background: #C8C0B0 !important;
+    border: 1.5px solid #6E675A !important;
+    color: #14171A !important;
+    font-weight: 700 !important;
+    box-shadow: 0 1px 3px rgba(20, 23, 26, 0.10) !important;
+}
+
+.hero-shortcut-btn:not(.primary) i,
+.btn-luxury-glass i,
+.btn-outline-subtle i,
+.chat-clean-btn i {
+    color: #14171A !important;
+}
+
+.hero-shortcut-btn:not(.primary):hover,
+.btn-luxury-glass:hover,
+.btn-outline-subtle:hover,
+.chat-clean-btn:hover {
+    background: #14171A !important;
+    border-color: #14171A !important;
+    color: #FFFFFF !important;
+}
+
+.hero-shortcut-btn:not(.primary):hover i,
+.btn-luxury-glass:hover i,
+.btn-outline-subtle:hover i,
+.chat-clean-btn:hover i {
+    color: #00C2E0 !important;
+}
+
+/* 6.3 Ação Destrutiva / Encerramento de Sessão */
+.btn-exec-logout {
+    background: #F3D6D6 !important;
+    border: 1.5px solid #B94A48 !important;
+    color: #881313 !important;
+    font-weight: 700 !important;
+}
+
+.btn-exec-logout i {
+    color: #991B1B !important;
+}
+
+.btn-exec-logout:hover {
+    background: #B91C1C !important;
+    border-color: #7F1D1D !important;
+    color: #FFFFFF !important;
+}
+
+.btn-exec-logout:hover i {
+    color: #FFFFFF !important;
+}
+
+/* 6.4 Ações Terciárias (Prompts Clicáveis & Sugestões) */
+.team-prompt-btn,
+.chat-suggestion-chip,
+.suggestion-chip,
+.entrega-chip-link {
+    background: #DCD5C7 !important;
+    border: 1.5px solid #8A8272 !important;
+    color: #14171A !important;
+    font-weight: 700 !important;
+}
+
+.team-prompt-btn:hover,
+.chat-suggestion-chip:hover,
+.suggestion-chip:hover,
+.entrega-chip-link:hover {
+    background: #CBEAF2 !important;
+    border-color: #007691 !important;
+    color: #003D4C !important;
+}
 </style>
 </head>
 <body>
@@ -11448,7 +11968,7 @@ input.briefing-input-field:focus,
                         <div class="dim-card editorial-7d-spec-card">
                             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
                                 <span style="font-family: var(--font-mono); font-size: 11px; font-weight: 700; color: #0098B8;">DIMENSÃO 02</span>
-                                <span style="font-family: var(--font-mono); font-size: 10px; font-weight: 700; color: #4A5056; background: #F6F5F1; border: 1px solid #E2DFD7; padding: 2px 8px; border-radius: 4px;">Captação</span>
+                                <span style="font-family: var(--font-mono); font-size: 10px; font-weight: 700; color: #4A5056; background: #DCD5C7; border: 1.5px solid #8E8676; color: #14171A; padding: 2px 8px; border-radius: 4px;">Captação</span>
                             </div>
                             <h4 style="font-family: var(--font-headline); font-size: 16px; font-weight: 800; color: #111315; margin: 0 0 6px 0;">Aquisição & Tráfego Qualificado</h4>
                             <p style="font-size: 12.5px; color: #4A5056; line-height: 1.5; margin: 0;">Eficiência dos canais de entrada, previsibilidade de geração de oportunidades e aderência ao perfil ideal de cliente (ICP).</p>
@@ -11464,7 +11984,7 @@ input.briefing-input-field:focus,
                         <div class="dim-card editorial-7d-spec-card">
                             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
                                 <span style="font-family: var(--font-mono); font-size: 11px; font-weight: 700; color: #0098B8;">DIMENSÃO 04</span>
-                                <span style="font-family: var(--font-mono); font-size: 10px; font-weight: 700; color: #4A5056; background: #F6F5F1; border: 1px solid #E2DFD7; padding: 2px 8px; border-radius: 4px;">Triagem</span>
+                                <span style="font-family: var(--font-mono); font-size: 10px; font-weight: 700; color: #4A5056; background: #DCD5C7; border: 1.5px solid #8E8676; color: #14171A; padding: 2px 8px; border-radius: 4px;">Triagem</span>
                             </div>
                             <h4 style="font-family: var(--font-headline); font-size: 16px; font-weight: 800; color: #111315; margin: 0 0 6px 0;">Processo & Qualificação Comercial</h4>
                             <p style="font-size: 12.5px; color: #4A5056; line-height: 1.5; margin: 0;">Diagnóstico de maturidade do comprador, separação entre sintomas e causas reais e enquadramento no pacote contratado.</p>
@@ -15072,7 +15592,7 @@ window.addEventListener('DOMContentLoaded', () => {
             <div class="dim-card editorial-7d-spec-card">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
                     <span style="font-family: var(--font-mono); font-size: 11px; font-weight: 700; color: #0098B8;">DIMENSÃO ${d.num}</span>
-                    <span style="font-family: var(--font-mono); font-size: 10px; font-weight: 700; color: #4A5056; background: #F6F5F1; border: 1px solid #E2DFD7; padding: 2px 8px; border-radius: 4px;">${d.status}</span>
+                    <span style="font-family: var(--font-mono); font-size: 10px; font-weight: 700; color: #4A5056; background: #DCD5C7; border: 1.5px solid #8E8676; color: #14171A; padding: 2px 8px; border-radius: 4px;">${d.status}</span>
                 </div>
                 <h4 style="font-family: var(--font-headline); font-size: 16px; font-weight: 800; color: #111315; margin: 0 0 6px 0;">${d.nome}</h4>
                 <p style="font-size: 12.5px; color: #4A5056; line-height: 1.5; margin: 0;">${d.desc}</p>
