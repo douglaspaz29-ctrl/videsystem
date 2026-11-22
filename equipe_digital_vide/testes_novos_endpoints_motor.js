@@ -15,8 +15,8 @@ const { fork } = require('child_process');
 const { ServicoMotorInteligenciaVIDE } = require('./servico_motor_inteligencia');
 const { seguranca } = require('./seguranca');
 
-const connStr = process.env.DATABASE_URL || 'postgresql://vide_admin:0CaD0pCC9KRjdM1Ts69BcPkm0ylqvjZi@dpg-dbrabbei0phs73f98ve0-a.oregon-postgres.render.com:5432/vide_homologacao';
-const API_KEY = 'rnd_eGL4bVF9eFQQNUBWpOU0vVJy86JN';
+const connStr = process.env.DATABASE_URL || process.env.DATABASE_URL || null;
+const API_KEY = process.env.RENDER_API_KEY || "";
 const DB_ID = 'dpg-dbrabbei0phs73f98ve0-a';
 
 function configurarAllowList(ips) {

@@ -33,7 +33,7 @@ class ServicoMotorInteligenciaVIDE {
         this.versaoFormulaEPV = 'EPV_V1';
 
         if (!this.pool) {
-            const connStr = process.env.DATABASE_URL || CONFIG.DATABASE_URL || 'postgresql://vide_admin:0CaD0pCC9KRjdM1Ts69BcPkm0ylqvjZi@dpg-dbrabbei0phs73f98ve0-a.oregon-postgres.render.com:5432/vide_homologacao';
+            const connStr = process.env.DATABASE_URL || CONFIG.DATABASE_URL || process.env.DATABASE_URL || null;
             if (connStr) {
                 this.pool = new pg.Pool({
                     connectionString: connStr,

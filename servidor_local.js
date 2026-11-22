@@ -97,6 +97,7 @@ const {
 
 // Timestamp de cooldown para proteção de custos da API de IA
 let ultimaAuditoriaIaTimestamp = 0;
+const MAPA_IDEMPOTENCIA_WEBHOOK_TRIAGEM = new Map();
 
 const CATALOGO_EQUIPE_DIGITAL = [
     {
@@ -492,7 +493,8 @@ const servidor = http.createServer(async (req, res) => {
             integrações: {
                 whatsapp_meta_cloud: {
                     status: (CONFIG.META_WA_PHONE_NUMBER_ID && CONFIG.META_WA_ACCESS_TOKEN) ? 'CREDENCIAS_CONFIGURADAS' : 'AGUARDANDO_CREDENCIAIS_META',
-                    phone_number_id_definido: !!CONFIG.META_WA_PHONE_NUMBER_ID
+                    phone_number_id_definido: !!CONFIG.META_WA_PHONE_NUMBER_ID,
+                    ...whatsAppService.obterStatusIntegracao()
                 },
                 inteligencia_artificial: iaService.obterStatusProvedor(),
                 webhooks_saida: {
@@ -1248,14 +1250,23 @@ const servidor = http.createServer(async (req, res) => {
         return res.end(JSON.stringify({ sucesso: true, dossie }));
     }
     if (urlLimpa === '/api/webhook/triagem' && req.method === 'POST') {
-        const ipOrigem = req.socket.remoteAddress || '127.0.0.1';
+        const ipOrigem = req.headers['x-forwarded-for']?.split(',')[0].trim() || req.socket.remoteAddress || '127.0.0.1';
         if (!seguranca.verificarRateLimit(ipOrigem)) {
             res.writeHead(429, { 'Content-Type': 'application/json; charset=utf-8' });
             return res.end(JSON.stringify({ sucesso: false, erro: 'Muitas requisições. Rate limit excedido.' }));
         }
 
         try {
-            const body = await lerCorpoJson(req);
+            const rawBody = await lerCorpoTexto(req);
+            const sigHeader = req.headers['x-vide-signature-256'] || req.headers['x-vide-signature'] || req.headers['x-hub-signature-256'];
+            if (sigHeader || process.env.EXIGIR_ASSINATURA_WEBHOOK === 'true') {
+                if (!seguranca.validarAssinaturaWebhook(rawBody, sigHeader || '', CONFIG.WEBHOOK_SECRET)) {
+                    res.writeHead(401, { 'Content-Type': 'application/json; charset=utf-8' });
+                    return res.end(JSON.stringify({ sucesso: false, erro: 'Assinatura HMAC-SHA256 inválida no webhook de triagem.' }));
+                }
+            }
+
+            const body = rawBody && rawBody.trim() ? JSON.parse(rawBody) : {};
             let solicitacao = body.solicitacaoOriginal || body.solicitacao || body.mensagem || body.texto || '';
             let cenario = body.identificadorCenario || body.cliente || body.nome || 'Lead WhatsApp/Formulário';
             const prazo = body.prazoUrgenciaInformado || body.prazo || null;
@@ -1265,25 +1276,57 @@ const servidor = http.createServer(async (req, res) => {
 
             if (!solicitacao || solicitacao.trim().length < 5) {
                 res.writeHead(400, { 'Content-Type': 'application/json; charset=utf-8' });
-                return res.end(JSON.stringify({ sucesso: false, erro: 'Mensagem do lead é obrigatória.' }));
+                return res.end(JSON.stringify({ sucesso: false, erro: 'Mensagem do lead é obrigatória (mínimo 5 caracteres).' }));
             }
 
+            // Controle de Idempotência e Prevenção de Eventos Duplicados (Janela de 120s)
+            const agora = Date.now();
+            for (const [k, v] of MAPA_IDEMPOTENCIA_WEBHOOK_TRIAGEM.entries()) {
+                if (agora - v.timestamp > 120000) MAPA_IDEMPOTENCIA_WEBHOOK_TRIAGEM.delete(k);
+            }
+            const chaveIdemp = body.id_evento || body.idempotency_key || `${cenario.toLowerCase()}|${solicitacao.trim().toLowerCase()}`;
+            if (MAPA_IDEMPOTENCIA_WEBHOOK_TRIAGEM.has(chaveIdemp)) {
+                const anterior = MAPA_IDEMPOTENCIA_WEBHOOK_TRIAGEM.get(chaveIdemp);
+                res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+                return res.end(JSON.stringify({
+                    sucesso: true,
+                    duplicado: true,
+                    motivo: 'Evento duplicado bloqueado pelo controle de idempotência (janela de 120s).',
+                    id_demanda: anterior.id_demanda,
+                    id_projeto: anterior.id_projeto,
+                    resultado: anterior.resultado
+                }));
+            }
+
+            const forcarPendente = body.forcarPendente === true || body.autorizadoComercialmente === false || body.modoTeste === true;
             const resultado = executarFluxoTriagemParaCoordenador({
                 solicitacaoOriginal: solicitacao,
                 identificadorCenario: cenario,
-                prazoUrgenciaInformado: prazo
+                prazoUrgenciaInformado: prazo,
+                opcoes: { forcarPendente }
             });
 
-            if (resultado.projeto) {
+            if (resultado.projeto && db.pgPool) {
                 await db.sincronizarProjetoCompletoPostgres(resultado.projeto);
             }
 
+            const idDemandaGerada = resultado.triagem?.id_demanda || resultado.etapa_01_triagem?.idDemanda;
+            const idProjetoGerado = resultado.projeto?.id_projeto || resultado.etapa_02_coordenador?.id_projeto;
+
+            MAPA_IDEMPOTENCIA_WEBHOOK_TRIAGEM.set(chaveIdemp, {
+                timestamp: agora,
+                id_demanda: idDemandaGerada,
+                id_projeto: idProjetoGerado,
+                resultado
+            });
+
             res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
-            return res.end(JSON.stringify({ 
-                sucesso: true, 
+            return res.end(JSON.stringify({
+                sucesso: true,
+                duplicado: false,
                 resultado,
-                id_demanda: resultado.triagem?.id_demanda,
-                id_projeto: resultado.projeto?.id_projeto
+                id_demanda: idDemandaGerada,
+                id_projeto: idProjetoGerado
             }));
         } catch (e) {
             res.writeHead(500, { 'Content-Type': 'application/json; charset=utf-8' });
@@ -1306,7 +1349,7 @@ const servidor = http.createServer(async (req, res) => {
 
     // 3.2 POST /api/webhook/whatsapp — Ingestão de Mensagens e Status da Meta Cloud API
     if (urlLimpa === '/api/webhook/whatsapp' && req.method === 'POST') {
-        const ipOrigem = req.socket.remoteAddress || '127.0.0.1';
+        const ipOrigem = req.headers['x-forwarded-for']?.split(',')[0].trim() || req.socket.remoteAddress || '127.0.0.1';
         if (!seguranca.verificarRateLimit(ipOrigem)) {
             res.writeHead(429, { 'Content-Type': 'application/json; charset=utf-8' });
             return res.end(JSON.stringify({ sucesso: false, erro: 'Rate limit excedido.' }));
@@ -1325,20 +1368,55 @@ const servidor = http.createServer(async (req, res) => {
             const resultadosProcessamento = [];
 
             for (const msg of eventos.mensagens) {
+                const dup = whatsAppService.verificarDuplicidadeMensagem(msg);
+                if (dup) {
+                    resultadosProcessamento.push({
+                        id_meta: msg.id_mensagem_meta,
+                        telefone: msg.telefone,
+                        duplicada: true,
+                        motivo: 'Mensagem WhatsApp repetida ignorada por idempotência (wamid/hash).',
+                        projeto_criado: dup.projeto_criado || null,
+                        contato: dup.contato || null
+                    });
+                    continue;
+                }
+
+                const contato = whatsAppService.associarContatoComercial(msg);
+                // Regra inegociável: Mensagem inbound de WhatsApp NUNCA gera autorização comercial automática
                 const resTriagem = executarFluxoTriagemParaCoordenador({
                     solicitacaoOriginal: msg.texto,
-                    identificadorCenario: `${msg.nome} (${msg.telefone})`,
-                    prazoUrgenciaInformado: null
+                    identificadorCenario: `${contato.nome} (${contato.telefone})`,
+                    prazoUrgenciaInformado: null,
+                    opcoes: { forcarPendente: true }
                 });
+
+                if (resTriagem.projeto && db.pgPool) {
+                    await db.sincronizarProjetoCompletoPostgres(resTriagem.projeto);
+                }
+
+                const idProjCriado = resTriagem.etapa_02_coordenador?.id_projeto || null;
+                whatsAppService.registrarMensagemProcessada(msg, {
+                    projeto_criado: idProjCriado,
+                    contato
+                });
+
                 resultadosProcessamento.push({
                     id_meta: msg.id_mensagem_meta,
                     telefone: msg.telefone,
-                    projeto_criado: resTriagem.etapa_02_coordenador?.id_projeto || null
+                    duplicada: false,
+                    contato,
+                    projeto_criado: idProjCriado,
+                    situacao_projeto: resTriagem.etapa_02_coordenador?.situacao_projeto || 'AGUARDANDO_AUTORIZACAO_COMERCIAL'
                 });
             }
 
             res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
-            return res.end(JSON.stringify({ sucesso: true, eventos, resultadosProcessamento }));
+            return res.end(JSON.stringify({
+                sucesso: true,
+                modo_integracao: whatsAppService.obterStatusIntegracao().modo_operacao,
+                eventos,
+                resultadosProcessamento
+            }));
         } catch (e) {
             res.writeHead(500, { 'Content-Type': 'application/json; charset=utf-8' });
             return res.end(JSON.stringify({ sucesso: false, erro: e.message }));
