@@ -12151,16 +12151,16 @@ input.briefing-input-field:focus,
                 <i class="fas fa-sliders"></i> Área Avançada
             </button>
 
-            <div class="exec-system-status">
-                <div class="status-dot-pulse"></div>
-                <span>Online</span>
+            <div class="exec-system-status" id="topbar-system-status">
+                <div class="status-dot-pulse" id="topbar-status-dot"></div>
+                <span id="topbar-status-txt">Online</span>
             </div>
 
-            <div class="exec-user-chip">
-                <div class="exec-user-avatar">D</div>
+            <div class="exec-user-chip" id="topbar-user-chip">
+                <div class="exec-user-avatar" id="topbar-user-avatar">D</div>
                 <div class="exec-user-text">
-                    <div class="exec-user-name">Douglas Paz</div>
-                    <div class="exec-user-role">Diretoria</div>
+                    <div class="exec-user-name" id="topbar-user-name">Douglas Paz</div>
+                    <div class="exec-user-role" id="topbar-user-role">Diretoria</div>
                 </div>
             </div>
 
@@ -12215,8 +12215,8 @@ input.briefing-input-field:focus,
                     <!-- COLUNA ESQUERDA: COMANDO, ORIENTAÇÃO & DESPACHO DIRETO -->
                     <div class="hero-command-hub">
                         <div class="hero-live-pill">
-                            <span class="live-dot-pulse"></span>
-                            <span>Sistema Online · Gabriel Rocha e 7 especialistas em prontidão</span>
+                            <span class="live-dot-pulse" id="hero-live-dot"></span>
+                            <span id="hero-live-status-txt">Sistema Online · Gabriel Rocha e 7 especialistas em prontidão</span>
                         </div>
 
                         <div class="hero-title-group">
@@ -12335,9 +12335,9 @@ input.briefing-input-field:focus,
 
                     <div class="spec-sheet-cell">
                         <div class="spec-sheet-label">Projetos Ativos</div>
-                        <div class="spec-sheet-val blue" id="inicio-total-projetos-badge">4 Demandas</div>
+                        <div class="spec-sheet-val blue" id="inicio-total-projetos-badge">--</div>
                         <div class="spec-sheet-status" id="inicio-projeto-cliente-val">
-                            AutoPeças Progresso em Foco
+                            Sincronizando carteira...
                         </div>
                     </div>
 
@@ -12518,7 +12518,7 @@ input.briefing-input-field:focus,
                             <div class="gateway-icon-badge" style="background: rgba(16, 185, 129, 0.12); color: #0D7A52; border-color: rgba(16, 185, 129, 0.3);">
                                 <i class="fas fa-diagram-project"></i>
                             </div>
-                            <span class="gateway-status-pill">4 Demandas</span>
+                            <span class="gateway-status-pill" id="gateway-projetos-count-pill">--</span>
                         </div>
                         <div class="gateway-card-body">
                             <h3 class="gateway-card-title">Esteira de Projetos & Tarefas</h3>
@@ -13314,76 +13314,125 @@ input.briefing-input-field:focus,
             <!-- Sub-painel 1: Motor 7D -->
             <div id="pane-avancado-motor" class="avancado-pane active">
                 <section class="cockpit-7d-section">
-                    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 24px; flex-wrap: wrap; gap: 16px;">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; flex-wrap: wrap; gap: 16px;">
                         <div>
                             <span style="font-family: var(--font-mono); font-size: 11px; font-weight: 700; color: #007691; letter-spacing: 0.08em; text-transform: uppercase;">
-                                Análise Multidimensional
+                                Análise Multidimensional · PostgreSQL Ativo
                             </span>
                             <h3 style="font-family: var(--font-headline); font-size: 20px; font-weight: 800; color: #111315; margin: 4px 0 0 0;">
                                 Radar das 7 Dimensões do Negócio
                             </h3>
+                            <div id="motor-diag-data-badge" style="font-family: var(--font-mono); font-size: 11px; color: #5F666D; margin-top: 4px;">
+                                Sincronizando avaliação do banco de dados...
+                            </div>
                         </div>
-                        <button class="btn-dossier-action primary" onclick="dispararDiagnosticoComercial()">
-                            <i class="fas fa-rotate"></i> Recalcular Diagnóstico 7D
-                        </button>
+                        <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+                            <div style="display: flex; align-items: center; gap: 8px; background: #EDF3F8; border: 1.5px solid #869FB8; border-radius: 10px; padding: 6px 12px;">
+                                <i class="fas fa-building" style="color: #0098B8; font-size: 12px;"></i>
+                                <label for="motor-empresa-select" style="font-size: 11.5px; font-weight: 700; color: #2C3136;">Empresa:</label>
+                                <select id="motor-empresa-select" onchange="trocarEmpresaMotor(this.value)" style="background: transparent; border: none; color: #111315; font-size: 12.5px; font-weight: 700; cursor: pointer; outline: none; max-width: 240px;">
+                                    <option value="">Carregando empresas...</option>
+                                </select>
+                            </div>
+                            <button class="btn-dossier-action primary" onclick="recalcularDiagnostico7DMotorAtivo()" id="btn-recalcular-7d">
+                                <i class="fas fa-rotate"></i> Recalcular Diagnóstico 7D
+                            </button>
+                            <button class="btn-dossier-action secondary" onclick="abrirModalNovoDiagnostico7D()">
+                                <i class="fas fa-sliders"></i> Parâmetros 7D
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Métricas Reais Consolidados do Dossiê da Empresa -->
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px; margin-bottom: 22px;">
+                        <div style="background: #DCE6F0; border: 1.5px solid #869FB8; padding: 14px 16px; border-radius: 12px;">
+                            <div style="font-family: var(--font-mono); font-size: 10.5px; color: #5F666D; font-weight: 700;">SCORE GERAL 7D</div>
+                            <div style="font-size: 20px; font-weight: 800; color: #0098B8; margin-top: 4px;" id="motor-metric-score-7d">-- / 100</div>
+                        </div>
+                        <div style="background: #DCE6F0; border: 1.5px solid #869FB8; padding: 14px 16px; border-radius: 12px;">
+                            <div style="font-family: var(--font-mono); font-size: 10.5px; color: #5F666D; font-weight: 700;">CONTATOS VINCULADOS</div>
+                            <div style="font-size: 20px; font-weight: 800; color: #111315; margin-top: 4px;" id="motor-metric-contatos">--</div>
+                        </div>
+                        <div style="background: #DCE6F0; border: 1.5px solid #869FB8; padding: 14px 16px; border-radius: 12px;">
+                            <div style="font-family: var(--font-mono); font-size: 10.5px; color: #5F666D; font-weight: 700;">INTERAÇÕES REGISTRADAS</div>
+                            <div style="font-size: 20px; font-weight: 800; color: #111315; margin-top: 4px;" id="motor-metric-interacoes">--</div>
+                        </div>
+                        <div style="background: #DCE6F0; border: 1.5px solid #869FB8; padding: 14px 16px; border-radius: 12px;">
+                            <div style="font-family: var(--font-mono); font-size: 10.5px; color: #5F666D; font-weight: 700;">EVIDÊNCIAS FACTUAIS</div>
+                            <div style="font-size: 20px; font-weight: 800; color: #0D7A52; margin-top: 4px;" id="motor-metric-evidencias">--</div>
+                        </div>
                     </div>
 
                     <div class="dimensions-cards-grid" id="container-dimensoes-7d">
-                        <div class="dim-card editorial-7d-spec-card">
-                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-                                <span style="font-family: var(--font-mono); font-size: 11px; font-weight: 700; color: #0098B8;">DIMENSÃO 01</span>
-                                <span style="font-family: var(--font-mono); font-size: 10px; font-weight: 700; color: #007691; background: #E6F6F9; border: 1px solid #B6E6F0; padding: 2px 8px; border-radius: 4px;">Posicionamento</span>
-                            </div>
-                            <h4 style="font-family: var(--font-headline); font-size: 16px; font-weight: 800; color: #111315; margin: 0 0 6px 0;">Comunicação & Proposta de Valor</h4>
-                            <p style="font-size: 12.5px; color: #4A5056; line-height: 1.5; margin: 0;">Clareza da oferta comercial, autoridade visual da marca e diferenciação imediata frente aos concorrentes do nicho.</p>
+                        <div style="grid-column: 1 / -1; background: #DCE6F0; border: 1.5px solid #869FB8; border-radius: 14px; padding: 24px; text-align: center; color: #4A5056; font-size: 13px;">
+                            <i class="fas fa-spinner fa-spin" style="color: #0098B8; margin-right: 8px;"></i> Carregando diagnóstico 7D real do banco PostgreSQL...
                         </div>
-                        <div class="dim-card editorial-7d-spec-card">
-                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-                                <span style="font-family: var(--font-mono); font-size: 11px; font-weight: 700; color: #0098B8;">DIMENSÃO 02</span>
-                                <span style="font-family: var(--font-mono); font-size: 10px; font-weight: 700; color: #4A5056; background: #C7D6E4; border: 1.5px solid #869FB8; color: #14171A; padding: 2px 8px; border-radius: 4px;">Captação</span>
+                    </div>
+
+                    <!-- Ranking de Gargalos Priorizados EPV & Recomendações MIV -->
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-top: 24px;">
+                        <div style="background: #FFFFFF; border: 1.5px solid #869FB8; border-radius: 16px; padding: 20px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+                                <h4 style="font-family: var(--font-headline); font-size: 16px; font-weight: 800; color: #111315; margin: 0;">
+                                    <i class="fas fa-ranking-star" style="color: #B45309; margin-right: 6px;"></i> Gargalos Priorizados (EPV)
+                                </h4>
+                                <span style="font-family: var(--font-mono); font-size: 10px; color: #5F666D;">FÓRMULA EPV v2.2</span>
                             </div>
-                            <h4 style="font-family: var(--font-headline); font-size: 16px; font-weight: 800; color: #111315; margin: 0 0 6px 0;">Aquisição & Tráfego Qualificado</h4>
-                            <p style="font-size: 12.5px; color: #4A5056; line-height: 1.5; margin: 0;">Eficiência dos canais de entrada, previsibilidade de geração de oportunidades e aderência ao perfil ideal de cliente (ICP).</p>
+                            <div id="motor-epv-ranking-list" style="display: flex; flex-direction: column; gap: 12px;">
+                                <div style="color: #767D84; font-size: 13px;">Carregando ranking de gargalos...</div>
+                            </div>
                         </div>
-                        <div class="dim-card editorial-7d-spec-card">
-                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-                                <span style="font-family: var(--font-mono); font-size: 11px; font-weight: 700; color: #0098B8;">DIMENSÃO 03</span>
-                                <span style="font-family: var(--font-mono); font-size: 10px; font-weight: 700; color: #0D7A52; background: #E8F5EF; border: 1px solid #B8E2D0; padding: 2px 8px; border-radius: 4px;">Velocidade</span>
+
+                        <div style="background: #FFFFFF; border: 1.5px solid #869FB8; border-radius: 16px; padding: 20px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; flex-wrap: wrap; gap: 8px;">
+                                <h4 style="font-family: var(--font-headline); font-size: 16px; font-weight: 800; color: #111315; margin: 0;">
+                                    <i class="fas fa-lightbulb" style="color: #0098B8; margin-right: 6px;"></i> Recomendações MIV (Menor Intervenção Viável)
+                                </h4>
+                                <button class="btn-workbench-inline-chat" style="padding: 5px 10px; font-size: 11px;" onclick="abrirModalNovaAvaliacaoMIV()">
+                                    <i class="fas fa-chart-line"></i> Avaliar Impacto MIV
+                                </button>
                             </div>
-                            <h4 style="font-family: var(--font-headline); font-size: 16px; font-weight: 800; color: #111315; margin: 0 0 6px 0;">Atendimento & Tempo de Resposta</h4>
-                            <p style="font-size: 12.5px; color: #4A5056; line-height: 1.5; margin: 0;">Acolhimento imediato no WhatsApp, roteiros estruturados de primeiro contato e eliminação de perda por demora.</p>
+                            <div id="motor-miv-cards-container" style="display: flex; flex-direction: column; gap: 12px;">
+                                <div style="color: #767D84; font-size: 13px;">Carregando recomendações MIV...</div>
+                            </div>
                         </div>
-                        <div class="dim-card editorial-7d-spec-card">
-                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-                                <span style="font-family: var(--font-mono); font-size: 11px; font-weight: 700; color: #0098B8;">DIMENSÃO 04</span>
-                                <span style="font-family: var(--font-mono); font-size: 10px; font-weight: 700; color: #4A5056; background: #C7D6E4; border: 1.5px solid #869FB8; color: #14171A; padding: 2px 8px; border-radius: 4px;">Triagem</span>
+                    </div>
+
+                    <!-- Epistemologia Tripartite: Fatos, Padrões e Hipóteses Causais -->
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin-top: 20px;">
+                        <div style="background: #FFFFFF; border: 1.5px solid #869FB8; border-radius: 14px; padding: 18px;">
+                            <h5 style="font-family: var(--font-headline); font-size: 14px; font-weight: 800; color: #111315; margin: 0 0 10px 0;">
+                                <i class="fas fa-file-contract" style="color: #0098B8; margin-right: 6px;"></i> 1. Fatos & Evidências Verificadas
+                            </h5>
+                            <div id="tripartite-fatos-list" style="display: flex; flex-direction: column; gap: 8px;">
+                                <div style="font-size: 12px; color: #5F666D;">Sincronizando evidências...</div>
                             </div>
-                            <h4 style="font-family: var(--font-headline); font-size: 16px; font-weight: 800; color: #111315; margin: 0 0 6px 0;">Processo & Qualificação Comercial</h4>
-                            <p style="font-size: 12.5px; color: #4A5056; line-height: 1.5; margin: 0;">Diagnóstico de maturidade do comprador, separação entre sintomas e causas reais e enquadramento no pacote contratado.</p>
                         </div>
-                        <div class="dim-card editorial-7d-spec-card">
-                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-                                <span style="font-family: var(--font-mono); font-size: 11px; font-weight: 700; color: #0098B8;">DIMENSÃO 05</span>
-                                <span style="font-family: var(--font-mono); font-size: 10px; font-weight: 700; color: #0D7A52; background: #E8F5EF; border: 1px solid #B8E2D0; padding: 2px 8px; border-radius: 4px;">Fechamento</span>
+                        <div style="background: #FFFFFF; border: 1.5px solid #869FB8; border-radius: 14px; padding: 18px;">
+                            <h5 style="font-family: var(--font-headline); font-size: 14px; font-weight: 800; color: #111315; margin: 0 0 10px 0;">
+                                <i class="fas fa-wave-square" style="color: #B45309; margin-right: 6px;"></i> 2. Padrões Comportamentais
+                            </h5>
+                            <div id="tripartite-padroes-list" style="display: flex; flex-direction: column; gap: 8px;">
+                                <div style="font-size: 12px; color: #5F666D;">Sincronizando padrões...</div>
                             </div>
-                            <h4 style="font-family: var(--font-headline); font-size: 16px; font-weight: 800; color: #111315; margin: 0 0 6px 0;">Conversão & Contorno de Objeções</h4>
-                            <p style="font-size: 12.5px; color: #4A5056; line-height: 1.5; margin: 0;">Matriz das 5 maiores objeções, ancoragem de valor, cadências de follow-up e consistência na taxa de fechamento.</p>
                         </div>
-                        <div class="dim-card editorial-7d-spec-card">
-                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-                                <span style="font-family: var(--font-mono); font-size: 11px; font-weight: 700; color: #0098B8;">DIMENSÃO 06</span>
-                                <span style="font-family: var(--font-mono); font-size: 10px; font-weight: 700; color: #007691; background: #E6F6F9; border: 1px solid #B6E6F0; padding: 2px 8px; border-radius: 4px;">Engenharia</span>
+                        <div style="background: #FFFFFF; border: 1.5px solid #869FB8; border-radius: 14px; padding: 18px;">
+                            <h5 style="font-family: var(--font-headline); font-size: 14px; font-weight: 800; color: #111315; margin: 0 0 10px 0;">
+                                <i class="fas fa-microscope" style="color: #0D7A52; margin-right: 6px;"></i> 3. Hipóteses Causais
+                            </h5>
+                            <div id="tripartite-hipoteses-list" style="display: flex; flex-direction: column; gap: 8px;">
+                                <div style="font-size: 12px; color: #5F666D;">Sincronizando hipóteses...</div>
                             </div>
-                            <h4 style="font-family: var(--font-headline); font-size: 16px; font-weight: 800; color: #111315; margin: 0 0 6px 0;">Estrutura Digital & Automação</h4>
-                            <p style="font-size: 12.5px; color: #4A5056; line-height: 1.5; margin: 0;">Landing pages de carregamento ultrarrápido, webhooks resilientes, fluxos n8n e rastreabilidade ponta a ponta.</p>
                         </div>
-                        <div class="dim-card editorial-7d-spec-card">
-                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-                                <span style="font-family: var(--font-mono); font-size: 11px; font-weight: 700; color: #0098B8;">DIMENSÃO 07</span>
-                                <span style="font-family: var(--font-mono); font-size: 10px; font-weight: 700; color: #B45309; background: #FEF3C7; border: 1px solid #F5D08A; padding: 2px 8px; border-radius: 4px;">Governança</span>
-                            </div>
-                            <h4 style="font-family: var(--font-headline); font-size: 16px; font-weight: 800; color: #111315; margin: 0 0 6px 0;">Gestão, Retenção & LTV</h4>
-                            <p style="font-size: 12.5px; color: #4A5056; line-height: 1.5; margin: 0;">Acompanhamento de indicadores pós-venda, retenção de carteira, recompra e expansão controlada de escopo.</p>
+                    </div>
+
+                    <!-- Aprendizados Empíricos MIV -->
+                    <div style="background: #FFFFFF; border: 1.5px solid #869FB8; border-radius: 16px; padding: 20px; margin-top: 20px;">
+                        <h4 style="font-family: var(--font-headline); font-size: 16px; font-weight: 800; color: #111315; margin: 0 0 12px 0;">
+                            <i class="fas fa-graduation-cap" style="color: #007691; margin-right: 6px;"></i> Histórico de Aprendizado Empírico (Baseline vs Pós-Intervenção)
+                        </h4>
+                        <div id="motor-aprendizados-cards-container" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px;">
+                            <div style="color: #767D84; font-size: 13px;">Carregando aprendizados...</div>
                         </div>
                     </div>
                 </section>
@@ -13392,19 +13441,60 @@ input.briefing-input-field:focus,
             <!-- Sub-painel 2: Ingestão de Dados -->
             <div id="pane-avancado-ingestao" class="avancado-pane" style="display: none;">
                 <section class="ingestao-dados-section" style="background: #FFFFFF; border: 1px solid var(--vide-border-hairline); border-radius: 20px; padding: 28px;">
-                    <h3 style="font-family: var(--font-headline); font-size: 18px; font-weight: 800; color: #111315; margin-bottom: 8px;">
-                        Ingestão de Dados Multi-fonte
-                    </h3>
-                    <p style="font-size: 13px; color: #5F666D; margin-bottom: 24px;">
-                        Carregue planilhas de clientes, extratos de vendas ou históricos comerciais para calibrar as projeções de receita da VIDE.
-                    </p>
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 16px; margin-bottom: 20px;">
+                        <div>
+                            <h3 style="font-family: var(--font-headline); font-size: 18px; font-weight: 800; color: #111315; margin-bottom: 6px;">
+                                Ingestão de Dados Multi-fonte
+                            </h3>
+                            <p style="font-size: 13px; color: #5F666D; margin: 0;">
+                                Carregue planilhas de clientes (CSV, XLSX, JSON), extratos de vendas ou históricos comerciais para alimentar o Motor 7D.
+                            </p>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+                            <div style="display: flex; align-items: center; gap: 8px; background: #EDF3F8; border: 1.5px solid #869FB8; border-radius: 10px; padding: 6px 12px;">
+                                <i class="fas fa-building" style="color: #0098B8; font-size: 12px;"></i>
+                                <label for="ingestao-empresa-select" style="font-size: 11.5px; font-weight: 700; color: #2C3136;">Empresa:</label>
+                                <select id="ingestao-empresa-select" onchange="trocarEmpresaIngestao(this.value)" style="background: transparent; border: none; color: #111315; font-size: 12.5px; font-weight: 700; cursor: pointer; outline: none; max-width: 240px;">
+                                    <option value="">Carregando empresas...</option>
+                                </select>
+                            </div>
+                            <input type="file" id="input-arquivo-ingestao" accept=".csv,.tsv,.txt,.json,.xlsx" style="display: none;" onchange="processarArquivoIngestao(event)">
+                            <button class="btn-dossier-action primary" onclick="document.getElementById('input-arquivo-ingestao').click()">
+                                <i class="fas fa-file-arrow-up"></i> Selecionar Arquivo Rápido
+                            </button>
+                            <button class="btn-dossier-action secondary" onclick="abrirModalNovaIngestao()">
+                                <i class="fas fa-database"></i> Ingestão Avançada / JSON
+                            </button>
+                        </div>
+                    </div>
 
-                    <div style="display: flex; gap: 14px; flex-wrap: wrap; align-items: center;">
-                        <input type="file" id="input-arquivo-ingestao" style="display: none;" onchange="processarArquivoIngestao(event)">
-                        <button class="btn-dossier-action primary" onclick="document.getElementById('input-arquivo-ingestao').click()">
-                            <i class="fas fa-file-arrow-up"></i> Selecionar Arquivo para Ingestão
-                        </button>
-                        <span id="ingestao-status-txt" style="font-size: 12px; color: #767D84;">Nenhum arquivo em processamento</span>
+                    <div style="margin-bottom: 18px;">
+                        <span id="ingestao-status-txt" style="font-size: 12.5px; font-weight: 600; color: #4A5056;">Pronto para importação de lote comercial.</span>
+                    </div>
+
+                    <!-- Métricas de Lotes Ingeridos -->
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 14px; margin-bottom: 22px;">
+                        <div style="background: #DCE6F0; border: 1.5px solid #869FB8; padding: 14px 16px; border-radius: 12px;">
+                            <div style="font-family: var(--font-mono); font-size: 10.5px; color: #5F666D; font-weight: 700;">LOTES IMPORTADOS</div>
+                            <div style="font-size: 20px; font-weight: 800; color: #111315; margin-top: 4px;" id="ingestao-metric-lotes">0</div>
+                        </div>
+                        <div style="background: #DCE6F0; border: 1.5px solid #869FB8; padding: 14px 16px; border-radius: 12px;">
+                            <div style="font-family: var(--font-mono); font-size: 10.5px; color: #5F666D; font-weight: 700;">REGISTROS VÁLIDOS</div>
+                            <div style="font-size: 20px; font-weight: 800; color: #0D7A52; margin-top: 4px;" id="ingestao-metric-validos">0</div>
+                        </div>
+                        <div style="background: #DCE6F0; border: 1.5px solid #869FB8; padding: 14px 16px; border-radius: 12px;">
+                            <div style="font-family: var(--font-mono); font-size: 10.5px; color: #5F666D; font-weight: 700;">DUPLICADOS FILTRADOS</div>
+                            <div style="font-size: 20px; font-weight: 800; color: #B45309; margin-top: 4px;" id="ingestao-metric-duplicados">0</div>
+                        </div>
+                        <div style="background: #DCE6F0; border: 1.5px solid #869FB8; padding: 14px 16px; border-radius: 12px;">
+                            <div style="font-family: var(--font-mono); font-size: 10.5px; color: #5F666D; font-weight: 700;">ALERTAS / REJEITADOS</div>
+                            <div style="font-size: 20px; font-weight: 800; color: #B91C1C; margin-top: 4px;" id="ingestao-metric-alertas">0</div>
+                        </div>
+                    </div>
+
+                    <!-- Lista de Lotes Persistidos no PostgreSQL -->
+                    <div id="ingestao-lotes-container" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px;">
+                        <div style="color: #767D84; font-size: 13px;">Carregando lotes de ingestão...</div>
                     </div>
                 </section>
             </div>
@@ -13412,14 +13502,21 @@ input.briefing-input-field:focus,
             <!-- Sub-painel 3: Telemetria Real do Sistema (FIM DOS DADOS FICTÍCIOS) -->
             <div id="pane-avancado-telemetria" class="avancado-pane" style="display: none;">
                 <section class="telemetria-section" style="background: #FFFFFF; border: 1px solid var(--vide-border-hairline); border-radius: 20px; padding: 28px;">
-                    <h3 style="font-family: var(--font-headline); font-size: 18px; font-weight: 800; color: #111315; margin-bottom: 8px;">
-                        Telemetria & Integridade da Infraestrutura
-                    </h3>
-                    <p style="font-size: 13px; color: #5F666D; margin-bottom: 24px;">
-                        Métricas reais de integridade operacional do backend e conformidade de governança da VIDE.
-                    </p>
+                    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 18px;">
+                        <div>
+                            <h3 style="font-family: var(--font-headline); font-size: 18px; font-weight: 800; color: #111315; margin-bottom: 4px;">
+                                Telemetria & Integridade da Infraestrutura
+                            </h3>
+                            <p style="font-size: 13px; color: #5F666D; margin: 0;">
+                                Métricas reais de integridade operacional do backend, banco de dados PostgreSQL, armazenamento e integrações externas.
+                            </p>
+                        </div>
+                        <button class="btn-dossier-action secondary" onclick="carregarTelemetriaReal()">
+                            <i class="fas fa-arrows-rotate"></i> Atualizar Telemetria
+                        </button>
+                    </div>
 
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px;">
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 20px;">
                         <div style="background: #DCE6F0; border: 1.5px solid #869FB8; padding: 18px; border-radius: 12px;">
                             <div style="font-family: var(--font-mono); font-size: 11px; color: #5F666D;">STATUS DO BACKEND</div>
                             <div style="font-size: 20px; font-weight: 800; color: #0D7A52; margin-top: 4px;" id="servidor-status-val">--</div>
@@ -13436,6 +13533,41 @@ input.briefing-input-field:focus,
                             <div style="font-family: var(--font-mono); font-size: 11px; color: #5F666D;">CONFORMIDADE DE ESCOPO</div>
                             <div style="font-size: 20px; font-weight: 800; color: #B45309; margin-top: 4px;" id="telemetria-conformidade-val">--</div>
                         </div>
+                    </div>
+
+                    <!-- Status Real de Persistência e Integrações Externas -->
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; margin-bottom: 22px;">
+                        <div style="background: #EDF3F8; border: 1.5px solid #869FB8; padding: 14px 16px; border-radius: 12px;">
+                            <div style="font-family: var(--font-mono); font-size: 10.5px; color: #5F666D; font-weight: 700;">BANCO DE DADOS</div>
+                            <div style="font-size: 13.5px; font-weight: 800; color: #0D7A52; margin-top: 4px;" id="telemetria-db-val">--</div>
+                        </div>
+                        <div style="background: #EDF3F8; border: 1.5px solid #869FB8; padding: 14px 16px; border-radius: 12px;">
+                            <div style="font-family: var(--font-mono); font-size: 10.5px; color: #5F666D; font-weight: 700;">ARMAZENAMENTO DE ENTREGAS</div>
+                            <div style="font-size: 13.5px; font-weight: 800; color: #007691; margin-top: 4px;" id="telemetria-storage-val">--</div>
+                        </div>
+                        <div style="background: #EDF3F8; border: 1.5px solid #869FB8; padding: 14px 16px; border-radius: 12px;">
+                            <div style="font-family: var(--font-mono); font-size: 10.5px; color: #5F666D; font-weight: 700;">MOTOR COGNITIVO / IA</div>
+                            <div style="font-size: 13.5px; font-weight: 800; color: #111315; margin-top: 4px;" id="telemetria-ia-val">--</div>
+                        </div>
+                        <div style="background: #EDF3F8; border: 1.5px solid #869FB8; padding: 14px 16px; border-radius: 12px;">
+                            <div style="font-family: var(--font-mono); font-size: 10.5px; color: #5F666D; font-weight: 700;">WHATSAPP BUSINESS API</div>
+                            <div style="font-size: 12.5px; font-weight: 800; color: #B45309; margin-top: 4px;" id="telemetria-whatsapp-val">--</div>
+                        </div>
+                        <div style="background: #EDF3F8; border: 1.5px solid #869FB8; padding: 14px 16px; border-radius: 12px;">
+                            <div style="font-family: var(--font-mono); font-size: 10.5px; color: #5F666D; font-weight: 700;">ORQUESTRADOR N8N</div>
+                            <div style="font-size: 12.5px; font-weight: 800; color: #B45309; margin-top: 4px;" id="telemetria-n8n-val">--</div>
+                        </div>
+                    </div>
+
+                    <!-- Registro de Eventos Operacionais da Sessão -->
+                    <div style="background: #DCE6F0; border: 1.5px solid #869FB8; border-radius: 14px; padding: 16px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                            <span style="font-family: var(--font-mono); font-size: 11px; font-weight: 800; color: #111315;">
+                                <i class="fas fa-terminal" style="color: #0098B8; margin-right: 6px;"></i> REGISTRO DE AUDITORIA OPERACIONAL EM TEMPO REAL
+                            </span>
+                            <span id="terminal-host-init" style="font-family: var(--font-mono); font-size: 10.5px; color: #5F666D;"></span>
+                        </div>
+                        <div id="terminal-feed" style="max-height: 220px; overflow-y: auto; background: #EDF3F8; border: 1px solid #869FB8; border-radius: 10px; padding: 10px 14px; font-family: var(--font-mono); font-size: 12px;"></div>
                     </div>
                 </section>
             </div>
@@ -13623,7 +13755,7 @@ input.briefing-input-field:focus,
 
             <!-- Wizard Step 2: Perguntas Introdutórias & Direção Básica -->
             <div id="briefing-step-2" style="display: none;">
-                <form id="form-briefing-intuitivo" onsubmit="concluirBriefingEstrategico(event)" style="display: flex; flex-direction: column; gap: 16px;">
+                <form id="form-modal-novo-projeto" onsubmit="concluirBriefingEstrategico(event)" style="display: flex; flex-direction: column; gap: 16px;">
                     <div>
                         <label style="display: block; font-size: 12.5px; font-weight: 700; color: #111315; margin-bottom: 6px;">1. Nome da Empresa ou Cliente:</label>
                         <input type="text" id="briefing-cliente" class="input-dark-field" required placeholder="Ex: AutoPeças Progresso, Bella Moda Feminina..." style="width: 100%; padding: 12px 14px; background: #FFFFFF; border: 1.5px solid #6E8BA6; border-radius: 12px; color: #111315;">
@@ -13655,11 +13787,337 @@ input.briefing-input-field:focus,
                             <i class="fas fa-arrow-left"></i> Voltar
                         </button>
 
-                        <button type="submit" style="background: linear-gradient(135deg, #10B981 0%, #059669 100%); color: #03140D; border: none; border-radius: 14px; padding: 12px 24px; font-size: 13.5px; font-weight: 800; cursor: pointer; display: flex; align-items: center; gap: 8px; box-shadow: 0 4px 18px rgba(16, 185, 129, 0.35);">
+                        <button type="submit" id="btn-submit-novo-projeto" style="background: linear-gradient(135deg, #10B981 0%, #059669 100%); color: #03140D; border: none; border-radius: 14px; padding: 12px 24px; font-size: 13.5px; font-weight: 800; cursor: pointer; display: flex; align-items: center; gap: 8px; box-shadow: 0 4px 18px rgba(16, 185, 129, 0.35);">
                             <i class="fas fa-check"></i> Gerar Estratégia da Solução
                         </button>
                     </div>
+                    <div id="modal-novo-projeto-erro" style="display: none; padding: 10px 14px; background: #FEE2E2; border: 1px solid #F87171; border-radius: 10px; color: #B91C1C; font-size: 12.5px; font-weight: 600;"></div>
                 </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- =====================================================================
+     * MODAL 4: AUTORIZAÇÃO COMERCIAL FORMAL DA DIRETORIA (#modal-autorizar-projeto)
+     * ===================================================================== -->
+    <div id="modal-autorizar-projeto" class="modal-overlay" style="display: none; position: fixed; inset: 0; background: rgba(5, 7, 12, 0.88); backdrop-filter: blur(20px); z-index: 100002; align-items: center; justify-content: center; padding: 20px;">
+        <div style="background: #FFFFFF; border: 1.5px solid #6E8BA6; border-radius: 20px; max-width: 640px; width: 100%; max-height: 90vh; overflow-y: auto; padding: 28px 32px; box-shadow: 0 30px 70px rgba(0,0,0,0.85);">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 1px solid #B8CBE0; padding-bottom: 16px; margin-bottom: 20px;">
+                <div>
+                    <span style="display: inline-flex; align-items: center; gap: 6px; padding: 3px 10px; background: #FEF3C7; border: 1px solid #F5D08A; border-radius: 999px; font-size: 10.5px; font-weight: 800; color: #B45309; text-transform: uppercase;">
+                        <i class="fas fa-shield-halved"></i> Governança Comercial VIDE
+                    </span>
+                    <h3 style="font-family: var(--font-headline); font-size: 20px; font-weight: 800; color: #111315; margin: 6px 0 2px 0;">
+                        Autorização Comercial Formal
+                    </h3>
+                    <p style="font-size: 12.5px; color: #4A5056; margin: 0;">
+                        Projeto: <strong id="modal-aut-id">--</strong> · Cliente: <strong id="modal-aut-empresa">--</strong>
+                    </p>
+                </div>
+                <button type="button" onclick="fecharModalAutorizarProjeto()" class="btn-close-modal"><i class="fas fa-times"></i></button>
+            </div>
+
+            <form id="form-autorizar-projeto" onsubmit="confirmarAutorizacaoProjeto(event)" style="display: flex; flex-direction: column; gap: 14px;">
+                <div>
+                    <label style="display: block; font-size: 12px; font-weight: 700; color: #111315; margin-bottom: 6px;">Frentes Comerciais Contratadas:</label>
+                    <div style="display: flex; gap: 14px; flex-wrap: wrap; background: #DCE6F0; padding: 10px 14px; border-radius: 10px; border: 1px solid #869FB8;">
+                        <label style="font-size: 12.5px; color: #111315; font-weight: 600; display: flex; align-items: center; gap: 6px; cursor: pointer;">
+                            <input type="checkbox" id="aut-frente-presenca" checked> Presença Comercial
+                        </label>
+                        <label style="font-size: 12.5px; color: #111315; font-weight: 600; display: flex; align-items: center; gap: 6px; cursor: pointer;">
+                            <input type="checkbox" id="aut-frente-sistema"> Sistema Comercial
+                        </label>
+                        <label style="font-size: 12.5px; color: #111315; font-weight: 600; display: flex; align-items: center; gap: 6px; cursor: pointer;">
+                            <input type="checkbox" id="aut-frente-intel"> Inteligência & Otimização 7D
+                        </label>
+                    </div>
+                </div>
+
+                <div>
+                    <label for="aut-escopo" style="display: block; font-size: 12px; font-weight: 700; color: #111315; margin-bottom: 6px;">Escopo Técnico Autorizado:</label>
+                    <textarea id="aut-escopo" rows="2" required style="width: 100%; padding: 10px 12px; background: #EDF3F8; border: 1.5px solid #869FB8; border-radius: 10px; color: #111315; font-size: 13px;"></textarea>
+                </div>
+
+                <div>
+                    <label for="aut-limites" style="display: block; font-size: 12px; font-weight: 700; color: #111315; margin-bottom: 6px;">Limites Estritos de Trabalho (Blindagem Contratual):</label>
+                    <textarea id="aut-limites" rows="2" required style="width: 100%; padding: 10px 12px; background: #EDF3F8; border: 1.5px solid #869FB8; border-radius: 10px; color: #111315; font-size: 13px;"></textarea>
+                </div>
+
+                <div>
+                    <label for="aut-responsavel" style="display: block; font-size: 12px; font-weight: 700; color: #111315; margin-bottom: 6px;">Responsável pela Autorização:</label>
+                    <input type="text" id="aut-responsavel" required value="Douglas Paz — Diretor Executivo" style="width: 100%; padding: 10px 12px; background: #EDF3F8; border: 1.5px solid #869FB8; border-radius: 10px; color: #111315; font-size: 13px;">
+                </div>
+
+                <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 8px; padding-top: 14px; border-top: 1px solid #B8CBE0;">
+                    <button type="button" onclick="fecharModalAutorizarProjeto()" class="btn-luxury-glass">Cancelar</button>
+                    <button type="submit" class="btn-luxury-emerald">
+                        <i class="fas fa-signature"></i> Confirmar Autorização e Liberar Equipe
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- =====================================================================
+     * MODAL 5: INSPEÇÃO DE TAREFA E ENTREGÁVEIS (#modal-inspecionar-tarefa)
+     * ===================================================================== -->
+    <div id="modal-inspecionar-tarefa" class="modal-overlay" style="display: none; position: fixed; inset: 0; background: rgba(5, 7, 12, 0.88); backdrop-filter: blur(20px); z-index: 100002; align-items: center; justify-content: center; padding: 20px;">
+        <div style="background: #FFFFFF; border: 1.5px solid #6E8BA6; border-radius: 20px; max-width: 720px; width: 100%; max-height: 90vh; overflow-y: auto; padding: 28px 32px; box-shadow: 0 30px 70px rgba(0,0,0,0.85);">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 1px solid #B8CBE0; padding-bottom: 14px; margin-bottom: 18px;">
+                <div>
+                    <span id="modal-insp-badge" style="font-family: var(--font-mono); font-size: 11px; font-weight: 800; color: #0098B8; text-transform: uppercase;">INSPEÇÃO DE TAREFA</span>
+                    <h3 id="modal-insp-titulo" style="font-family: var(--font-headline); font-size: 20px; font-weight: 800; color: #111315; margin: 4px 0 0 0;">--</h3>
+                </div>
+                <button type="button" onclick="fecharModalInspecaoTarefa()" class="btn-close-modal"><i class="fas fa-times"></i></button>
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 14px;">
+                <div style="background: #DCE6F0; border: 1.5px solid #869FB8; border-radius: 12px; padding: 14px 16px;">
+                    <div style="font-family: var(--font-mono); font-size: 10.5px; font-weight: 700; color: #5F666D; margin-bottom: 4px;">OBJETIVO TÉCNICO DA ETAPA</div>
+                    <div id="modal-insp-objetivo" style="font-size: 13px; color: #111315; line-height: 1.5;">--</div>
+                </div>
+
+                <div style="background: #DCE6F0; border: 1.5px solid #869FB8; border-radius: 12px; padding: 14px 16px;">
+                    <div style="font-family: var(--font-mono); font-size: 10.5px; font-weight: 700; color: #0D7A52; margin-bottom: 4px;">CRITÉRIOS DE ACEITE & QUALIDADE</div>
+                    <div id="modal-insp-criterios" style="font-size: 13px; color: #111315; line-height: 1.5;">--</div>
+                </div>
+
+                <div style="background: #EDF3F8; border: 1.5px solid #869FB8; border-radius: 12px; padding: 14px 16px;">
+                    <div style="font-family: var(--font-mono); font-size: 10.5px; font-weight: 700; color: #007691; margin-bottom: 6px;">EVIDÊNCIAS DE EXECUÇÃO & ARQUIVOS GERADOS</div>
+                    <div id="modal-insp-evidencias" style="font-size: 12.5px; color: #111315; display: flex; flex-direction: column; gap: 6px;">--</div>
+                </div>
+
+                <div style="background: #EDF3F8; border: 1.5px solid #869FB8; border-radius: 12px; padding: 14px 16px;">
+                    <div style="font-family: var(--font-mono); font-size: 10.5px; font-weight: 700; color: #5F666D; margin-bottom: 6px;">HISTÓRICO DE AUDITORIA DA TAREFA</div>
+                    <div id="modal-insp-historico" style="font-family: var(--font-mono); font-size: 11.5px; color: #2C3136; display: flex; flex-direction: column; gap: 4px;">--</div>
+                </div>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-top: 20px; padding-top: 16px; border-top: 1px solid #B8CBE0;">
+                <button type="button" onclick="solicitarCorrecaoTarefaModal()" class="btn-outline-subtle">
+                    <i class="fas fa-rotate-left"></i> Solicitar Ajustes ao Especialista
+                </button>
+                <div style="display: flex; gap: 10px;">
+                    <button type="button" onclick="fecharModalInspecaoTarefa()" class="btn-luxury-glass">Fechar</button>
+                    <button type="button" onclick="aprovarEntregaTarefaModal()" class="btn-luxury-emerald">
+                        <i class="fas fa-check-double"></i> Homologar Entrega
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- =====================================================================
+     * MODAL 6: RASTREABILIDADE DE EVIDÊNCIAS MIV (#modal-rastreabilidade-miv)
+     * ===================================================================== -->
+    <div id="modal-rastreabilidade-miv" class="modal-overlay" style="display: none; position: fixed; inset: 0; background: rgba(5, 7, 12, 0.88); backdrop-filter: blur(20px); z-index: 100002; align-items: center; justify-content: center; padding: 20px;">
+        <div style="background: #FFFFFF; border: 1.5px solid #6E8BA6; border-radius: 20px; max-width: 680px; width: 100%; max-height: 90vh; overflow-y: auto; padding: 28px 32px; box-shadow: 0 30px 70px rgba(0,0,0,0.85);">
+            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #B8CBE0; padding-bottom: 14px; margin-bottom: 18px;">
+                <div>
+                    <span style="font-family: var(--font-mono); font-size: 10.5px; font-weight: 800; color: #0098B8;">CADEIA DE RASTREABILIDADE RELACIONAL · POSTGRESQL</span>
+                    <h3 style="font-family: var(--font-headline); font-size: 19px; font-weight: 800; color: #111315; margin: 4px 0 0 0;">Evidências da Recomendação MIV</h3>
+                </div>
+                <button type="button" onclick="fecharModalRastreabilidade()" class="btn-close-modal"><i class="fas fa-times"></i></button>
+            </div>
+            <div id="modal-rastreab-conteudo" style="display: flex; flex-direction: column; gap: 12px;"></div>
+            <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px; padding-top: 14px; border-top: 1px solid #B8CBE0;">
+                <button type="button" onclick="fecharModalRastreabilidade()" class="btn-luxury-glass">Fechar</button>
+                <button type="button" id="modal-rastreab-btn-aprovar" class="btn-luxury-emerald" style="display: none;">
+                    <i class="fas fa-stamp"></i> Aprovar & Despachar MIV
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- =====================================================================
+     * MODAL 7: NOVO DIAGNÓSTICO 7D PARAMETRIZADO (#modal-novo-diagnostico-7d)
+     * ===================================================================== -->
+    <div id="modal-novo-diagnostico-7d" class="modal-overlay" style="display: none; position: fixed; inset: 0; background: rgba(5, 7, 12, 0.88); backdrop-filter: blur(20px); z-index: 100002; align-items: center; justify-content: center; padding: 20px;">
+        <div style="background: #FFFFFF; border: 1.5px solid #6E8BA6; border-radius: 20px; max-width: 580px; width: 100%; padding: 28px 32px; box-shadow: 0 30px 70px rgba(0,0,0,0.85);">
+            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #B8CBE0; padding-bottom: 14px; margin-bottom: 18px;">
+                <h3 style="font-family: var(--font-headline); font-size: 19px; font-weight: 800; color: #111315; margin: 0;">Executar Diagnóstico 7D</h3>
+                <button type="button" onclick="fecharModalNovoDiagnostico7D()" class="btn-close-modal"><i class="fas fa-times"></i></button>
+            </div>
+            <form onsubmit="submeterNovoDiagnostico7D(event)" style="display: flex; flex-direction: column; gap: 14px;">
+                <div>
+                    <label for="modal-diag-empresa" style="display: block; font-size: 12px; font-weight: 700; color: #111315; margin-bottom: 6px;">Empresa Alvo:</label>
+                    <select id="modal-diag-empresa" style="width: 100%; padding: 10px 12px; background: #EDF3F8; border: 1.5px solid #869FB8; border-radius: 10px; color: #111315;"></select>
+                </div>
+                <div>
+                    <label for="modal-diag-segmento" style="display: block; font-size: 12px; font-weight: 700; color: #111315; margin-bottom: 6px;">Segmento de Atuação:</label>
+                    <input type="text" id="modal-diag-segmento" value="Varejo & Serviços Comerciais" required style="width: 100%; padding: 10px 12px; background: #EDF3F8; border: 1.5px solid #869FB8; border-radius: 10px; color: #111315;">
+                </div>
+                <div>
+                    <label for="modal-diag-observacao" style="display: block; font-size: 12px; font-weight: 700; color: #111315; margin-bottom: 6px;">Observação Executiva / Gargalo Principal:</label>
+                    <textarea id="modal-diag-observacao" rows="2" placeholder="Ex: Queda na conversão de propostas enviadas pelo WhatsApp..." style="width: 100%; padding: 10px 12px; background: #EDF3F8; border: 1.5px solid #869FB8; border-radius: 10px; color: #111315;"></textarea>
+                </div>
+                <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 10px;">
+                    <button type="button" onclick="fecharModalNovoDiagnostico7D()" class="btn-luxury-glass">Cancelar</button>
+                    <button type="submit" class="btn-luxury-primary"><i class="fas fa-bolt"></i> Processar Diagnóstico 7D</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- =====================================================================
+     * MODAL 8: AVALIAÇÃO DE IMPACTO MIV (#modal-avaliar-aprendizado-miv)
+     * ===================================================================== -->
+    <div id="modal-avaliar-aprendizado-miv" class="modal-overlay" style="display: none; position: fixed; inset: 0; background: rgba(5, 7, 12, 0.88); backdrop-filter: blur(20px); z-index: 100002; align-items: center; justify-content: center; padding: 20px;">
+        <div style="background: #FFFFFF; border: 1.5px solid #6E8BA6; border-radius: 20px; max-width: 620px; width: 100%; max-height: 90vh; overflow-y: auto; padding: 28px 32px; box-shadow: 0 30px 70px rgba(0,0,0,0.85);">
+            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #B8CBE0; padding-bottom: 14px; margin-bottom: 18px;">
+                <h3 style="font-family: var(--font-headline); font-size: 19px; font-weight: 800; color: #111315; margin: 0;">Registrar Aprendizado Empírico MIV</h3>
+                <button type="button" onclick="fecharModalNovaAvaliacaoMIV()" class="btn-close-modal"><i class="fas fa-times"></i></button>
+            </div>
+            <form onsubmit="submeterAvaliacaoAprendizadoMIV(event)" style="display: flex; flex-direction: column; gap: 12px;">
+                <div>
+                    <label for="modal-aprend-miv-id" style="display: block; font-size: 12px; font-weight: 700; color: #111315; margin-bottom: 4px;">Intervenção MIV Avaliada:</label>
+                    <select id="modal-aprend-miv-id" required style="width: 100%; padding: 9px 12px; background: #EDF3F8; border: 1.5px solid #869FB8; border-radius: 10px; color: #111315;"></select>
+                </div>
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;">
+                    <div>
+                        <label for="modal-aprend-baseline" style="display: block; font-size: 11.5px; font-weight: 700; color: #111315; margin-bottom: 4px;">Baseline:</label>
+                        <input type="number" step="0.1" id="modal-aprend-baseline" value="12.0" required style="width: 100%; padding: 9px 12px; background: #EDF3F8; border: 1.5px solid #869FB8; border-radius: 10px; color: #111315;">
+                    </div>
+                    <div>
+                        <label for="modal-aprend-pos" style="display: block; font-size: 11.5px; font-weight: 700; color: #111315; margin-bottom: 4px;">Pós-Intervenção:</label>
+                        <input type="number" step="0.1" id="modal-aprend-pos" value="24.5" required style="width: 100%; padding: 9px 12px; background: #EDF3F8; border: 1.5px solid #869FB8; border-radius: 10px; color: #111315;">
+                    </div>
+                    <div>
+                        <label for="modal-aprend-unidade" style="display: block; font-size: 11.5px; font-weight: 700; color: #111315; margin-bottom: 4px;">Unidade:</label>
+                        <input type="text" id="modal-aprend-unidade" value="%" required style="width: 100%; padding: 9px 12px; background: #EDF3F8; border: 1.5px solid #869FB8; border-radius: 10px; color: #111315;">
+                    </div>
+                </div>
+                <div>
+                    <label for="modal-aprend-status" style="display: block; font-size: 12px; font-weight: 700; color: #111315; margin-bottom: 4px;">Status do Aprendizado:</label>
+                    <select id="modal-aprend-status" style="width: 100%; padding: 9px 12px; background: #EDF3F8; border: 1.5px solid #869FB8; border-radius: 10px; color: #111315;">
+                        <option value="SUCESSO_CONFIRMADO">SUCESSO_CONFIRMADO</option>
+                        <option value="SEM_EFEITO_OBSERVADO">SEM_EFEITO_OBSERVADO</option>
+                        <option value="PIORA_DETECTADA">PIORA_DETECTADA</option>
+                        <option value="INCONCLUSIVO">INCONCLUSIVO</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="modal-aprend-resultado" style="display: block; font-size: 12px; font-weight: 700; color: #111315; margin-bottom: 4px;">Resultado Observado:</label>
+                    <input type="text" id="modal-aprend-resultado" required placeholder="Ex: Dobro na taxa de conversão após implantação do roteiro..." style="width: 100%; padding: 9px 12px; background: #EDF3F8; border: 1.5px solid #869FB8; border-radius: 10px; color: #111315;">
+                </div>
+                <div>
+                    <label for="modal-aprend-gap" style="display: block; font-size: 12px; font-weight: 700; color: #111315; margin-bottom: 4px;">Gap (Esperado vs Realizado):</label>
+                    <input type="text" id="modal-aprend-gap" placeholder="Ex: Dentro da margem projetada (+2.5%)" style="width: 100%; padding: 9px 12px; background: #EDF3F8; border: 1.5px solid #869FB8; border-radius: 10px; color: #111315;">
+                </div>
+                <div>
+                    <label for="modal-aprend-consolidado" style="display: block; font-size: 12px; font-weight: 700; color: #111315; margin-bottom: 4px;">Aprendizado Consolidado:</label>
+                    <textarea id="modal-aprend-consolidado" rows="2" required placeholder="Síntese do aprendizado institucional..." style="width: 100%; padding: 9px 12px; background: #EDF3F8; border: 1.5px solid #869FB8; border-radius: 10px; color: #111315;"></textarea>
+                </div>
+                <label style="font-size: 12px; color: #111315; display: flex; align-items: center; gap: 6px; cursor: pointer;">
+                    <input type="checkbox" id="modal-aprend-nova-investigacao"> Requer abertura de nova investigação causal
+                </label>
+                <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 8px;">
+                    <button type="button" onclick="fecharModalNovaAvaliacaoMIV()" class="btn-luxury-glass">Cancelar</button>
+                    <button type="submit" class="btn-luxury-emerald"><i class="fas fa-floppy-disk"></i> Salvar Avaliação MIV</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- =====================================================================
+     * MODAL 9: NOVA INGESTÃO AVANÇADA & INSPEÇÃO DE LOTE (#modal-nova-ingestao / #modal-inspecionar-lote)
+     * ===================================================================== -->
+    <div id="modal-nova-ingestao" class="modal-overlay" style="display: none; position: fixed; inset: 0; background: rgba(5, 7, 12, 0.88); backdrop-filter: blur(20px); z-index: 100002; align-items: center; justify-content: center; padding: 20px;">
+        <div style="background: #FFFFFF; border: 1.5px solid #6E8BA6; border-radius: 20px; max-width: 640px; width: 100%; max-height: 90vh; overflow-y: auto; padding: 28px 32px; box-shadow: 0 30px 70px rgba(0,0,0,0.85);">
+            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #B8CBE0; padding-bottom: 14px; margin-bottom: 16px;">
+                <h3 style="font-family: var(--font-headline); font-size: 19px; font-weight: 800; color: #111315; margin: 0;">Nova Ingestão de Lote Comercial</h3>
+                <button type="button" onclick="fecharModalNovaIngestao()" class="btn-close-modal"><i class="fas fa-times"></i></button>
+            </div>
+
+            <div style="display: flex; gap: 8px; margin-bottom: 14px;">
+                <button type="button" id="tab-btn-arquivo" onclick="alternarAbaIngestao('ARQUIVO')" class="btn-workbench-inline-chat" style="flex: 1; justify-content: center;">Upload de Arquivo (CSV / XLSX)</button>
+                <button type="button" id="tab-btn-manual" onclick="alternarAbaIngestao('MANUAL')" class="btn-workbench-inline-chat" style="flex: 1; justify-content: center;">Carga JSON Estruturada</button>
+            </div>
+
+            <form onsubmit="submeterNovaIngestao(event)" style="display: flex; flex-direction: column; gap: 12px;">
+                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;">
+                    <div>
+                        <label for="modal-ingestao-empresa" style="display: block; font-size: 11.5px; font-weight: 700; color: #111315; margin-bottom: 4px;">Empresa:</label>
+                        <select id="modal-ingestao-empresa" style="width: 100%; padding: 9px 12px; background: #EDF3F8; border: 1.5px solid #869FB8; border-radius: 10px; color: #111315;"></select>
+                    </div>
+                    <div>
+                        <label for="modal-ingestao-fonte" style="display: block; font-size: 11.5px; font-weight: 700; color: #111315; margin-bottom: 4px;">Fonte de Origem:</label>
+                        <select id="modal-ingestao-fonte" style="width: 100%; padding: 9px 12px; background: #EDF3F8; border: 1.5px solid #869FB8; border-radius: 10px; color: #111315;">
+                            <option value="IMPORTACAO_CSV">IMPORTACAO_CSV</option>
+                            <option value="IMPORTACAO_XLSX">IMPORTACAO_XLSX</option>
+                            <option value="ENTRADA_MANUAL">ENTRADA_MANUAL</option>
+                            <option value="CRM_EXTERNO">CRM_EXTERNO</option>
+                        </select>
+                    </div>
+                </div>
+                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;">
+                    <div>
+                        <label for="modal-ingestao-natureza" style="display: block; font-size: 11.5px; font-weight: 700; color: #111315; margin-bottom: 4px;">Natureza do Dado:</label>
+                        <select id="modal-ingestao-natureza" style="width: 100%; padding: 9px 12px; background: #EDF3F8; border: 1.5px solid #869FB8; border-radius: 10px; color: #111315;">
+                            <option value="IMPORTADO">IMPORTADO</option>
+                            <option value="OPERACIONAL_VERIFICADO">OPERACIONAL_VERIFICADO</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="modal-ingestao-tipo" style="display: block; font-size: 11.5px; font-weight: 700; color: #111315; margin-bottom: 4px;">Tipo de Registro:</label>
+                        <select id="modal-ingestao-tipo" style="width: 100%; padding: 9px 12px; background: #EDF3F8; border: 1.5px solid #869FB8; border-radius: 10px; color: #111315;">
+                            <option value="">Detecção Automática</option>
+                            <option value="INTERACAO">INTERACAO</option>
+                            <option value="LEAD">LEAD</option>
+                            <option value="VENDA">VENDA</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div id="aba-conteudo-arquivo">
+                    <div onclick="document.getElementById('input-arquivo-real').click()" style="background: #DCE6F0; border: 1.5px dashed #6E8BA6; border-radius: 12px; padding: 20px; text-align: center; cursor: pointer;">
+                        <i class="fas fa-cloud-arrow-up" style="font-size: 22px; color: #0098B8; margin-bottom: 6px; display: block;"></i>
+                        <span id="label-arquivo-selecionado" style="font-size: 12.5px; color: #2C3136; font-weight: 600;">Clique para selecionar arquivo CSV, TXT ou XLSX</span>
+                        <input type="file" id="input-arquivo-real" accept=".csv,.tsv,.txt,.xlsx,.json" style="display: none;" onchange="aoSelecionarArquivoIngestao(event)">
+                    </div>
+                </div>
+
+                <div id="aba-conteudo-manual" style="display: none;">
+                    <textarea id="modal-ingestao-json-textarea" rows="4" placeholder='[{"nome": "Cliente Exemplo", "telefone": "5511999999999", "conteudo_texto": "Solicitou orçamento de site"}]' style="width: 100%; padding: 10px 12px; background: #EDF3F8; border: 1.5px solid #869FB8; border-radius: 10px; color: #111315; font-family: var(--font-mono); font-size: 12px;"></textarea>
+                </div>
+
+                <div id="modal-ingestao-alerta-erro" style="display: none; padding: 10px 12px; background: #FEE2E2; border: 1px solid #F87171; border-radius: 8px; color: #B91C1C; font-size: 12px;"></div>
+
+                <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 8px;">
+                    <button type="button" onclick="fecharModalNovaIngestao()" class="btn-luxury-glass">Cancelar</button>
+                    <button type="submit" id="btn-submit-ingestao" class="btn-luxury-emerald"><i class="fas fa-play"></i> Iniciar Ingestão & Validação</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="modal-inspecionar-lote" class="modal-overlay" style="display: none; position: fixed; inset: 0; background: rgba(5, 7, 12, 0.88); backdrop-filter: blur(20px); z-index: 100002; align-items: center; justify-content: center; padding: 20px;">
+        <div style="background: #FFFFFF; border: 1.5px solid #6E8BA6; border-radius: 20px; max-width: 820px; width: 100%; max-height: 90vh; overflow-y: auto; padding: 28px 32px; box-shadow: 0 30px 70px rgba(0,0,0,0.85);">
+            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #B8CBE0; padding-bottom: 14px; margin-bottom: 16px;">
+                <div>
+                    <span style="font-family: var(--font-mono); font-size: 10.5px; color: #0098B8; font-weight: 800;">AUDITORIA DE LOTE ESTAGIADO (<span id="modal-inspecionar-total-itens">0</span> ITENS)</span>
+                    <h3 id="modal-inspecionar-titulo" style="font-family: var(--font-headline); font-size: 19px; font-weight: 800; color: #111315; margin: 2px 0 0 0;">Lote de Ingestão</h3>
+                </div>
+                <button type="button" onclick="fecharModalInspecionarLote()" class="btn-close-modal"><i class="fas fa-times"></i></button>
+            </div>
+            <div id="modal-inspecionar-sumario" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px; margin-bottom: 16px;"></div>
+            <div style="overflow-x: auto; border: 1px solid #B8CBE0; border-radius: 10px;">
+                <table style="width: 100%; border-collapse: collapse; font-size: 12px; text-align: left;">
+                    <thead>
+                        <tr style="background: #DCE6F0; border-bottom: 1.5px solid #869FB8; color: #111315;">
+                            <th style="padding: 10px 12px;">Tipo</th>
+                            <th style="padding: 10px 12px;">Dados Normalizados</th>
+                            <th style="padding: 10px 12px;">Validação</th>
+                            <th style="padding: 10px 12px;">Consistência</th>
+                            <th style="padding: 10px 12px;">Fingerprint</th>
+                        </tr>
+                    </thead>
+                    <tbody id="modal-inspecionar-itens-tbody"></tbody>
+                </table>
+            </div>
+            <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 18px; padding-top: 14px; border-top: 1px solid #B8CBE0;">
+                <button type="button" onclick="fecharModalInspecionarLote()" class="btn-luxury-glass">Fechar</button>
+                <button type="button" onclick="executarProcessamentoMotorModal()" class="btn-luxury-emerald"><i class="fas fa-bolt"></i> Alimentar Motor 7D com este Lote</button>
             </div>
         </div>
     </div>
@@ -14388,7 +14846,7 @@ input.briefing-input-field:focus,
             if (typeof carregarProjetosSelect === 'function') carregarProjetosSelect();
             if (typeof garantirRenderizacaoInicial7D === 'function') garantirRenderizacaoInicial7D();
         } else if (abaId === 'avancado') {
-            if (typeof garantirRenderizacaoInicial7D === 'function') garantirRenderizacaoInicial7D();
+            if (typeof carregarEmpresasMotor === 'function') carregarEmpresasMotor();
             if (typeof carregarTelemetriaReal === 'function') carregarTelemetriaReal();
         } else if (abaId === 'entregas') {
             if (typeof renderizarGaleriaEntregas === 'function') renderizarGaleriaEntregas();
@@ -14482,7 +14940,7 @@ input.briefing-input-field:focus,
             const meta = celulaMap[ag.id] || { celula: 'ESPECIALISTA SÊNIOR', cor: '#111315' };
             const isCoord = ag.id === 'agente_02_coordenador';
             const sugestoesHTML = (ag.sugestoes || []).slice(0, 3).map(s => `
-                <button onclick="enviarMensagemRapida('${s.replace(/'/g, "\\'")}')" class="team-prompt-btn">
+                <button onclick="acionarPromptEspecialista('${ag.id}', '${s.replace(/'/g, "\\'")}')" class="team-prompt-btn">
                     <span>"${s}"</span>
                     <i class="fas fa-arrow-up-right-from-square" style="font-size: 10px; color: #0098B8; margin-left: 10px; flex-shrink: 0;"></i>
                 </button>
@@ -14490,7 +14948,7 @@ input.briefing-input-field:focus,
 
             if (isCoord) {
                 return `
-                <article class="team-agent-card-master is-coordinator editorial-lead-spread">
+                <article class="team-agent-card-master is-coordinator editorial-lead-spread" data-agent-id="${ag.id}">
                     <div class="lead-spread-col-identity">
                         <div class="lead-spread-kicker">
                             <span class="lead-index-num">02</span>
@@ -14504,6 +14962,9 @@ input.briefing-input-field:focus,
                             <div>
                                 <h3 style="margin: 0 0 4px 0; font-family: var(--font-headline); font-size: 24px; font-weight: 800; color: #111315; letter-spacing: -0.03em;">${ag.nome}</h3>
                                 <p style="margin: 0; font-size: 13.5px; font-weight: 600; color: #007691;">${ag.papel}</p>
+                                <span class="team-agent-project-status" id="team-status-${ag.id}" style="display: inline-flex; align-items: center; gap: 5px; margin-top: 6px; font-family: var(--font-mono); font-size: 10px; font-weight: 700; color: #0D7A52; background: #E8F5EF; border: 1px solid #B8E2D0; padding: 2px 8px; border-radius: 999px;">
+                                    <i class="fas fa-circle" style="font-size: 6px;"></i> Prontidão Ativa
+                                </span>
                             </div>
                         </div>
                         <button onclick="irParaChatComAgente('${ag.id}')" class="team-cta-action-btn primary-cyan" style="width: 100%;">
@@ -14534,7 +14995,7 @@ input.briefing-input-field:focus,
             }
 
             return `
-            <article class="team-agent-card-master editorial-workbench-row">
+            <article class="team-agent-card-master editorial-workbench-row" data-agent-id="${ag.id}">
                 <div>
                     <div class="workbench-top-bar">
                         <span class="workbench-index-num">ESPECIALISTA #${ag.numero}</span>
@@ -14550,6 +15011,9 @@ input.briefing-input-field:focus,
                             <div>
                                 <h3 style="margin: 0 0 3px 0; font-family: var(--font-headline); font-size: 19px; font-weight: 800; color: #111315; letter-spacing: -0.025em;">${ag.nome}</h3>
                                 <p style="margin: 0; font-size: 12.5px; font-weight: 600; color: #5F666D;">${ag.papel}</p>
+                                <span class="team-agent-project-status" id="team-status-${ag.id}" style="display: inline-flex; align-items: center; gap: 5px; margin-top: 5px; font-family: var(--font-mono); font-size: 10px; font-weight: 700; color: #0D7A52; background: #E8F5EF; border: 1px solid #B8E2D0; padding: 2px 8px; border-radius: 999px;">
+                                    <i class="fas fa-circle" style="font-size: 6px;"></i> Prontidão Ativa
+                                </span>
                             </div>
                         </div>
                         <button onclick="irParaChatComAgente('${ag.id}')" class="btn-workbench-inline-chat">
@@ -14577,6 +15041,18 @@ input.briefing-input-field:focus,
             </article>
             `;
         }).join('');
+        if (dadosProjetoAtivo && dadosProjetoAtivo.status_agentes) {
+            atualizarClusterAgentesComProjeto(dadosProjetoAtivo.status_agentes);
+        }
+    }
+
+    function acionarPromptEspecialista(agenteId, texto) {
+        agenteChatAtivoId = agenteId;
+        alternarAbaPrincipal('conversar');
+        selecionarAgenteChat(agenteId);
+        setTimeout(() => {
+            enviarMensagemRapida(texto);
+        }, 60);
     }
 
     function irParaChatComAgente(agenteId) {
@@ -14900,15 +15376,15 @@ input.briefing-input-field:focus,
 
     function resolverNomeClienteProjeto(p) {
         if (!p) return 'Cliente não identificado';
-        const candidatos = [p.empresa_contratante, p.cliente];
+        const candidatos = [p.empresa_contratante, p.cliente, p.id_projeto, p.id];
         for (const raw of candidatos) {
             if (!raw || typeof raw !== 'string') continue;
-            const limpo = limparTextoSeguro(raw).replace(/\[SIMULADO\]/gi, '').trim();
-            if (limpo && !/^cliente sem nome$/i.test(limpo)) {
+            const limpo = limparTextoSeguro(raw).replace(/\[SIMULADO\]/gi, '').replace(/\(SIMULADO\)/gi, '').trim();
+            if (limpo && !/^cliente sem nome$/i.test(limpo) && !/^cliente não identificado$/i.test(limpo)) {
                 return limpo;
             }
         }
-        return 'Cliente não identificado';
+        return 'Demanda VIDE';
     }
 
     function formatarFrentesProjeto(p) {
@@ -14963,7 +15439,16 @@ input.briefing-input-field:focus,
             if (data.sucesso && Array.isArray(data.projetos)) {
                 const total = data.projetos.length;
                 const badgeTotal = document.getElementById('inicio-total-projetos-badge');
-                if (badgeTotal) badgeTotal.innerText = total + (total === 1 ? ' Ativo' : ' Ativos');
+                if (badgeTotal) badgeTotal.innerText = total + (total === 1 ? ' Demanda' : ' Demandas');
+
+                const pillPortal = document.getElementById('gateway-projetos-count-pill');
+                if (pillPortal) pillPortal.innerText = total + (total === 1 ? ' Demanda' : ' Demandas');
+
+                const totalPendenciasCarteira = data.projetos.filter(prj => {
+                    const aSt = (prj.autorizacao_status || prj.autorizacao_comercial?.status || '').toUpperCase();
+                    const sSt = (prj.situacao_projeto || '').toUpperCase();
+                    return sSt === 'AGUARDANDO_AUTORIZACAO_COMERCIAL' || sSt === 'AGUARDANDO_AUTORIZACAO' || aSt === 'PENDENTE' || aSt === 'AGUARDANDO_AUTORIZACAO';
+                }).length;
 
                 const idAtual = window.projetoAtivoId || (typeof projetoAtivoId !== 'undefined' ? projetoAtivoId : null);
                 const ativo = data.projetos.find(p => (p.id || p.id_projeto) === idAtual) || data.projetos[0];
@@ -14973,11 +15458,15 @@ input.briefing-input-field:focus,
                     if (typeof projetoAtivoId === 'undefined' || !projetoAtivoId) projetoAtivoId = idAtivo;
                     if (!documentoEstrategicoAtivo) carregarDocumentoEstrategicoProjeto(idAtivo);
 
+                    const nomeClienteAtivo = resolverNomeClienteProjeto(ativo);
                     const elNomeVal = document.getElementById('inicio-proj-nome-val');
                     if (elNomeVal) elNomeVal.innerText = formatarFrentesProjeto(ativo);
 
                     const elCliSub = document.getElementById('inicio-proj-cliente-sub');
-                    if (elCliSub) elCliSub.innerText = 'Cliente: ' + resolverNomeClienteProjeto(ativo);
+                    if (elCliSub) elCliSub.innerText = 'Cliente: ' + nomeClienteAtivo;
+
+                    const elSpecCli = document.getElementById('inicio-projeto-cliente-val');
+                    if (elSpecCli) elSpecCli.innerText = nomeClienteAtivo + ' em Foco';
 
                     const elStatusBadge = document.getElementById('inicio-proj-status-badge');
                     if (elStatusBadge) {
@@ -15000,47 +15489,29 @@ input.briefing-input-field:focus,
                     const sitSt = (ativo.situacao_projeto || '').toUpperCase();
                     const aguardaAut = sitSt === 'AGUARDANDO_AUTORIZACAO_COMERCIAL' || sitSt === 'AGUARDANDO_AUTORIZACAO' || autSt === 'PENDENTE' || autSt === 'AGUARDANDO_AUTORIZACAO';
                     const elPendCount = document.getElementById('inicio-pendencias-count');
-                    const elGovDesc = document.getElementById('inicio-gov-desc-txt');
-                    const elGovAlert = document.getElementById('inicio-gov-alert-container');
                     const elGovBadge = document.getElementById('inicio-status-gov-badge');
 
-                    if (aguardaAut) {
+                    if (aguardaAut || totalPendenciasCarteira > 0) {
                         if (elPendCount) {
-                            elPendCount.innerText = '1 Decisão Pendente';
-                            elPendCount.style.color = '#F59E0B';
+                            const qtd = aguardaAut ? Math.max(1, totalPendenciasCarteira) : totalPendenciasCarteira;
+                            elPendCount.innerText = qtd + (qtd === 1 ? ' Decisão Pendente' : ' Decisões Pendentes');
+                            elPendCount.style.color = '#B45309';
                         }
-                        if (elGovDesc) elGovDesc.innerText = 'Este projeto necessita de sua autorização formal para liberar os especialistas.';
                         if (elGovBadge) {
-                            elGovBadge.innerText = 'Ação Necessária';
-                            elGovBadge.style.color = '#F59E0B';
-                        }
-                        if (elGovAlert) {
-                            elGovAlert.innerHTML = `
-                                <div class="gov-alert-banner">
-                                    <div class="gov-alert-info">
-                                        <i class="fas fa-triangle-exclamation"></i>
-                                        <div class="gov-alert-text">
-                                            <h4>Autorização Comercial Requerida</h4>
-                                            <p>${resolverNomeClienteProjeto(ativo)}: Projeto aguarda sua aprovação.</p>
-                                        </div>
-                                    </div>
-                                    <button class="btn-gov-autorizar" onclick="abrirModalAutorizarProjeto()">
-                                        <i class="fas fa-signature"></i> Autorizar Agora
-                                    </button>
-                                </div>
-                            `;
+                            elGovBadge.innerHTML = aguardaAut
+                                ? '<i class="fas fa-triangle-exclamation" style="color: #B45309;"></i> Demanda em Foco Aguarda Autorização'
+                                : '<i class="fas fa-clock" style="color: #B45309;"></i> ' + totalPendenciasCarteira + ' na Carteira';
+                            elGovBadge.style.color = '#B45309';
                         }
                     } else {
                         if (elPendCount) {
                             elPendCount.innerText = '0 Pendências';
-                            elPendCount.style.color = 'var(--green-emerald)';
+                            elPendCount.style.color = '#0D7A52';
                         }
-                        if (elGovDesc) elGovDesc.innerText = 'Todas as etapas autorizadas. Equipe digital executando normalmente.';
                         if (elGovBadge) {
                             elGovBadge.innerHTML = '<i class="fas fa-shield-check" style="color: #0D7A52;"></i> Regularidade Plena';
                             elGovBadge.style.color = '';
                         }
-                        if (elGovAlert) elGovAlert.innerHTML = '';
                     }
 
                     const totalEntregas = (ativo.entregaveis || []).length;
@@ -15048,7 +15519,7 @@ input.briefing-input-field:focus,
                     if (elTotEnt) elTotEnt.innerText = totalEntregas + (totalEntregas === 1 ? ' Entregável' : ' Entregáveis');
 
                     const chipProj = document.getElementById('chat-context-projeto-txt');
-                    if (chipProj) chipProj.innerText = 'Projeto: ' + resolverNomeClienteProjeto(ativo);
+                    if (chipProj) chipProj.innerText = 'Projeto: ' + nomeClienteAtivo;
                 }
             }
         } catch (_) {}
@@ -15364,22 +15835,54 @@ window.addEventListener('DOMContentLoaded', () => {
             const res = await fetch('/api/status/infraestrutura');
             if (res.ok) {
                 const data = await res.json();
-                if (data.servidor && data.servidor.status) {
-                    const elStatus = document.getElementById('servidor-status-val');
-                    if (elStatus) elStatus.textContent = data.servidor.status;
-                }
-                const bco = (data.banco_de_dados && data.banco_de_dados.modo_operação) || 'POSTGRESQL_REMOTO_ATIVO';
-                adicionarLogTerminal('Matheus Barreto (Telemetria)', 'Telemetria ao vivo: ' + bco + ' operacional.');
-                if (data.integrações && data.integrações.inteligencia_artificial) {
+                const srvStatus = (data.servidor && data.servidor.status) || 'ONLINE';
+                const elStatus = document.getElementById('servidor-status-val');
+                if (elStatus) elStatus.textContent = srvStatus;
+
+                const topbarTxt = document.getElementById('topbar-status-txt');
+                if (topbarTxt) topbarTxt.textContent = srvStatus === 'ONLINE' ? 'Online' : srvStatus;
+                const heroTxt = document.getElementById('hero-live-status-txt');
+                if (heroTxt) heroTxt.textContent = `Sistema ${srvStatus} · Gabriel Rocha e 7 especialistas em prontidão`;
+
+                const bco = (data.banco_dados && data.banco_dados.modo_operação) || (data.banco_de_dados && data.banco_de_dados.modo_operação) || 'POSTGRESQL_REMOTO_ATIVO';
+                const elDb = document.getElementById('telemetria-db-val');
+                if (elDb) elDb.textContent = bco;
+
+                const stg = (data.armazenamento_arquivos && (data.armazenamento_arquivos.modo_operacao || data.armazenamento_arquivos.tipo)) || (data.armazenamento && (data.armazenamento.modo_operacao || data.armazenamento.tipo)) || 'POSTGRESQL_DURAVEL';
+                const elStg = document.getElementById('telemetria-storage-val');
+                if (elStg) elStg.textContent = stg;
+
+                adicionarLogTerminal('Matheus Barreto (Telemetria)', 'Telemetria ao vivo: ' + bco + ' (' + stg + ') operacional.');
+
+                if (data.integrações) {
                     const iaInfo = data.integrações.inteligencia_artificial;
-                    const iaStatusTexto = iaInfo.ia_generativa_ativa 
-                        ? `IA Generativa Ativa [${iaInfo.provedor} / ${iaInfo.modelo}]` 
-                        : `Motor Cognitivo Local Ativo [${iaInfo.modelo}]`;
-                    adicionarLogTerminal('Gabriel Rocha (Coordenação)', 'Inteligência Artificial: ' + iaStatusTexto);
+                    if (iaInfo) {
+                        const iaStatusTexto = iaInfo.ia_generativa_ativa 
+                            ? `IA Generativa [${iaInfo.provedor} / ${iaInfo.modelo}]` 
+                            : `Motor Cognitivo Local [${iaInfo.modelo || 'Determinístico'}]`;
+                        const elIa = document.getElementById('telemetria-ia-val');
+                        if (elIa) elIa.textContent = iaStatusTexto;
+                        adicionarLogTerminal('Gabriel Rocha (Coordenação)', 'Inteligência Artificial: ' + iaStatusTexto);
+                    }
+                    const waInfo = data.integrações.whatsapp_meta_cloud || data.integrações.whatsapp_business;
+                    const elWa = document.getElementById('telemetria-whatsapp-val');
+                    if (elWa && waInfo) {
+                        elWa.textContent = waInfo.modo_operacao || waInfo.status || 'NAO_CONECTADO_SIMULADO_SANDBOX';
+                    }
+                    const n8nInfo = data.integrações.automacao_n8n || data.integrações.n8n;
+                    const elN8n = document.getElementById('telemetria-n8n-val');
+                    if (elN8n && n8nInfo) {
+                        elN8n.textContent = n8nInfo.status || 'AGUARDANDO_INSTANCIA_N8N_NUVEM';
+                    }
                 }
+            } else {
+                const topbarTxt = document.getElementById('topbar-status-txt');
+                if (topbarTxt) topbarTxt.textContent = 'Degradado';
             }
         } catch(e) {
-            adicionarLogTerminal('SISTEMA', 'Telemetria local ativa em modo simulado.');
+            const topbarTxt = document.getElementById('topbar-status-txt');
+            if (topbarTxt) topbarTxt.textContent = 'Offline';
+            adicionarLogTerminal('SISTEMA', 'Falha ao consultar endpoint de infraestrutura.');
         }
 
         try {
@@ -15969,15 +16472,29 @@ window.addEventListener('DOMContentLoaded', () => {
             const cardAtivo = document.getElementById('deck-card-' + idProjeto);
             if (cardAtivo) cardAtivo.classList.add('card-foco');
 
-            // Preencher Aba 1: Resumo & Escopo Contratado
+            // Preencher Aba 1: Resumo & Escopo Contratado (sem fallbacks fictícios)
+            const sitUpper = (p.situacao_projeto || '').toUpperCase();
+            const autStatusUpper = (p.autorizacao_status || p.autorizacao_comercial?.status || '').toUpperCase();
+            const isPendenteAut = sitUpper === 'AGUARDANDO_AUTORIZACAO_COMERCIAL' || autStatusUpper === 'PENDENTE' || autStatusUpper === 'AGUARDANDO_AUTORIZACAO';
+
             const elObj = document.getElementById('proj-escopo-objetivo');
-            if (elObj) elObj.textContent = limparTextoSeguro(p.solicitacao_original) || 'Desenvolvimento e estruturação comercial sob demanda.';
+            if (elObj) elObj.textContent = limparTextoSeguro(p.solicitacao_original) || 'Nenhuma solicitação declarada registrada para este projeto.';
             const elApr = document.getElementById('proj-escopo-aprovado');
-            if (elApr) elApr.textContent = limparTextoSeguro(p.escopo_autorizado) || 'Presença Comercial, Webhook de Conversão e Automação de Atendimento.';
+            if (elApr) {
+                if (isPendenteAut && !p.escopo_autorizado) {
+                    elApr.textContent = 'Aguardando autorização comercial formal da Diretoria para liberação do escopo técnico.';
+                } else {
+                    elApr.textContent = limparTextoSeguro(p.escopo_autorizado) || formatarFrentesProjeto(p) || 'Escopo técnico em definição.';
+                }
+            }
             const elLim = document.getElementById('proj-escopo-limites');
-            if (elLim) elLim.textContent = limparTextoSeguro(p.limites_trabalho) || 'Escopo restrito aos entregáveis contratados. Exclui tráfego pago ou integração legada não autorizada.';
+            if (elLim) elLim.textContent = limparTextoSeguro(p.limites_trabalho) || 'Escopo restrito exclusivamente aos entregáveis formalizados na contratação.';
             const elGov = document.getElementById('proj-escopo-governanca');
-            if (elGov) elGov.textContent = 'Homologação formal: ' + (p.responsavel_aprovacao || 'Douglas Paz (Diretor Executivo)') + ' | Governança estrita: alteração de escopo bloqueada sem aditivo formal.';
+            if (elGov) {
+                elGov.textContent = isPendenteAut
+                    ? 'Status: AGUARDANDO_AUTORIZACAO_COMERCIAL | Execução técnica bloqueada até autorização formal de Douglas Paz.'
+                    : 'Homologação formal: ' + (p.responsavel_aprovacao || p.autorizacao_comercial?.autorizado_por || 'Douglas Paz (Diretor Executivo)') + ' | Governança estrita: alteração de escopo bloqueada sem aditivo formal.';
+            }
 
             // Preencher Aba 2: Briefing Estratégico Guiado (via endpoint /briefing para garantir respostas reais persistidas)
             let respostasBriefing = p.briefing_estrategico?.respostas_coletadas || p.briefing_respostas || p.briefing_estruturado || {};
@@ -16310,61 +16827,97 @@ window.addEventListener('DOMContentLoaded', () => {
 
     function atualizarClusterAgentesComProjeto(statusAgentes) {
         if (!statusAgentes) return;
-        const mapa = {
-            '01_triagem': 'Triagem Comercial',
-            '02_coordenador': 'Coordenador Geral',
-            '03_desenvolvedor': 'Desenvolvedor Full-Stack',
-            '04_branding': 'Branding e Design',
-            '05_atendimento': 'Atendimento e Vendas',
-            '06_automacao': 'Automação e Integrações',
-            '07_inteligencia': 'Inteligência Comercial'
+        const mapaAgenteId = {
+            '01_triagem': 'agente_01_triagem',
+            '02_coordenador': 'agente_02_coordenador',
+            '03_desenvolvedor': 'agente_03_desenvolvedor',
+            '04_branding': 'agente_04_branding_design',
+            '05_atendimento': 'agente_05_atendimento',
+            '06_automacao': 'agente_06_automacao',
+            '07_inteligencia': 'agente_07_inteligencia_comercial'
         };
 
-        const cards = document.querySelectorAll('.agent-micro-card');
-        cards.forEach(c => {
-            const tag = c.querySelector('.agent-code-tag')?.textContent || '';
-            const statusEl = c.querySelector('.agent-live-status');
-            if (!statusEl) return;
+        Object.keys(mapaAgenteId).forEach(chave => {
+            const agId = mapaAgenteId[chave];
+            const statusEl = document.getElementById('team-status-' + agId);
+            if (!statusEl || !statusAgentes[chave]) return;
 
-            let chave = null;
-            if (tag.includes('AGT-01')) chave = '01_triagem';
-            else if (tag.includes('AGT-02')) chave = '02_coordenador';
-            else if (tag.includes('AGT-03')) chave = '03_desenvolvedor';
-            else if (tag.includes('AGT-04')) chave = '04_branding';
-            else if (tag.includes('AGT-05')) chave = '05_atendimento';
-            else if (tag.includes('AGT-06')) chave = '06_automacao';
-            else if (tag.includes('AGT-07')) chave = '07_inteligencia';
-
-            if (chave && statusAgentes[chave]) {
-                const info = statusAgentes[chave];
-                const est = info.estado || info.status || 'ATIVO';
-                if (est === 'APROVADA' || est === 'CONCLUIDO') {
-                    statusEl.innerHTML = '<i class="fas fa-circle-check" style="font-size: 7px; color: #0D7A52;"></i> ENTREGUE';
-                    statusEl.style.color = '#10B981';
-                } else if (est.includes('BLOQUEADA')) {
-                    statusEl.innerHTML = '<i class="fas fa-lock" style="font-size: 7px; color: #B45309;"></i> BLOQUEADO';
-                    statusEl.style.color = '#F59E0B';
-                } else if (est === 'PRONTA_PARA_EXECUCAO' || est === 'EM_EXECUCAO') {
-                    statusEl.innerHTML = '<i class="fas fa-bolt" style="font-size: 7px; color: #0098B8;"></i> PRONTO';
-                    statusEl.style.color = '#00E5FF';
-                }
+            const info = statusAgentes[chave];
+            const est = String(info.estado || info.status || 'ATIVO').toUpperCase();
+            if (est === 'APROVADA' || est === 'APROVADO' || est === 'CONCLUIDO' || est === 'CONCLUIDA') {
+                statusEl.innerHTML = '<i class="fas fa-circle-check" style="font-size: 9px;"></i> Entregue no Projeto Ativo';
+                statusEl.style.color = '#0D7A52';
+                statusEl.style.background = '#E8F5EF';
+                statusEl.style.borderColor = '#B8E2D0';
+            } else if (est.includes('BLOQUEAD') || est.includes('AGUARDANDO_AUTORIZACAO')) {
+                statusEl.innerHTML = '<i class="fas fa-lock" style="font-size: 9px;"></i> Aguardando Liberação';
+                statusEl.style.color = '#B45309';
+                statusEl.style.background = '#FEF3C7';
+                statusEl.style.borderColor = '#F5D08A';
+            } else if (est === 'AGUARDANDO_APROVACAO') {
+                statusEl.innerHTML = '<i class="fas fa-clock" style="font-size: 9px;"></i> Aguardando Homologação';
+                statusEl.style.color = '#B45309';
+                statusEl.style.background = '#FEF3C7';
+                statusEl.style.borderColor = '#F5D08A';
+            } else if (est === 'NAO_CONTRATADO') {
+                statusEl.innerHTML = '<i class="fas fa-circle-minus" style="font-size: 9px;"></i> Fora do Escopo Atual';
+                statusEl.style.color = '#5F666D';
+                statusEl.style.background = '#DCE6F0';
+                statusEl.style.borderColor = '#869FB8';
+            } else {
+                statusEl.innerHTML = '<i class="fas fa-bolt" style="font-size: 9px;"></i> Pronto para Execução';
+                statusEl.style.color = '#007691';
+                statusEl.style.background = '#E6F6F9';
+                statusEl.style.borderColor = '#B6E6F0';
             }
         });
     }
 
+    function exibirNotificacaoOperacional(titulo, mensagem, tipo = 'info') {
+        let container = document.getElementById('vide-operational-toast-container');
+        if (!container) {
+            container = document.createElement('div');
+            container.id = 'vide-operational-toast-container';
+            container.style.cssText = 'position: fixed; bottom: 24px; right: 24px; z-index: 200000; display: flex; flex-direction: column; gap: 10px; max-width: 420px; pointer-events: none;';
+            document.body.appendChild(container);
+        }
+        const cores = {
+            sucesso: { bg: '#081829', border: '#10B981', icon: 'fa-circle-check', iconColor: '#10B981' },
+            erro: { bg: '#081829', border: '#EF4444', icon: 'fa-triangle-exclamation', iconColor: '#EF4444' },
+            aviso: { bg: '#081829', border: '#F59E0B', icon: 'fa-shield-halved', iconColor: '#F59E0B' },
+            info: { bg: '#081829', border: '#0098B8', icon: 'fa-circle-info', iconColor: '#00D2FF' }
+        };
+        const c = cores[tipo] || cores.info;
+        const toast = document.createElement('div');
+        toast.className = 'vide-operational-toast';
+        toast.style.cssText = `pointer-events: auto; background: ${c.bg}; color: #F7F6F2; border: 1.5px solid ${c.border}; border-left: 4px solid ${c.border}; border-radius: 12px; padding: 12px 16px; box-shadow: 0 14px 34px rgba(8, 24, 41, 0.38); font-size: 12.5px; display: flex; align-items: flex-start; gap: 10px;`;
+        toast.innerHTML = `
+            <i class="fas ${c.icon}" style="color: ${c.iconColor}; font-size: 15px; margin-top: 2px;"></i>
+            <div style="flex: 1;">
+                <div style="font-weight: 800; font-size: 12px; color: #FFFFFF; margin-bottom: 2px;">${limparTextoSeguro(titulo)}</div>
+                <div style="color: #DCE6F0; line-height: 1.4;">${limparTextoSeguro(mensagem)}</div>
+            </div>
+        `;
+        container.appendChild(toast);
+        setTimeout(() => {
+            if (toast.parentNode) toast.remove();
+        }, 4500);
+    }
+
     async function enviarAnexoProjeto(e) {
-        e.preventDefault();
+        if (e && e.preventDefault) e.preventDefault();
         if (!projetoAtivoId) {
-            alert('Selecione um projeto antes de anexar materiais.');
+            exibirNotificacaoOperacional('Anexo de Projeto', 'Selecione um projeto antes de anexar materiais.', 'aviso');
             return;
         }
 
-        const textoBriefing = document.getElementById('input-briefing-texto').value.trim();
+        const elBriefTexto = document.getElementById('input-briefing-texto');
+        const textoBriefing = elBriefTexto ? elBriefTexto.value.trim() : '';
         const fileInput = document.getElementById('input-arquivo-upload');
-        const file = fileInput.files && fileInput.files[0];
+        const file = fileInput && fileInput.files && fileInput.files[0];
 
         if (!textoBriefing && !file) {
-            alert('Digite um briefing ou escolha um arquivo para anexar.');
+            exibirNotificacaoOperacional('Anexo de Projeto', 'Escolha um arquivo para anexar ao projeto.', 'aviso');
             return;
         }
 
@@ -16378,7 +16931,7 @@ window.addEventListener('DOMContentLoaded', () => {
                     const payload = {
                         nome_arquivo: file.name,
                         conteudo_base64: base64Data,
-                        mimetype: file.type,
+                        mimetype: file.type || 'application/octet-stream',
                         briefing: textoBriefing
                     };
                     await enviarPayloadAnexo(payload);
@@ -16389,6 +16942,7 @@ window.addEventListener('DOMContentLoaded', () => {
             }
         } catch(err) {
             adicionarLogTerminal('Gabriel Rocha (Coordenação)', 'Erro ao processar anexo: ' + err.message);
+            exibirNotificacaoOperacional('Falha no Upload', err.message, 'erro');
         }
     }
 
@@ -16405,11 +16959,16 @@ window.addEventListener('DOMContentLoaded', () => {
         const data = await res.json();
         if (res.ok && data.sucesso) {
             adicionarLogTerminal('Gabriel Rocha (Coordenação)', 'Material anexado com sucesso ao projeto [' + projetoAtivoId + ']! Total de anexos: ' + data.total_materiais);
-            document.getElementById('input-briefing-texto').value = '';
-            document.getElementById('input-arquivo-upload').value = '';
+            exibirNotificacaoOperacional('Material Anexado', `Arquivo salvo e persistido no projeto [${projetoAtivoId}].`, 'sucesso');
+            const elBriefTexto = document.getElementById('input-briefing-texto');
+            if (elBriefTexto) elBriefTexto.value = '';
+            const elFileUp = document.getElementById('input-arquivo-upload');
+            if (elFileUp) elFileUp.value = '';
             await selecionarProjetoAtivo(projetoAtivoId);
         } else {
-            adicionarLogTerminal('Gabriel Rocha (Coordenação)', 'Falha ao anexar: ' + (data.erro || 'Erro'));
+            const msgErro = data.erro || 'Falha ao anexar arquivo.';
+            adicionarLogTerminal('Gabriel Rocha (Coordenação)', 'Falha ao anexar: ' + msgErro);
+            exibirNotificacaoOperacional('Erro ao Anexar', msgErro, 'erro');
         }
     }
 
@@ -16516,13 +17075,17 @@ window.addEventListener('DOMContentLoaded', () => {
             const data = await res.json();
             if (res.ok && data.sucesso) {
                 adicionarLogTerminal('Gabriel Rocha (Coordenação)', 'Projeto [' + projetoAtivoId + '] AUTORIZADO com sucesso! Grafo DAG de tarefas liberado. Frentes: ' + frentes.join(', '));
+                exibirNotificacaoOperacional('Projeto Autorizado', `Autorização comercial registrada para [${projetoAtivoId}]. Esteira técnica liberada.`, 'sucesso');
                 fecharModalAutorizarProjeto();
+                await carregarProjetosSelect();
                 await selecionarProjetoAtivo(projetoAtivoId);
             } else {
                 adicionarLogTerminal('Gabriel Rocha (Coordenação)', 'Falha ao autorizar: ' + (data.erro || 'Erro'));
+                exibirNotificacaoOperacional('Falha na Autorização', data.erro || 'Não foi possível autorizar o projeto.', 'erro');
             }
         } catch(err) {
             adicionarLogTerminal('Gabriel Rocha (Coordenação)', 'Erro ao autorizar: ' + err.message);
+            exibirNotificacaoOperacional('Erro de Comunicação', err.message, 'erro');
         }
     }
 
@@ -16530,7 +17093,8 @@ window.addEventListener('DOMContentLoaded', () => {
         if (!projetoAtivoId || !idTarefa) return;
         const token = sessionStorage.getItem('vide_jwt');
         if (!token) {
-            adicionarLogTerminal('SEGURANÇA', 'Autentique-se com login douglas VideDouglas#2026 antes de executar a tarefa.');
+            adicionarLogTerminal('SEGURANÇA', 'Autentique-se antes de executar a tarefa.');
+            exibirNotificacaoOperacional('Autenticação Necessária', 'Faça login na Central antes de executar tarefas.', 'aviso');
             return;
         }
 
@@ -16547,12 +17111,16 @@ window.addEventListener('DOMContentLoaded', () => {
             const data = await res.json();
             if (res.ok && data.sucesso) {
                 adicionarLogTerminal('ESPECIALISTA', 'Tarefa [' + idTarefa + '] executada com sucesso! ' + (data.arquivos?.length || 0) + ' arquivos gerados. Estado: AGUARDANDO_APROVACAO.');
+                exibirNotificacaoOperacional('Tarefa Executada', `Especialista concluiu [${idTarefa}] e submeteu entregáveis para homologação.`, 'sucesso');
                 await selecionarProjetoAtivo(projetoAtivoId);
             } else {
-                adicionarLogTerminal('Gabriel Rocha (Coordenação)', 'Bloqueio / Erro ao executar tarefa: ' + (data.erro || 'Erro'));
+                const msg = data.erro || 'Bloqueio ao executar tarefa.';
+                adicionarLogTerminal('Gabriel Rocha (Coordenação)', 'Bloqueio / Erro ao executar tarefa: ' + msg);
+                exibirNotificacaoOperacional('Bloqueio de Governança', msg, 'aviso');
             }
         } catch(err) {
             adicionarLogTerminal('Gabriel Rocha (Coordenação)', 'Erro na execução da tarefa: ' + err.message);
+            exibirNotificacaoOperacional('Erro na Execução', err.message, 'erro');
         }
     }
 
@@ -16727,11 +17295,13 @@ window.addEventListener('DOMContentLoaded', () => {
         if (!projetoAtivoId) return;
         const token = sessionStorage.getItem('vide_jwt');
         if (!token) {
-            adicionarLogTerminal('SEGURANÇA', 'Autentique-se com login douglas VideDouglas#2026 antes de executar a esteira.');
+            adicionarLogTerminal('SEGURANÇA', 'Autentique-se antes de executar a esteira.');
+            exibirNotificacaoOperacional('Autenticação Necessária', 'Faça login na Central antes de disparar a esteira.', 'aviso');
             return;
         }
 
         adicionarLogTerminal('Gabriel Rocha (Coordenação)', 'Disparando esteira dos especialistas para [' + projetoAtivoId + ']...');
+        exibirNotificacaoOperacional('Disparando Esteira', `Acionando especialistas para o projeto [${projetoAtivoId}]...`, 'info');
         try {
             const res = await fetch('/api/coordenador/executar-esteira', {
                 method: 'POST',
@@ -16743,13 +17313,18 @@ window.addEventListener('DOMContentLoaded', () => {
             });
             const data = await res.json();
             if (res.ok && data.sucesso) {
-                adicionarLogTerminal('Gabriel Rocha (Coordenação)', 'Esteira concluída! ' + (data.entregaveis?.length || 0) + ' entregas físicas validadas e auditadas.');
+                const qtd = data.entregaveis?.length || 0;
+                adicionarLogTerminal('Gabriel Rocha (Coordenação)', 'Esteira concluída! ' + qtd + ' entregas físicas validadas e auditadas.');
+                exibirNotificacaoOperacional('Esteira Concluída', `${qtd} entregas técnicas geradas e persistidas para [${projetoAtivoId}].`, 'sucesso');
                 await selecionarProjetoAtivo(projetoAtivoId);
             } else {
-                adicionarLogTerminal('Gabriel Rocha (Coordenação)', 'Falha na esteira: ' + (data.erro || 'Erro'));
+                const msg = data.erro || 'Execução bloqueada pela governança comercial.';
+                adicionarLogTerminal('Gabriel Rocha (Coordenação)', 'Falha na esteira: ' + msg);
+                exibirNotificacaoOperacional('Bloqueio Comercial / Esteira', msg, res.status === 403 ? 'aviso' : 'erro');
             }
         } catch(err) {
             adicionarLogTerminal('Gabriel Rocha (Coordenação)', 'Erro na esteira: ' + err.message);
+            exibirNotificacaoOperacional('Erro na Esteira', err.message, 'erro');
         }
     }
 
@@ -16812,7 +17387,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
     async function carregarEmpresasMotor() {
         try {
-            const token = sessionStorage.getItem('vide_jwt');
+            const token = sessionStorage.getItem('vide_jwt') || localStorage.getItem('token_auth_cockpit');
             const headers = token ? { 'Authorization': 'Bearer ' + token } : {};
             const res = await fetch('/api/motor/empresas', { headers });
             if (res.ok) {
@@ -16822,6 +17397,25 @@ window.addEventListener('DOMContentLoaded', () => {
                 const selModal = document.getElementById('modal-diag-empresa');
                 const selIngestao = document.getElementById('ingestao-empresa-select');
                 const selModalIngestao = document.getElementById('modal-ingestao-empresa');
+
+                if (listaEmpresasMotor.length === 0) {
+                    [sel, selIngestao, selModal, selModalIngestao].forEach(s => {
+                        if (s) s.innerHTML = '<option value="">Nenhuma empresa cadastrada no banco</option>';
+                    });
+                    const c7d = document.getElementById('container-dimensoes-7d');
+                    if (c7d) {
+                        c7d.innerHTML = '<div style="grid-column: 1 / -1; background: #DCE6F0; border: 1.5px dashed #869FB8; border-radius: 14px; padding: 24px; text-align: center; color: #4A5056; font-size: 13px;"><i class="fas fa-database" style="color: #0098B8; font-size: 20px; display: block; margin-bottom: 8px;"></i>Nenhuma empresa cadastrada no Motor 7D neste ambiente de banco de dados.</div>';
+                    }
+                    const elData = document.getElementById('motor-diag-data-badge');
+                    if (elData) elData.textContent = 'ESTADO VAZIO · Nenhuma empresa ativa no Motor 7D';
+                    const elEpv = document.getElementById('motor-epv-ranking-list');
+                    if (elEpv) elEpv.innerHTML = '<div style="color: #5F666D; font-size: 12.5px;">Nenhuma empresa selecionada para cálculo EPV.</div>';
+                    const elMiv = document.getElementById('motor-miv-cards-container');
+                    if (elMiv) elMiv.innerHTML = '<div style="color: #5F666D; font-size: 12.5px;">Nenhuma empresa selecionada para recomendações MIV.</div>';
+                    const elLotes = document.getElementById('ingestao-lotes-container');
+                    if (elLotes) elLotes.innerHTML = '<div style="grid-column: 1 / -1; padding: 20px; background: #DCE6F0; border: 1px dashed #869FB8; border-radius: 12px; text-align: center; color: #5F666D; font-size: 12.5px;">Selecione ou cadastre uma empresa no PostgreSQL para listar lotes de ingestão.</div>';
+                    return;
+                }
                 if (sel) {
                     sel.innerHTML = '';
                     listaEmpresasMotor.forEach(e => {
@@ -16977,6 +17571,11 @@ window.addEventListener('DOMContentLoaded', () => {
         if (!container) return;
 
         if (!diag || !diag.notas_por_dimensao) {
+            container.innerHTML = '<div style="grid-column: 1 / -1; background: #DCE6F0; border: 1.5px dashed #869FB8; border-radius: 14px; padding: 24px; text-align: center; color: #4A5056; font-size: 13px;"><i class="fas fa-chart-pie" style="color: #0098B8; font-size: 20px; display: block; margin-bottom: 8px;"></i>Esta empresa ainda não possui avaliação 7D registrada no banco PostgreSQL. Clique em <strong>Recalcular Diagnóstico 7D</strong> acima para processar a primeira avaliação real.</div>';
+            const elS = document.getElementById('motor-metric-score-7d');
+            if (elS) elS.textContent = 'Sem avaliação';
+            const elData = document.getElementById('motor-diag-data-badge');
+            if (elData) elData.textContent = 'ESTADO VAZIO · Aguardando primeiro cálculo 7D para esta empresa';
             return;
         }
 
@@ -17345,8 +17944,9 @@ window.addEventListener('DOMContentLoaded', () => {
         if (!modal || !sel) return;
 
         sel.innerHTML = '';
-        if (dossieAtivo && dossieAtivo.recomendacoesMIV && dossieAtivo.recomendacoesMIV.length > 0) {
-            dossieAtivo.recomendacoesMIV.forEach(m => {
+        const dossieRef = dossieMotorAtivo || (typeof dossieAtivo !== 'undefined' ? dossieAtivo : null);
+        if (dossieRef && dossieRef.recomendacoesMIV && dossieRef.recomendacoesMIV.length > 0) {
+            dossieRef.recomendacoesMIV.forEach(m => {
                 const opt = document.createElement('option');
                 opt.value = m.id;
                 opt.textContent = m.titulo_miv + ' [' + m.status_aprovacao + ']';
@@ -17525,6 +18125,143 @@ window.addEventListener('DOMContentLoaded', () => {
             }
         } catch(e) {
             adicionarLogTerminal('GOVERNANÇA', 'Erro ao aprovar MIV: ' + e.message);
+        }
+    }
+
+    async function recalcularDiagnostico7DMotorAtivo() {
+        const selEmp = document.getElementById('motor-empresa-select');
+        const empresaId = (selEmp && selEmp.value) || empresaMotorAtivaId;
+        if (!empresaId) {
+            exibirNotificacaoOperacional('Diagnóstico 7D', 'Selecione uma empresa ativa para recalcular o diagnóstico 7D.', 'aviso');
+            return;
+        }
+        const btn = document.getElementById('btn-recalcular-7d');
+        if (btn) {
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Recalculando 7D...';
+        }
+        adicionarLogTerminal('Matheus Barreto (Inteligência 7D)', 'Recalculando Diagnóstico Dimensional 7D no PostgreSQL para [' + empresaId + ']...');
+        try {
+            const token = sessionStorage.getItem('vide_jwt');
+            const headers = {
+                'Content-Type': 'application/json',
+                ...(token ? { 'Authorization': 'Bearer ' + token } : {})
+            };
+            const empObj = (listaEmpresasMotor || []).find(e => e.id === empresaId);
+            const res = await fetch('/api/motor/diagnostico-7d', {
+                method: 'POST',
+                headers,
+                body: JSON.stringify({
+                    empresaId,
+                    formularMiv: true,
+                    dadosNegocio: {
+                        segmento: (empObj && empObj.segmento) || 'Varejo & Serviços Comerciais',
+                        observacaoDiretoria: 'Recálculo executivo acionado na Central de Comando.',
+                        formularMiv: true,
+                        avaliarSubdimensoesGestao: true
+                    }
+                })
+            });
+            const data = await res.json();
+            if (res.ok && data.sucesso) {
+                const score = Math.round(data.diagnostico?.pontuacaoGeral || data.diagnostico?.scoreGeral || 0);
+                adicionarLogTerminal('Matheus Barreto (Inteligência 7D)', 'Diagnóstico 7D recalculado e persistido! Score Geral: ' + score + ' / 100.');
+                exibirNotificacaoOperacional('Diagnóstico 7D Atualizado', `Novo score dimensional calculado no PostgreSQL: ${score} / 100.`, 'sucesso');
+                await carregarDossieMotorAtivo();
+            } else {
+                const msg = data.erro || 'Falha ao recalcular diagnóstico 7D.';
+                adicionarLogTerminal('Matheus Barreto (Inteligência 7D)', 'Erro no diagnóstico 7D: ' + msg);
+                exibirNotificacaoOperacional('Erro no Diagnóstico 7D', msg, 'erro');
+            }
+        } catch (err) {
+            adicionarLogTerminal('Matheus Barreto (Inteligência 7D)', 'Erro de conexão: ' + err.message);
+            exibirNotificacaoOperacional('Falha de Conexão', err.message, 'erro');
+        } finally {
+            if (btn) {
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-rotate"></i> Recalcular Diagnóstico 7D';
+            }
+        }
+    }
+
+    async function processarArquivoIngestao(e) {
+        const file = e && e.target && e.target.files && e.target.files[0];
+        if (!file) return;
+        const statusEl = document.getElementById('ingestao-status-txt');
+        const token = sessionStorage.getItem('vide_jwt');
+        if (!token) {
+            if (statusEl) statusEl.textContent = 'Sessão não autenticada. Faça login para importar.';
+            exibirNotificacaoOperacional('Autenticação Necessária', 'Autentique-se antes de importar arquivos.', 'aviso');
+            return;
+        }
+        const selEmp = document.getElementById('ingestao-empresa-select');
+        const empresaId = (selEmp && selEmp.value) || empresaMotorAtivaId;
+        if (!empresaId) {
+            if (statusEl) statusEl.textContent = 'Selecione uma empresa para vincular o lote.';
+            exibirNotificacaoOperacional('Empresa Obrigatória', 'Selecione uma empresa antes de importar.', 'aviso');
+            return;
+        }
+
+        if (statusEl) {
+            statusEl.innerHTML = `<i class="fas fa-spinner fa-spin" style="color: #0098B8;"></i> Processando e validando arquivo <strong>${limparTextoSeguro(file.name)}</strong>...`;
+        }
+
+        try {
+            const ext = file.name.split('.').pop().toLowerCase();
+            let fonteOrigem = 'IMPORTACAO_CSV';
+            let cargaFinal = null;
+
+            if (ext === 'xlsx') {
+                fonteOrigem = 'IMPORTACAO_XLSX';
+                const buf = await file.arrayBuffer();
+                let binary = '';
+                const bytes = new Uint8Array(buf);
+                for (let i = 0; i < bytes.byteLength; i++) {
+                    binary += String.fromCharCode(bytes[i]);
+                }
+                cargaFinal = btoa(binary);
+            } else if (ext === 'json') {
+                fonteOrigem = 'ENTRADA_MANUAL';
+                const rawTxt = await file.text();
+                cargaFinal = JSON.parse(rawTxt);
+            } else {
+                fonteOrigem = 'IMPORTACAO_CSV';
+                cargaFinal = await file.text();
+            }
+
+            const res = await fetch('/api/motor/ingestao/lote', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + token
+                },
+                body: JSON.stringify({
+                    empresaId,
+                    fonteOrigem,
+                    nomeArquivo: file.name,
+                    carga: cargaFinal,
+                    naturezaDado: 'IMPORTADO'
+                })
+            });
+
+            const data = await res.json();
+            if (res.ok && data.sucesso) {
+                if (statusEl) {
+                    statusEl.innerHTML = `<i class="fas fa-circle-check" style="color: #0D7A52;"></i> Lote <strong>${limparTextoSeguro(file.name)}</strong> persistido: ${data.registrosValidos} válidos de ${data.totalRegistros} registros.`;
+                }
+                adicionarLogTerminal('INGESTÃO COMERCIAL', `Lote [${file.name}] importado com sucesso! Válidos: ${data.registrosValidos}/${data.totalRegistros}.`);
+                exibirNotificacaoOperacional('Lote Importado', `Arquivo ${file.name} persistido no PostgreSQL (${data.registrosValidos} registros válidos).`, 'sucesso');
+                await carregarLotesIngestao();
+            } else {
+                throw new Error(data.erro || 'Falha ao importar arquivo.');
+            }
+        } catch (err) {
+            if (statusEl) {
+                statusEl.innerHTML = `<i class="fas fa-triangle-exclamation" style="color: #B91C1C;"></i> Erro na importação: ${limparTextoSeguro(err.message)}`;
+            }
+            exibirNotificacaoOperacional('Erro na Ingestão', err.message, 'erro');
+        } finally {
+            e.target.value = '';
         }
     }
 
@@ -18049,6 +18786,21 @@ window.addEventListener('DOMContentLoaded', () => {
     // =========================================================================
     // CONTROLE DE ACESSO PRIVADO DA CENTRAL DE COMANDO (ZERO TRUST)
     // =========================================================================
+    function atualizarChipUsuarioLogado() {
+        try {
+            const raw = sessionStorage.getItem('vide_usuario') || localStorage.getItem('vide_usuario');
+            if (!raw) return;
+            const u = JSON.parse(raw);
+            if (!u) return;
+            const elNome = document.getElementById('topbar-user-name');
+            const elRole = document.getElementById('topbar-user-role');
+            const elAv = document.getElementById('topbar-user-avatar');
+            if (elNome && u.nome) elNome.textContent = u.nome;
+            if (elRole && u.papel) elRole.textContent = u.papel === 'DIRETOR' ? 'Diretoria' : u.papel;
+            if (elAv && u.nome) elAv.textContent = String(u.nome).trim().charAt(0).toUpperCase();
+        } catch (_) {}
+    }
+
     function verificarAutenticacaoCockpit() {
         const token = sessionStorage.getItem('vide_jwt') || localStorage.getItem('token_auth_cockpit') || localStorage.getItem('vide_jwt');
         const lock = document.getElementById('lockscreen-privado');
@@ -18062,6 +18814,7 @@ window.addEventListener('DOMContentLoaded', () => {
             if (!sessionStorage.getItem('vide_jwt')) sessionStorage.setItem('vide_jwt', token);
             if (!localStorage.getItem('token_auth_cockpit')) localStorage.setItem('token_auth_cockpit', token);
             if (!localStorage.getItem('vide_jwt')) localStorage.setItem('vide_jwt', token);
+            atualizarChipUsuarioLogado();
             if (lock) {
                 lock.style.display = 'none';
                 document.body.style.overflow = 'auto';
@@ -18097,6 +18850,7 @@ window.addEventListener('DOMContentLoaded', () => {
                 localStorage.setItem('token_auth_cockpit', data.token);
                 localStorage.setItem('vide_jwt', data.token);
                 localStorage.setItem('vide_usuario', JSON.stringify(data.usuario));
+                atualizarChipUsuarioLogado();
                 const lock = document.getElementById('lockscreen-privado');
                 if (lock) {
                     lock.style.display = 'none';
@@ -18179,42 +18933,116 @@ function preencherDorBriefing(el) {
 }
 
 async function concluirBriefingEstrategico(event) {
-    event.preventDefault();
-    const cliente = document.getElementById('briefing-cliente')?.value || 'Novo Cliente';
-    const nicho = document.getElementById('briefing-nicho')?.value || 'Varejo / Serviços';
-    const dor = document.getElementById('briefing-dor')?.value || 'Crescimento de presença e vendas';
-    const publico = document.getElementById('briefing-publico')?.value || 'Consumidor Geral';
+    if (event && event.preventDefault) event.preventDefault();
+    const cliente = (document.getElementById('briefing-cliente')?.value || '').trim();
+    const nicho = (document.getElementById('briefing-nicho')?.value || '').trim();
+    const dor = (document.getElementById('briefing-dor')?.value || '').trim();
+    const publico = (document.getElementById('briefing-publico')?.value || '').trim();
+    const erroEl = document.getElementById('modal-novo-projeto-erro');
+    const btnSubmit = document.getElementById('btn-submit-novo-projeto');
+
+    if (erroEl) erroEl.style.display = 'none';
+
+    if (!cliente || !nicho || !dor) {
+        if (erroEl) {
+            erroEl.textContent = 'Preencha o nome do cliente, o nicho e o objetivo principal da contratação.';
+            erroEl.style.display = 'block';
+        }
+        return;
+    }
+
+    const token = sessionStorage.getItem('vide_jwt') || localStorage.getItem('token_auth_cockpit');
+    if (!token) {
+        if (erroEl) {
+            erroEl.textContent = 'Sessão expirada. Faça login novamente para registrar uma nova demanda.';
+            erroEl.style.display = 'block';
+        }
+        return;
+    }
+
+    const mapaFrenteCatalogo = {
+        'SITES_LANDING_PAGES': 'PRESENCA_COMERCIAL',
+        'BRANDING_IDENTIDADE': 'PRESENCA_COMERCIAL',
+        'TRAFEGO_PERFORMANCE': 'PRESENCA_COMERCIAL',
+        'VENDAS_WHATSAPP': 'SISTEMA_COMERCIAL',
+        'AUTOMACOES_INTEGRACOES': 'SISTEMA_COMERCIAL',
+        'INTELIGENCIA_GROWTH': 'INTELIGENCIA_OTIMIZACAO'
+    };
+    const frenteMapeada = mapaFrenteCatalogo[servicoBriefingSelecionado] || 'PRESENCA_COMERCIAL';
+    const solicitacaoConsolidada = `[${servicoBriefingSelecionado}] ${dor} (Nicho: ${nicho}${publico ? ' | Público: ' + publico : ''})`;
+
+    if (btnSubmit) {
+        btnSubmit.disabled = true;
+        btnSubmit.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Registrando no PostgreSQL...';
+    }
 
     try {
-        const token = sessionStorage.getItem('vide_jwt');
-        const headers = { 'Content-Type': 'application/json' };
-        if (token) headers['Authorization'] = 'Bearer ' + token;
-
-        const payload = {
-            cliente: cliente,
-            nicho: nicho,
-            servico: servicoBriefingSelecionado,
-            dor_principal: dor,
-            publico_alvo: publico,
-            frentes: [servicoBriefingSelecionado]
+        const headers = {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
         };
 
-        const res = await fetch('/api/projetos', {
+        const res = await fetch('/api/projetos/novo', {
             method: 'POST',
-            headers: headers,
-            body: JSON.stringify(payload)
+            headers,
+            body: JSON.stringify({
+                empresaContratante: cliente,
+                cliente,
+                solicitacao: solicitacaoConsolidada,
+                briefing: `Nicho: ${nicho}\nDor Principal: ${dor}\nPúblico-Alvo: ${publico || 'Não especificado'}`,
+                frentesComerciais: [frenteMapeada],
+                servicoContratado: servicoBriefingSelecionado
+            })
         });
 
-        const data = await res.json();
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok || !data.sucesso || !data.id_projeto) {
+            throw new Error(data.erro || ('Falha ao registrar demanda (HTTP ' + res.status + ').'));
+        }
+
+        const novoId = data.id_projeto;
+
+        // Persiste imediatamente as respostas do briefing estratégico no projeto recém-criado
+        await fetch('/api/projetos/' + encodeURIComponent(novoId) + '/briefing/responder', {
+            method: 'POST',
+            headers,
+            body: JSON.stringify({
+                respostas: {
+                    nicho_atuacao: nicho,
+                    dor_principal: dor,
+                    publico_alvo: publico || 'Consumidor Geral',
+                    referencias_mercado: servicoBriefingSelecionado
+                }
+            })
+        }).catch(() => {});
+
+        // Limpa campos e volta para step 1
+        ['briefing-cliente', 'briefing-nicho', 'briefing-dor', 'briefing-publico'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.value = '';
+        });
+        voltarParaEtapa1Briefing();
         fecharModalNovoProjeto();
-        alert('Demanda registrada com sucesso! Coordenador Gabriel Rocha estruturou o Dossiê Estratégico com 10 seções e o Plano de Execução em 7 Etapas.');
+
+        adicionarLogTerminal('Gabriel Rocha (Coordenação)', `Nova demanda [${novoId}] criada para ${cliente}. Situação: AGUARDANDO_AUTORIZACAO_COMERCIAL.`);
+        exibirNotificacaoOperacional('Nova Demanda Registrada', `Projeto [${novoId}] (${cliente}) persistido no PostgreSQL em AGUARDANDO_AUTORIZACAO_COMERCIAL.`, 'sucesso');
+
+        projetoAtivoId = novoId;
+        window.projetoAtivoId = novoId;
         if (typeof carregarProjetosSelect === 'function') await carregarProjetosSelect();
         alternarAbaPrincipal('projetos');
     } catch(err) {
-        console.error('Erro ao salvar briefing:', err);
-        fecharModalNovoProjeto();
-        alert('Briefing registrado em modo local! Visualizando esteira.');
-        alternarAbaPrincipal('projetos');
+        console.error('Erro ao registrar nova demanda:', err);
+        if (erroEl) {
+            erroEl.textContent = 'Erro ao registrar demanda: ' + err.message;
+            erroEl.style.display = 'block';
+        }
+        exibirNotificacaoOperacional('Falha ao Criar Demanda', err.message, 'erro');
+    } finally {
+        if (btnSubmit) {
+            btnSubmit.disabled = false;
+            btnSubmit.innerHTML = '<i class="fas fa-check"></i> Gerar Estratégia da Solução';
+        }
     }
 }
 
