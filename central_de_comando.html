@@ -17512,7 +17512,8 @@ window.addEventListener('DOMContentLoaded', () => {
 
         const diag = dossie.diagnosticoMaisRecente;
         if (diag) {
-            if (elS) elS.textContent = Math.round(diag.pontuacao_geral || 0) + ' / 100';
+            const scoreGeral = diag.score_geral_maturidade ?? diag.pontuacao_geral ?? diag.scoreGeral ?? 0;
+            if (elS) elS.textContent = Math.round(Number(scoreGeral)) + ' / 100';
             const elData = document.getElementById('motor-diag-data-badge');
             if (elData) {
                 const d = new Date(diag.criado_em);
@@ -17570,7 +17571,8 @@ window.addEventListener('DOMContentLoaded', () => {
         const container = document.getElementById('container-dimensoes-7d') || document.getElementById('motor-grid-7d-cards');
         if (!container) return;
 
-        if (!diag || !diag.notas_por_dimensao) {
+        const rawNotas = diag && (diag.scores_dimensoes || diag.notas_por_dimensao || diag.scoresDimensoes);
+        if (!diag || !rawNotas) {
             container.innerHTML = '<div style="grid-column: 1 / -1; background: #DCE6F0; border: 1.5px dashed #869FB8; border-radius: 14px; padding: 24px; text-align: center; color: #4A5056; font-size: 13px;"><i class="fas fa-chart-pie" style="color: #0098B8; font-size: 20px; display: block; margin-bottom: 8px;"></i>Esta empresa ainda não possui avaliação 7D registrada no banco PostgreSQL. Clique em <strong>Recalcular Diagnóstico 7D</strong> acima para processar a primeira avaliação real.</div>';
             const elS = document.getElementById('motor-metric-score-7d');
             if (elS) elS.textContent = 'Sem avaliação';
@@ -17579,12 +17581,14 @@ window.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        const notas = diag.notas_por_dimensao;
-        const sub = diag.subdimensoes_gestao || {};
+        const notas = typeof rawNotas === 'string' ? JSON.parse(rawNotas) : rawNotas;
+        const sub = (typeof notas.gestao === 'object' && notas.gestao && notas.gestao.subdimensoes)
+            ? notas.gestao.subdimensoes
+            : (diag.subdimensoes_gestao || {});
 
         const dimensoes = [
             { key: 'comunicacao', nome: '1. Comunicação & Posicionamento' },
-            { key: 'aquisição', nome: '2. Aquisição & Tráfego' },
+            { key: 'aquisição', altKey: 'aquisicao', nome: '2. Aquisição & Tráfego' },
             { key: 'atendimento', nome: '3. Atendimento & Resposta' },
             { key: 'processo_comercial', nome: '4. Processo & Qualificação' },
             { key: 'conversao', nome: '5. Conversão & Fechamento' },
@@ -17594,7 +17598,11 @@ window.addEventListener('DOMContentLoaded', () => {
 
         let html = '';
         dimensoes.forEach(dim => {
-            const nota = Math.round(notas[dim.key] || 0);
+            let valBruto = notas[dim.key] !== undefined ? notas[dim.key] : (dim.altKey ? notas[dim.altKey] : 0);
+            if (typeof valBruto === 'object' && valBruto !== null) {
+                valBruto = valBruto.score_total ?? valBruto.score ?? 0;
+            }
+            const nota = Math.round(Number(valBruto) || 0);
             let cls = 'saudavel';
             let statusTxt = 'SAUDÁVEL';
             let barColor = '#0D7A52';
